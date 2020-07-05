@@ -8,7 +8,7 @@ describe(`watchDirectory`, () => {
   describe(`when the directory is empty`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -17,20 +17,13 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -41,20 +34,12 @@ describe(`watchDirectory`, () => {
     it(`calls onChange with the expected object of timestamps`, () => {
       expect(onChange).toHaveBeenCalledWith({});
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when the directory exists`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -97,20 +82,13 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -124,20 +102,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file is added at the root (without timestamp)`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -180,15 +150,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -198,6 +160,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -219,20 +182,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file is added at the root (with explicit timestamp)`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -275,15 +230,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -294,6 +241,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -315,20 +263,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file at the root is updated`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -371,15 +311,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -389,6 +321,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -409,20 +342,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file at the root is renamed`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -465,15 +390,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -486,6 +403,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -506,20 +424,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file at the root is deleted`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -562,15 +472,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -580,6 +482,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -599,20 +502,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file is added in a subdirectory (without timestamp)`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -655,15 +550,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -676,6 +563,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -697,20 +585,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file is added in a subdirectory (with explicit timestamp)`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -753,15 +633,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -779,6 +651,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -800,20 +673,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file in a subdirectory is updated`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -856,15 +721,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -884,6 +741,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -904,20 +762,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file in a subdirectory is renamed`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -960,15 +810,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -987,6 +829,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1007,20 +850,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file in a subdirectory is deleted`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -1063,15 +898,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -1089,6 +916,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1108,20 +936,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when an empty directory is deleted`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -1164,15 +984,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -1184,6 +996,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1197,20 +1010,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when an empty directory is renamed`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -1253,15 +1058,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -1274,6 +1071,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1287,20 +1085,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when an empty directory is created`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -1343,15 +1133,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -1361,6 +1143,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1374,20 +1157,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when an empty directory is moved`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -1430,15 +1205,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -1451,6 +1218,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1464,20 +1232,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a non-empty directory is deleted`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -1520,15 +1280,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -1540,6 +1292,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1559,20 +1312,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a non-empty directory is renamed`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -1615,15 +1360,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -1636,6 +1373,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1656,20 +1394,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a non-empty directory is created (without timestamp)`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -1712,15 +1442,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -1734,6 +1456,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1755,20 +1478,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a non-empty directory is created (with explicit timestamp)`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -1811,15 +1526,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -1838,6 +1545,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1859,20 +1567,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a non-empty directory is moved`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -1915,15 +1615,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -1936,6 +1628,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -1956,20 +1649,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file is moved between subdirectories`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -2012,15 +1697,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -2039,6 +1716,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -2059,20 +1737,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file is moved from a subdirectory to the root`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -2115,15 +1785,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -2142,6 +1804,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -2162,20 +1825,12 @@ describe(`watchDirectory`, () => {
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
     });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
-    });
   });
 
   describe(`when a file is moved from the root to a subdirectory`, () => {
     let root: string;
     let onChange: jasmine.Spy;
-    let promise: Promise<void>;
+    let close: () => void;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -2218,15 +1873,7 @@ describe(`watchDirectory`, () => {
 
       onChange = jasmine.createSpy(`onChange`);
 
-      promise = watchDirectory(root, onChange);
-      promise.then(
-        () => {
-          /* Needed to avoid rejection error. */
-        },
-        () => {
-          /* Needed to avoid rejection error. */
-        }
-      );
+      close = watchDirectory(root, onChange);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -2239,6 +1886,7 @@ describe(`watchDirectory`, () => {
     });
 
     afterAll(async () => {
+      close();
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -2258,14 +1906,6 @@ describe(`watchDirectory`, () => {
         "at-root": 4556363000,
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
-    });
-
-    it(`does not resolve the promise`, () => {
-      expectAsync(promise).not.toBeResolved();
-    });
-
-    it(`does not reject the promise`, () => {
-      expectAsync(promise).not.toBeRejected();
     });
   });
 });
