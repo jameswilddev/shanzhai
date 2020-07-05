@@ -86,8 +86,8 @@ describe(`ParallelStep`, () => {
         expect(callback).not.toHaveBeenCalled();
       });
 
-      it(`resolves the returned promise`, () => {
-        expectAsync(promise).toBeResolved();
+      it(`resolves the returned promise`, async () => {
+        await expectAsync(promise).toBeResolved();
       });
     });
 
@@ -102,9 +102,9 @@ describe(`ParallelStep`, () => {
       let executePerActionStepD: jasmine.Spy;
       let parallelStep: ParallelStep;
       let callback: jasmine.Spy;
-      let promise: Promise<void>;
+      let resolvedOrRejected = false;
 
-      beforeAll(() => {
+      beforeAll(async () => {
         executePerActionStepA = jasmine
           .createSpy(`executePerActionStepA`)
           .and.returnValue(
@@ -162,7 +162,16 @@ describe(`ParallelStep`, () => {
 
         callback = jasmine.createSpy(`callback`);
 
-        promise = parallelStep.executePerActionStep(callback);
+        parallelStep.executePerActionStep(callback).then(
+          () => {
+            resolvedOrRejected = true;
+          },
+          () => {
+            resolvedOrRejected = true;
+          }
+        );
+
+        await new Promise((resolve) => setTimeout(resolve, 250));
       });
 
       it(`calls executePerActionStep on each of its children once`, () => {
@@ -191,12 +200,8 @@ describe(`ParallelStep`, () => {
         expect(callback).not.toHaveBeenCalled();
       });
 
-      it(`does not resolve the returned promise`, () => {
-        expectAsync(promise).not.toBeResolved();
-      });
-
-      it(`does not reject the returned promise`, () => {
-        expectAsync(promise).not.toBeRejected();
+      it(`does not resolve or reject the returned promise`, () => {
+        expect(resolvedOrRejected).toBeFalse();
       });
     });
 
@@ -211,9 +216,9 @@ describe(`ParallelStep`, () => {
       let executePerActionStepD: jasmine.Spy;
       let parallelStep: ParallelStep;
       let callback: jasmine.Spy;
-      let promise: Promise<void>;
+      let resolvedOrRejected = false;
 
-      beforeAll(() => {
+      beforeAll(async () => {
         executePerActionStepA = jasmine
           .createSpy(`executePerActionStepA`)
           .and.returnValue(Promise.resolve());
@@ -259,7 +264,16 @@ describe(`ParallelStep`, () => {
 
         callback = jasmine.createSpy(`callback`);
 
-        promise = parallelStep.executePerActionStep(callback);
+        parallelStep.executePerActionStep(callback).then(
+          () => {
+            resolvedOrRejected = true;
+          },
+          () => {
+            resolvedOrRejected = true;
+          }
+        );
+
+        await new Promise((resolve) => setTimeout(resolve, 250));
       });
 
       it(`does not call executePerActionStep on its children again`, () => {
@@ -281,12 +295,8 @@ describe(`ParallelStep`, () => {
         expect(callback).not.toHaveBeenCalled();
       });
 
-      it(`does not resolve the returned promise`, () => {
-        expectAsync(promise).not.toBeResolved();
-      });
-
-      it(`does not reject the returned promise`, () => {
-        expectAsync(promise).not.toBeRejected();
+      it(`does not resolve or reject the returned promise`, () => {
+        expect(resolvedOrRejected).toBeFalse();
       });
     });
 
@@ -367,8 +377,8 @@ describe(`ParallelStep`, () => {
         expect(callback).not.toHaveBeenCalled();
       });
 
-      it(`resolves the returned promise`, () => {
-        expectAsync(promise).toBeResolved();
+      it(`resolves the returned promise`, async () => {
+        await expectAsync(promise).toBeResolved();
       });
     });
 
@@ -457,8 +467,8 @@ describe(`ParallelStep`, () => {
         expect(callback).not.toHaveBeenCalled();
       });
 
-      it(`passes on the rejection reason`, () => {
-        expectAsync(promise).toBeRejectedWithError(`Test Error`);
+      it(`passes on the rejection reason`, async () => {
+        await expectAsync(promise).toBeRejectedWithError(`Test Error`);
       });
     });
   });

@@ -22,8 +22,8 @@ describe(`scanDirectory`, () => {
       await fs.promises.rmdir(root, { recursive: true });
     });
 
-    it(`returns the expected object of timestamps`, () => {
-      expectAsync(promise).toBeResolvedTo({});
+    it(`returns the expected object of timestamps`, async () => {
+      await expectAsync(promise).toBeResolvedTo({});
     });
   });
 
@@ -77,8 +77,8 @@ describe(`scanDirectory`, () => {
       await fs.promises.rmdir(root, { recursive: true });
     });
 
-    it(`returns the expected object of timestamps`, () => {
-      expectAsync(promise).toBeResolvedTo({
+    it(`returns the expected object of timestamps`, async () => {
+      await expectAsync(promise).toBeResolvedTo({
         "at-root": 4556363000,
         "level-one/level-two/level-three/deeply-nested": 768936000,
       });
