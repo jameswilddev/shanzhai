@@ -37,6 +37,7 @@ export function watchDirectory(
     .watch(".", {
       cwd: root,
       alwaysStat: true,
+      usePolling: process.platform === `win32`,
     })
     .on(`add`, (path, stats) => {
       handle(path, stats);
