@@ -15,6 +15,8 @@ export function watchDirectory(
 
     let timeout: null | NodeJS.Timeout = null;
 
+    const normalizePath = (path: string): string => path.replace(/\\/g, `/`);
+
     const invalidate = (): void => {
       if (ready) {
         if (timeout !== null) {
@@ -30,7 +32,7 @@ export function watchDirectory(
 
     const handle = (path: string, stats: undefined | fs.Stats): void => {
       stats = stats as fs.Stats;
-      current[path] = stats.mtimeMs;
+      current[normalizePath(path)] = stats.mtimeMs;
       invalidate();
     };
 
@@ -46,7 +48,7 @@ export function watchDirectory(
         handle(path, stats);
       })
       .on(`unlink`, (path) => {
-        delete current[path];
+        delete current[normalizePath(path)];
         invalidate();
       })
       .on(`error`, reject)
