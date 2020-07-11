@@ -43,6 +43,7 @@
   ],
   "dependencies": {
     "chokidar": "3.4.0",
+    "jsonschema": "1.2.6",
     "uuid": "8.2.0"
   }
 }
