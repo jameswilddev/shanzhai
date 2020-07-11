@@ -50,7 +50,7 @@ describe(`MinifySvgStep`, () => {
     let inputGet: jasmine.Spy;
     let outputSet: jasmine.Spy;
     let minifySvgStep: MinifySvgStep;
-    const original = `<svg xmlns="http://www.w3.org/2000/svg" height="256" width="256"><defs><linearGradient y2="256" x2="256" y1="0" x1="0" id="A" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="red"/><stop offset="37.5%" stop-color="#ff0"/><stop offset="50%" stop-color="#0f0"/><stop offset="62.5%" stop-color="#0ff"/><stop offset="100%" stop-color="#00f"/></linearGradient></defs><rect x="0" y="0" width="256" height="256" fill="url(#A)"/><rect x="16" y="16" width="224" height="224" fill="#fff"/><text y="128" x="128" font-size="16" font-family="sans-serif" dominant-baseline="middle" text-anchor="middle">Test SVG</text></svg>`;
+    const original = `<svg xmlns="http://www.w3.org/2000/svg" height="256" width="256"><defs><linearGradient y2="256" x2="256" y1="0" x1="0" id="A" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="red"/><stop offset="37.5%" stop-color="#ff0"/><stop offset="50%" stop-color="#0f0"/><stop offset="62.5%" stop-color="#0ff"/><stop offset="100%" stop-color="#00f"/></linearGradient></defs><rect x="0" y="0" width="256" height="256" fill="url(#A)"/><rect x="16" y="16" width="224" height="224" fill="#fff"/></svg>`;
     let minified: string;
 
     beforeAll(async () => {
