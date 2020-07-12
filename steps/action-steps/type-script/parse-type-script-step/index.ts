@@ -37,12 +37,10 @@ export class ParseTypeScriptStep extends ActionStep {
           diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start).line +
           1;
 
-        const message = JSON.stringify(
-          typescript.flattenDiagnosticMessageText(
-            diagnostic.messageText,
-            `\n`,
-            1
-          )
+        const message = typescript.flattenDiagnosticMessageText(
+          diagnostic.messageText,
+          `\n`,
+          1
         );
 
         output += `\nLine ${line}: ${message}`;

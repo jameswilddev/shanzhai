@@ -156,9 +156,9 @@ describe(`ParseTypeScriptStep`, () => {
         expect(error).toEqual(
           new Error(
             `Failed to parse TypeScript:
-Line 1: "Declaration or statement expected."
-Line 2: "Expression expected."
-Line 4: "Unterminated string literal."`
+Line 1: Declaration or statement expected.
+Line 2: Expression expected.
+Line 4: Unterminated string literal.`
           )
         );
       });
