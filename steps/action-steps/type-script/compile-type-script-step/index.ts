@@ -1,4 +1,3 @@
-import * as path from "path";
 import * as typescript from "typescript";
 import { ActionStep } from "../../action-step";
 import { Input } from "../../../inputs/input";
@@ -29,9 +28,6 @@ export class CompileTypeScriptStep extends ActionStep {
       languageVersion;
       onError;
       shouldCreateNewSourceFile;
-
-      // TypeScript always seems to use forward slashes.
-      fileName = fileName.replace(/\//g, path.sep);
 
       return inputs.find((input) => input.fileName === fileName);
     };
