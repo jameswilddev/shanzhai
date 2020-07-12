@@ -1,6 +1,8 @@
 import * as typescript from "typescript";
 
-export const compilerOptions: typescript.CompilerOptions = {
+export const compilerOptions: typescript.CompilerOptions & {
+  lib: ReadonlyArray<string>;
+} = {
   allowJs: false,
   allowSyntheticDefaultImports: false,
   allowUmdGlobalAccess: false,
