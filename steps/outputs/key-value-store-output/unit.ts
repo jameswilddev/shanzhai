@@ -17,7 +17,7 @@ describe(`KeyValueStoreOutput`, () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      keyValueStore = { get, set, delete: _delete };
+      keyValueStore = { name: `Test Name`, get, set, delete: _delete };
 
       keyValueStoreOutput = new KeyValueStoreOutput<TestKey, TestValue>(
         keyValueStore,
@@ -58,7 +58,7 @@ describe(`KeyValueStoreOutput`, () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      keyValueStore = { get, set, delete: _delete };
+      keyValueStore = { name: `Test Name`, get, set, delete: _delete };
 
       keyValueStoreOutput = new KeyValueStoreOutput<TestKey, TestValue>(
         keyValueStore,
