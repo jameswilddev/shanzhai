@@ -9,47 +9,32 @@ import { typeScriptLibraryLocations } from "../type-script-library-locations";
 
 describe(`CompileTypeScriptStep`, () => {
   describe(`on construction`, () => {
-    let inputAGet: jasmine.Spy;
-    let inputA: Input<typescript.SourceFile>;
-    let inputBGet: jasmine.Spy;
-    let inputB: Input<typescript.SourceFile>;
-    let inputCGet: jasmine.Spy;
-    let inputC: Input<typescript.SourceFile>;
+    let inputGet: jasmine.Spy;
+    let input: Input<ReadonlyArray<readonly [string, typescript.SourceFile]>>;
     let outputSet: jasmine.Spy;
     let output: Output<string>;
     let compileTypeScriptStep: CompileTypeScriptStep;
 
     beforeAll(async () => {
-      inputAGet = jasmine.createSpy(`inputAGet`);
-      inputA = { get: inputAGet };
-
-      inputBGet = jasmine.createSpy(`inputBGet`);
-      inputB = { get: inputBGet };
-
-      inputCGet = jasmine.createSpy(`inputCGet`);
-      inputC = { get: inputCGet };
+      inputGet = jasmine.createSpy(`inputGet`);
+      input = { get: inputGet };
 
       outputSet = jasmine.createSpy(`outputSet`);
       output = { set: outputSet };
 
-      compileTypeScriptStep = new CompileTypeScriptStep(
-        [inputA, inputB, inputC],
-        output
-      );
+      compileTypeScriptStep = new CompileTypeScriptStep(input, output);
     });
 
     it(`exposes its name`, () => {
       expect(compileTypeScriptStep.name).toEqual(`Compile TypeScript`);
     });
 
-    it(`exposes its inputs`, () => {
-      expect(compileTypeScriptStep.inputs).toEqual([inputA, inputB, inputC]);
+    it(`exposes its input`, () => {
+      expect(compileTypeScriptStep.input).toBe(input);
     });
 
-    it(`does not read from its inputs`, () => {
-      expect(inputAGet).not.toHaveBeenCalled();
-      expect(inputBGet).not.toHaveBeenCalled();
-      expect(inputCGet).not.toHaveBeenCalled();
+    it(`does not read from its input`, () => {
+      expect(inputGet).not.toHaveBeenCalled();
     });
 
     it(`exposes its output`, () => {
@@ -63,94 +48,63 @@ describe(`CompileTypeScriptStep`, () => {
 
   describe(`on execution`, () => {
     describe(`successful`, () => {
-      const libraryInputGet: jasmine.Spy[] = [];
-      const libraryInput: Input<typescript.SourceFile>[] = [];
-      let inputAGet: jasmine.Spy;
-      let inputA: Input<typescript.SourceFile>;
-      let inputBGet: jasmine.Spy;
-      let inputB: Input<typescript.SourceFile>;
-      let inputCGet: jasmine.Spy;
-      let inputC: Input<typescript.SourceFile>;
+      let inputGet: jasmine.Spy;
+      let input: Input<ReadonlyArray<readonly [string, typescript.SourceFile]>>;
       let outputSet: jasmine.Spy;
       let output: Output<string>;
       let compileTypeScriptStep: CompileTypeScriptStep;
 
       beforeAll(async () => {
+        const files: (readonly [string, typescript.SourceFile])[] = [];
+
         const prepareInput = async (
           source: string,
-          fileName: string,
-          spyName: string
-        ): Promise<jasmine.Spy> => {
-          let preOutput: undefined | typescript.SourceFile;
+          fileName: string
+        ): Promise<void> => {
           await new ParseTypeScriptStep({ get: () => source }, fileName, {
             set: (value) => {
-              preOutput = value;
+              files.push([`Test Key`, value]);
             },
           }).execute();
-
-          return jasmine
-            .createSpy(spyName)
-            .and.returnValue(preOutput as typescript.SourceFile);
         };
 
         for (const libraryLocation of typeScriptLibraryLocations) {
           const source = await fs.promises.readFile(libraryLocation, `utf8`);
 
-          const get = await prepareInput(
-            source,
-            libraryLocation,
-            `libraryInputGet`
-          );
-
-          libraryInputGet.push(get);
-          libraryInput.push({ get });
+          await prepareInput(source, libraryLocation);
         }
 
-        inputAGet = await prepareInput(
+        await prepareInput(
           `declare function callback(value: string): void;`,
-          path.join(`Test Path`, `To Test`, `File.ts`),
-          `inputAGet`
+          path.join(`Test Path`, `To Test`, `File.ts`)
         );
-        inputA = { get: inputAGet };
 
-        inputBGet = await prepareInput(
+        await prepareInput(
           `const square = (value: number): number => value * value;`,
-          path.join(`Test Path`, `To Another`, `Test`, `File.ts`),
-          `inputBGet`
+          path.join(`Test Path`, `To Another`, `Test`, `File.ts`)
         );
-        inputB = { get: inputBGet };
 
-        inputCGet = await prepareInput(
+        await prepareInput(
           `callback("Example " + square(21));`,
-          `Test Root File.ts`,
-          `inputCGet`
+          `Test Root File.ts`
         );
-        inputC = { get: inputCGet };
 
+        inputGet = jasmine.createSpy(`inputGet`).and.returnValue(files);
+        input = { get: inputGet };
         outputSet = jasmine.createSpy(`outputSet`);
         output = { set: outputSet };
 
-        compileTypeScriptStep = new CompileTypeScriptStep(
-          libraryInput.concat([inputA, inputB, inputC]),
-          output
-        );
+        compileTypeScriptStep = new CompileTypeScriptStep(input, output);
 
         await compileTypeScriptStep.execute();
       });
 
-      it(`does not change its exposed inputs`, () => {
-        expect(compileTypeScriptStep.inputs).toEqual(
-          libraryInput.concat([inputA, inputB, inputC])
-        );
+      it(`does not change its exposed input`, () => {
+        expect(compileTypeScriptStep.input).toBe(input);
       });
 
-      it(`reads each of its exposed inputs once`, () => {
-        for (const get of libraryInputGet) {
-          expect(get).toHaveBeenCalledTimes(1);
-        }
-        expect(inputAGet).toHaveBeenCalledTimes(1);
-        expect(inputBGet).toHaveBeenCalledTimes(1);
-        expect(inputCGet).toHaveBeenCalledTimes(1);
+      it(`reads its input once`, () => {
+        expect(inputGet).toHaveBeenCalledTimes(1);
       });
 
       it(`does not change its exposed output`, () => {
@@ -177,58 +131,39 @@ describe(`CompileTypeScriptStep`, () => {
     });
 
     describe(`invalid`, () => {
-      const libraryInputGet: jasmine.Spy[] = [];
-      const libraryInput: Input<typescript.SourceFile>[] = [];
-      let inputAGet: jasmine.Spy;
-      let inputA: Input<typescript.SourceFile>;
-      let inputBGet: jasmine.Spy;
-      let inputB: Input<typescript.SourceFile>;
-      let inputCGet: jasmine.Spy;
-      let inputC: Input<typescript.SourceFile>;
+      let inputGet: jasmine.Spy;
+      let input: Input<ReadonlyArray<readonly [string, typescript.SourceFile]>>;
       let outputSet: jasmine.Spy;
       let output: Output<string>;
       let compileTypeScriptStep: CompileTypeScriptStep;
       let error: null | Error = null;
 
       beforeAll(async () => {
+        const files: (readonly [string, typescript.SourceFile])[] = [];
+
         const prepareInput = async (
           source: string,
-          fileName: string,
-          spyName: string
-        ): Promise<jasmine.Spy> => {
-          let preOutput: undefined | typescript.SourceFile;
+          fileName: string
+        ): Promise<void> => {
           await new ParseTypeScriptStep({ get: () => source }, fileName, {
             set: (value) => {
-              preOutput = value;
+              files.push([`Test Key`, value]);
             },
           }).execute();
-
-          return jasmine
-            .createSpy(spyName)
-            .and.returnValue(preOutput as typescript.SourceFile);
         };
 
         for (const libraryLocation of typeScriptLibraryLocations) {
           const source = await fs.promises.readFile(libraryLocation, `utf8`);
 
-          const get = await prepareInput(
-            source,
-            libraryLocation,
-            `libraryInputGet`
-          );
-
-          libraryInputGet.push(get);
-          libraryInput.push({ get });
+          await prepareInput(source, libraryLocation);
         }
 
-        inputAGet = await prepareInput(
+        await prepareInput(
           `declare function callback(value: string): void;`,
-          path.join(`Test Path`, `To Test`, `File.ts`),
-          `inputAGet`
+          path.join(`Test Path`, `To Test`, `File.ts`)
         );
-        inputA = { get: inputAGet };
 
-        inputBGet = await prepareInput(
+        await prepareInput(
           `
             const square = (value: number): number => value * value;
             let x = [[{ x: 0 }]];
@@ -236,25 +171,20 @@ describe(`CompileTypeScriptStep`, () => {
             x = y;
             square(null);
           `,
-          path.join(`Test Path`, `To Another`, `Test`, `File.ts`),
-          `inputBGet`
+          path.join(`Test Path`, `To Another`, `Test`, `File.ts`)
         );
-        inputB = { get: inputBGet };
 
-        inputCGet = await prepareInput(
+        await prepareInput(
           `callback("Example " + square(false));`,
-          `Test Root File.ts`,
-          `inputCGet`
+          `Test Root File.ts`
         );
-        inputC = { get: inputCGet };
 
+        inputGet = jasmine.createSpy(`inputGet`).and.returnValue(files);
+        input = { get: inputGet };
         outputSet = jasmine.createSpy(`outputSet`);
         output = { set: outputSet };
 
-        compileTypeScriptStep = new CompileTypeScriptStep(
-          libraryInput.concat([inputA, inputB, inputC]),
-          output
-        );
+        compileTypeScriptStep = new CompileTypeScriptStep(input, output);
 
         try {
           await compileTypeScriptStep.execute();
@@ -263,19 +193,12 @@ describe(`CompileTypeScriptStep`, () => {
         }
       });
 
-      it(`does not change its exposed inputs`, () => {
-        expect(compileTypeScriptStep.inputs).toEqual(
-          libraryInput.concat([inputA, inputB, inputC])
-        );
+      it(`does not change its exposed input`, () => {
+        expect(compileTypeScriptStep.input).toBe(input);
       });
 
       it(`reads each of its exposed inputs once`, () => {
-        for (const get of libraryInputGet) {
-          expect(get).toHaveBeenCalledTimes(1);
-        }
-        expect(inputAGet).toHaveBeenCalledTimes(1);
-        expect(inputBGet).toHaveBeenCalledTimes(1);
-        expect(inputCGet).toHaveBeenCalledTimes(1);
+        expect(inputGet).toHaveBeenCalledTimes(1);
       });
 
       it(`does not change its exposed output`, () => {

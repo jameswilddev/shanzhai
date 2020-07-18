@@ -6,14 +6,16 @@ import { compilerOptions } from "../compiler-options";
 
 export class CompileTypeScriptStep extends ActionStep {
   constructor(
-    public readonly inputs: ReadonlyArray<Input<typescript.SourceFile>>,
+    public readonly input: Input<
+      ReadonlyArray<readonly [string, typescript.SourceFile]>
+    >,
     public readonly output: Output<string>
   ) {
     super(`Compile TypeScript`);
   }
 
   async execute(): Promise<void> {
-    const inputs = this.inputs.map((input) => input.get());
+    const inputs = this.input.get().map((file) => file[1]);
     const rootNames = inputs.map((sourceFile) => sourceFile.fileName);
 
     const host = typescript.createCompilerHost({});
@@ -28,7 +30,7 @@ export class CompileTypeScriptStep extends ActionStep {
       onError;
       shouldCreateNewSourceFile;
 
-      return inputs.find((input) => input.fileName === fileName);
+      return inputs.find((file) => file.fileName === fileName);
     };
 
     let written = ``;
