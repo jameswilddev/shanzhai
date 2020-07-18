@@ -1,4 +1,4 @@
-export interface KeyValueStoreInterface<TKey, TValue> {
+export interface KeyValueStoreInterface<TKey extends string, TValue> {
   readonly name: string;
 
   get(key: TKey): TValue;
@@ -6,9 +6,11 @@ export interface KeyValueStoreInterface<TKey, TValue> {
   set(key: TKey, value: TValue): void;
 
   delete(key: TKey): void;
+
+  getAll(): ReadonlyArray<readonly [TKey, TValue]>;
 }
 
-export class KeyValueStore<TKey, TValue>
+export class KeyValueStore<TKey extends string, TValue>
   implements KeyValueStoreInterface<TKey, TValue> {
   private readonly data = new Map<TKey, TValue>();
 
@@ -32,5 +34,11 @@ export class KeyValueStore<TKey, TValue>
 
   delete(key: TKey): void {
     this.data.delete(key);
+  }
+
+  getAll(): ReadonlyArray<readonly [TKey, TValue]> {
+    return Array.from(this.data.entries()).sort((a, b) =>
+      a[0].localeCompare(b[0])
+    );
   }
 }

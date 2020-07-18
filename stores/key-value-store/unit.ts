@@ -7,7 +7,8 @@ describe(`KeyValueStore`, () => {
   type Event =
     | { readonly type: `set`; readonly key: TestKey; readonly value: TestValue }
     | { readonly type: `delete`; readonly key: TestKey }
-    | { readonly type: `get`; readonly key: TestKey };
+    | { readonly type: `get`; readonly key: TestKey }
+    | { readonly type: `getAll` };
 
   const afterRunning = (
     events: ReadonlyArray<Event>
@@ -27,16 +28,25 @@ describe(`KeyValueStore`, () => {
         case `get`:
           keyValueStore.get(event.key);
           break;
+
+        case `getAll`:
+          keyValueStore.getAll();
       }
     }
 
     return keyValueStore;
   };
 
+  const describeEvent = (event: Event): string => {
+    if (event.type === `getAll`) {
+      return `getAll`;
+    } else {
+      return `${event.type} ${event.key}`;
+    }
+  };
+
   function getThrowsError(events: ReadonlyArray<Event>, key: TestKey): void {
-    describe(`after ${events
-      .map((event) => `${event.type} ${event.key}`)
-      .join(`, `)} get ${key}`, () => {
+    describe(`after ${events.map(describeEvent).join(`, `)} get ${key}`, () => {
       let error: null | Error = null;
 
       beforeAll(() => {
@@ -62,9 +72,7 @@ describe(`KeyValueStore`, () => {
     key: TestKey,
     value: TestValue
   ): void {
-    describe(`after ${events
-      .map((event) => `${event.type} ${event.key}`)
-      .join(`, `)} get ${key}`, () => {
+    describe(`after ${events.map(describeEvent).join(`, `)} get ${key}`, () => {
       let result: TestValue;
 
       beforeAll(() => {
@@ -77,8 +85,26 @@ describe(`KeyValueStore`, () => {
     });
   }
 
+  function getAllReturnsValues(
+    events: ReadonlyArray<Event>,
+    values: ReadonlyArray<readonly [TestKey, TestValue]>
+  ): void {
+    describe(`after ${events.map(describeEvent).join(`, `)} getAll`, () => {
+      let results: ReadonlyArray<readonly [TestKey, TestValue]>;
+
+      beforeAll(() => {
+        results = afterRunning(events).getAll();
+      });
+
+      it(`returns the expected value`, () => {
+        expect(results).toEqual(values);
+      });
+    });
+  }
+
   getThrowsError([], `Test Key A`);
   getThrowsError([], `Test Key B`);
+  getAllReturnsValues([], []);
   getReturnsValue(
     [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
     `Test Key A`,
@@ -88,6 +114,10 @@ describe(`KeyValueStore`, () => {
     [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    [[`Test Key A`, `Test Value A`]]
+  );
   getReturnsValue(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -103,6 +133,13 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
   getReturnsValue(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -119,6 +156,14 @@ describe(`KeyValueStore`, () => {
       { type: `get`, key: `Test Key A` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
   );
   getReturnsValue(
     [
@@ -136,6 +181,14 @@ describe(`KeyValueStore`, () => {
       { type: `set`, key: `Test Key A`, value: `Test Value B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
   );
   getReturnsValue(
     [
@@ -155,6 +208,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value B`],
+    ]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -170,6 +234,14 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key A` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
   );
   getReturnsValue(
     [
@@ -188,6 +260,36 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
   getReturnsValue(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -202,6 +304,13 @@ describe(`KeyValueStore`, () => {
       { type: `set`, key: `Test Key A`, value: `Test Value B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
   );
   getReturnsValue(
     [
@@ -219,6 +328,14 @@ describe(`KeyValueStore`, () => {
       { type: `get`, key: `Test Key A` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
   );
   getReturnsValue(
     [
@@ -236,6 +353,14 @@ describe(`KeyValueStore`, () => {
       { type: `set`, key: `Test Key A`, value: `Test Value C` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value C` },
+    ],
+    [[`Test Key A`, `Test Value C`]]
   );
   getReturnsValue(
     [
@@ -255,6 +380,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value C`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value C` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value C`],
+    ]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -271,6 +407,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
   getReturnsValue(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -288,6 +432,36 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key A`,
+    `Test Value B`
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
+  );
   getReturnsValue(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -303,6 +477,16 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value B`],
+    ]
   );
   getReturnsValue(
     [
@@ -321,6 +505,17 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value B`],
+    ]
   );
   getReturnsValue(
     [
@@ -340,6 +535,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value B`],
+    ]
+  );
   getReturnsValue(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -357,6 +563,17 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value C` },
+    ],
+    [
+      [`Test Key A`, `Test Value C`],
+      [`Test Key B`, `Test Value B`],
+    ]
   );
   getReturnsValue(
     [
@@ -376,6 +593,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value C`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value C` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value C`],
+    ]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -392,6 +620,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
   );
   getReturnsValue(
     [
@@ -410,6 +646,40 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key B`,
+    `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value B`],
+    ]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -423,6 +693,13 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key A` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
   );
   getReturnsValue(
     [
@@ -440,6 +717,14 @@ describe(`KeyValueStore`, () => {
       { type: `set`, key: `Test Key A`, value: `Test Value B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
   );
   getThrowsError(
     [
@@ -458,6 +743,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -474,6 +767,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -489,6 +790,35 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
   );
   getReturnsValue(
     [
@@ -504,6 +834,13 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
   );
   getReturnsValue(
     [
@@ -522,6 +859,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
   getReturnsValue(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -538,6 +883,14 @@ describe(`KeyValueStore`, () => {
       { type: `set`, key: `Test Key A`, value: `Test Value B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
   );
   getReturnsValue(
     [
@@ -557,6 +910,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value B`],
+    ]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
@@ -572,6 +936,14 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key A` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
   );
   getReturnsValue(
     [
@@ -589,6 +961,175 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key A`,
+    `Test Value B`
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key B`,
+    `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value B`],
+    ]
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    [[`Test Key A`, `Test Value A`]]
   );
   getThrowsError(
     [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
@@ -599,6 +1140,10 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -614,6 +1159,13 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -630,6 +1182,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
   );
   getReturnsValue(
     [
@@ -649,6 +1209,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value A`],
+    ]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -666,6 +1237,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -682,6 +1261,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
   );
   getThrowsError(
     [
@@ -699,6 +1286,36 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getReturnsValue(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -714,6 +1331,16 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value A`],
+    ]
   );
   getReturnsValue(
     [
@@ -733,6 +1360,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value A`],
+    ]
+  );
   getReturnsValue(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -750,6 +1388,17 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value A`],
+    ]
   );
   getReturnsValue(
     [
@@ -769,6 +1418,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value C` },
+    ],
+    [
+      [`Test Key A`, `Test Value C`],
+      [`Test Key B`, `Test Value A`],
+    ]
+  );
   getReturnsValue(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -787,6 +1447,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value C`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value C` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value C`],
+    ]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -803,6 +1474,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
   );
   getReturnsValue(
     [
@@ -821,6 +1500,40 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key A`,
+    `Test Value B`
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value A`],
+    ]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -835,6 +1548,13 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
   );
   getThrowsError(
     [
@@ -852,6 +1572,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
   );
   getReturnsValue(
     [
@@ -871,6 +1599,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value C` },
+    ],
+    [
+      [`Test Key A`, `Test Value C`],
+      [`Test Key B`, `Test Value B`],
+    ]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -888,6 +1627,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value C`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value C` },
+    ],
+    [[`Test Key B`, `Test Value C`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -905,6 +1652,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -921,6 +1676,36 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key B`,
+    `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -935,6 +1720,13 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
   );
   getThrowsError(
     [
@@ -952,6 +1744,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
   );
   getReturnsValue(
     [
@@ -971,6 +1771,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value A`],
+    ]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -987,6 +1798,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
   );
   getThrowsError(
     [
@@ -1005,6 +1824,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -1021,6 +1848,36 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -1034,6 +1891,13 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
   );
   getReturnsValue(
     [
@@ -1052,6 +1916,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -1069,6 +1941,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -1085,6 +1965,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
   getThrowsError(
     [
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
@@ -1100,9 +1988,178 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key A`,
+    `Test Value B`
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value A`],
+    ]
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key B`,
+    `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    [[`Test Key B`, `Test Value A`]]
   );
   getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key A`);
   getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key A` }], []);
   getReturnsValue(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1117,6 +2174,13 @@ describe(`KeyValueStore`, () => {
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
   );
   getReturnsValue(
     [
@@ -1135,6 +2199,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
   getReturnsValue(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1151,6 +2223,14 @@ describe(`KeyValueStore`, () => {
       { type: `set`, key: `Test Key A`, value: `Test Value B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
   );
   getReturnsValue(
     [
@@ -1170,6 +2250,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value B`],
+    ]
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1185,6 +2276,14 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key A` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
   );
   getReturnsValue(
     [
@@ -1203,6 +2302,36 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1217,6 +2346,13 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`,
     `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
   );
   getThrowsError(
     [
@@ -1235,6 +2371,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getReturnsValue(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1253,6 +2397,17 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value A`],
+    ]
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1270,6 +2425,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1287,6 +2450,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1303,6 +2474,36 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1316,6 +2517,13 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key A` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
   );
   getReturnsValue(
     [
@@ -1334,6 +2542,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1351,6 +2567,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1367,6 +2591,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1383,6 +2615,35 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1396,6 +2657,13 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
   );
   getReturnsValue(
     [
@@ -1414,6 +2682,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1431,6 +2707,14 @@ describe(`KeyValueStore`, () => {
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1447,6 +2731,14 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
   getThrowsError(
     [
       { type: `delete`, key: `Test Key A` },
@@ -1462,9 +2754,758 @@ describe(`KeyValueStore`, () => {
       { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key A`);
+  getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key A` }], []);
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key A`);
+  getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key A` }], []);
+  getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key A`);
+  getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key B` }], []);
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key A`,
+    `Test Value B`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key B`,
+    `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value B`],
+    ]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key A`,
+    `Test Value B`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value A`],
+    ]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    `Test Key B`,
+    `Test Value B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
   );
   getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key A`);
   getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key B` }], []);
   getReturnsValue(
     [
       { type: `delete`, key: `Test Key B` },
@@ -1480,9 +3521,98 @@ describe(`KeyValueStore`, () => {
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key A`
+  );
   getReturnsValue(
     [
       { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key A`
+  );
+  getThrowsError(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key A`);
+  getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key B` }], []);
+  getThrowsError([], `Test Key A`);
+  getThrowsError([], `Test Key B`);
+  getAllReturnsValues([], []);
+  getReturnsValue(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getReturnsValue(
+    [
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `get`, key: `Test Key A` },
     ],
@@ -1491,15 +3621,20 @@ describe(`KeyValueStore`, () => {
   );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `get`, key: `Test Key A` },
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `get`, key: `Test Key A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `set`, key: `Test Key A`, value: `Test Value B` },
     ],
@@ -1508,15 +3643,20 @@ describe(`KeyValueStore`, () => {
   );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `set`, key: `Test Key A`, value: `Test Value B` },
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [[`Test Key A`, `Test Value B`]]
+  );
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `set`, key: `Test Key B`, value: `Test Value B` },
     ],
@@ -1525,16 +3665,24 @@ describe(`KeyValueStore`, () => {
   );
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `set`, key: `Test Key B`, value: `Test Value B` },
     ],
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value A`],
+      [`Test Key B`, `Test Value B`],
+    ]
+  );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `delete`, key: `Test Key A` },
     ],
@@ -1542,15 +3690,20 @@ describe(`KeyValueStore`, () => {
   );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `delete`, key: `Test Key A` },
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `delete`, key: `Test Key B` },
     ],
@@ -1559,30 +3712,46 @@ describe(`KeyValueStore`, () => {
   );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
   );
-  getThrowsError(
+  getAllReturnsValues(
     [
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
       { type: `delete`, key: `Test Key B` },
-      { type: `set`, key: `Test Key B`, value: `Test Value A` },
     ],
-    `Test Key A`
+    [[`Test Key A`, `Test Value A`]]
   );
   getReturnsValue(
-    [
-      { type: `delete`, key: `Test Key B` },
-      { type: `set`, key: `Test Key B`, value: `Test Value A` },
-    ],
-    `Test Key B`,
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    `Test Key A`,
     `Test Value A`
   );
   getThrowsError(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getThrowsError(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `get`, key: `Test Key B` },
     ],
@@ -1590,16 +3759,21 @@ describe(`KeyValueStore`, () => {
   );
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `get`, key: `Test Key B` },
     ],
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `get`, key: `Test Key B` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `set`, key: `Test Key A`, value: `Test Value B` },
     ],
@@ -1608,16 +3782,24 @@ describe(`KeyValueStore`, () => {
   );
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `set`, key: `Test Key A`, value: `Test Value B` },
     ],
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value B` },
+    ],
+    [
+      [`Test Key A`, `Test Value B`],
+      [`Test Key B`, `Test Value A`],
+    ]
+  );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `set`, key: `Test Key B`, value: `Test Value B` },
     ],
@@ -1625,16 +3807,21 @@ describe(`KeyValueStore`, () => {
   );
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `set`, key: `Test Key B`, value: `Test Value B` },
     ],
     `Test Key B`,
     `Test Value B`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value B` },
+    ],
+    [[`Test Key B`, `Test Value B`]]
+  );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `delete`, key: `Test Key A` },
     ],
@@ -1642,16 +3829,21 @@ describe(`KeyValueStore`, () => {
   );
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `delete`, key: `Test Key A` },
     ],
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `delete`, key: `Test Key B` },
     ],
@@ -1659,29 +3851,36 @@ describe(`KeyValueStore`, () => {
   );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
   );
-  getThrowsError(
+  getAllReturnsValues(
     [
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
       { type: `delete`, key: `Test Key B` },
-      { type: `delete`, key: `Test Key A` },
     ],
-    `Test Key A`
+    []
   );
   getThrowsError(
-    [
-      { type: `delete`, key: `Test Key B` },
-      { type: `delete`, key: `Test Key A` },
-    ],
-    `Test Key B`
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    `Test Key A`
   );
   getReturnsValue(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key A`);
+  getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key A` }], []);
+  getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key A` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
     ],
@@ -1690,15 +3889,20 @@ describe(`KeyValueStore`, () => {
   );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key A` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key A` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
     ],
@@ -1706,16 +3910,21 @@ describe(`KeyValueStore`, () => {
   );
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key A` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
     ],
     `Test Key B`,
     `Test Value A`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key A` },
       { type: `delete`, key: `Test Key A` },
     ],
@@ -1723,15 +3932,20 @@ describe(`KeyValueStore`, () => {
   );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key A` },
       { type: `delete`, key: `Test Key A` },
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key A` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key A` },
       { type: `delete`, key: `Test Key B` },
     ],
@@ -1739,29 +3953,26 @@ describe(`KeyValueStore`, () => {
   );
   getThrowsError(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key A` },
       { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
   );
-  getThrowsError(
+  getAllReturnsValues(
     [
-      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
       { type: `delete`, key: `Test Key B` },
     ],
-    `Test Key A`
+    []
   );
-  getThrowsError(
-    [
-      { type: `delete`, key: `Test Key B` },
-      { type: `delete`, key: `Test Key B` },
-    ],
-    `Test Key B`
-  );
+  getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key A`);
+  getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key A` }], []);
+  getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key A`);
+  getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key B` }], []);
   getReturnsValue(
     [
-      { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
     ],
@@ -1771,14 +3982,19 @@ describe(`KeyValueStore`, () => {
   getThrowsError(
     [
       { type: `delete`, key: `Test Key B` },
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key A`, value: `Test Value A` },
     ],
     `Test Key B`
   );
-  getThrowsError(
+  getAllReturnsValues(
     [
       { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key A`, value: `Test Value A` },
+    ],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
       { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
     ],
@@ -1787,15 +4003,20 @@ describe(`KeyValueStore`, () => {
   getReturnsValue(
     [
       { type: `delete`, key: `Test Key B` },
-      { type: `delete`, key: `Test Key B` },
       { type: `set`, key: `Test Key B`, value: `Test Value A` },
     ],
     `Test Key B`,
     `Test Value A`
   );
-  getThrowsError(
+  getAllReturnsValues(
     [
       { type: `delete`, key: `Test Key B` },
+      { type: `set`, key: `Test Key B`, value: `Test Value A` },
+    ],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError(
+    [
       { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key A` },
     ],
@@ -1804,14 +4025,19 @@ describe(`KeyValueStore`, () => {
   getThrowsError(
     [
       { type: `delete`, key: `Test Key B` },
-      { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key A` },
     ],
     `Test Key B`
   );
-  getThrowsError(
+  getAllReturnsValues(
     [
       { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key A` },
+    ],
+    []
+  );
+  getThrowsError(
+    [
       { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key B` },
     ],
@@ -1821,8 +4047,55 @@ describe(`KeyValueStore`, () => {
     [
       { type: `delete`, key: `Test Key B` },
       { type: `delete`, key: `Test Key B` },
-      { type: `delete`, key: `Test Key B` },
     ],
     `Test Key B`
   );
+  getAllReturnsValues(
+    [
+      { type: `delete`, key: `Test Key B` },
+      { type: `delete`, key: `Test Key B` },
+    ],
+    []
+  );
+  getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key A`);
+  getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key B` }], []);
+  getThrowsError([], `Test Key A`);
+  getThrowsError([], `Test Key B`);
+  getAllReturnsValues([], []);
+  getReturnsValue(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    `Test Key A`,
+    `Test Value A`
+  );
+  getThrowsError(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    `Test Key B`
+  );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key A`, value: `Test Value A` }],
+    [[`Test Key A`, `Test Value A`]]
+  );
+  getThrowsError(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    `Test Key A`
+  );
+  getReturnsValue(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    `Test Key B`,
+    `Test Value A`
+  );
+  getAllReturnsValues(
+    [{ type: `set`, key: `Test Key B`, value: `Test Value A` }],
+    [[`Test Key B`, `Test Value A`]]
+  );
+  getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key A`);
+  getThrowsError([{ type: `delete`, key: `Test Key A` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key A` }], []);
+  getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key A`);
+  getThrowsError([{ type: `delete`, key: `Test Key B` }], `Test Key B`);
+  getAllReturnsValues([{ type: `delete`, key: `Test Key B` }], []);
+  getThrowsError([], `Test Key A`);
+  getThrowsError([], `Test Key B`);
+  getAllReturnsValues([], []);
 });

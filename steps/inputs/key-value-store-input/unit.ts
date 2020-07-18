@@ -9,6 +9,7 @@ describe(`KeyValueStoreInput`, () => {
     let get: jasmine.Spy;
     let set: jasmine.Spy;
     let _delete: jasmine.Spy;
+    let getAll: jasmine.Spy;
     let keyValueStore: KeyValueStoreInterface<TestKey, TestValue>;
 
     let keyValueStoreInput: KeyValueStoreInput<TestKey, TestValue>;
@@ -17,7 +18,8 @@ describe(`KeyValueStoreInput`, () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      keyValueStore = { name: `Test Name`, get, set, delete: _delete };
+      getAll = jasmine.createSpy(`getAll`);
+      keyValueStore = { name: `Test Name`, get, set, delete: _delete, getAll };
 
       keyValueStoreInput = new KeyValueStoreInput<TestKey, TestValue>(
         keyValueStore,
@@ -44,12 +46,17 @@ describe(`KeyValueStoreInput`, () => {
     it(`does not delete from the store`, () => {
       expect(_delete).not.toHaveBeenCalled();
     });
+
+    it(`does not get all from the store`, () => {
+      expect(getAll).not.toHaveBeenCalled();
+    });
   });
 
   describe(`get`, () => {
     let get: jasmine.Spy;
     let set: jasmine.Spy;
     let _delete: jasmine.Spy;
+    let getAll: jasmine.Spy;
     let keyValueStore: KeyValueStoreInterface<TestKey, TestValue>;
 
     let keyValueStoreInput: KeyValueStoreInput<TestKey, TestValue>;
@@ -60,7 +67,8 @@ describe(`KeyValueStoreInput`, () => {
       get = jasmine.createSpy(`get`).and.returnValue(`Test Value`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      keyValueStore = { name: `Test Name`, get, set, delete: _delete };
+      getAll = jasmine.createSpy(`getAll`);
+      keyValueStore = { name: `Test Name`, get, set, delete: _delete, getAll };
 
       keyValueStoreInput = new KeyValueStoreInput<TestKey, TestValue>(
         keyValueStore,
@@ -96,6 +104,10 @@ describe(`KeyValueStoreInput`, () => {
 
     it(`does not delete from the store`, () => {
       expect(_delete).not.toHaveBeenCalled();
+    });
+
+    it(`does not get all from the store`, () => {
+      expect(getAll).not.toHaveBeenCalled();
     });
   });
 });

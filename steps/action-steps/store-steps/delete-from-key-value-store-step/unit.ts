@@ -9,6 +9,7 @@ describe(`DeleteFromKeyValueStoreStep`, () => {
     let keyValueStoreGet: jasmine.Spy;
     let keyValueStoreSet: jasmine.Spy;
     let keyValueStoreDelete: jasmine.Spy;
+    let keyValueStoreGetAll: jasmine.Spy;
     let keyValueStore: KeyValueStoreInterface<TestKey, TestValue>;
     let deleteFromKeyValueStoreStep: DeleteFromKeyValueStoreStep<
       TestKey,
@@ -19,11 +20,13 @@ describe(`DeleteFromKeyValueStoreStep`, () => {
       keyValueStoreGet = jasmine.createSpy(`keyValueStoreGet`);
       keyValueStoreSet = jasmine.createSpy(`keyValueStoreSet`);
       keyValueStoreDelete = jasmine.createSpy(`keyValueStoreDelete`);
+      keyValueStoreGetAll = jasmine.createSpy(`keyValueStoreGetAll`);
       keyValueStore = {
         name: `Test Name`,
         get: keyValueStoreGet,
         set: keyValueStoreSet,
         delete: keyValueStoreDelete,
+        getAll: keyValueStoreGetAll,
       };
 
       deleteFromKeyValueStoreStep = new DeleteFromKeyValueStoreStep(
@@ -57,12 +60,17 @@ describe(`DeleteFromKeyValueStoreStep`, () => {
     it(`does not delete values from the key value store`, () => {
       expect(keyValueStoreDelete).not.toHaveBeenCalled();
     });
+
+    it(`does not get all from the key value store`, () => {
+      expect(keyValueStoreGetAll).not.toHaveBeenCalled();
+    });
   });
 
   describe(`on execution`, () => {
     let keyValueStoreGet: jasmine.Spy;
     let keyValueStoreSet: jasmine.Spy;
     let keyValueStoreDelete: jasmine.Spy;
+    let keyValueStoreGetAll: jasmine.Spy;
     let keyValueStore: KeyValueStoreInterface<TestKey, TestValue>;
     let deleteFromKeyValueStoreStep: DeleteFromKeyValueStoreStep<
       TestKey,
@@ -73,11 +81,13 @@ describe(`DeleteFromKeyValueStoreStep`, () => {
       keyValueStoreGet = jasmine.createSpy(`keyValueStoreGet`);
       keyValueStoreSet = jasmine.createSpy(`keyValueStoreSet`);
       keyValueStoreDelete = jasmine.createSpy(`keyValueStoreDelete`);
+      keyValueStoreGetAll = jasmine.createSpy(`keyValueStoreGetAll`);
       keyValueStore = {
         name: `Test Name`,
         get: keyValueStoreGet,
         set: keyValueStoreSet,
         delete: keyValueStoreDelete,
+        getAll: keyValueStoreGetAll,
       };
 
       deleteFromKeyValueStoreStep = new DeleteFromKeyValueStoreStep(
@@ -110,6 +120,10 @@ describe(`DeleteFromKeyValueStoreStep`, () => {
 
     it(`deletes the specified value from the key value store`, () => {
       expect(keyValueStoreDelete).toHaveBeenCalledWith(`Test Key`);
+    });
+
+    it(`does not get all from the key value store`, () => {
+      expect(keyValueStoreGetAll).not.toHaveBeenCalled();
     });
   });
 });

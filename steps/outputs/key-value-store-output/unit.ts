@@ -9,6 +9,7 @@ describe(`KeyValueStoreOutput`, () => {
     let get: jasmine.Spy;
     let set: jasmine.Spy;
     let _delete: jasmine.Spy;
+    let getAll: jasmine.Spy;
     let keyValueStore: KeyValueStoreInterface<TestKey, TestValue>;
 
     let keyValueStoreOutput: KeyValueStoreOutput<TestKey, TestValue>;
@@ -17,7 +18,8 @@ describe(`KeyValueStoreOutput`, () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      keyValueStore = { name: `Test Name`, get, set, delete: _delete };
+      getAll = jasmine.createSpy(`getAll`);
+      keyValueStore = { name: `Test Name`, get, set, delete: _delete, getAll };
 
       keyValueStoreOutput = new KeyValueStoreOutput<TestKey, TestValue>(
         keyValueStore,
@@ -44,12 +46,17 @@ describe(`KeyValueStoreOutput`, () => {
     it(`does not delete from the store`, () => {
       expect(_delete).not.toHaveBeenCalled();
     });
+
+    it(`does not get all from the store`, () => {
+      expect(getAll).not.toHaveBeenCalled();
+    });
   });
 
   describe(`get`, () => {
     let get: jasmine.Spy;
     let set: jasmine.Spy;
     let _delete: jasmine.Spy;
+    let getAll: jasmine.Spy;
     let keyValueStore: KeyValueStoreInterface<TestKey, TestValue>;
 
     let keyValueStoreOutput: KeyValueStoreOutput<TestKey, TestValue>;
@@ -58,7 +65,8 @@ describe(`KeyValueStoreOutput`, () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      keyValueStore = { name: `Test Name`, get, set, delete: _delete };
+      getAll = jasmine.createSpy(`getAll`);
+      keyValueStore = { name: `Test Name`, get, set, delete: _delete, getAll };
 
       keyValueStoreOutput = new KeyValueStoreOutput<TestKey, TestValue>(
         keyValueStore,
@@ -94,6 +102,10 @@ describe(`KeyValueStoreOutput`, () => {
 
     it(`does not delete from the store`, () => {
       expect(_delete).not.toHaveBeenCalled();
+    });
+
+    it(`does not get all from the store`, () => {
+      expect(getAll).not.toHaveBeenCalled();
     });
   });
 });
