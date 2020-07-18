@@ -6,12 +6,11 @@ import { compilerOptions } from "../compiler-options";
 
 export class ParseTypeScriptStep extends ActionStep {
   constructor(
-    name: string,
     public readonly input: Input<string>,
     public readonly fileName: string,
     public readonly output: Output<typescript.SourceFile>
   ) {
-    super(name);
+    super(`Parse ${JSON.stringify(fileName)} as TypeScript`);
   }
 
   async execute(): Promise<void> {

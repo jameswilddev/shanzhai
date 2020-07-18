@@ -18,7 +18,6 @@ describe(`ParseTypeScriptStep`, () => {
       output = { set: outputSet };
 
       parseTypeScriptStep = new ParseTypeScriptStep(
-        `Test Name`,
         input,
         `Test File Name`,
         output
@@ -26,7 +25,9 @@ describe(`ParseTypeScriptStep`, () => {
     });
 
     it(`exposes the name`, () => {
-      expect(parseTypeScriptStep.name).toEqual(`Test Name`);
+      expect(parseTypeScriptStep.name).toEqual(
+        `Parse "Test File Name" as TypeScript`
+      );
     });
 
     it(`exposes the input`, () => {
@@ -67,7 +68,6 @@ describe(`ParseTypeScriptStep`, () => {
         output = { set: outputSet };
 
         parseTypeScriptStep = new ParseTypeScriptStep(
-          `Test Name`,
           input,
           `Test File Name`,
           output
@@ -119,7 +119,6 @@ describe(`ParseTypeScriptStep`, () => {
         output = { set: outputSet };
 
         parseTypeScriptStep = new ParseTypeScriptStep(
-          `Test Name`,
           input,
           `Test File Name`,
           output

@@ -5,11 +5,10 @@ import { Output } from "../../../outputs/output";
 
 export class ReadTextFileStep extends ActionStep {
   constructor(
-    name: string,
     public readonly pathSegments: ReadonlyArray<string>,
     public readonly output: Output<string>
   ) {
-    super(name);
+    super(`Read text file ${JSON.stringify(pathSegments.join(`/`))}`);
   }
 
   async execute(): Promise<void> {

@@ -33,10 +33,13 @@ describe(`CompileTypeScriptStep`, () => {
       output = { set: outputSet };
 
       compileTypeScriptStep = new CompileTypeScriptStep(
-        `Test Name`,
         [inputA, inputB, inputC],
         output
       );
+    });
+
+    it(`exposes its name`, () => {
+      expect(compileTypeScriptStep.name).toEqual(`Compile TypeScript`);
     });
 
     it(`exposes its inputs`, () => {
@@ -79,16 +82,11 @@ describe(`CompileTypeScriptStep`, () => {
           spyName: string
         ): Promise<jasmine.Spy> => {
           let preOutput: undefined | typescript.SourceFile;
-          await new ParseTypeScriptStep(
-            `Parse`,
-            { get: () => source },
-            fileName,
-            {
-              set: (value) => {
-                preOutput = value;
-              },
-            }
-          ).execute();
+          await new ParseTypeScriptStep({ get: () => source }, fileName, {
+            set: (value) => {
+              preOutput = value;
+            },
+          }).execute();
 
           return jasmine
             .createSpy(spyName)
@@ -133,7 +131,6 @@ describe(`CompileTypeScriptStep`, () => {
         output = { set: outputSet };
 
         compileTypeScriptStep = new CompileTypeScriptStep(
-          `Test Name`,
           libraryInput.concat([inputA, inputB, inputC]),
           output
         );
@@ -200,16 +197,11 @@ describe(`CompileTypeScriptStep`, () => {
           spyName: string
         ): Promise<jasmine.Spy> => {
           let preOutput: undefined | typescript.SourceFile;
-          await new ParseTypeScriptStep(
-            `Parse`,
-            { get: () => source },
-            fileName,
-            {
-              set: (value) => {
-                preOutput = value;
-              },
-            }
-          ).execute();
+          await new ParseTypeScriptStep({ get: () => source }, fileName, {
+            set: (value) => {
+              preOutput = value;
+            },
+          }).execute();
 
           return jasmine
             .createSpy(spyName)
@@ -260,7 +252,6 @@ describe(`CompileTypeScriptStep`, () => {
         output = { set: outputSet };
 
         compileTypeScriptStep = new CompileTypeScriptStep(
-          `Test Name`,
           libraryInput.concat([inputA, inputB, inputC]),
           output
         );

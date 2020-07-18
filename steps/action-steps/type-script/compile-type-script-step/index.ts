@@ -6,11 +6,10 @@ import { compilerOptions } from "../compiler-options";
 
 export class CompileTypeScriptStep extends ActionStep {
   constructor(
-    name: string,
     public readonly inputs: ReadonlyArray<Input<typescript.SourceFile>>,
     public readonly output: Output<string>
   ) {
-    super(name);
+    super(`Compile TypeScript`);
   }
 
   async execute(): Promise<void> {

@@ -7,18 +7,23 @@ import { ReadTextFileStep } from ".";
 
 describe(`ReadTextFileStep`, () => {
   describe(`on construction`, () => {
+    let originalWorkingDirectory: string;
     let root: string;
     let outputSet: jasmine.Spy;
     let output: Output<string>;
     let readTextFileStep: ReadTextFileStep;
 
     beforeAll(async () => {
+      originalWorkingDirectory = process.cwd();
+
       root = path.join(os.tmpdir(), uuid.v4());
 
       await fs.promises.mkdir(
         path.join(root, `subdirectory-a`, `subdirectory-b`, `subdirectory-c`),
         { recursive: true }
       );
+
+      process.chdir(root);
 
       await fs.promises.writeFile(
         path.join(
@@ -35,24 +40,21 @@ describe(`ReadTextFileStep`, () => {
       output = { set: outputSet };
 
       readTextFileStep = new ReadTextFileStep(
-        `Test Name`,
-        [
-          root,
-          `subdirectory-a`,
-          `subdirectory-b`,
-          `subdirectory-c`,
-          `test-file`,
-        ],
+        [`subdirectory-a`, `subdirectory-b`, `subdirectory-c`, `test-file`],
         output
       );
     });
 
     afterAll(async () => {
+      process.chdir(originalWorkingDirectory);
+
       await fs.promises.rmdir(root, { recursive: true });
     });
 
     it(`exposes its name`, () => {
-      expect(readTextFileStep.name).toEqual(`Test Name`);
+      expect(readTextFileStep.name).toEqual(
+        `Read text file "subdirectory-a/subdirectory-b/subdirectory-c/test-file"`
+      );
     });
 
     it(`exposes its output`, () => {
@@ -65,12 +67,15 @@ describe(`ReadTextFileStep`, () => {
   });
 
   describe(`on execution`, () => {
+    let originalWorkingDirectory: string;
     let root: string;
     let outputSet: jasmine.Spy;
     let output: Output<string>;
     let readTextFileStep: ReadTextFileStep;
 
     beforeAll(async () => {
+      originalWorkingDirectory = process.cwd();
+
       root = path.join(os.tmpdir(), uuid.v4());
 
       await fs.promises.mkdir(
@@ -78,9 +83,10 @@ describe(`ReadTextFileStep`, () => {
         { recursive: true }
       );
 
+      process.chdir(root);
+
       await fs.promises.writeFile(
         path.join(
-          root,
           `subdirectory-a`,
           `subdirectory-b`,
           `subdirectory-c`,
@@ -93,7 +99,6 @@ describe(`ReadTextFileStep`, () => {
       output = { set: outputSet };
 
       readTextFileStep = new ReadTextFileStep(
-        `Test Name`,
         [
           root,
           `subdirectory-a`,
@@ -108,6 +113,8 @@ describe(`ReadTextFileStep`, () => {
     });
 
     afterAll(async () => {
+      process.chdir(originalWorkingDirectory);
+
       await fs.promises.rmdir(root, { recursive: true });
     });
 
