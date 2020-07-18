@@ -68,7 +68,7 @@ describe(`ValueStoreInput`, () => {
     });
 
     it(`returns the value from the store`, () => {
-      expect(result);
+      expect(result).toEqual(`Test Value`);
     });
 
     it(`does not set a value in the store`, () => {
