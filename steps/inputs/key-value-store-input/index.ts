@@ -1,0 +1,13 @@
+import { KeyValueStoreInterface } from "../../../stores/key-value-store";
+import { Input } from "../input";
+
+export class KeyValueStoreInput<TKey, TValue> implements Input<TValue> {
+  constructor(
+    public readonly keyValueStore: KeyValueStoreInterface<TKey, TValue>,
+    public readonly key: TKey
+  ) {}
+
+  get(): TValue {
+    return this.keyValueStore.get(this.key);
+  }
+}
