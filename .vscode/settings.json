@@ -19,6 +19,7 @@
     "node_modules": true,
     "**/*.js": true,
     "**/*.d.ts": true,
-    ".nyc_output": true
+    ".nyc_output": true,
+    "**/.~*.*#": true,
   }
 }
