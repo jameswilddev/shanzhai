@@ -103,6 +103,9 @@ C A,C B
 D A,D B,"D C" ,D D,D E
 E A, E B, E C,
 F A,,F C
+
+
+
 ,G B,G C
 """H"" A   ",H B,"   H ""C"""`,
       [
@@ -193,6 +196,9 @@ C A,C B
 D A,D B,"D C" ,D D,D E
 E A, E B, E C,
 F A,,F C
+
+
+
 ,G B,G C
 """H"" A   ",H B,"   H ""C""`,
       `Unterminated quoted column.`
@@ -210,6 +216,9 @@ C A,C B
 D A,D B,"D C"q,D D,D E
 E A, E B, E C,
 F A,,F C
+
+
+
 ,G B,G C
 """H"" A   ",H B,"   H ""C"""`,
       `Unexpected character "q" following closing quote.`
@@ -227,6 +236,9 @@ C A,C B
 D A,D B,"D C",D D,D E
 E A, E B, E C,
 F A,,F C
+
+
+
 ,G B,G C
 """H"" A   ",H B,"   H ""C"""`,
       `Unexpected character "q" following closing quote.`
