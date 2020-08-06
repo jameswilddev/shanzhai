@@ -3,7 +3,7 @@ import { Input } from "../../../inputs/input";
 import { Output } from "../../../outputs/output";
 import { Json } from "../../../../json";
 
-export type KeyedJson = { readonly [name: string]: Json };
+export type KeyedJson = { readonly [key: string]: Json };
 
 export class ConvertJsonToTypeScriptStep extends ActionStep {
   constructor(
