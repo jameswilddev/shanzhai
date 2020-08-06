@@ -1,12 +1,11 @@
-import { Json } from "../../../../json";
 import { Input } from "../../../inputs/input";
 import { Output } from "../../../outputs/output";
-import { ConvertJsonToTypeScriptStep } from ".";
+import { ConvertJsonToTypeScriptStep, KeyedJson } from ".";
 
 describe(`ConvertJsonToTypeScriptStep`, () => {
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
-    let input: Input<Json>;
+    let input: Input<KeyedJson>;
     let outputSet: jasmine.Spy;
     let output: Output<string>;
     let convertJsonToTypeScriptStep: ConvertJsonToTypeScriptStep;
@@ -19,7 +18,6 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
 
       convertJsonToTypeScriptStep = new ConvertJsonToTypeScriptStep(
         `Test Name`,
-        `testDeclarationName`,
         input,
         output
       );
@@ -27,12 +25,6 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
 
     it(`exposes its name`, () => {
       expect(convertJsonToTypeScriptStep.name).toEqual(`Test Name`);
-    });
-
-    it(`exposes the declaration name`, () => {
-      expect(convertJsonToTypeScriptStep.declarationName).toEqual(
-        `testDeclarationName`
-      );
     });
 
     it(`exposes the input`, () => {
@@ -55,36 +47,31 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
   describe(`on execution`, () => {
     const scenario = (
       description: string,
-      inputJson: Json,
+      inputKeyedJson: KeyedJson,
       outputJson: string
     ): void => {
       describe(description, () => {
         let inputGet: jasmine.Spy;
-        let input: Input<Json>;
+        let input: Input<KeyedJson>;
         let outputSet: jasmine.Spy;
         let output: Output<string>;
         let convertJsonToTypeScriptStep: ConvertJsonToTypeScriptStep;
 
         beforeAll(async () => {
-          inputGet = jasmine.createSpy(`inputGet`).and.returnValue(inputJson);
+          inputGet = jasmine
+            .createSpy(`inputGet`)
+            .and.returnValue(inputKeyedJson);
           input = { get: inputGet };
           outputSet = jasmine.createSpy(`outputSet`);
           output = { set: outputSet };
 
           convertJsonToTypeScriptStep = new ConvertJsonToTypeScriptStep(
             `Test Name`,
-            `testDeclarationName`,
             input,
             output
           );
 
           await convertJsonToTypeScriptStep.execute();
-        });
-
-        it(`continues to expose the declaration name`, () => {
-          expect(convertJsonToTypeScriptStep.declarationName).toEqual(
-            `testDeclarationName`
-          );
         });
 
         it(`continues to expose the input`, () => {
@@ -109,76 +96,86 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
       });
     };
 
-    scenario(`null`, null, `const testDeclarationName: null = null;`);
-    scenario(`false`, false, `const testDeclarationName: false = false;`);
-    scenario(`true`, true, `const testDeclarationName: true = true;`);
-    scenario(`empty string`, ``, `const testDeclarationName: "" = "";`);
+    scenario(`empty`, {}, ``);
+
     scenario(
-      `non-empty string`,
-      `Test "Non-Empty" String`,
-      `const testDeclarationName: "Test \\"Non-Empty\\" String" = "Test \\"Non-Empty\\" String";`
-    );
-    scenario(`zero`, 0, `const testDeclarationName: 0 = 0;`);
-    scenario(`positive integer`, 358, `const testDeclarationName: 358 = 358;`);
-    scenario(
-      `negative integer`,
-      -358,
-      `const testDeclarationName: -358 = -358;`
-    );
-    scenario(`positive float`, 3.58, `const testDeclarationName: 3.58 = 3.58;`);
-    scenario(
-      `negative float`,
-      -3.58,
-      `const testDeclarationName: -3.58 = -3.58;`
-    );
-    scenario(`empty array`, [], `const testDeclarationName: readonly [] = [];`);
-    scenario(
-      `one-item array`,
-      [false],
-      `const testDeclarationName: readonly [false] = [false];`
-    );
-    scenario(
-      `two-item array`,
-      [false, 358],
-      `const testDeclarationName: readonly [false, 358] = [false, 358];`
-    );
-    scenario(
-      `three-item array`,
-      [false, 358, true],
-      `const testDeclarationName: readonly [false, 358, true] = [false, 358, true];`
-    );
-    scenario(`empty object`, {}, `const testDeclarationName: {} = {};`);
-    scenario(
-      `one-item object`,
-      { "Test Key B": false },
-      `const testDeclarationName: { readonly "Test Key B": false } = { "Test Key B": false };`
-    );
-    scenario(
-      `two-item object`,
-      { "Test Key B": false, "Test Key A": null },
-      `const testDeclarationName: { readonly "Test Key A": null, readonly "Test Key B": false } = { "Test Key A": null, "Test Key B": false };`
-    );
-    scenario(
-      `three-item object`,
-      { "Test Key B": false, "Test Key A": null, "Test Key C": true },
-      `const testDeclarationName: { readonly "Test Key A": null, readonly "Test Key B": false, readonly "Test Key C": true } = { "Test Key A": null, "Test Key B": false, "Test Key C": true };`
-    );
-    scenario(
-      `complex`,
+      `populated`,
       {
-        "Test Root B": [
-          null,
-          {
-            "Test Nested C": false,
-            "Test Nested A": true,
-            'Test "Nested" B': `Test "Nested" String`,
-          },
-          [{}],
-          -70,
-        ],
-        "Test Root A": 36.5,
+        testNullName: null,
+        testFalseName: false,
+        testTrueName: true,
+        testEmptyStringName: ``,
+        testNonEmptyStringName: `Test "Non-Empty" String`,
+        testZeroName: 0,
+        testPositiveIntegerName: 358,
+        testNegativeIntegerName: -358,
+        testPositiveFloatName: 3.58,
+        testNegativeFloatName: -3.58,
+        testEmptyArrayName: [],
+        testOneItemArrayName: [false],
+        testTwoItemArrayName: [false, 358],
+        testThreeItemArrayName: [false, 358, true],
+        testEmptyObjectName: {},
+        testOneItemObjectName: { "Test Key B": false },
+        testTwoItemObjectName: { "Test Key B": false, "Test Key A": null },
+        testThreeItemObjectName: {
+          "Test Key B": false,
+          "Test Key A": null,
+          "Test Key C": true,
+        },
+        testComplexName: {
+          "Test Root B": [
+            null,
+            {
+              "Test Nested C": false,
+              "Test Nested A": true,
+              'Test "Nested" B': `Test "Nested" String`,
+            },
+            [{}],
+            -70,
+          ],
+          "Test Root A": 36.5,
+        },
       },
-      `const testDeclarationName: { readonly "Test Root A": 36.5, readonly "Test Root B": readonly [null, { readonly "Test \\"Nested\\" B": "Test \\"Nested\\" String", readonly "Test Nested A": true, readonly "Test Nested C": false }, readonly [{}], -70] } = { "Test Root A": 36.5, "Test Root B": [null, { "Test \\"Nested\\" B": "Test \\"Nested\\" String", "Test Nested A": true, "Test Nested C": false }, [{}], -70] };`
+      `const testComplexName: { readonly "Test Root A": 36.5, readonly "Test Root B": readonly [null, { readonly "Test \\"Nested\\" B": "Test \\"Nested\\" String", readonly "Test Nested A": true, readonly "Test Nested C": false }, readonly [{}], -70] } = { "Test Root A": 36.5, "Test Root B": [null, { "Test \\"Nested\\" B": "Test \\"Nested\\" String", "Test Nested A": true, "Test Nested C": false }, [{}], -70] };
+
+const testEmptyArrayName: readonly [] = [];
+
+const testEmptyObjectName: {} = {};
+
+const testEmptyStringName: "" = "";
+
+const testFalseName: false = false;
+
+const testNegativeFloatName: -3.58 = -3.58;
+
+const testNegativeIntegerName: -358 = -358;
+
+const testNonEmptyStringName: "Test \\"Non-Empty\\" String" = "Test \\"Non-Empty\\" String";
+
+const testNullName: null = null;
+
+const testOneItemArrayName: readonly [false] = [false];
+
+const testOneItemObjectName: { readonly "Test Key B": false } = { "Test Key B": false };
+
+const testPositiveFloatName: 3.58 = 3.58;
+
+const testPositiveIntegerName: 358 = 358;
+
+const testThreeItemArrayName: readonly [false, 358, true] = [false, 358, true];
+
+const testThreeItemObjectName: { readonly "Test Key A": null, readonly "Test Key B": false, readonly "Test Key C": true } = { "Test Key A": null, "Test Key B": false, "Test Key C": true };
+
+const testTrueName: true = true;
+
+const testTwoItemArrayName: readonly [false, 358] = [false, 358];
+
+const testTwoItemObjectName: { readonly "Test Key A": null, readonly "Test Key B": false } = { "Test Key A": null, "Test Key B": false };
+
+const testZeroName: 0 = 0;
+
+`
     );
   });
 });

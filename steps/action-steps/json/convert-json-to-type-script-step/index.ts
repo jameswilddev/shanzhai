@@ -3,19 +3,18 @@ import { Input } from "../../../inputs/input";
 import { Output } from "../../../outputs/output";
 import { Json } from "../../../../json";
 
+export type KeyedJson = { readonly [name: string]: Json };
+
 export class ConvertJsonToTypeScriptStep extends ActionStep {
   constructor(
     name: string,
-    public readonly declarationName: string,
-    public readonly input: Input<Json>,
+    public readonly input: Input<KeyedJson>,
     public readonly output: Output<string>
   ) {
     super(name);
   }
 
   async execute(): Promise<void> {
-    const json = this.input.get();
-
     const recurse = (json: Json, prefix: string): string => {
       if (json === null) {
         return `null`;
@@ -44,9 +43,19 @@ export class ConvertJsonToTypeScriptStep extends ActionStep {
       }
     };
 
-    const types = recurse(json, `readonly `);
-    const values = recurse(json, ``);
+    const json = this.input.get();
 
-    this.output.set(`const ${this.declarationName}: ${types} = ${values};`);
+    let combined = ``;
+
+    for (const key of Object.keys(json).sort()) {
+      const value = json[key];
+
+      const types = recurse(value, `readonly `);
+      const values = recurse(value, ``);
+
+      combined += `const ${key}: ${types} = ${values};\n\n`;
+    }
+
+    this.output.set(combined);
   }
 }
