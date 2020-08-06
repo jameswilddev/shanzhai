@@ -53,4 +53,12 @@ describe(`generateDiff`, () => {
       `testDeletedKeyC`,
     ]);
   });
+
+  it(`lists the unchanged files`, () => {
+    expect(diff.unchanged).toEqual([
+      `testUnchangedKeyA`,
+      `testUnchangedKeyB`,
+      `testUnchangedKeyC`,
+    ]);
+  });
 });

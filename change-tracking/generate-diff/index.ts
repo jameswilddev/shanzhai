@@ -10,10 +10,14 @@ export const generateDiff = (from: Timestamps, to: Timestamps): Diff => {
     (key) => fromKeys.includes(key) && from[key] !== to[key]
   );
   const deleted = fromKeys.filter((key) => !toKeys.includes(key));
+  const unchanged = fromKeys.filter(
+    (key) => toKeys.includes(key) && from[key] === to[key]
+  );
 
   return {
     added,
     changed,
     deleted,
+    unchanged,
   };
 };
