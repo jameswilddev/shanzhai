@@ -12,7 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/html-minifier": "4.0.0",
-    "@types/jasmine": "3.5.11",
+    "@types/jasmine": "3.5.12",
     "@types/jsdom": "16.2.3",
     "@types/node": "13.13.15",
     "@types/pixelmatch": "5.2.1",
