@@ -2,7 +2,7 @@ import { generateDiff } from ".";
 import { Diff } from "../diff";
 
 describe(`generateDiff`, () => {
-  let diff: Diff;
+  let diff: Diff<string>;
   beforeAll(() => {
     diff = generateDiff(
       {

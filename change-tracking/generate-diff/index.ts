@@ -1,7 +1,10 @@
 import { Timestamps } from "../timestamps";
 import { Diff } from "../diff";
 
-export const generateDiff = (from: Timestamps, to: Timestamps): Diff => {
+export const generateDiff = (
+  from: Timestamps,
+  to: Timestamps
+): Diff<string> => {
   const fromKeys = Object.keys(from).sort();
   const toKeys = Object.keys(to).sort();
 

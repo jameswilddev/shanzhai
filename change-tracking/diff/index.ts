@@ -1,6 +1,6 @@
-export type Diff = {
-  readonly added: ReadonlyArray<string>;
-  readonly changed: ReadonlyArray<string>;
-  readonly deleted: ReadonlyArray<string>;
-  readonly unchanged: ReadonlyArray<string>;
+export type Diff<T> = {
+  readonly added: ReadonlyArray<T>;
+  readonly changed: ReadonlyArray<T>;
+  readonly deleted: ReadonlyArray<T>;
+  readonly unchanged: ReadonlyArray<T>;
 };
