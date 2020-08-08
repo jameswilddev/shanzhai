@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as chokidar from "chokidar";
 import { Timestamps } from "../timestamps";
+import { pathAccepted } from "../path-accepted";
 
 export function watchDirectory(
   root: string,
@@ -28,9 +29,13 @@ export function watchDirectory(
   };
 
   const handle = (path: string, stats: undefined | fs.Stats): void => {
-    stats = stats as fs.Stats;
-    current[normalizePath(path)] = stats.mtimeMs;
-    invalidate();
+    path = normalizePath(path);
+
+    if (pathAccepted(path)) {
+      stats = stats as fs.Stats;
+      current[path] = stats.mtimeMs;
+      invalidate();
+    }
   };
 
   const watcher = chokidar
@@ -46,8 +51,12 @@ export function watchDirectory(
       handle(path, stats);
     })
     .on(`unlink`, (path) => {
-      delete current[normalizePath(path)];
-      invalidate();
+      path = normalizePath(path);
+
+      if (pathAccepted(path)) {
+        delete current[path];
+        invalidate();
+      }
     })
     .on(`ready`, () => {
       ready = true;
