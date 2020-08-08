@@ -75,6 +75,37 @@ describe(`scanDirectory`, () => {
         768936
       );
 
+      await fs.promises.mkdir(
+        path.join(
+          root,
+          `level-one`,
+          `.filtered-level-two`,
+          `filtered-level-three`
+        ),
+        { recursive: true }
+      );
+
+      await fs.promises.writeFile(
+        path.join(
+          root,
+          `level-one`,
+          `.filtered-level-two`,
+          `file-filtered-by-parent`
+        ),
+        Buffer.alloc(0)
+      );
+
+      await fs.promises.writeFile(
+        path.join(
+          root,
+          `level-one`,
+          `.filtered-level-two`,
+          `filtered-level-three`,
+          `file-filtered-by-parents-parent`
+        ),
+        Buffer.alloc(0)
+      );
+
       promise = scanDirectory(root);
     });
 
