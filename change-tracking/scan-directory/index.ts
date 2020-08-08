@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { Timestamps } from "../timestamps";
+import { pathAccepted } from "../path-accepted";
 
 export async function scanDirectory(root: string): Promise<Timestamps> {
   const timestamps: { [path: string]: number } = {};
@@ -13,7 +14,11 @@ export async function scanDirectory(root: string): Promise<Timestamps> {
       if (stat.isDirectory()) {
         await recurse(joined, `${prefix}${child}/`);
       } else {
-        timestamps[`${prefix}${child}`] = stat.mtimeMs;
+        const path = `${prefix}${child}`;
+
+        if (pathAccepted(path)) {
+          timestamps[path] = stat.mtimeMs;
+        }
       }
     }
   };

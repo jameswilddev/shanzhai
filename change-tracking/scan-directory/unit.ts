@@ -49,6 +49,11 @@ describe(`scanDirectory`, () => {
       );
 
       await fs.promises.writeFile(
+        path.join(root, `level-one`, `level-two`, `.excluded-file`),
+        Buffer.alloc(0)
+      );
+
+      await fs.promises.writeFile(
         path.join(
           root,
           `level-one`,
