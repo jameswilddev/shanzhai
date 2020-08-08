@@ -70,6 +70,11 @@ describe(`watchDirectory`, () => {
           path.join(root, `level-one`, `level-two`, `.excluded-file`),
           Buffer.alloc(0)
         );
+        await fs.promises.utimes(
+          path.join(root, `level-one`, `level-two`, `.excluded-file`),
+          342352,
+          457895
+        );
 
         await fs.promises.writeFile(
           path.join(
@@ -112,6 +117,16 @@ describe(`watchDirectory`, () => {
           ),
           Buffer.alloc(0)
         );
+        await fs.promises.utimes(
+          path.join(
+            root,
+            `level-one`,
+            `.filtered-level-two`,
+            `file-filtered-by-parent`
+          ),
+          346346356,
+          4757845
+        );
 
         await fs.promises.writeFile(
           path.join(
@@ -122,6 +137,17 @@ describe(`watchDirectory`, () => {
             `file-filtered-by-parents-parent`
           ),
           Buffer.alloc(0)
+        );
+        await fs.promises.utimes(
+          path.join(
+            root,
+            `level-one`,
+            `.filtered-level-two`,
+            `filtered-level-three`,
+            `file-filtered-by-parents-parent`
+          ),
+          5645626,
+          9560733
         );
 
         onChange = jasmine.createSpy(`onChange`);
@@ -650,6 +676,282 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledWith({
           "empty-subdirectory/at-root": 4556363000,
           "level-one/level-two/level-three/deeply-nested": 768936000,
+        });
+      });
+    }
+  );
+
+  scenario(
+    `when a filtered file is deleted`,
+    async (root) => {
+      await fs.promises.unlink(
+        path.join(root, `level-one`, `level-two`, `.excluded-file`)
+      );
+    },
+    (onChange) => {
+      it(`does not call onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(1);
+      });
+    }
+  );
+
+  scenario(
+    `when a filtered file is updated`,
+    async (root) => {
+      await fs.promises.utimes(
+        path.join(root, `level-one`, `level-two`, `.excluded-file`),
+        45052507,
+        9084375
+      );
+    },
+    (onChange) => {
+      it(`does not call onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(1);
+      });
+    }
+  );
+
+  scenario(
+    `when a filtered file is added`,
+    async (root) => {
+      await fs.promises.writeFile(
+        path.join(root, `level-one`, `level-two`, `.additional-excluded-file`),
+        Buffer.alloc(0)
+      );
+    },
+    (onChange) => {
+      it(`does not call onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(1);
+      });
+    }
+  );
+
+  scenario(
+    `when a filtered file is renamed`,
+    async (root) => {
+      await fs.promises.rename(
+        path.join(root, `level-one`, `level-two`, `.excluded-file`),
+        path.join(root, `level-one`, `level-two`, `.renamed-excluded-file`)
+      );
+    },
+    (onChange) => {
+      it(`does not call onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(1);
+      });
+    }
+  );
+
+  scenario(
+    `when a filtered file is renamed to be unfiltered`,
+    async (root) => {
+      await fs.promises.rename(
+        path.join(root, `level-one`, `level-two`, `.excluded-file`),
+        path.join(root, `level-one`, `level-two`, `no-longer-excluded-file`)
+      );
+    },
+    (onChange) => {
+      it(`calls onChange again again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(2);
+      });
+
+      it(`calls onChange with the expected object of timestamps`, () => {
+        expect(onChange()).toHaveBeenCalledWith({
+          "at-root": 4556363000,
+          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "level-one/level-two/no-longer-excluded-file": 457895000,
+        });
+      });
+    }
+  );
+
+  scenario(
+    `when a file is renamed to be filtered`,
+    async (root) => {
+      await fs.promises.rename(
+        path.join(
+          root,
+          `level-one`,
+          `level-two`,
+          `level-three`,
+          `deeply-nested`
+        ),
+        path.join(
+          root,
+          `level-one`,
+          `level-two`,
+          `level-three`,
+          `.filtered-deeply-nested`
+        )
+      );
+    },
+    (onChange) => {
+      it(`calls onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(2);
+      });
+
+      it(`calls onChange with the expected object of timestamps`, () => {
+        expect(onChange()).toHaveBeenCalledWith({
+          "at-root": 4556363000,
+        });
+      });
+    }
+  );
+
+  scenario(
+    `when a file is added to a filtered subdirectory`,
+    async (root) => {
+      await fs.promises.writeFile(
+        path.join(
+          root,
+          `level-one`,
+          `.filtered-level-two`,
+          `filtered-level-three`,
+          `new-filtered-file`
+        ),
+        Buffer.alloc(0)
+      );
+    },
+    (onChange) => {
+      it(`does not call onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(1);
+      });
+    }
+  );
+
+  scenario(
+    `when a file is deleted from a filtered subdirectory`,
+    async (root) => {
+      await fs.promises.unlink(
+        path.join(
+          root,
+          `level-one`,
+          `.filtered-level-two`,
+          `filtered-level-three`,
+          `file-filtered-by-parents-parent`
+        )
+      );
+    },
+    (onChange) => {
+      it(`does not call onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(1);
+      });
+    }
+  );
+
+  scenario(
+    `when a file is moved from a filtered subdirectory to an unfiltered subdirectory`,
+    async (root) => {
+      await fs.promises.rename(
+        path.join(
+          root,
+          `level-one`,
+          `.filtered-level-two`,
+          `filtered-level-three`,
+          `file-filtered-by-parents-parent`
+        ),
+        path.join(
+          root,
+          `level-one`,
+          `level-two`,
+          `level-three`,
+          `file-no-longer-filtered`
+        )
+      );
+    },
+    (onChange) => {
+      it(`calls onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(2);
+      });
+
+      it(`calls onChange with the expected object of timestamps`, () => {
+        expect(onChange()).toHaveBeenCalledWith({
+          "at-root": 4556363000,
+          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "level-one/level-two/level-three/file-no-longer-filtered": jasmine.any(
+            Number
+          ),
+        });
+      });
+    }
+  );
+
+  scenario(
+    `when a file is moved from an unfiltered subdirectory to a filtered subdirectory`,
+    async (root) => {
+      await fs.promises.rename(
+        path.join(
+          root,
+          `level-one`,
+          `level-two`,
+          `level-three`,
+          `deeply-nested`
+        ),
+        path.join(
+          root,
+          `level-one`,
+          `.filtered-level-two`,
+          `filtered-level-three`,
+          `now-filtered`
+        )
+      );
+    },
+    (onChange) => {
+      it(`calls onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(2);
+      });
+
+      it(`calls onChange with the expected object of timestamps`, () => {
+        expect(onChange()).toHaveBeenCalledWith({
+          "at-root": 4556363000,
+        });
+      });
+    }
+  );
+
+  scenario(
+    `when a subdirectory is renamed to be filtered`,
+    async (root) => {
+      await fs.promises.rename(
+        path.join(root, `level-one`, `level-two`),
+        path.join(root, `level-one`, `.now-filtered-level-two`)
+      );
+    },
+    (onChange) => {
+      it(`calls onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(2);
+      });
+
+      it(`calls onChange with the expected object of timestamps`, () => {
+        expect(onChange()).toHaveBeenCalledWith({
+          "at-root": 4556363000,
+        });
+      });
+    }
+  );
+
+  scenario(
+    `when a subdirectory is renamed to be unfiltered`,
+    async (root) => {
+      await fs.promises.rename(
+        path.join(root, `level-one`, `.filtered-level-two`),
+        path.join(root, `level-one`, `now-unfiltered-level-two`)
+      );
+    },
+    (onChange) => {
+      it(`calls onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(2);
+      });
+
+      it(`calls onChange with the expected object of timestamps`, () => {
+        expect(onChange()).toHaveBeenCalledWith({
+          "at-root": 4556363000,
+          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "level-one/now-unfiltered-level-two/file-filtered-by-parent": jasmine.any(
+            Number
+          ),
+          "level-one/now-unfiltered-level-two/filtered-level-three/file-filtered-by-parents-parent": jasmine.any(
+            Number
+          ),
         });
       });
     }
