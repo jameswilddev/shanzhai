@@ -17,7 +17,8 @@ export const parsePath = (input: string): null | ParsedPath => {
   if (match === null) {
     return null;
   } else {
-    const fragments = match[1].split(`/`);
+    const fullPathWithoutExtension = match[1];
+    const fragments = fullPathWithoutExtension.split(`/`);
     const fileExtension = match[2];
 
     const typeScriptName = fragments.map(kebabCaseToCamelCase).join(`_`);
@@ -26,6 +27,7 @@ export const parsePath = (input: string): null | ParsedPath => {
       typeScriptName,
       fullPath: input,
       fileExtension,
+      fullPathWithoutExtension,
     };
   }
 };

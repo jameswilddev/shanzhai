@@ -4,7 +4,8 @@ describe(`parsePath`, () => {
   const parses = (
     input: string,
     typeScriptName: string,
-    fileExtension: string
+    fileExtension: string,
+    fullPathWithoutExtension: string
   ): void => {
     describe(`given ${JSON.stringify(input)}`, () => {
       let result: null | ParsedPath;
@@ -18,6 +19,7 @@ describe(`parsePath`, () => {
           typeScriptName,
           fullPath: input,
           fileExtension,
+          fullPathWithoutExtension,
         });
       });
     });
@@ -40,19 +42,22 @@ describe(`parsePath`, () => {
   parses(
     `test-valid-fi$le-na1me.test-file-extension`,
     `testValidFi$leNa1me`,
-    `test-file-extension`
+    `test-file-extension`,
+    `test-valid-fi$le-na1me`
   );
 
   parses(
     `test-d1rec$ory-name/test-valid-fi$le-na1me.test-file-extension`,
     `testD1rec$oryName_testValidFi$leNa1me`,
-    `test-file-extension`
+    `test-file-extension`,
+    `test-d1rec$ory-name/test-valid-fi$le-na1me`
   );
 
   parses(
     `test-parent-d1rec$ory-name/test-ch1ld-direc$ory-name/test-valid-fi$le-na1me.test-file-extension`,
     `testParentD1rec$oryName_testCh1ldDirec$oryName_testValidFi$leNa1me`,
-    `test-file-extension`
+    `test-file-extension`,
+    `test-parent-d1rec$ory-name/test-ch1ld-direc$ory-name/test-valid-fi$le-na1me`
   );
 
   failsToParse(
