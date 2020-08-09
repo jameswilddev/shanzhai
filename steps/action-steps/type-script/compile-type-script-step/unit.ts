@@ -10,7 +10,7 @@ import { typeScriptLibraryLocations } from "../type-script-library-locations";
 describe(`CompileTypeScriptStep`, () => {
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
-    let input: Input<ReadonlyArray<readonly [string, typescript.SourceFile]>>;
+    let input: Input<ReadonlyArray<typescript.SourceFile>>;
     let outputSet: jasmine.Spy;
     let output: Output<string>;
     let compileTypeScriptStep: CompileTypeScriptStep;
@@ -49,13 +49,13 @@ describe(`CompileTypeScriptStep`, () => {
   describe(`on execution`, () => {
     describe(`successful`, () => {
       let inputGet: jasmine.Spy;
-      let input: Input<ReadonlyArray<readonly [string, typescript.SourceFile]>>;
+      let input: Input<ReadonlyArray<typescript.SourceFile>>;
       let outputSet: jasmine.Spy;
       let output: Output<string>;
       let compileTypeScriptStep: CompileTypeScriptStep;
 
       beforeAll(async () => {
-        const files: (readonly [string, typescript.SourceFile])[] = [];
+        const files: typescript.SourceFile[] = [];
 
         const prepareInput = async (
           source: string,
@@ -63,7 +63,7 @@ describe(`CompileTypeScriptStep`, () => {
         ): Promise<void> => {
           await new ParseTypeScriptStep({ get: () => source }, fileName, {
             set: (value) => {
-              files.push([`Test Key`, value]);
+              files.push(value);
             },
           }).execute();
         };
@@ -132,14 +132,14 @@ describe(`CompileTypeScriptStep`, () => {
 
     describe(`invalid`, () => {
       let inputGet: jasmine.Spy;
-      let input: Input<ReadonlyArray<readonly [string, typescript.SourceFile]>>;
+      let input: Input<ReadonlyArray<typescript.SourceFile>>;
       let outputSet: jasmine.Spy;
       let output: Output<string>;
       let compileTypeScriptStep: CompileTypeScriptStep;
       let error: null | Error = null;
 
       beforeAll(async () => {
-        const files: (readonly [string, typescript.SourceFile])[] = [];
+        const files: typescript.SourceFile[] = [];
 
         const prepareInput = async (
           source: string,
@@ -147,7 +147,7 @@ describe(`CompileTypeScriptStep`, () => {
         ): Promise<void> => {
           await new ParseTypeScriptStep({ get: () => source }, fileName, {
             set: (value) => {
-              files.push([`Test Key`, value]);
+              files.push(value);
             },
           }).execute();
         };
