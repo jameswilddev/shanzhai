@@ -63,7 +63,7 @@
     "declarationMap": false,
     "resolveJsonModule": false,
     "lib": [
-      "ES2018",
+      "ES2019",
       "DOM"
     ]
   }
