@@ -216,7 +216,7 @@ Test Path/To Another/Test/File.ts@5: Type '{ y: string; }[][]' is not assignable
     Type '{ y: string; }[]' is not assignable to type '{ x: number; }[]'.
       Property 'x' is missing in type '{ y: string; }' but required in type '{ x: number; }'.
 Test Path/To Another/Test/File.ts@6: Argument of type 'null' is not assignable to parameter of type 'number'.
-Test Root File.ts@1: Argument of type 'false' is not assignable to parameter of type 'number'.`)
+Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter of type 'number'.`)
         );
       });
     });
