@@ -6,7 +6,7 @@ describe(`BuildObjectInput`, () => {
   type TestValue = `Test Value A` | `Test Value B` | `Test Value C`;
 
   describe(`on construction`, () => {
-    let mergeInput: BuildObjectInput<TestKey, TestValue>;
+    let buildObjectInput: BuildObjectInput<TestKey, TestValue>;
     let inputAGet: jasmine.Spy;
     let inputA: Input<TestValue>;
     let inputBGet: jasmine.Spy;
@@ -22,7 +22,7 @@ describe(`BuildObjectInput`, () => {
       inputCGet = jasmine.createSpy(`inputCGet`);
       inputC = { get: inputCGet };
 
-      mergeInput = new BuildObjectInput({
+      buildObjectInput = new BuildObjectInput({
         "Test Key A": inputA,
         "Test Key B": inputB,
         "Test Key C": inputC,
@@ -30,7 +30,7 @@ describe(`BuildObjectInput`, () => {
     });
 
     it(`exposes its inputs`, () => {
-      expect(mergeInput.sources).toEqual({
+      expect(buildObjectInput.sources).toEqual({
         "Test Key A": inputA,
         "Test Key B": inputB,
         "Test Key C": inputC,
@@ -45,7 +45,7 @@ describe(`BuildObjectInput`, () => {
   });
 
   describe(`get`, () => {
-    let mergeInput: BuildObjectInput<TestKey, TestValue>;
+    let buildObjectInput: BuildObjectInput<TestKey, TestValue>;
     let inputAGet: jasmine.Spy;
     let inputA: Input<TestValue>;
     let inputBGet: jasmine.Spy;
@@ -72,17 +72,17 @@ describe(`BuildObjectInput`, () => {
         .and.returnValue("Test Value C");
       inputC = { get: inputCGet };
 
-      mergeInput = new BuildObjectInput({
+      buildObjectInput = new BuildObjectInput({
         "Test Key A": inputA,
         "Test Key B": inputB,
         "Test Key C": inputC,
       });
 
-      result = mergeInput.get();
+      result = buildObjectInput.get();
     });
 
     it(`continues to expose its inputs`, () => {
-      expect(mergeInput.sources).toEqual({
+      expect(buildObjectInput.sources).toEqual({
         "Test Key A": inputA,
         "Test Key B": inputB,
         "Test Key C": inputC,
