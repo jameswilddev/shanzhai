@@ -5,7 +5,8 @@ import { pathAccepted } from "../path-accepted";
 
 export function watchDirectory(
   root: string,
-  onChange: (next: Timestamps) => void
+  onChange: (next: Timestamps) => void,
+  onError: (error: Error) => void
 ): () => void {
   const current: { [path: string]: number } = {};
 
@@ -61,7 +62,10 @@ export function watchDirectory(
     .on(`ready`, () => {
       ready = true;
       invalidate();
-    });
+    })
+
+    // NOTE: This has no test coverage, as I am not aware of any way to trigger it intentionally.
+    .on(`error`, onError);
 
   return (): void => {
     watcher.close();

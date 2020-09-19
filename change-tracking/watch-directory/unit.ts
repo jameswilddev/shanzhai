@@ -8,6 +8,7 @@ describe(`watchDirectory`, () => {
   describe(`when the directory is empty`, () => {
     let root: string;
     let onChange: jasmine.Spy;
+    let onError: jasmine.Spy;
     let close: () => void;
 
     beforeAll(async () => {
@@ -16,8 +17,9 @@ describe(`watchDirectory`, () => {
       await fs.promises.mkdir(root, { recursive: true });
 
       onChange = jasmine.createSpy(`onChange`);
+      onError = jasmine.createSpy(`onError`);
 
-      close = watchDirectory(root, onChange);
+      close = watchDirectory(root, onChange, onError);
 
       await new Promise((resolve) => setTimeout(resolve, 500));
     });
@@ -34,6 +36,10 @@ describe(`watchDirectory`, () => {
     it(`calls onChange with the expected object of timestamps`, () => {
       expect(onChange).toHaveBeenCalledWith({});
     });
+
+    it(`does not call onError`, () => {
+      expect(onError).not.toHaveBeenCalled();
+    });
   });
 
   const scenario = (
@@ -44,6 +50,7 @@ describe(`watchDirectory`, () => {
     describe(name, () => {
       let root: string;
       let onChange: undefined | jasmine.Spy;
+      let onError: undefined | jasmine.Spy;
       let close: () => void;
 
       beforeAll(async () => {
@@ -151,8 +158,9 @@ describe(`watchDirectory`, () => {
         );
 
         onChange = jasmine.createSpy(`onChange`);
+        onError = jasmine.createSpy(`onError`);
 
-        close = watchDirectory(root, onChange);
+        close = watchDirectory(root, onChange, onError);
 
         await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -181,6 +189,10 @@ describe(`watchDirectory`, () => {
       });
 
       assert(() => onChange as jasmine.Spy);
+
+      it(`does not call onError`, () => {
+        expect(onError).not.toHaveBeenCalled();
+      });
     });
   };
 
