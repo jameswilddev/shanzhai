@@ -46,6 +46,10 @@ describe(`parsePath`, () => {
     `test-valid-fi$le-na1me`
   );
 
+  parses(`t.e`, `t`, `e`, `t`);
+  parses(`tq.er`, `tq`, `er`, `tq`);
+  parses(`tqz.erv`, `tqz`, `erv`, `tqz`);
+
   parses(
     `test-d1rec$ory-name/test-valid-fi$le-na1me.test-file-extension`,
     `testD1rec$oryName_testValidFi$leNa1me`,
@@ -53,12 +57,20 @@ describe(`parsePath`, () => {
     `test-d1rec$ory-name/test-valid-fi$le-na1me`
   );
 
+  parses(`t/g.e`, `t_g`, `e`, `t/g`);
+  parses(`tq/gz.er`, `tq_gz`, `er`, `tq/gz`);
+  parses(`tqz/bxv.erv`, `tqz_bxv`, `erv`, `tqz/bxv`);
+
   parses(
     `test-parent-d1rec$ory-name/test-ch1ld-direc$ory-name/test-valid-fi$le-na1me.test-file-extension`,
     `testParentD1rec$oryName_testCh1ldDirec$oryName_testValidFi$leNa1me`,
     `test-file-extension`,
     `test-parent-d1rec$ory-name/test-ch1ld-direc$ory-name/test-valid-fi$le-na1me`
   );
+
+  parses(`t/g/y.e`, `t_g_y`, `e`, `t/g/y`);
+  parses(`tq/gz/yd.er`, `tq_gz_yd`, `er`, `tq/gz/yd`);
+  parses(`tqz/bxv/hsa.erv`, `tqz_bxv_hsa`, `erv`, `tqz/bxv/hsa`);
 
   failsToParse(
     `test-valid-fi$le-na1me.test-first-file-extension.test-second-file-extension`
