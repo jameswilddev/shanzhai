@@ -15,7 +15,7 @@ export class ConvertCsvToJsonStep extends ActionStep {
     super(name);
   }
 
-  async execute() {
+  async execute(): Promise<void> {
     const input = this.input.get();
 
     if (input.length < 1) {

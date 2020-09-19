@@ -1,4 +1,5 @@
 import { parsePath } from ".";
+import { ParsedPath } from "../parsed-path";
 
 describe(`parsePath`, () => {
   const parses = (

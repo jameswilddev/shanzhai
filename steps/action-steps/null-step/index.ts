@@ -5,5 +5,7 @@ export class NullStep extends ActionStep {
     super(name);
   }
 
-  async execute(): Promise<void> {}
+  async execute(): Promise<void> {
+    /* Nothing to be done. */
+  }
 }
