@@ -164,22 +164,16 @@ describe(`plan`, () => {
           ]),
           new ZipStep(
             `Zip`,
-            [
-              {
-                pathSegments: [`path/to/template-a.html`],
-                content: new KeyValueStoreInput(
-                  minifiedHtmlStore,
-                  `path/to/template-a.pug`
-                ),
-              },
-              {
-                pathSegments: [`template-b/path.html`],
-                content: new KeyValueStoreInput(
-                  minifiedHtmlStore,
-                  `template-b/path.pug`
-                ),
-              },
-            ],
+            new MergeInput({
+              "path/to/template-a.html": new KeyValueStoreInput(
+                minifiedHtmlStore,
+                `path/to/template-a.pug`
+              ),
+              "template-b/path.html": new KeyValueStoreInput(
+                minifiedHtmlStore,
+                `template-b/path.pug`
+              ),
+            }),
             new ValueStoreOutput(zipStore)
           ),
         ])
@@ -280,29 +274,21 @@ describe(`plan`, () => {
           ]),
           new ZipStep(
             `Zip`,
-            [
-              {
-                pathSegments: [`template/which-was-added.html`],
-                content: new KeyValueStoreInput(
-                  minifiedHtmlStore,
-                  `template/which-was-added.pug`
-                ),
-              },
-              {
-                pathSegments: [`path/to/template-a.html`],
-                content: new KeyValueStoreInput(
-                  minifiedHtmlStore,
-                  `path/to/template-a.pug`
-                ),
-              },
-              {
-                pathSegments: [`template-b/path.html`],
-                content: new KeyValueStoreInput(
-                  minifiedHtmlStore,
-                  `template-b/path.pug`
-                ),
-              },
-            ],
+            new MergeInput({
+              "template/which-was-added.html": new KeyValueStoreInput(
+                minifiedHtmlStore,
+                `template/which-was-added.pug`
+              ),
+              "path/to/template-a.html": new KeyValueStoreInput(
+                minifiedHtmlStore,
+                `path/to/template-a.pug`
+              ),
+
+              "template-b/path.html": new KeyValueStoreInput(
+                minifiedHtmlStore,
+                `template-b/path.pug`
+              ),
+            }),
             new ValueStoreOutput(zipStore)
           ),
         ])
@@ -419,29 +405,20 @@ describe(`plan`, () => {
           ]),
           new ZipStep(
             `Zip`,
-            [
-              {
-                pathSegments: [`template/which-was-changed.html`],
-                content: new KeyValueStoreInput(
-                  minifiedHtmlStore,
-                  `template/which-was-changed.pug`
-                ),
-              },
-              {
-                pathSegments: [`path/to/template-a.html`],
-                content: new KeyValueStoreInput(
-                  minifiedHtmlStore,
-                  `path/to/template-a.pug`
-                ),
-              },
-              {
-                pathSegments: [`template-b/path.html`],
-                content: new KeyValueStoreInput(
-                  minifiedHtmlStore,
-                  `template-b/path.pug`
-                ),
-              },
-            ],
+            new MergeInput({
+              "template/which-was-changed.html": new KeyValueStoreInput(
+                minifiedHtmlStore,
+                `template/which-was-changed.pug`
+              ),
+              "path/to/template-a.html": new KeyValueStoreInput(
+                minifiedHtmlStore,
+                `path/to/template-a.pug`
+              ),
+              "template-b/path.html": new KeyValueStoreInput(
+                minifiedHtmlStore,
+                `template-b/path.pug`
+              ),
+            }),
             new ValueStoreOutput(zipStore)
           ),
         ])
@@ -517,22 +494,16 @@ describe(`plan`, () => {
           ]),
           new ZipStep(
             `Zip`,
-            [
-              {
-                pathSegments: [`path/to/template-a.html`],
-                content: new KeyValueStoreInput(
-                  minifiedHtmlStore,
-                  `path/to/template-a.pug`
-                ),
-              },
-              {
-                pathSegments: [`template-b/path.html`],
-                content: new KeyValueStoreInput(
-                  minifiedHtmlStore,
-                  `template-b/path.pug`
-                ),
-              },
-            ],
+            new MergeInput({
+              "path/to/template-a.html": new KeyValueStoreInput(
+                minifiedHtmlStore,
+                `path/to/template-a.pug`
+              ),
+              "template-b/path.html": new KeyValueStoreInput(
+                minifiedHtmlStore,
+                `template-b/path.pug`
+              ),
+            }),
             new ValueStoreOutput(zipStore)
           ),
         ])

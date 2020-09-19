@@ -96,14 +96,18 @@ export const plan = (
 
     const zipStep = new ZipStep(
       `Zip`,
-      [
-        ...filteredDiff.diffs.pug.added,
-        ...filteredDiff.diffs.pug.changed,
-        ...filteredDiff.diffs.pug.unchanged,
-      ].map((path) => ({
-        pathSegments: [`${path.fullPathWithoutExtension}.html`],
-        content: new KeyValueStoreInput(minifiedHtmlStore, path.fullPath),
-      })),
+      new MergeInput(
+        Object.fromEntries(
+          [
+            ...filteredDiff.diffs.pug.added,
+            ...filteredDiff.diffs.pug.changed,
+            ...filteredDiff.diffs.pug.unchanged,
+          ].map((path) => [
+            `${path.fullPathWithoutExtension}.html`,
+            new KeyValueStoreInput(minifiedHtmlStore, path.fullPath),
+          ])
+        )
+      ),
       new ValueStoreOutput(zipStore)
     );
 

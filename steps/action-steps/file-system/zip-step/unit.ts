@@ -4,70 +4,39 @@ import * as fs from "fs";
 import * as uuid from "uuid";
 import * as extractZip from "extract-zip";
 import { Output } from "../../../outputs/output";
-import { ZipFileEntry, ZipStep } from ".";
+import { ZipStep } from ".";
+import { Input } from "../../../inputs/input";
 
 describe(`ZipStep`, () => {
   describe(`on construction`, () => {
-    let inputAGet: jasmine.Spy;
-    let inputA: ZipFileEntry<string>;
-    let inputBGet: jasmine.Spy;
-    let inputB: ZipFileEntry<Buffer>;
-    let inputCGet: jasmine.Spy;
-    let inputC: ZipFileEntry<Buffer>;
-    let inputDGet: jasmine.Spy;
-    let inputD: ZipFileEntry<string>;
+    let inputGet: jasmine.Spy;
+    let input: Input<{ readonly [path: string]: string | Buffer }>;
     let outputSet: jasmine.Spy;
     let output: Output<Buffer>;
     let zipStep: ZipStep;
 
     beforeAll(() => {
-      inputAGet = jasmine.createSpy(`inputAGet`);
-      inputA = {
-        pathSegments: [`subdirectory-a`, `subdirectory-b`, `file-a`],
-        content: { get: inputAGet },
-      };
-
-      inputBGet = jasmine.createSpy(`inputAGet`);
-      inputB = {
-        pathSegments: [`file-b`],
-        content: { get: inputBGet },
-      };
-
-      inputCGet = jasmine.createSpy(`inputCGet`);
-      inputC = {
-        pathSegments: [`subdirectory-a`, `subdirectory-c`, `file-c`],
-        content: { get: inputCGet },
-      };
-
-      inputDGet = jasmine.createSpy(`inputDGet`);
-      inputD = {
-        pathSegments: [`file-d`],
-        content: { get: inputDGet },
+      inputGet = jasmine.createSpy(`inputAGet`);
+      input = {
+        get: inputGet,
       };
 
       outputSet = jasmine.createSpy(`outputSet`);
       output = { set: outputSet };
 
-      zipStep = new ZipStep(
-        `Test Name`,
-        [inputA, inputB, inputC, inputD],
-        output
-      );
+      zipStep = new ZipStep(`Test Name`, input, output);
     });
 
     it(`exposes its name`, () => {
       expect(zipStep.name).toEqual(`Test Name`);
     });
 
-    it(`exposes its inputs`, () => {
-      expect(zipStep.inputs).toEqual([inputA, inputB, inputC, inputD]);
+    it(`exposes its input`, () => {
+      expect(zipStep.input).toBe(input);
     });
 
-    it(`does not read from its inputs`, () => {
-      expect(inputAGet).not.toHaveBeenCalled();
-      expect(inputBGet).not.toHaveBeenCalled();
-      expect(inputCGet).not.toHaveBeenCalled();
-      expect(inputDGet).not.toHaveBeenCalled();
+    it(`does not read from its input`, () => {
+      expect(inputGet).not.toHaveBeenCalled();
     });
 
     it(`exposes its output`, () => {
@@ -80,97 +49,63 @@ describe(`ZipStep`, () => {
   });
 
   describe(`on executing`, () => {
-    let inputAGet: jasmine.Spy;
-    let inputA: ZipFileEntry<string>;
-    let inputBGet: jasmine.Spy;
-    let inputB: ZipFileEntry<Buffer>;
-    let inputCGet: jasmine.Spy;
-    let inputC: ZipFileEntry<Buffer>;
-    let inputDGet: jasmine.Spy;
-    let inputD: ZipFileEntry<string>;
+    let inputGet: jasmine.Spy;
+    let input: Input<{ readonly [path: string]: string | Buffer }>;
     let outputSet: jasmine.Spy;
     let output: Output<Buffer>;
     let zipStep: ZipStep;
 
     beforeAll(async () => {
-      inputAGet = jasmine
-        .createSpy(`inputAGet`)
-        .and.returnValue(`Test File A Content`);
-      inputA = {
-        pathSegments: [`subdirectory-a`, `subdirectory-b`, `file-a`],
-        content: { get: inputAGet },
-      };
+      inputGet = jasmine.createSpy(`inputGet`).and.returnValue({
+        "subdirectory-a/subdirectory-b/file-a": `Test File A Content`,
+        "file-b": Buffer.from(
+          new Uint8Array([
+            254,
+            118,
+            241,
+            163,
+            57,
+            25,
+            7,
+            76,
+            194,
+            191,
+            115,
+            209,
+            161,
+            211,
+            213,
+            179,
+            103,
+            63,
+            208,
+            110,
+          ])
+        ),
+        "subdirectory-a/subdirectory-c/file-c": Buffer.from(
+          new Uint8Array([211, 176, 53, 61, 89])
+        ),
+        "file-d": `Test File D Content`,
+      });
 
-      inputBGet = jasmine
-        .createSpy(`inputAGet`)
-        .and.returnValue(
-          Buffer.from(
-            new Uint8Array([
-              254,
-              118,
-              241,
-              163,
-              57,
-              25,
-              7,
-              76,
-              194,
-              191,
-              115,
-              209,
-              161,
-              211,
-              213,
-              179,
-              103,
-              63,
-              208,
-              110,
-            ])
-          )
-        );
-      inputB = {
-        pathSegments: [`file-b`],
-        content: { get: inputBGet },
-      };
-
-      inputCGet = jasmine
-        .createSpy(`inputCGet`)
-        .and.returnValue(Buffer.from(new Uint8Array([211, 176, 53, 61, 89])));
-      inputC = {
-        pathSegments: [`subdirectory-a`, `subdirectory-c`, `file-c`],
-        content: { get: inputCGet },
-      };
-
-      inputDGet = jasmine
-        .createSpy(`inputDGet`)
-        .and.returnValue(`Test File D Content`);
-      inputD = {
-        pathSegments: [`file-d`],
-        content: { get: inputDGet },
+      input = {
+        get: inputGet,
       };
 
       outputSet = jasmine.createSpy(`outputSet`);
       output = { set: outputSet };
 
-      zipStep = new ZipStep(
-        `Test Name`,
-        [inputA, inputB, inputC, inputD],
-        output
-      );
+      zipStep = new ZipStep(`Test Name`, input, output);
 
       await zipStep.execute();
     });
 
-    it(`continues to expose its inputs`, () => {
-      expect(zipStep.inputs).toEqual([inputA, inputB, inputC, inputD]);
+    it(`continues to expose its input`, () => {
+      expect(zipStep.input).toBe(input);
     });
 
-    it(`reads from its inputs once`, () => {
-      expect(inputAGet).toHaveBeenCalledTimes(1);
-      expect(inputBGet).toHaveBeenCalledTimes(1);
-      expect(inputCGet).toHaveBeenCalledTimes(1);
-      expect(inputDGet).toHaveBeenCalledTimes(1);
+    it(`reads from its input once`, () => {
+      expect(inputGet).toHaveBeenCalledTimes(1);
     });
 
     it(`continues to expose its output`, () => {

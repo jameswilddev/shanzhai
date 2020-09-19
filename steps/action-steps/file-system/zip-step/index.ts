@@ -8,15 +8,10 @@ import { Input } from "../../../inputs/input";
 import { Output } from "../../../outputs/output";
 import { ActionStep } from "../../action-step";
 
-export type ZipFileEntry<T extends string | Buffer> = {
-  readonly pathSegments: ReadonlyArray<string>;
-  readonly content: Input<T>;
-};
-
 export class ZipStep extends ActionStep {
   constructor(
     name: string,
-    public readonly inputs: ReadonlyArray<ZipFileEntry<string | Buffer>>,
+    public readonly input: Input<{ readonly [path: string]: string | Buffer }>,
     public readonly output: Output<Buffer>
   ) {
     super(name);
@@ -29,14 +24,14 @@ export class ZipStep extends ActionStep {
     try {
       await fs.promises.mkdir(temporaryDirectory, { recursive: true });
 
-      for (const file of this.inputs) {
-        const fileName = path.join(
-          ...[temporaryDirectory, ...file.pathSegments]
-        );
+      const input = this.input.get();
+
+      for (const name in input) {
+        const fileName = path.join(temporaryDirectory, name);
 
         await fs.promises.mkdir(path.dirname(fileName), { recursive: true });
 
-        await fs.promises.writeFile(fileName, file.content.get());
+        await fs.promises.writeFile(fileName, input[name]);
       }
 
       await new Promise((resolve, reject) => {
