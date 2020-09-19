@@ -1,6 +1,6 @@
 import { Input } from "../input";
 
-export class MergeInput<TKey extends string, TValue>
+export class BuildObjectInput<TKey extends string, TValue>
   implements Input<{ readonly [key in TKey]: TValue }> {
   constructor(
     public readonly sources: {

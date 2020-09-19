@@ -1,12 +1,12 @@
-import { MergeInput } from ".";
+import { BuildObjectInput } from ".";
 import { Input } from "../input";
 
-describe(`MergeInput`, () => {
+describe(`BuildObjectInput`, () => {
   type TestKey = `Test Key A` | `Test Key B` | `Test Key C`;
   type TestValue = `Test Value A` | `Test Value B` | `Test Value C`;
 
   describe(`on construction`, () => {
-    let mergeInput: MergeInput<TestKey, TestValue>;
+    let mergeInput: BuildObjectInput<TestKey, TestValue>;
     let inputAGet: jasmine.Spy;
     let inputA: Input<TestValue>;
     let inputBGet: jasmine.Spy;
@@ -22,7 +22,7 @@ describe(`MergeInput`, () => {
       inputCGet = jasmine.createSpy(`inputCGet`);
       inputC = { get: inputCGet };
 
-      mergeInput = new MergeInput({
+      mergeInput = new BuildObjectInput({
         "Test Key A": inputA,
         "Test Key B": inputB,
         "Test Key C": inputC,
@@ -45,7 +45,7 @@ describe(`MergeInput`, () => {
   });
 
   describe(`get`, () => {
-    let mergeInput: MergeInput<TestKey, TestValue>;
+    let mergeInput: BuildObjectInput<TestKey, TestValue>;
     let inputAGet: jasmine.Spy;
     let inputA: Input<TestValue>;
     let inputBGet: jasmine.Spy;
@@ -72,7 +72,7 @@ describe(`MergeInput`, () => {
         .and.returnValue("Test Value C");
       inputC = { get: inputCGet };
 
-      mergeInput = new MergeInput({
+      mergeInput = new BuildObjectInput({
         "Test Key A": inputA,
         "Test Key B": inputB,
         "Test Key C": inputC,

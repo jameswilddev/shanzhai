@@ -12,7 +12,7 @@ import { RenderPugStep } from "../steps/action-steps/pug/render-pug-step";
 import { DeleteFromKeyValueStoreStep } from "../steps/action-steps/store-steps/delete-from-key-value-store-step";
 import { SerialStep } from "../steps/aggregation-steps/serial-step";
 import { KeyValueStoreInput } from "../steps/inputs/key-value-store-input";
-import { MergeInput } from "../steps/inputs/merge-input";
+import { BuildObjectInput } from "../steps/inputs/build-object-input";
 import { KeyValueStoreOutput } from "../steps/outputs/key-value-store-output";
 import { ValueStoreOutput } from "../steps/outputs/value-store-output";
 import { Step } from "../steps/step";
@@ -83,7 +83,7 @@ export const plan = (
         new RenderPugStep(
           input.fullPath,
           new KeyValueStoreInput(parsedPugStore, input.fullPath),
-          new MergeInput({}),
+          new BuildObjectInput({}),
           new KeyValueStoreOutput(renderedPugStore, input.fullPath)
         ),
         new MinifyHtmlStep(
@@ -96,7 +96,7 @@ export const plan = (
 
     const zipStep = new ZipStep(
       `Zip`,
-      new MergeInput(
+      new BuildObjectInput(
         Object.fromEntries(
           [
             ...filteredDiff.diffs.pug.added,

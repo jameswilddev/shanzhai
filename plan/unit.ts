@@ -9,7 +9,7 @@ import { DeleteFromKeyValueStoreStep } from "../steps/action-steps/store-steps/d
 import { ParallelStep } from "../steps/aggregation-steps/parallel-step";
 import { SerialStep } from "../steps/aggregation-steps/serial-step";
 import { KeyValueStoreInput } from "../steps/inputs/key-value-store-input";
-import { MergeInput } from "../steps/inputs/merge-input";
+import { BuildObjectInput } from "../steps/inputs/build-object-input";
 import { KeyValueStoreOutput } from "../steps/outputs/key-value-store-output";
 import { ValueStoreOutput } from "../steps/outputs/value-store-output";
 import { Step } from "../steps/step";
@@ -127,7 +127,7 @@ describe(`plan`, () => {
                   parsedPugStore,
                   `path/to/template-a.pug`
                 ),
-                new MergeInput({}),
+                new BuildObjectInput({}),
                 new KeyValueStoreOutput(
                   renderedPugStore,
                   `path/to/template-a.pug`
@@ -149,7 +149,7 @@ describe(`plan`, () => {
               new RenderPugStep(
                 `template-b/path.pug`,
                 new KeyValueStoreInput(parsedPugStore, `template-b/path.pug`),
-                new MergeInput({}),
+                new BuildObjectInput({}),
                 new KeyValueStoreOutput(renderedPugStore, `template-b/path.pug`)
               ),
               new MinifyHtmlStep(
@@ -164,7 +164,7 @@ describe(`plan`, () => {
           ]),
           new ZipStep(
             `Zip`,
-            new MergeInput({
+            new BuildObjectInput({
               "path/to/template-a.html": new KeyValueStoreInput(
                 minifiedHtmlStore,
                 `path/to/template-a.pug`
@@ -253,7 +253,7 @@ describe(`plan`, () => {
                   parsedPugStore,
                   `template/which-was-added.pug`
                 ),
-                new MergeInput({}),
+                new BuildObjectInput({}),
                 new KeyValueStoreOutput(
                   renderedPugStore,
                   `template/which-was-added.pug`
@@ -274,7 +274,7 @@ describe(`plan`, () => {
           ]),
           new ZipStep(
             `Zip`,
-            new MergeInput({
+            new BuildObjectInput({
               "template/which-was-added.html": new KeyValueStoreInput(
                 minifiedHtmlStore,
                 `template/which-was-added.pug`
@@ -384,7 +384,7 @@ describe(`plan`, () => {
                   parsedPugStore,
                   `template/which-was-changed.pug`
                 ),
-                new MergeInput({}),
+                new BuildObjectInput({}),
                 new KeyValueStoreOutput(
                   renderedPugStore,
                   `template/which-was-changed.pug`
@@ -405,7 +405,7 @@ describe(`plan`, () => {
           ]),
           new ZipStep(
             `Zip`,
-            new MergeInput({
+            new BuildObjectInput({
               "template/which-was-changed.html": new KeyValueStoreInput(
                 minifiedHtmlStore,
                 `template/which-was-changed.pug`
@@ -494,7 +494,7 @@ describe(`plan`, () => {
           ]),
           new ZipStep(
             `Zip`,
-            new MergeInput({
+            new BuildObjectInput({
               "path/to/template-a.html": new KeyValueStoreInput(
                 minifiedHtmlStore,
                 `path/to/template-a.pug`
