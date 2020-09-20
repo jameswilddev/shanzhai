@@ -35,7 +35,7 @@
     "@shanzhai/interfaces": "0.0.0",
     "@shanzhai/serial-step": "0.0.0",
     "@shanzhai/parallel-step": "0.0.0",
-    "@shanzhai/value-store": "0.0.0",
+    "@shanzhai/value-store": "0.0.1",
     "@shanzhai/key-value-store": "0.0.1"
   },
   "scripts": {
