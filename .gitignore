@@ -3,3 +3,7 @@ node_modules
 *.js
 *.d.ts
 .~*#
+/@shanzhai/*/license
+/@shanzhai/*/node_modules
+/shanzhai/license
+/shanzhai/node_modules

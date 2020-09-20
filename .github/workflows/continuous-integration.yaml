@@ -1,4 +1,6 @@
 name: Continuous Integration
+env:
+  SHANZHAI_CI: true
 on:
   push:
   pull_request:
@@ -6,7 +8,25 @@ on:
     types:
       [published]
 jobs:
-  test:
+  commit-changes:
+    if: github.ref == 'refs/heads/master' && github.repository == 'jameswilddev/shanzhai'
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+        registry-url: 'https://registry.npmjs.org'
+    - run: npm ci
+    - run: npm run-script buildLintFix
+    - run: npm run-script buildToolsTypeScript
+    - run: npm run-script buildToolsRun
+    - run: git config user.email jameswilddev@outlook.com
+    - run: git config user.name jameswilddev
+    - run: git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+    - run: git add .
+    - run: git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generated changes from build tools."; git push)
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -18,12 +38,14 @@ jobs:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
     - run: npm ci
-    - run: npm run-script lint
+    - run: npm run-script buildLint
+    - run: npm run-script buildToolsTypeScript
+    - run: npm run-script buildToolsRun
     - run: npm run-script buildTypeScript
     - run: npm run-script buildNyc
   release:
-    if: github.event_name == 'release'
-    needs: test
+    if: github.ref == 'refs/heads/master' && github.repository == 'jameswilddev/shanzhai'
+    needs: build
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -31,9 +53,9 @@ jobs:
       with:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
-    - run: sed -i s/"999.999.999"/"${GITHUB_REF##*/}"/ package.json package-lock.json
     - run: npm ci
+    - run: npm run-script buildToolsTypeScript
+    - run: npm run-script buildToolsRun
     - run: npm run-script buildTypeScript
-    - run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+    - run: echo ${{ secrets.npmrc }} > ${NPM_CONFIG_USERCONFIG}
+    - run: npm run-script buildToolsPublish

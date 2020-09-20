@@ -21,5 +21,9 @@
     "**/*.d.ts": true,
     ".nyc_output": true,
     "**/.~*.*#": true,
+    "@shanzhai/*/license": true,
+    "@shanzhai/*/node_modules": true,
+    "shanzhai/license": true,
+    "shanzhai/node_modules": true,
   }
 }

@@ -6,6 +6,7 @@ describe(`typescriptLibraryLocations`, () => {
     expect(typeScriptLibraryLocations).toEqual([
       path.join(
         process.cwd(),
+        `shanzhai`,
         `node_modules`,
         `typescript`,
         `lib`,
@@ -13,6 +14,7 @@ describe(`typescriptLibraryLocations`, () => {
       ),
       path.join(
         process.cwd(),
+        `shanzhai`,
         `node_modules`,
         `typescript`,
         `lib`,
@@ -20,6 +22,7 @@ describe(`typescriptLibraryLocations`, () => {
       ),
       path.join(
         process.cwd(),
+        `shanzhai`,
         `node_modules`,
         `typescript`,
         `lib`,

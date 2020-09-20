@@ -1,6 +1,7 @@
 {
-  "name": "shanzhai",
-  "version": "999.999.999",
+  "name": "@shanzhai/build",
+  "description": "This is the build tool for Shanzhai.",
+  "version": "0.0.0",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -35,31 +36,25 @@
     "nyc": "15.1.0",
     "pixelmatch": "5.2.1",
     "prettier": "2.1.2",
-    "sharp": "0.26.0"
+    "sharp": "0.26.0",
+    "typescript": "4.0.3"
   },
   "scripts": {
     "buildClean": "del-cli \"**/*.js\" \"**/*.d.ts\" \"!**/node_modules/**/*\"",
-    "buildTypeScript": "tsc",
-    "buildJasmineUnit": "jasmine --config=unit.jasmine.json",
-    "buildNyc": "nyc --check-coverage --all --exclude \"**/*.ts\" --exclude \"**/*.d.ts\" --exclude \"**/unit.*\" --lines 100 --functions 100 --branches 100 --statements 100 npm run-script buildJasmineUnit",
-    "test": "npm-run-all buildClean buildTypeScript buildNyc",
-    "lint": "eslint \"**/*.ts\""
+    "buildLint": "eslint \"**/*.ts\"",
+    "buildLintFix": "eslint --fix \"**/*.ts\"",
+    "buildToolsTypeScript": "tsc --project tools.tsconfig.json",
+    "buildToolsRun": "node build",
+    "buildTypeScript": "tsc --project packages.tsconfig.json",
+    "buildNyc": "nyc --check-coverage --all --exclude \"**/*.ts\" --exclude \"**/*.d.ts\" --exclude \"**/unit.*\" --exclude \"build/**/*\" --exclude \"publish/**/*\" --lines 100 --functions 100 --branches 100 --statements 100 npm run-script buildJasmine",
+    "buildJasmine": "jasmine --config=jasmine.json",
+    "buildToolsPublish": "node publish",
+    "test": "npm-run-all buildClean buildLintFix buildToolsTypeScript buildToolsRun buildTypeScript buildNyc"
   },
   "files": [
     "**/*.js",
     "**/*.d.ts",
     "!**/unit.js",
     "!**/unit.d.ts"
-  ],
-  "dependencies": {
-    "7zip-bin": "5.0.3",
-    "chokidar": "3.4.2",
-    "html-minifier": "4.0.0",
-    "jsonschema": "1.2.6",
-    "pug": "3.0.0",
-    "svgo": "1.3.2",
-    "typescript": "4.0.3",
-    "uglify-js": "3.10.4",
-    "uuid": "8.3.0"
-  }
+  ]
 }
