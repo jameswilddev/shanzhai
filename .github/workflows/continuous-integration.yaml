@@ -1,12 +1,7 @@
 name: Continuous Integration
 env:
   SHANZHAI_CI: true
-on:
-  push:
-  pull_request:
-  release:
-    types:
-      [published]
+on: [push, pull_request]
 jobs:
   commit-changes:
     if: github.ref == 'refs/heads/master' && github.repository == 'jameswilddev/shanzhai'
