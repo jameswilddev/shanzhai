@@ -2,10 +2,14 @@
 
 ## NPM packages
 
-Name                                         | Version                                                                                                               | Description                                                                    
--------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------
-[@shanzhai/interfaces](@shanzhai/interfaces) | [![0.0.0](https://img.shields.io/npm/v/@shanzhai/interfaces.svg)](https://www.npmjs.com/package/@shanzhai/interfaces) | TypeScript types used as interfaces between the various components of Shanzhai.
-[shanzhai](shanzhai)                         | [![0.0.8](https://img.shields.io/npm/v/shanzhai.svg)](https://www.npmjs.com/package/shanzhai)                         | This is a stub package.  You probably want a @shanzhai/* package instead.      
+Name                                                   | Version                                                                                                                         | Description                                                                                                  
+------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------
+[@shanzhai/interfaces](@shanzhai/interfaces)           | [![0.0.0](https://img.shields.io/npm/v/@shanzhai/interfaces.svg)](https://www.npmjs.com/package/@shanzhai/interfaces)           | TypeScript types used as interfaces between the various components of Shanzhai.                              
+[@shanzhai/key-value-store](@shanzhai/key-value-store) | [![0.0.0](https://img.shields.io/npm/v/@shanzhai/key-value-store.svg)](https://www.npmjs.com/package/@shanzhai/key-value-store) | A store which holds a keyed set of values, with inputs and outputs for interacting with Shanzhai build steps.
+[@shanzhai/parallel-step](@shanzhai/parallel-step)     | [![0.0.0](https://img.shields.io/npm/v/@shanzhai/parallel-step.svg)](https://www.npmjs.com/package/@shanzhai/parallel-step)     | A Shanzai build step which runs any number of child build steps in parallel.                                 
+[@shanzhai/serial-step](@shanzhai/serial-step)         | [![0.0.0](https://img.shields.io/npm/v/@shanzhai/serial-step.svg)](https://www.npmjs.com/package/@shanzhai/serial-step)         | A Shanzai build step which runs any number of child build steps in serial.                                   
+[@shanzhai/value-store](@shanzhai/value-store)         | [![0.0.0](https://img.shields.io/npm/v/@shanzhai/value-store.svg)](https://www.npmjs.com/package/@shanzhai/value-store)         | A store which holds a single value, with inputs and outputs for interacting with Shanzhai build steps.       
+[shanzhai](shanzhai)                                   | [![0.0.8](https://img.shields.io/npm/v/shanzhai.svg)](https://www.npmjs.com/package/shanzhai)                                   | This is a stub package.  You probably want a @shanzhai/* package instead.                                    
 
 ## License
 
