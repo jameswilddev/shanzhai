@@ -200,7 +200,7 @@ describe(`loadDependency`, () => {
       });
     });
 
-    describe(`when package.json does not describe a shanzhai plugin`, () => {
+    describe(`when package.json does not describe a Shanzhai plugin`, () => {
       let originalWorkingDirectory: string;
       let root: string;
       let result: null | Plugin;
@@ -237,7 +237,7 @@ describe(`loadDependency`, () => {
       });
     });
 
-    describe(`when package.json describes a shanzhai plugin`, () => {
+    describe(`when package.json describes a Shanzhai plugin`, () => {
       let originalWorkingDirectory: string;
       let root: string;
       let result: null | Plugin;
@@ -539,7 +539,7 @@ describe(`loadDependency`, () => {
       });
     });
 
-    describe(`when package.json does not describe a shanzhai plugin`, () => {
+    describe(`when package.json does not describe a Shanzhai plugin`, () => {
       let originalWorkingDirectory: string;
       let root: string;
       let result: null | Plugin;
@@ -589,7 +589,7 @@ describe(`loadDependency`, () => {
       });
     });
 
-    describe(`when package.json describes a shanzhai plugin`, () => {
+    describe(`when package.json describes a Shanzhai plugin`, () => {
       let originalWorkingDirectory: string;
       let root: string;
       let result: null | Plugin;
