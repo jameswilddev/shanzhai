@@ -6,7 +6,6 @@ import { parsePath } from "../change-tracking/parse-path";
 import { ReadTextFileStep } from "../steps/action-steps/file-system/read-text-file-step";
 import { ZipStep } from "../steps/action-steps/file-system/zip-step";
 import MinifyHtmlStep from "../steps/action-steps/minification/minify-html-step";
-import { NullStep } from "../steps/action-steps/null-step";
 import { ParsePugStep } from "../steps/action-steps/pug/parse-pug-step";
 import { RenderPugStep } from "../steps/action-steps/pug/render-pug-step";
 import { DeleteFromKeyValueStoreStep } from "../steps/action-steps/store-steps/delete-from-key-value-store-step";
@@ -43,76 +42,77 @@ export const plan = (
 
   filteredDiff.errors.forEach((path) => onFilteringError(path.fullPath));
 
-  if (
-    Object.values(filteredDiff.diffs).some(
-      (diff) => [...diff.added, ...diff.changed, ...diff.deleted].length > 0
-    )
-  ) {
-    const parsePugSteps = generateSteps(
-      `Parse Pug`,
-      false,
-      filteredDiff.diffs.pug,
-      (input) => input.fullPath,
-      (input) => [
-        new DeleteFromKeyValueStoreStep(parsedPugStore, input.fullPath),
-        new DeleteFromKeyValueStoreStep(readTextFileStore, input.fullPath),
-      ],
-      (input) => [
-        new ReadTextFileStep(
-          [input.fullPath],
-          new KeyValueStoreOutput(readTextFileStore, input.fullPath)
-        ),
-        new ParsePugStep(
-          `Parse Pug file ${JSON.stringify(input.fullPath)}`,
-          new KeyValueStoreInput(readTextFileStore, input.fullPath),
-          new KeyValueStoreOutput(parsedPugStore, input.fullPath)
-        ),
-      ]
-    );
-
-    const renderPugSteps = generateSteps(
-      `Render Pug`,
-      false,
-      filteredDiff.diffs.pug,
-      (input) => input.fullPath,
-      (input) => [
-        new DeleteFromKeyValueStoreStep(minifiedHtmlStore, input.fullPath),
-        new DeleteFromKeyValueStoreStep(renderedPugStore, input.fullPath),
-      ],
-      (input) => [
-        new RenderPugStep(
-          input.fullPath,
-          new KeyValueStoreInput(parsedPugStore, input.fullPath),
-          new BuildObjectInput({}),
-          new KeyValueStoreOutput(renderedPugStore, input.fullPath)
-        ),
-        new MinifyHtmlStep(
-          input.fullPath,
-          new KeyValueStoreInput(renderedPugStore, input.fullPath),
-          new KeyValueStoreOutput(minifiedHtmlStore, input.fullPath)
-        ),
-      ]
-    );
-
-    const zipStep = new ZipStep(
-      `Zip`,
-      new BuildObjectInput(
-        Object.fromEntries(
-          [
-            ...filteredDiff.diffs.pug.added,
-            ...filteredDiff.diffs.pug.changed,
-            ...filteredDiff.diffs.pug.unchanged,
-          ].map((path) => [
-            `${path.fullPathWithoutExtension}.html`,
-            new KeyValueStoreInput(minifiedHtmlStore, path.fullPath),
-          ])
-        )
+  const parsePugSteps = generateSteps(
+    `Parse Pug`,
+    false,
+    filteredDiff.diffs.pug,
+    (input) => input.fullPath,
+    (input) => [
+      new DeleteFromKeyValueStoreStep(parsedPugStore, input.fullPath),
+      new DeleteFromKeyValueStoreStep(readTextFileStore, input.fullPath),
+    ],
+    (input) => [
+      new ReadTextFileStep(
+        [input.fullPath],
+        new KeyValueStoreOutput(readTextFileStore, input.fullPath)
       ),
-      new ValueStoreOutput(zipStore)
-    );
+      new ParsePugStep(
+        `Parse Pug file ${JSON.stringify(input.fullPath)}`,
+        new KeyValueStoreInput(readTextFileStore, input.fullPath),
+        new KeyValueStoreOutput(parsedPugStore, input.fullPath)
+      ),
+    ]
+  );
 
-    return new SerialStep(`Root`, [parsePugSteps, renderPugSteps, zipStep]);
-  } else {
-    return new NullStep(`Root`);
-  }
+  const renderPugSteps = generateSteps(
+    `Render Pug`,
+    false,
+    filteredDiff.diffs.pug,
+    (input) => input.fullPath,
+    (input) => [
+      new DeleteFromKeyValueStoreStep(minifiedHtmlStore, input.fullPath),
+      new DeleteFromKeyValueStoreStep(renderedPugStore, input.fullPath),
+    ],
+    (input) => [
+      new RenderPugStep(
+        input.fullPath,
+        new KeyValueStoreInput(parsedPugStore, input.fullPath),
+        new BuildObjectInput({}),
+        new KeyValueStoreOutput(renderedPugStore, input.fullPath)
+      ),
+      new MinifyHtmlStep(
+        input.fullPath,
+        new KeyValueStoreInput(renderedPugStore, input.fullPath),
+        new KeyValueStoreOutput(minifiedHtmlStore, input.fullPath)
+      ),
+    ]
+  );
+
+  const zipSteps =
+    renderPugSteps.length > 0
+      ? [
+          new ZipStep(
+            `Zip`,
+            new BuildObjectInput(
+              Object.fromEntries(
+                [
+                  ...filteredDiff.diffs.pug.added,
+                  ...filteredDiff.diffs.pug.changed,
+                  ...filteredDiff.diffs.pug.unchanged,
+                ].map((path) => [
+                  `${path.fullPathWithoutExtension}.html`,
+                  new KeyValueStoreInput(minifiedHtmlStore, path.fullPath),
+                ])
+              )
+            ),
+            new ValueStoreOutput(zipStore)
+          ),
+        ]
+      : [];
+
+  return new SerialStep(`Root`, [
+    ...parsePugSteps,
+    ...renderPugSteps,
+    ...zipSteps,
+  ]);
 };

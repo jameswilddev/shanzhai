@@ -10,7 +10,7 @@ export const generateSteps = <TInput>(
   extractName: (input: TInput) => string,
   down: (input: TInput) => ReadonlyArray<Step>,
   up: (input: TInput) => ReadonlyArray<Step>
-): ParallelStep => {
+): ReadonlyArray<ParallelStep> => {
   const additionSteps = diff.added.map(
     (input) => new SerialStep(extractName(input), up(input))
   );
@@ -30,5 +30,9 @@ export const generateSteps = <TInput>(
 
   const steps = [...additionSteps, ...regenerationSteps, ...deletionSteps];
 
-  return new ParallelStep(name, steps);
+  if (steps.length > 0) {
+    return [new ParallelStep(name, steps)];
+  } else {
+    return [];
+  }
 };
