@@ -12,7 +12,7 @@ export async function writePackageJson(
     readonly scripts?: { readonly [name: string]: string };
   }
 ): Promise<void> {
-  console.log(`Writing package.json...`);
+  console.log(`${name.join(`/`)} - Writing package.json...`);
   const newPackageJsonPath = path.join(...[...name, `package.json`]);
 
   let hasTypes = true;

@@ -8,19 +8,20 @@ import { installDependencies } from "./install-dependencies";
 export async function processPackage(
   name: ReadonlyArray<string>
 ): Promise<void> {
-  console.log(`Processing package "${name.join(`/`)}"...`);
   const originalPackageJson = await readPackageJson(name);
   allPackages.push({
     name: name.join(`/`),
     version: originalPackageJson.version,
     description: originalPackageJson.description,
   });
-  await writeReadme(
-    name,
-    originalPackageJson.description,
-    originalPackageJson.dependencies
-  );
-  await copyLicense(name);
-  await writePackageJson(name, originalPackageJson);
-  await installDependencies(name);
+  await Promise.all([
+    writeReadme(
+      name,
+      originalPackageJson.description,
+      originalPackageJson.dependencies
+    ),
+    copyLicense(name),
+    writePackageJson(name, originalPackageJson),
+    installDependencies(name),
+  ]);
 }

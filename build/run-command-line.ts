@@ -1,8 +1,11 @@
 import * as childProcess from "child_process";
 
-export async function runCommandLine(command: string): Promise<string> {
+export async function runCommandLine(
+  command: string,
+  cwd: string
+): Promise<string> {
   return await new Promise((resolve, reject) => {
-    childProcess.exec(command, (error, stdout, stderr) => {
+    childProcess.exec(command, { cwd }, (error, stdout, stderr) => {
       if (error) {
         reject(
           new Error(

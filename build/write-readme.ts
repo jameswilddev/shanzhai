@@ -7,7 +7,7 @@ export async function writeReadme(
   description: string,
   dependencies?: { readonly [name: string]: string }
 ): Promise<void> {
-  console.log(`Writing readme...`);
+  console.log(`${name.join(`/`)} - Writing readme...`);
   await fs.promises.writeFile(
     path.join(...[...name, `readme.md`]),
     await generateReadme(name, description, dependencies)

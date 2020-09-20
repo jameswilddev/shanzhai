@@ -11,7 +11,7 @@ export async function readPackageJson(
   readonly bin?: { readonly [name: string]: string };
   readonly scripts?: { readonly [name: string]: string };
 }> {
-  console.log(`Reading package.json...`);
+  console.log(`${name.join(`/`)} - Reading package.json...`);
   const packageJsonPath = path.join(...[...name, `package.json`]);
   const packageJson = await fs.promises.readFile(packageJsonPath, `utf8`);
   return JSON.parse(packageJson);

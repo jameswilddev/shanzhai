@@ -9,7 +9,7 @@ export default async function (name: ReadonlyArray<string>): Promise<void> {
   let publishedVersion;
   try {
     publishedVersion = (
-      await runCommandLine(`npm view ${name.join(`/`)} version`)
+      await runCommandLine(`npm view ${name.join(`/`)} version`, process.cwd())
     ).trim();
   } catch (e) {
     if (!e.message.includes(` is not in the npm registry.`)) {
@@ -31,5 +31,5 @@ export default async function (name: ReadonlyArray<string>): Promise<void> {
   console.log(
     `Latest published version "${publishedVersion}" does not match latest built version "${packageJson.version}"; publishing...`
   );
-  await runCommandLine(`npm publish ${path.join(...name)}`);
+  await runCommandLine(`npm publish`, path.join(...name));
 }
