@@ -1,6 +1,5 @@
 import * as typescript from "typescript";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output } from "@shanzhai/interfaces";
 import { ParseTypeScriptStep } from ".";
 
 describe(`ParseTypeScriptStep`, () => {

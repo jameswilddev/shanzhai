@@ -1,4 +1,4 @@
-import { ActionStep } from "../../action-step";
+import { ActionStep } from "@shanzhai/interfaces";
 import { ValueStoreInterface } from "../../../../stores/value-store";
 
 export class DeleteFromValueStoreStep<TValue> extends ActionStep {

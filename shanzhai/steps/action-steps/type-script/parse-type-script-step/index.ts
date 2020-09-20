@@ -1,7 +1,5 @@
 import * as typescript from "typescript";
-import { ActionStep } from "../../action-step";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 import { compilerOptions } from "../compiler-options";
 
 export class ParseTypeScriptStep extends ActionStep {

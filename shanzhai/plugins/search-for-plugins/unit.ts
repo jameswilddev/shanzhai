@@ -3,7 +3,7 @@ import * as path from "path";
 import * as fs from "fs";
 import * as uuid from "uuid";
 import { searchForPlugins } from ".";
-import { Plugin } from "../plugin";
+import { Plugin } from "@shanzhai/interfaces";
 
 describe(`searchForPlugins`, () => {
   let originalWorkingDirectory: string;

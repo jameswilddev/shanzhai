@@ -1,7 +1,4 @@
-import { ActionStep } from "../../action-step";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
-import { Json } from "../../../../json";
+import { Input, Output, ActionStep, Json } from "@shanzhai/interfaces";
 
 export class StringifyJsonStep extends ActionStep {
   constructor(

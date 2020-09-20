@@ -1,5 +1,5 @@
 import { parsePath } from ".";
-import { ParsedPath } from "../parsed-path";
+import { ParsedPath } from "@shanzhai/interfaces";
 
 describe(`parsePath`, () => {
   const parses = (

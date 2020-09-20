@@ -1,9 +1,6 @@
 import { RawCsv } from "../raw-csv";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
-import { ActionStep } from "../../action-step";
+import { Input, Output, ActionStep, Json } from "@shanzhai/interfaces";
 import { KeyedJson } from "../../json/convert-json-to-type-script-step";
-import { Json } from "../../../../json";
 
 export class ConvertCsvToJsonStep extends ActionStep {
   constructor(

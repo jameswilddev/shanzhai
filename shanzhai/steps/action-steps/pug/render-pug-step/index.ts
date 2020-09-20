@@ -1,7 +1,5 @@
 import * as pug from "pug";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
-import { ActionStep } from "../../action-step";
+import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
 export class RenderPugStep extends ActionStep {
   constructor(

@@ -1,5 +1,5 @@
 import { Diff } from "../diff";
-import { Step } from "../../steps/step";
+import { Step } from "@shanzhai/interfaces";
 import { SerialStep } from "../../steps/aggregation-steps/serial-step";
 import { ParallelStep } from "../../steps/aggregation-steps/parallel-step";
 

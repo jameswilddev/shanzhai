@@ -1,6 +1,5 @@
 import * as pug from "pug";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output } from "@shanzhai/interfaces";
 import { ParsePugStep } from ".";
 
 describe(`ParsePugStep`, () => {

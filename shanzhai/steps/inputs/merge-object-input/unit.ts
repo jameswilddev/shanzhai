@@ -1,5 +1,5 @@
 import { MergeObjectInput } from ".";
-import { Input } from "../input";
+import { Input } from "@shanzhai/interfaces";
 
 describe(`MergeObjectInput`, () => {
   type TestValue =

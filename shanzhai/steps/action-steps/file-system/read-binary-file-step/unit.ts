@@ -2,7 +2,7 @@ import * as os from "os";
 import * as path from "path";
 import * as fs from "fs";
 import * as uuid from "uuid";
-import { Output } from "../../../outputs/output";
+import { Output } from "@shanzhai/interfaces";
 import { ReadBinaryFileStep } from ".";
 
 describe(`ReadBinaryFileStep`, () => {

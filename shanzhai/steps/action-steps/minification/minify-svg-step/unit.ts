@@ -1,8 +1,7 @@
 import * as sharp from "sharp";
 import pixelmatch = require("pixelmatch");
 import { MinifySvgStep } from ".";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output } from "@shanzhai/interfaces";
 
 describe(`MinifySvgStep`, () => {
   describe(`on construction`, () => {

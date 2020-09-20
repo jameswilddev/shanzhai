@@ -1,6 +1,4 @@
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
-import { ActionStep } from "../../action-step";
+import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 import { KeyedJson } from "../../json/convert-json-to-type-script-step";
 
 export type DefEntry = {

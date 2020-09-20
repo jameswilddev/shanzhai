@@ -1,7 +1,6 @@
 import * as path from "path";
 import * as fs from "fs";
-import { ActionStep } from "../../action-step";
-import { Input } from "../../../inputs/input";
+import { Input, ActionStep } from "@shanzhai/interfaces";
 
 export class WriteFileStep<T extends string | Buffer> extends ActionStep {
   constructor(

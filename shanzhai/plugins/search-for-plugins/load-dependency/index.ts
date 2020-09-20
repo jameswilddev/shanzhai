@@ -1,6 +1,6 @@
 import * as path from "path";
 import * as fs from "fs";
-import { Plugin } from "../../plugin";
+import { Plugin } from "@shanzhai/interfaces";
 
 export async function loadDependency(name: string): Promise<null | Plugin> {
   const scoped = /@([^\/]+)\/([^\/]+)$/.exec(name);

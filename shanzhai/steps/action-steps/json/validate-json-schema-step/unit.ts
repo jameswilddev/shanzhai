@@ -1,8 +1,6 @@
 import * as jsonschema from "jsonschema";
 import { ValidateJsonSchemaStep } from ".";
-import { Json } from "../../../../json";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output, Json } from "@shanzhai/interfaces";
 
 describe(`ValidateJsonSchemaStep`, () => {
   type TestValue = { readonly keyA: { readonly keyB: `Test Valid` } };

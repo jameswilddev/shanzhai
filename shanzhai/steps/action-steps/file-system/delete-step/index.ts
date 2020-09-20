@@ -1,6 +1,6 @@
 import * as path from "path";
 import * as fs from "fs";
-import { ActionStep } from "../../action-step";
+import { ActionStep } from "@shanzhai/interfaces";
 
 export class DeleteStep extends ActionStep {
   constructor(

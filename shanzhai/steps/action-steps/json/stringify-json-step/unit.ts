@@ -1,7 +1,5 @@
 import { StringifyJsonStep } from ".";
-import { Json } from "../../../../json";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output, Json } from "@shanzhai/interfaces";
 
 describe(`StringifyJsonStep`, () => {
   describe(`on construction`, () => {

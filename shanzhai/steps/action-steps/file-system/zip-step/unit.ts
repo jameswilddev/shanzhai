@@ -3,9 +3,8 @@ import * as path from "path";
 import * as fs from "fs";
 import * as uuid from "uuid";
 import * as extractZip from "extract-zip";
-import { Output } from "../../../outputs/output";
+import { Input, Output } from "@shanzhai/interfaces";
 import { ZipStep } from ".";
-import { Input } from "../../../inputs/input";
 
 describe(`ZipStep`, () => {
   describe(`on construction`, () => {

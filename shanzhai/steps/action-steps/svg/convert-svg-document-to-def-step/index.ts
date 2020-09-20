@@ -4,9 +4,7 @@ const svg2js = require("svgo/lib/svgo/svg2js");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const JS2SVG = require("svgo/lib/svgo/js2svg");
 
-import { ActionStep } from "../../action-step";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
 type AnySvgElement = SvgElementWithTextContent | SvgElementWithArrayContent;
 

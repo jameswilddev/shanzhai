@@ -1,4 +1,4 @@
-import { Plugin } from "../plugin";
+import { Plugin } from "@shanzhai/interfaces";
 import { listAllDependencies } from "./list-all-dependencies";
 import { loadDependency } from "./load-dependency";
 

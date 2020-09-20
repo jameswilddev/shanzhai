@@ -1,7 +1,6 @@
 import * as jsdom from "jsdom";
 import { MinifyHtmlStep } from ".";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output } from "@shanzhai/interfaces";
 
 describe(`MinifyHtmlStep`, () => {
   describe(`on construction`, () => {

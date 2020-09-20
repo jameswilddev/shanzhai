@@ -1,7 +1,5 @@
 import * as uglifyJs from "uglify-js";
-import { Json } from "../../../../json";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output, Json } from "@shanzhai/interfaces";
 import { MinifyStep } from "../minify-step";
 
 export class MinifyJavascriptStep<

@@ -1,8 +1,7 @@
 import * as path from "path";
 import * as fs from "fs";
 import * as typescript from "typescript";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output } from "@shanzhai/interfaces";
 import { ParseTypeScriptStep } from "../parse-type-script-step";
 import { CompileTypeScriptStep } from ".";
 import { typeScriptLibraryLocations } from "../type-script-library-locations";

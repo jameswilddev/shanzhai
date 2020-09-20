@@ -1,4 +1,4 @@
-import { Input } from "../input";
+import { Input } from "@shanzhai/interfaces";
 
 export class BuildObjectInput<TKey extends string, TValue>
   implements Input<{ readonly [key in TKey]: TValue }> {

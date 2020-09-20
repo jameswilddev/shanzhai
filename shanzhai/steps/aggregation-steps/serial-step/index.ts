@@ -1,5 +1,4 @@
-import { Step } from "../../step";
-import { ActionStep } from "../../action-steps/action-step";
+import { ActionStep, Step } from "@shanzhai/interfaces";
 
 export class SerialStep implements Step {
   constructor(

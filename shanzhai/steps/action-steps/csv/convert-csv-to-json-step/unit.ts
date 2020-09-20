@@ -1,5 +1,4 @@
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output } from "@shanzhai/interfaces";
 import { RawCsv } from "../raw-csv";
 import { ConvertCsvToJsonStep } from ".";
 import { KeyedJson } from "../../json/convert-json-to-type-script-step";

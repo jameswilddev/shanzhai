@@ -1,5 +1,5 @@
 import { ValueStoreInterface } from "../../../stores/value-store";
-import { Output } from "../output";
+import { Output } from "@shanzhai/interfaces";
 
 export class ValueStoreOutput<T> implements Output<T> {
   constructor(public readonly valueStore: ValueStoreInterface<T>) {}

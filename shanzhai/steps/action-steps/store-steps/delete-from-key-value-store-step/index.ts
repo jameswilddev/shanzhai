@@ -1,4 +1,4 @@
-import { ActionStep } from "../../action-step";
+import { ActionStep } from "@shanzhai/interfaces";
 import { KeyValueStoreInterface } from "../../../../stores/key-value-store";
 
 export class DeleteFromKeyValueStoreStep<

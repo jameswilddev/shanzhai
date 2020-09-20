@@ -1,6 +1,4 @@
-import { ActionStep } from "../../action-step";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
 export abstract class MinifyStep<T> extends ActionStep {
   constructor(

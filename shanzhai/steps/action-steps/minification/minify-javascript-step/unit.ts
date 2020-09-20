@@ -1,6 +1,5 @@
 import { MinifyJavascriptStep } from ".";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output } from "@shanzhai/interfaces";
 
 describe(`MinifyJavascriptStep`, () => {
   type TestConstants = {

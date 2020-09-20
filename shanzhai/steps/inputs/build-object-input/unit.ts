@@ -1,5 +1,5 @@
 import { BuildObjectInput } from ".";
-import { Input } from "../input";
+import { Input } from "@shanzhai/interfaces";
 
 describe(`BuildObjectInput`, () => {
   type TestKey = `Test Key A` | `Test Key B` | `Test Key C`;

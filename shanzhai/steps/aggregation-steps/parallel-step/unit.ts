@@ -1,4 +1,4 @@
-import { Step } from "../../step";
+import { Step } from "@shanzhai/interfaces";
 import { ParallelStep } from ".";
 
 describe(`ParallelStep`, () => {

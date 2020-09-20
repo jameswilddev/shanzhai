@@ -1,5 +1,4 @@
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
+import { Input, Output } from "@shanzhai/interfaces";
 import { ConvertSvgDocumentToDefStep } from ".";
 
 describe(`ConvertSvgDocumentToDefStep`, () => {

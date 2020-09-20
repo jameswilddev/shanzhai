@@ -14,7 +14,7 @@ import { KeyValueStoreInput } from "../steps/inputs/key-value-store-input";
 import { BuildObjectInput } from "../steps/inputs/build-object-input";
 import { KeyValueStoreOutput } from "../steps/outputs/key-value-store-output";
 import { ValueStoreOutput } from "../steps/outputs/value-store-output";
-import { Step } from "../steps/step";
+import { Step } from "@shanzhai/interfaces";
 import { minifiedHtmlStore } from "../stores/minified-html-store";
 import { parsedPugStore, renderedPugStore } from "../stores/pug";
 import { readTextFileStore } from "../stores/read-text-file-store";

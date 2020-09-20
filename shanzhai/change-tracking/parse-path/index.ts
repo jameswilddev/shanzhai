@@ -1,4 +1,4 @@
-import { ParsedPath } from "../parsed-path";
+import { ParsedPath } from "@shanzhai/interfaces";
 
 const upperCaseFirstCharacter = (input: string): string =>
   `${input.slice(0, 1).toUpperCase()}${input.slice(1)}`;

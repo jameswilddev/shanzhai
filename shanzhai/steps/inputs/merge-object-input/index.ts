@@ -1,4 +1,4 @@
-import { Input } from "../input";
+import { Input } from "@shanzhai/interfaces";
 
 export class MergeObjectInput<TValue>
   implements Input<{ readonly [key: string]: TValue }> {

@@ -4,9 +4,7 @@ import * as fs from "fs";
 import * as childProcess from "child_process";
 import * as uuid from "uuid";
 import * as _7zipBin from "7zip-bin";
-import { Input } from "../../../inputs/input";
-import { Output } from "../../../outputs/output";
-import { ActionStep } from "../../action-step";
+import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
 export class ZipStep extends ActionStep {
   constructor(
