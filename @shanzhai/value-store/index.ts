@@ -1,3 +1,4 @@
+export { DeleteFromValueStoreStep } from "./delete-from-value-store-step";
 export { ValueStore } from "./value-store";
 export { ValueStoreInput } from "./value-store-input";
 export { ValueStoreInterface } from "./value-store-interface";
