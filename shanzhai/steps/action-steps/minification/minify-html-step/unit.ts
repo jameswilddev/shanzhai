@@ -1,5 +1,5 @@
 import * as jsdom from "jsdom";
-import MinifyHtmlStep from ".";
+import { MinifyHtmlStep } from ".";
 import { Input } from "../../../inputs/input";
 import { Output } from "../../../outputs/output";
 

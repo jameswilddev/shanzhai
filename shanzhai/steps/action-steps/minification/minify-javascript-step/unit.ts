@@ -1,4 +1,4 @@
-import MinifyJavascriptStep from ".";
+import { MinifyJavascriptStep } from ".";
 import { Input } from "../../../inputs/input";
 import { Output } from "../../../outputs/output";
 

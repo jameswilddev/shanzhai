@@ -5,7 +5,7 @@ import { mapDiff } from "../change-tracking/map-diff";
 import { parsePath } from "../change-tracking/parse-path";
 import { ReadTextFileStep } from "../steps/action-steps/file-system/read-text-file-step";
 import { ZipStep } from "../steps/action-steps/file-system/zip-step";
-import MinifyHtmlStep from "../steps/action-steps/minification/minify-html-step";
+import { MinifyHtmlStep } from "../steps/action-steps/minification/minify-html-step";
 import { ParsePugStep } from "../steps/action-steps/pug/parse-pug-step";
 import { RenderPugStep } from "../steps/action-steps/pug/render-pug-step";
 import { DeleteFromKeyValueStoreStep } from "../steps/action-steps/store-steps/delete-from-key-value-store-step";

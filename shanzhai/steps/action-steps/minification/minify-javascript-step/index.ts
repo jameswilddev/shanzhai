@@ -4,7 +4,7 @@ import { Input } from "../../../inputs/input";
 import { Output } from "../../../outputs/output";
 import { MinifyStep } from "../minify-step";
 
-export default class MinifyJavascriptStep<
+export class MinifyJavascriptStep<
   TConstants extends { readonly [key: string]: Json }
 > extends MinifyStep<string> {
   constructor(

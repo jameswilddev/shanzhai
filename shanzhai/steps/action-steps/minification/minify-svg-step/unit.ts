@@ -1,6 +1,6 @@
 import * as sharp from "sharp";
 import pixelmatch = require("pixelmatch");
-import MinifySvgStep from ".";
+import { MinifySvgStep } from ".";
 import { Input } from "../../../inputs/input";
 import { Output } from "../../../outputs/output";
 

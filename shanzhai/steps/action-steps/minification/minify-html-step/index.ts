@@ -1,7 +1,7 @@
 import * as htmlMinifier from "html-minifier";
 import { MinifyStep } from "../minify-step";
 
-export default class MinifyHtmlStep extends MinifyStep<string> {
+export class MinifyHtmlStep extends MinifyStep<string> {
   readonly maximumIterations = 10;
 
   async iterate(value: string): Promise<string> {

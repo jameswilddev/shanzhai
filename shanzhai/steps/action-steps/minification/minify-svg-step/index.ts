@@ -150,7 +150,7 @@ const svgo = new Svgo({
   ],
 });
 
-export default class MinifySvgStep extends MinifyStep<string> {
+export class MinifySvgStep extends MinifyStep<string> {
   readonly maximumIterations = 10;
 
   async iterate(value: string): Promise<string> {
