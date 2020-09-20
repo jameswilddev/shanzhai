@@ -1,6 +1,6 @@
 import * as typescript from "typescript";
-import { KeyValueStore } from "../key-value-store";
-import { ValueStore } from "../value-store";
+import { KeyValueStore } from "@shanzhai/key-value-store";
+import { ValueStore } from "@shanzhai/value-store";
 
 export const parsedTypeScriptStore = new KeyValueStore<
   string,

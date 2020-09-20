@@ -1,4 +1,4 @@
-import { KeyValueStore } from "../key-value-store";
+import { KeyValueStore } from "@shanzhai/key-value-store";
 
 export const readTextFileStore = new KeyValueStore<string, string>(
   `readTextFileStore`

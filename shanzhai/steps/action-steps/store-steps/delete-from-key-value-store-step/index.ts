@@ -1,5 +1,5 @@
 import { ActionStep } from "@shanzhai/interfaces";
-import { KeyValueStoreInterface } from "../../../../stores/key-value-store";
+import { KeyValueStoreInterface } from "@shanzhai/key-value-store";
 
 export class DeleteFromKeyValueStoreStep<
   TKey extends string,

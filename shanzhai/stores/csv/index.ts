@@ -1,5 +1,5 @@
 import * as typescript from "typescript";
-import { KeyValueStore } from "../key-value-store";
+import { KeyValueStore } from "@shanzhai/key-value-store";
 import { RawCsv } from "../../steps/action-steps/csv/raw-csv";
 import { KeyedJson } from "../../steps/action-steps/json/convert-json-to-type-script-step";
 

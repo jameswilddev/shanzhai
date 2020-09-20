@@ -1,4 +1,4 @@
-import { KeyValueStoreInterface } from "../../../../stores/key-value-store";
+import { KeyValueStoreInterface } from "@shanzhai/key-value-store";
 import { DeleteFromKeyValueStoreStep } from ".";
 
 describe(`DeleteFromKeyValueStoreStep`, () => {

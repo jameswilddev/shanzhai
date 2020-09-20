@@ -9,11 +9,13 @@ import { MinifyHtmlStep } from "../steps/action-steps/minification/minify-html-s
 import { ParsePugStep } from "../steps/action-steps/pug/parse-pug-step";
 import { RenderPugStep } from "../steps/action-steps/pug/render-pug-step";
 import { DeleteFromKeyValueStoreStep } from "../steps/action-steps/store-steps/delete-from-key-value-store-step";
-import { SerialStep } from "../steps/aggregation-steps/serial-step";
-import { KeyValueStoreInput } from "../steps/inputs/key-value-store-input";
+import { SerialStep } from "@shanzhai/serial-step";
 import { BuildObjectInput } from "../steps/inputs/build-object-input";
-import { KeyValueStoreOutput } from "../steps/outputs/key-value-store-output";
-import { ValueStoreOutput } from "../steps/outputs/value-store-output";
+import {
+  KeyValueStoreInput,
+  KeyValueStoreOutput,
+} from "@shanzhai/key-value-store";
+import { ValueStoreOutput } from "@shanzhai/value-store";
 import { Step } from "@shanzhai/interfaces";
 import { minifiedHtmlStore } from "../stores/minified-html-store";
 import { parsedPugStore, renderedPugStore } from "../stores/pug";
