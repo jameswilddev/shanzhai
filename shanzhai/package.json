@@ -36,7 +36,7 @@
     "@shanzhai/serial-step": "0.0.0",
     "@shanzhai/parallel-step": "0.0.0",
     "@shanzhai/value-store": "0.0.0",
-    "@shanzhai/key-value-store": "0.0.0"
+    "@shanzhai/key-value-store": "0.0.1"
   },
   "scripts": {
     "postinstall": "echo This is a stub package.  You probably want a @shanzhai/* package instead."
