@@ -5,7 +5,7 @@
 Name                                         | Version                                                                                                               | Description                                                                    
 -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------
 [@shanzhai/interfaces](@shanzhai/interfaces) | [![0.0.0](https://img.shields.io/npm/v/@shanzhai/interfaces.svg)](https://www.npmjs.com/package/@shanzhai/interfaces) | TypeScript types used as interfaces between the various components of Shanzhai.
-[shanzhai](shanzhai)                         | [![0.0.6](https://img.shields.io/npm/v/shanzhai.svg)](https://www.npmjs.com/package/shanzhai)                         | This is a stub package.  You probably want a @shanzhai/* package instead.      
+[shanzhai](shanzhai)                         | [![0.0.8](https://img.shields.io/npm/v/shanzhai.svg)](https://www.npmjs.com/package/shanzhai)                         | This is a stub package.  You probably want a @shanzhai/* package instead.      
 
 ## License
 
