@@ -1,0 +1,27 @@
+{
+  "name": "@shanzhai/build-object-input",
+  "description": "A Shanzhai input which builds an object from a number of other inputs.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.0"
+  },
+  "types": "index.d.ts"
+}
