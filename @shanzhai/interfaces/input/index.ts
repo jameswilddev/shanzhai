@@ -1,3 +1,3 @@
 export interface Input<T> {
-  get(): T;
+  get(): Promise<T>;
 }

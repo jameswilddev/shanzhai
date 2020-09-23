@@ -1,3 +1,3 @@
 export interface Output<T> {
-  set(value: T): void;
+  set(value: T): Promise<void>;
 }
