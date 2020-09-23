@@ -1,8 +1,10 @@
-import { Diff } from "../change-tracking/diff";
-import { filterDiff } from "../change-tracking/filter-diff";
+import {
+  Diff,
+  filterDiff,
+  mapDiff,
+  parsePath,
+} from "@shanzhai/change-tracking-helpers";
 import { generateSteps } from "../change-tracking/generate-steps";
-import { mapDiff } from "../change-tracking/map-diff";
-import { parsePath } from "../change-tracking/parse-path";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
 import { ZipStep } from "@shanzhai/zip-step";
 import { MinifyHtmlStep } from "@shanzhai/minify-html-step";

@@ -1,4 +1,4 @@
-import { Diff } from "../diff";
+import { Diff } from "@shanzhai/change-tracking-helpers";
 import { Step } from "@shanzhai/interfaces";
 import { SerialStep } from "@shanzhai/serial-step";
 import { ParallelStep } from "@shanzhai/parallel-step";
