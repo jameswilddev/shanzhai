@@ -1,5 +1,4 @@
-import { Diff } from "../diff";
-import { mapDiff } from ".";
+import { Diff, mapDiff } from "..";
 
 describe(`mapDiff`, () => {
   type TestInput =

@@ -1,5 +1,4 @@
-import { generateDiff } from ".";
-import { Diff } from "../diff";
+import { Diff, generateDiff } from "..";
 
 describe(`generateDiff`, () => {
   let diff: Diff<string>;

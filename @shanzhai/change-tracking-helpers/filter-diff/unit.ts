@@ -1,5 +1,4 @@
-import { Diff } from "../diff";
-import { filterDiff } from ".";
+import { Diff, filterDiff } from "..";
 
 describe(`filterDiff`, () => {
   type TestInput =

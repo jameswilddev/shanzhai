@@ -1,4 +1,4 @@
-import { pathAccepted } from ".";
+import { pathAccepted } from "..";
 
 describe(`pathAccepted`, () => {
   const scenario = (path: string, expected: boolean): void => {
