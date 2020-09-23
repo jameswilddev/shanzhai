@@ -22,6 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "7zip-bin": "5.0.3",
+    "@shanzhai/read-text-file-step": "0.0.0",
+    "@shanzhai/zip-step": "0.0.0",
     "chokidar": "3.4.2",
     "html-minifier": "4.0.0",
     "jsonschema": "1.2.6",
