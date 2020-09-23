@@ -1,6 +1,6 @@
 import * as uglifyJs from "uglify-js";
 import { Input, Output, Json } from "@shanzhai/interfaces";
-import { MinifyStep } from "../minify-step";
+import { MinifyStep } from "@shanzhai/minify-step";
 
 export class MinifyJavascriptStep<
   TConstants extends { readonly [key: string]: Json }

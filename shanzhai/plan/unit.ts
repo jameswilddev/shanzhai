@@ -2,8 +2,8 @@ import { plan } from ".";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
 import { ZipStep } from "@shanzhai/zip-step";
 import { MinifyHtmlStep } from "../steps/action-steps/minification/minify-html-step";
-import { ParsePugStep } from "../steps/action-steps/pug/parse-pug-step";
-import { RenderPugStep } from "../steps/action-steps/pug/render-pug-step";
+import { ParsePugStep } from "@shanzhai/parse-pug-step";
+import { RenderPugStep } from "@shanzhai/render-pug-step";
 import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { ParallelStep } from "@shanzhai/parallel-step";
 import { SerialStep } from "@shanzhai/serial-step";
@@ -11,7 +11,7 @@ import {
   KeyValueStoreInput,
   KeyValueStoreOutput,
 } from "@shanzhai/key-value-store";
-import { BuildObjectInput } from "../steps/inputs/build-object-input";
+import { BuildObjectInput } from "@shanzhai/build-object-input";
 import { ValueStoreOutput } from "@shanzhai/value-store";
 import { Step } from "@shanzhai/interfaces";
 import { minifiedHtmlStore } from "../stores/minified-html-store";

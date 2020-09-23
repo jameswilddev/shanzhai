@@ -6,11 +6,11 @@ import { parsePath } from "../change-tracking/parse-path";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
 import { ZipStep } from "@shanzhai/zip-step";
 import { MinifyHtmlStep } from "../steps/action-steps/minification/minify-html-step";
-import { ParsePugStep } from "../steps/action-steps/pug/parse-pug-step";
-import { RenderPugStep } from "../steps/action-steps/pug/render-pug-step";
+import { ParsePugStep } from "@shanzhai/parse-pug-step";
+import { RenderPugStep } from "@shanzhai/render-pug-step";
 import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { SerialStep } from "@shanzhai/serial-step";
-import { BuildObjectInput } from "../steps/inputs/build-object-input";
+import { BuildObjectInput } from "@shanzhai/build-object-input";
 import {
   KeyValueStoreInput,
   KeyValueStoreOutput,

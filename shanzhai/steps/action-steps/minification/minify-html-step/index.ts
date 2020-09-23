@@ -1,5 +1,5 @@
 import * as htmlMinifier from "html-minifier";
-import { MinifyStep } from "../minify-step";
+import { MinifyStep } from "@shanzhai/minify-step";
 
 export class MinifyHtmlStep extends MinifyStep<string> {
   readonly maximumIterations = 10;

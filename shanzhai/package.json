@@ -21,24 +21,24 @@
   },
   "license": "MIT",
   "dependencies": {
-    "7zip-bin": "5.0.3",
+    "@shanzhai/build-object-input": "0.0.0",
+    "@shanzhai/interfaces": "0.0.0",
+    "@shanzhai/key-value-store": "0.0.1",
+    "@shanzhai/minify-step": "0.0.0",
+    "@shanzhai/parallel-step": "0.0.0",
+    "@shanzhai/parse-pug-step": "0.0.0",
     "@shanzhai/read-text-file-step": "0.0.0",
+    "@shanzhai/render-pug-step": "0.0.0",
+    "@shanzhai/serial-step": "0.0.0",
+    "@shanzhai/value-store": "0.0.1",
     "@shanzhai/zip-step": "0.0.0",
     "chokidar": "3.4.2",
     "html-minifier": "4.0.0",
     "jsonschema": "1.2.6",
-    "pug": "3.0.0",
     "svgo": "1.3.2",
     "typescript": "4.0.3",
     "uglify-js": "3.10.4",
     "uuid": "8.3.0"
-  },
-  "devDependencies": {
-    "@shanzhai/interfaces": "0.0.0",
-    "@shanzhai/serial-step": "0.0.0",
-    "@shanzhai/parallel-step": "0.0.0",
-    "@shanzhai/value-store": "0.0.1",
-    "@shanzhai/key-value-store": "0.0.1"
   },
   "scripts": {
     "postinstall": "echo This is a stub package.  You probably want a @shanzhai/* package instead."

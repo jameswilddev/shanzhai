@@ -1,5 +1,5 @@
 import * as Svgo from "svgo";
-import { MinifyStep } from "../minify-step";
+import { MinifyStep } from "@shanzhai/minify-step";
 
 const floatPrecision = 0;
 
