@@ -25,7 +25,8 @@
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.0",
-    "uuid": "8.3.0"
+    "uuid": "8.3.0",
+    "extract-zip": "2.0.1"
   },
   "types": "index.d.ts"
 }
