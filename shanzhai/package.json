@@ -33,6 +33,7 @@
     "@shanzhai/value-store": "0.0.1",
     "@shanzhai/zip-step": "0.0.0",
     "@shanzhai/minify-html-step": "0.0.0",
+    "@shanzhai/change-tracking-helpers": "0.0.1",
     "chokidar": "3.4.2",
     "html-minifier": "4.0.0",
     "jsonschema": "1.2.6",
