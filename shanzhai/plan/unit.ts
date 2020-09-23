@@ -1,7 +1,7 @@
 import { plan } from ".";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
 import { ZipStep } from "@shanzhai/zip-step";
-import { MinifyHtmlStep } from "../steps/action-steps/minification/minify-html-step";
+import { MinifyHtmlStep } from "@shanzhai/minify-html-step";
 import { ParsePugStep } from "@shanzhai/parse-pug-step";
 import { RenderPugStep } from "@shanzhai/render-pug-step";
 import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
