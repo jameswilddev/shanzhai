@@ -1,12 +1,11 @@
-import { Input, Output } from "@shanzhai/interfaces";
+import { Input, Json, Output } from "@shanzhai/interfaces";
 import { CollectSvgDefsStep } from ".";
-import { KeyedJson } from "../../json/convert-json-to-type-script-step";
 
 describe(`CollectSvgDefsStep`, () => {
   describe(`without defs`, () => {
     describe(`on construction`, () => {
       let typeScript: Output<string>;
-      let constants: Output<KeyedJson>;
+      let constants: Output<{ readonly [key: string]: Json }>;
       let svg: Output<string>;
       let collectSvgDefsStep: CollectSvgDefsStep;
 
@@ -58,7 +57,7 @@ describe(`CollectSvgDefsStep`, () => {
 
     describe(`on execution`, () => {
       let typeScript: Output<string>;
-      let constants: Output<KeyedJson>;
+      let constants: Output<{ readonly [key: string]: Json }>;
       let svg: Output<string>;
       let collectSvgDefsStep: CollectSvgDefsStep;
 
@@ -127,7 +126,7 @@ describe(`CollectSvgDefsStep`, () => {
     describe(`on construction`, () => {
       let defAContent: Input<string>;
       let typeScript: Output<string>;
-      let constants: Output<KeyedJson>;
+      let constants: Output<{ readonly [key: string]: Json }>;
       let svg: Output<string>;
       let collectSvgDefsStep: CollectSvgDefsStep;
 
@@ -195,7 +194,7 @@ describe(`CollectSvgDefsStep`, () => {
     describe(`on execution`, () => {
       let defAContent: Input<string>;
       let typeScript: Output<string>;
-      let constants: Output<KeyedJson>;
+      let constants: Output<{ readonly [key: string]: Json }>;
       let svg: Output<string>;
       let collectSvgDefsStep: CollectSvgDefsStep;
 
@@ -290,7 +289,7 @@ describe(`CollectSvgDefsStep`, () => {
       let defAContent: Input<string>;
       let defBContent: Input<string>;
       let typeScript: Output<string>;
-      let constants: Output<KeyedJson>;
+      let constants: Output<{ readonly [key: string]: Json }>;
       let svg: Output<string>;
       let collectSvgDefsStep: CollectSvgDefsStep;
 
@@ -369,7 +368,7 @@ describe(`CollectSvgDefsStep`, () => {
       let defAContent: Input<string>;
       let defBContent: Input<string>;
       let typeScript: Output<string>;
-      let constants: Output<KeyedJson>;
+      let constants: Output<{ readonly [key: string]: Json }>;
       let svg: Output<string>;
       let collectSvgDefsStep: CollectSvgDefsStep;
 
@@ -482,7 +481,7 @@ describe(`CollectSvgDefsStep`, () => {
       let defBContent: Input<string>;
       let defCContent: Input<string>;
       let typeScript: Output<string>;
-      let constants: Output<KeyedJson>;
+      let constants: Output<{ readonly [key: string]: Json }>;
       let svg: Output<string>;
       let collectSvgDefsStep: CollectSvgDefsStep;
 
@@ -573,7 +572,7 @@ describe(`CollectSvgDefsStep`, () => {
         let defBContent: Input<string>;
         let defCContent: Input<string>;
         let typeScript: Output<string>;
-        let constants: Output<KeyedJson>;
+        let constants: Output<{ readonly [key: string]: Json }>;
         let svg: Output<string>;
         let collectSvgDefsStep: CollectSvgDefsStep;
 
@@ -703,7 +702,7 @@ describe(`CollectSvgDefsStep`, () => {
         let defBContent: Input<string>;
         let defCContent: Input<string>;
         let typeScript: Output<string>;
-        let constants: Output<KeyedJson>;
+        let constants: Output<{ readonly [key: string]: Json }>;
         let svg: Output<string>;
         let collectSvgDefsStep: CollectSvgDefsStep;
         let error: undefined | Error;
@@ -816,7 +815,7 @@ describe(`CollectSvgDefsStep`, () => {
         let defBContent: Input<string>;
         let defCContent: Input<string>;
         let typeScript: Output<string>;
-        let constants: Output<KeyedJson>;
+        let constants: Output<{ readonly [key: string]: Json }>;
         let svg: Output<string>;
         let collectSvgDefsStep: CollectSvgDefsStep;
         let error: undefined | Error;
@@ -929,7 +928,7 @@ describe(`CollectSvgDefsStep`, () => {
         let defBContent: Input<string>;
         let defCContent: Input<string>;
         let typeScript: Output<string>;
-        let constants: Output<KeyedJson>;
+        let constants: Output<{ readonly [key: string]: Json }>;
         let svg: Output<string>;
         let collectSvgDefsStep: CollectSvgDefsStep;
         let error: undefined | Error;

@@ -1,5 +1,4 @@
-import { Input, Output, ActionStep } from "@shanzhai/interfaces";
-import { KeyedJson } from "../../json/convert-json-to-type-script-step";
+import { Input, Output, ActionStep, Json } from "@shanzhai/interfaces";
 
 export type DefEntry = {
   readonly typeScriptName: string;
@@ -10,7 +9,7 @@ export class CollectSvgDefsStep extends ActionStep {
   constructor(
     public readonly defs: ReadonlyArray<DefEntry>,
     public readonly typeScript: Output<string>,
-    public readonly constants: Output<KeyedJson>,
+    public readonly constants: Output<{ readonly [key: string]: Json }>,
     public readonly svg: Output<string>
   ) {
     super(`Collect SVG defs`);
