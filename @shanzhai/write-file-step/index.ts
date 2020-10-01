@@ -14,7 +14,7 @@ export class WriteFileStep<T extends string | Buffer> extends ActionStep {
   async execute(): Promise<void> {
     await fs.promises.writeFile(
       path.join(...this.pathSegments),
-      this.input.get()
+      await this.input.get()
     );
   }
 }

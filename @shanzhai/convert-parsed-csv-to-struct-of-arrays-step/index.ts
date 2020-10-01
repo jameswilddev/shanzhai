@@ -11,7 +11,7 @@ export class ConvertParsedCsvToStructOfArraysStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    const input = this.input.get();
+    const input = await this.input.get();
 
     if (input.length < 1) {
       throw new Error(`The file contains no rows.`);
@@ -81,6 +81,6 @@ export class ConvertParsedCsvToStructOfArraysStep extends ActionStep {
       }
     }
 
-    this.output.set(output);
+    await this.output.set(output);
   }
 }

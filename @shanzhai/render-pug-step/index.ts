@@ -12,11 +12,11 @@ export class RenderPugStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    const template = this.template.get();
-    const locals = this.locals.get();
+    const template = await this.template.get();
+    const locals = await this.locals.get();
 
     const rendered = template(locals);
 
-    this.output.set(rendered);
+    await this.output.set(rendered);
   }
 }

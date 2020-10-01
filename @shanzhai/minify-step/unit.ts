@@ -63,13 +63,13 @@ describe(`MinifyStep`, () => {
     let minifyStep: TestMinifyStep;
 
     beforeAll(async () => {
-      inputGet = jasmine.createSpy(`inputGet`).and.returnValue(`Test Value A`);
+      inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(`Test Value A`);
       input = { get: inputGet };
-      outputSet = jasmine.createSpy(`outputSet`);
+      outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
       output = { set: outputSet };
 
       minifyStep = new TestMinifyStep(`Test Name`, input, output);
-      minifyStep.iterate.and.returnValue(Promise.resolve(`Test Value A`));
+      minifyStep.iterate.and.resolveTo(`Test Value A`);
 
       await minifyStep.execute();
     });
@@ -111,13 +111,13 @@ describe(`MinifyStep`, () => {
     let minifyStep: TestMinifyStep;
 
     beforeAll(async () => {
-      inputGet = jasmine.createSpy(`inputGet`).and.returnValue(`Test Value A`);
+      inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(`Test Value A`);
       input = { get: inputGet };
-      outputSet = jasmine.createSpy(`outputSet`);
+      outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
       output = { set: outputSet };
 
       minifyStep = new TestMinifyStep(`Test Name`, input, output);
-      minifyStep.iterate.and.returnValue(Promise.resolve(`Test Value B`));
+      minifyStep.iterate.and.resolveTo(`Test Value B`);
 
       await minifyStep.execute();
     });
@@ -163,9 +163,9 @@ describe(`MinifyStep`, () => {
     let minifyStep: TestMinifyStep;
 
     beforeAll(async () => {
-      inputGet = jasmine.createSpy(`inputGet`).and.returnValue(`Test Value A`);
+      inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(`Test Value A`);
       input = { get: inputGet };
-      outputSet = jasmine.createSpy(`outputSet`);
+      outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
       output = { set: outputSet };
 
       minifyStep = new TestMinifyStep(`Test Name`, input, output);
@@ -232,7 +232,7 @@ describe(`MinifyStep`, () => {
     let error: null | Error = null;
 
     beforeAll(async () => {
-      inputGet = jasmine.createSpy(`inputGet`).and.returnValue(`Test Value A`);
+      inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(`Test Value A`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`);
       output = { set: outputSet };

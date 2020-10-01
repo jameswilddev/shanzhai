@@ -53,9 +53,9 @@ describe(`StringifyJsonStep`, () => {
         let stringifyJsonStep: StringifyJsonStep;
 
         beforeAll(async () => {
-          inputGet = jasmine.createSpy(`inputGet`).and.returnValue(inputJson);
+          inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(inputJson);
           input = { get: inputGet };
-          outputSet = jasmine.createSpy(`outputSet`);
+          outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
           output = { set: outputSet };
 
           stringifyJsonStep = new StringifyJsonStep(`Test Name`, input, output);

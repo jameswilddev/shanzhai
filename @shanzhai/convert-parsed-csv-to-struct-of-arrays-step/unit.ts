@@ -64,11 +64,9 @@ describe(`ConvertParsedCsvToStructOfArraysStep`, () => {
         let convertParsedCsvToStructOfArraysStep: ConvertParsedCsvToStructOfArraysStep;
 
         beforeAll(async () => {
-          inputGet = jasmine
-            .createSpy(`inputGet`)
-            .and.returnValue(inputContent);
+          inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(inputContent);
           input = { get: inputGet };
-          outputSet = jasmine.createSpy(`outputSet`);
+          outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
           output = { set: outputSet };
 
           convertParsedCsvToStructOfArraysStep = new ConvertParsedCsvToStructOfArraysStep(
@@ -164,9 +162,7 @@ describe(`ConvertParsedCsvToStructOfArraysStep`, () => {
         let error: null | Error = null;
 
         beforeAll(async () => {
-          inputGet = jasmine
-            .createSpy(`inputGet`)
-            .and.returnValue(inputContent);
+          inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(inputContent);
           input = { get: inputGet };
           outputSet = jasmine.createSpy(`outputSet`);
           output = { set: outputSet };

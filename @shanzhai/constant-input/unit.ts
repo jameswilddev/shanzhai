@@ -19,10 +19,10 @@ describe(`ConstantInput`, () => {
     let constantInput: ConstantInput<TestValue>;
     let result: TestValue;
 
-    beforeAll(() => {
+    beforeAll(async () => {
       constantInput = new ConstantInput(`Test Value`);
 
-      result = constantInput.get();
+      result = await constantInput.get();
     });
 
     it(`continues to expose its value`, () => {

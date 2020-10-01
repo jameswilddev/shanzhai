@@ -98,7 +98,7 @@ describe(`WriteFileStep`, () => {
               { recursive: true }
             );
 
-            inputGet = jasmine.createSpy(`inputGet`).and.returnValue(value);
+            inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(value);
             input = { get: inputGet };
 
             writeFileStep = new WriteFileStep<T>(
@@ -254,7 +254,7 @@ describe(`WriteFileStep`, () => {
               `Test Existing`
             );
 
-            inputGet = jasmine.createSpy(`inputGet`).and.returnValue(value);
+            inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(value);
             input = { get: inputGet };
 
             writeFileStep = new WriteFileStep<T>(

@@ -16,8 +16,8 @@ describe(`NullOutput`, () => {
       nullOutput = new NullOutput<TestValue>();
     });
 
-    it(`does nothing`, () => {
-      nullOutput.set(`Test Value`);
+    it(`does nothing`, async () => {
+      await nullOutput.set(`Test Value`);
     });
   });
 });

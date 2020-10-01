@@ -14,13 +14,13 @@ export abstract class MinifyStep<T> extends ActionStep {
   abstract iterate(value: T): Promise<T>;
 
   async execute(): Promise<void> {
-    let value = this.input.get();
+    let value = await this.input.get();
 
     for (let i = 0; i < this.maximumIterations; i++) {
       const next = await this.iterate(value);
 
       if (next === value) {
-        this.output.set(value);
+        await this.output.set(value);
         return;
       } else {
         value = next;

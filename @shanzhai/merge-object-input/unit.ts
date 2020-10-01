@@ -57,20 +57,20 @@ describe(`MergeObjectInput`, () => {
         readonly [key: string]: TestValue;
       };
 
-      beforeAll(() => {
-        inputAGet = jasmine.createSpy(`inputAGet`).and.returnValue({
+      beforeAll(async () => {
+        inputAGet = jasmine.createSpy(`inputAGet`).and.resolveTo({
           "Test Key A A": `Test Value A A`,
           "Test Key A B": `Test Value A B`,
         });
         inputA = { get: inputAGet };
-        inputBGet = jasmine.createSpy(`inputBGet`).and.returnValue({
+        inputBGet = jasmine.createSpy(`inputBGet`).and.resolveTo({
           "Test Key B A": `Test Value B A`,
           "Test Key B B": `Test Value B B`,
           "Test Key B C": `Test Value B C`,
           "Test Key B D": `Test Value B D`,
         });
         inputB = { get: inputBGet };
-        inputCGet = jasmine.createSpy(`inputCGet`).and.returnValue({
+        inputCGet = jasmine.createSpy(`inputCGet`).and.resolveTo({
           "Test Key C A": `Test Value C A`,
           "Test Key C B": `Test Value C B`,
           "Test Key C C": `Test Value C C`,
@@ -79,7 +79,7 @@ describe(`MergeObjectInput`, () => {
 
         mergeObjectInput = new MergeObjectInput([inputA, inputB, inputC]);
 
-        result = mergeObjectInput.get();
+        result = await mergeObjectInput.get();
       });
 
       it(`continues to expose its inputs`, () => {
@@ -117,20 +117,20 @@ describe(`MergeObjectInput`, () => {
       let inputC: Input<{ readonly [key: string]: TestValue }>;
       let error: Error;
 
-      beforeAll(() => {
-        inputAGet = jasmine.createSpy(`inputAGet`).and.returnValue({
+      beforeAll(async () => {
+        inputAGet = jasmine.createSpy(`inputAGet`).and.resolveTo({
           "Test Key A A": `Test Value A A`,
           "Test Key C B": `Test Value A B`,
         });
         inputA = { get: inputAGet };
-        inputBGet = jasmine.createSpy(`inputBGet`).and.returnValue({
+        inputBGet = jasmine.createSpy(`inputBGet`).and.resolveTo({
           "Test Key B A": `Test Value B A`,
           "Test Key B B": `Test Value B B`,
           "Test Key B C": `Test Value B C`,
           "Test Key B D": `Test Value B D`,
         });
         inputB = { get: inputBGet };
-        inputCGet = jasmine.createSpy(`inputCGet`).and.returnValue({
+        inputCGet = jasmine.createSpy(`inputCGet`).and.resolveTo({
           "Test Key C A": `Test Value C A`,
           "Test Key C B": `Test Value C B`,
           "Test Key C C": `Test Value C C`,
@@ -140,7 +140,7 @@ describe(`MergeObjectInput`, () => {
         mergeObjectInput = new MergeObjectInput([inputA, inputB, inputC]);
 
         try {
-          mergeObjectInput.get();
+          await mergeObjectInput.get();
         } catch (e) {
           error = e;
         }

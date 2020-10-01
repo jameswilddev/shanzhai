@@ -8,11 +8,11 @@ export class BuildObjectInput<TKey extends string, TValue>
     }
   ) {}
 
-  get(): { readonly [key in TKey]: TValue } {
+  async get(): Promise<{ readonly [key in TKey]: TValue }> {
     const output: { [key: string]: TValue } = {};
 
     for (const key in this.sources) {
-      output[key] = this.sources[key].get();
+      output[key] = await this.sources[key].get();
     }
 
     return output as { readonly [key in TKey]: TValue };

@@ -10,7 +10,7 @@ export class StringifyJsonStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    const json = this.input.get();
+    const json = await this.input.get();
 
     const recurse = (json: Json): string => {
       if (json === null) {
@@ -29,6 +29,6 @@ export class StringifyJsonStep extends ActionStep {
       }
     };
 
-    this.output.set(recurse(json));
+    await this.output.set(recurse(json));
   }
 }

@@ -64,16 +64,16 @@ describe(`RenderPugStep`, () => {
     beforeAll(async () => {
       templateGet = jasmine
         .createSpy(`templateGet`)
-        .and.returnValue(
+        .and.resolveTo(
           pug.compile(`test-element-name #{testLocalAKey} - #{testLocalBKey}`)
         );
       template = { get: templateGet };
-      localsGet = jasmine.createSpy(`localsGet`).and.returnValue({
+      localsGet = jasmine.createSpy(`localsGet`).and.resolveTo({
         testLocalAKey: 1234,
         testLocalBKey: `Test Local B Value`,
       });
       locals = { get: localsGet };
-      outputSet = jasmine.createSpy(`outputSet`);
+      outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
       output = { set: outputSet };
 
       renderPugStep = new RenderPugStep(`Test Name`, template, locals, output);

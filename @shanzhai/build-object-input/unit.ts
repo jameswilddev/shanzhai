@@ -58,18 +58,12 @@ describe(`BuildObjectInput`, () => {
       "Test Key C": TestValue;
     };
 
-    beforeAll(() => {
-      inputAGet = jasmine
-        .createSpy(`inputAGet`)
-        .and.returnValue("Test Value A");
+    beforeAll(async () => {
+      inputAGet = jasmine.createSpy(`inputAGet`).and.resolveTo("Test Value A");
       inputA = { get: inputAGet };
-      inputBGet = jasmine
-        .createSpy(`inputBGet`)
-        .and.returnValue("Test Value B");
+      inputBGet = jasmine.createSpy(`inputBGet`).and.resolveTo("Test Value B");
       inputB = { get: inputBGet };
-      inputCGet = jasmine
-        .createSpy(`inputCGet`)
-        .and.returnValue("Test Value C");
+      inputCGet = jasmine.createSpy(`inputCGet`).and.resolveTo("Test Value C");
       inputC = { get: inputCGet };
 
       buildObjectInput = new BuildObjectInput({
@@ -78,7 +72,7 @@ describe(`BuildObjectInput`, () => {
         "Test Key C": inputC,
       });
 
-      result = buildObjectInput.get();
+      result = await buildObjectInput.get();
     });
 
     it(`continues to expose its inputs`, () => {

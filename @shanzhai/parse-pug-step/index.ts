@@ -11,6 +11,6 @@ export class ParsePugStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    this.output.set(pug.compile(this.input.get()));
+    await this.output.set(pug.compile(await this.input.get()));
   }
 }

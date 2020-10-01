@@ -59,9 +59,9 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
         beforeAll(async () => {
           inputGet = jasmine
             .createSpy(`inputGet`)
-            .and.returnValue(inputKeyedJson);
+            .and.resolveTo(inputKeyedJson);
           input = { get: inputGet };
-          outputSet = jasmine.createSpy(`outputSet`);
+          outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
           output = { set: outputSet };
 
           convertJsonToTypeScriptStep = new ConvertJsonToTypeScriptStep(

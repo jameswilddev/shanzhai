@@ -113,11 +113,11 @@ describe(`CompileTypeScriptStep`, () => {
 
         prepareInput(`callback("Example " + square(21));`, `Test Root File.ts`);
 
-        inputGet = jasmine.createSpy(`inputGet`).and.returnValue(files);
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(files);
         input = { get: inputGet };
         compilerOptionsGet = jasmine
           .createSpy(`compilerOptionsGet`)
-          .and.returnValue({
+          .and.resolveTo({
             lib: [`dom`, `es5`],
             outFile: `result.js`,
             strictNullChecks: true,
@@ -126,7 +126,7 @@ describe(`CompileTypeScriptStep`, () => {
             typeRoots: [],
           });
         compilerOptions = { get: compilerOptionsGet };
-        outputSet = jasmine.createSpy(`outputSet`);
+        outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
         output = { set: outputSet };
 
         compileTypeScriptStep = new CompileTypeScriptStep(
@@ -234,11 +234,11 @@ describe(`CompileTypeScriptStep`, () => {
           `Test Root File.ts`
         );
 
-        inputGet = jasmine.createSpy(`inputGet`).and.returnValue(files);
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(files);
         input = { get: inputGet };
         compilerOptionsGet = jasmine
           .createSpy(`compilerOptionsGet`)
-          .and.returnValue({
+          .and.resolveTo({
             lib: [`dom`, `es5`],
             outFile: `result.js`,
             strictNullChecks: true,

@@ -49,7 +49,7 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
 
       beforeAll(async () => {
         svgDocument = {
-          get: jasmine.createSpy(`svgDocument.get`).and.returnValue(`<svg/>`),
+          get: jasmine.createSpy(`svgDocument.get`).and.resolveTo(`<svg/>`),
         };
         svgDef = { set: jasmine.createSpy(`svgDef.set`) };
 
@@ -104,7 +104,7 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
         svgDocument = {
           get: jasmine
             .createSpy(`svgDocument.get`)
-            .and.returnValue(`<svg></svg>`),
+            .and.resolveTo(`<svg></svg>`),
         };
         svgDef = { set: jasmine.createSpy(`svgDef.set`) };
 
@@ -156,7 +156,7 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
 
       beforeAll(async () => {
         svgDocument = {
-          get: jasmine.createSpy(`svgDocument.get`).and.returnValue(`
+          get: jasmine.createSpy(`svgDocument.get`).and.resolveTo(`
             <svg>
               <child-element-a attribute-a-a-key="attribute-a-a-value" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">
                 text-a
@@ -164,7 +164,7 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
             </svg>
           `),
         };
-        svgDef = { set: jasmine.createSpy(`svgDef.set`) };
+        svgDef = { set: jasmine.createSpy(`svgDef.set`).and.resolveTo() };
 
         convertSvgDocumentToDefStep = new ConvertSvgDocumentToDefStep(
           svgDocument,
@@ -210,7 +210,7 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
 
       beforeAll(async () => {
         svgDocument = {
-          get: jasmine.createSpy(`svgDocument.get`).and.returnValue(`
+          get: jasmine.createSpy(`svgDocument.get`).and.resolveTo(`
             <svg>
               <child-element-a attribute-a-a-key="attribute-a-a-value" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">
                 text-a
@@ -221,7 +221,7 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
             </svg>
           `),
         };
-        svgDef = { set: jasmine.createSpy(`svgDef.set`) };
+        svgDef = { set: jasmine.createSpy(`svgDef.set`).and.resolveTo() };
 
         convertSvgDocumentToDefStep = new ConvertSvgDocumentToDefStep(
           svgDocument,
@@ -267,7 +267,7 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
 
       beforeAll(async () => {
         svgDocument = {
-          get: jasmine.createSpy(`svgDocument.get`).and.returnValue(`
+          get: jasmine.createSpy(`svgDocument.get`).and.resolveTo(`
             <svg>
               <child-element-a attribute-a-a-key="attribute-a-a-value" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">
                 text-a
@@ -281,7 +281,7 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
             </svg>
           `),
         };
-        svgDef = { set: jasmine.createSpy(`svgDef.set`) };
+        svgDef = { set: jasmine.createSpy(`svgDef.set`).and.resolveTo() };
 
         convertSvgDocumentToDefStep = new ConvertSvgDocumentToDefStep(
           svgDocument,

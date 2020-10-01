@@ -1,7 +1,7 @@
 import { Output } from "@shanzhai/interfaces";
 
 export class NullOutput<TValue> implements Output<TValue> {
-  set(value: TValue): void {
+  async set(value: TValue): Promise<void> {
     value;
   }
 }

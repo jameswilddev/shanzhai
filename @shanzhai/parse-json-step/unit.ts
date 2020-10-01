@@ -38,8 +38,8 @@ describe(`ParseJsonStep`, () => {
       beforeAll(async () => {
         inputGet = jasmine
           .createSpy(`inputGet`)
-          .and.returnValue(`{"test parseable": ["json", "value"]}`);
-        outputSet = jasmine.createSpy(`outputSet`);
+          .and.resolveTo(`{"test parseable": ["json", "value"]}`);
+        outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
 
         const parseJsonStep = new ParseJsonStep(
           `Test Name`,
@@ -73,7 +73,7 @@ describe(`ParseJsonStep`, () => {
       beforeAll(async () => {
         inputGet = jasmine
           .createSpy(`inputGet`)
-          .and.returnValue(`{"test unparseable"": ["json", "value"]}`);
+          .and.resolveTo(`{"test unparseable"": ["json", "value"]}`);
         outputSet = jasmine.createSpy(`outputSet`);
 
         const parseJsonStep = new ParseJsonStep(

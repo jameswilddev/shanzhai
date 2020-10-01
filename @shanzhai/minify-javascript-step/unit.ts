@@ -86,9 +86,9 @@ describe(`MinifyJavascriptStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`);
       constantsGet = jasmine
         .createSpy(`constantsGet`)
-        .and.returnValue(constantsValue);
+        .and.resolveTo(constantsValue);
       constants = { get: constantsGet };
-      outputSet = jasmine.createSpy(`outputSet`);
+      outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
 
       minifyJavascriptStep = new MinifyJavascriptStep(
         `Test Name`,
@@ -164,9 +164,9 @@ describe(`MinifyJavascriptStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`);
       constantsGet = jasmine
         .createSpy(`constantsGet`)
-        .and.returnValue(constantsValue);
+        .and.resolveTo(constantsValue);
       constants = { get: constantsGet };
-      outputSet = jasmine.createSpy(`outputSet`);
+      outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
 
       minifyJavascriptStep = new MinifyJavascriptStep(
         `Test Name`,
@@ -243,7 +243,7 @@ describe(`MinifyJavascriptStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`);
       constantsGet = jasmine
         .createSpy(`constantsGet`)
-        .and.returnValue(constantsValue);
+        .and.resolveTo(constantsValue);
       constants = { get: constantsGet };
       outputSet = jasmine.createSpy(`outputSet`);
 

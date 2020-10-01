@@ -8,7 +8,7 @@ export class KeyValueStoreOutput<TKey extends string, TValue>
     public readonly key: TKey
   ) {}
 
-  set(value: TValue): void {
+  async set(value: TValue): Promise<void> {
     this.keyValueStore.set(this.key, value);
   }
 }

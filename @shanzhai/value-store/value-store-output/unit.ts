@@ -45,7 +45,7 @@ describe(`ValueStoreOutput`, () => {
 
     let valueStoreOutput: ValueStoreOutput<TestValue>;
 
-    beforeAll(() => {
+    beforeAll(async () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
@@ -53,7 +53,7 @@ describe(`ValueStoreOutput`, () => {
 
       valueStoreOutput = new ValueStoreOutput<TestValue>(valueStore);
 
-      valueStoreOutput.set(`Test Value`);
+      await valueStoreOutput.set(`Test Value`);
     });
 
     it(`continues to expose the value store`, () => {
