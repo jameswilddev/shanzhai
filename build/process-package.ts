@@ -21,7 +21,9 @@ export async function processPackage(
       originalPackageJson.dependencies
     ),
     copyLicense(name),
-    writePackageJson(name, originalPackageJson),
-    installDependencies(name),
+    (async () => {
+      await writePackageJson(name, originalPackageJson);
+      await installDependencies(name);
+    })(),
   ]);
 }
