@@ -1,0 +1,28 @@
+{
+  "name": "@shanzhai/plugin-helpers",
+  "description": "Helpers for searching for plugins during a Shanzhai build.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.0",
+    "uuid": "8.3.0"
+  },
+  "types": "index.d.ts"
+}
