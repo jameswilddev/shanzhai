@@ -1,22 +1,29 @@
 import { generateMarkdownTable } from "./generate-markdown-table";
 
-export function generateReadmeDependencies(dependencies?: {
-  readonly [name: string]: string;
-}): string {
+export function generateReadmeDependencies(
+  dependencies:
+    | undefined
+    | {
+        readonly [name: string]: string;
+      },
+  title: string,
+  messageWhenNoDependencies: string,
+  messageWhenHasDependencies: string
+): string {
   if (
     !dependencies ||
     !Object.keys(dependencies).some(
       (dependency) => !dependency.startsWith(`@shanzhai/`)
     )
   ) {
-    return `## Dependencies
+    return `## ${title}
 
-This package has no runtime dependencies.`;
+${messageWhenNoDependencies}`;
   }
 
-  return `## Dependencies
+  return `## ${title}
 
-This package has the following runtime dependencies:
+${messageWhenHasDependencies}
 
 ${generateMarkdownTable(
   [

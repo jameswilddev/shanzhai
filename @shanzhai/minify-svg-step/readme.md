@@ -10,6 +10,10 @@ Name | Version
 ---- | -------------------------------------------------------------------------------------
 svgo | [![1.3.2](https://img.shields.io/npm/v/svgo.svg)](https://www.npmjs.com/package/svgo)
 
+## Peer Dependencies
+
+This package has no runtime peer dependencies (it does not expect any other packages to be installed alongside itself).
+
 ## License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjameswilddev%2Fshanzhai.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjameswilddev%2Fshanzhai?ref=badge_large)

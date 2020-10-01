@@ -18,7 +18,8 @@ export async function processPackage(
     writeReadme(
       name,
       originalPackageJson.description,
-      originalPackageJson.dependencies
+      originalPackageJson.dependencies,
+      originalPackageJson.peerDependencies
     ),
     copyLicense(name),
     (async () => {
