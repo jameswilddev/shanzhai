@@ -57,11 +57,11 @@ describe(`KeyValueStoreAllInput`, () => {
 
     let result: ReadonlyArray<readonly [TestKey, TestValue]>;
 
-    beforeAll(() => {
+    beforeAll(async () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      getAll = jasmine.createSpy(`getAll`).and.returnValue([
+      getAll = jasmine.createSpy(`getAll`).and.resolveTo([
         [`Test Key A`, `Test Value A`],
         [`Test Key B`, `Test Value B`],
         [`Test Key C`, `Test Value C`],
@@ -72,7 +72,7 @@ describe(`KeyValueStoreAllInput`, () => {
         keyValueStore
       );
 
-      result = keyValueStoreAllInput.get();
+      result = await keyValueStoreAllInput.get();
     });
 
     it(`continues to expose the value store`, () => {

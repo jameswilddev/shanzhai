@@ -8,11 +8,11 @@ export class MergeObjectInput<TValue>
     >
   ) {}
 
-  get(): { readonly [key: string]: TValue } {
+  async get(): Promise<{ readonly [key: string]: TValue }> {
     const output: { [key: string]: TValue } = {};
 
     for (const source of this.sources) {
-      const data = source.get();
+      const data = await source.get();
 
       for (const key in data) {
         if (Object.prototype.hasOwnProperty.call(output, key)) {

@@ -62,9 +62,11 @@ describe(`CollectSvgDefsStep`, () => {
       let collectSvgDefsStep: CollectSvgDefsStep;
 
       beforeAll(async () => {
-        typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-        constants = { set: jasmine.createSpy(`constants.set`) };
-        svg = { set: jasmine.createSpy(`svg.set`) };
+        typeScript = {
+          set: jasmine.createSpy(`typeScript.set`).and.resolveTo(),
+        };
+        constants = { set: jasmine.createSpy(`constants.set`).and.resolveTo() };
+        svg = { set: jasmine.createSpy(`svg.set`).and.resolveTo() };
 
         collectSvgDefsStep = new CollectSvgDefsStep(
           [],
@@ -202,13 +204,15 @@ describe(`CollectSvgDefsStep`, () => {
         defAContent = {
           get: jasmine
             .createSpy(`defA.get`)
-            .and.returnValue(
+            .and.resolveTo(
               `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`
             ),
         };
-        typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-        constants = { set: jasmine.createSpy(`constants.set`) };
-        svg = { set: jasmine.createSpy(`svg.set`) };
+        typeScript = {
+          set: jasmine.createSpy(`typeScript.set`).and.resolveTo(),
+        };
+        constants = { set: jasmine.createSpy(`constants.set`).and.resolveTo() };
+        svg = { set: jasmine.createSpy(`svg.set`).and.resolveTo() };
 
         collectSvgDefsStep = new CollectSvgDefsStep(
           [
@@ -376,20 +380,22 @@ describe(`CollectSvgDefsStep`, () => {
         defAContent = {
           get: jasmine
             .createSpy(`defA.get`)
-            .and.returnValue(
+            .and.resolveTo(
               `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`
             ),
         };
         defBContent = {
           get: jasmine
             .createSpy(`defB.get`)
-            .and.returnValue(
+            .and.resolveTo(
               `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`
             ),
         };
-        typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-        constants = { set: jasmine.createSpy(`constants.set`) };
-        svg = { set: jasmine.createSpy(`svg.set`) };
+        typeScript = {
+          set: jasmine.createSpy(`typeScript.set`).and.resolveTo(),
+        };
+        constants = { set: jasmine.createSpy(`constants.set`).and.resolveTo() };
+        svg = { set: jasmine.createSpy(`svg.set`).and.resolveTo() };
 
         collectSvgDefsStep = new CollectSvgDefsStep(
           [
@@ -580,27 +586,31 @@ describe(`CollectSvgDefsStep`, () => {
           defAContent = {
             get: jasmine
               .createSpy(`defA.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`
               ),
           };
           defBContent = {
             get: jasmine
               .createSpy(`defB.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`
               ),
           };
           defCContent = {
             get: jasmine
               .createSpy(`defC.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`
               ),
           };
-          typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-          constants = { set: jasmine.createSpy(`constants.set`) };
-          svg = { set: jasmine.createSpy(`svg.set`) };
+          typeScript = {
+            set: jasmine.createSpy(`typeScript.set`).and.resolveTo(),
+          };
+          constants = {
+            set: jasmine.createSpy(`constants.set`).and.resolveTo(),
+          };
+          svg = { set: jasmine.createSpy(`svg.set`).and.resolveTo() };
 
           collectSvgDefsStep = new CollectSvgDefsStep(
             [
@@ -711,21 +721,21 @@ describe(`CollectSvgDefsStep`, () => {
           defAContent = {
             get: jasmine
               .createSpy(`defA.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`
               ),
           };
           defBContent = {
             get: jasmine
               .createSpy(`defB.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" also-easily-confused-with-id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`
               ),
           };
           defCContent = {
             get: jasmine
               .createSpy(`defC.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`
               ),
           };
@@ -824,21 +834,21 @@ describe(`CollectSvgDefsStep`, () => {
           defAContent = {
             get: jasmine
               .createSpy(`defA.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`
               ),
           };
           defBContent = {
             get: jasmine
               .createSpy(`defB.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`
               ),
           };
           defCContent = {
             get: jasmine
               .createSpy(`defC.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`
               ),
           };
@@ -937,21 +947,21 @@ describe(`CollectSvgDefsStep`, () => {
           defAContent = {
             get: jasmine
               .createSpy(`defA.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`
               ),
           };
           defBContent = {
             get: jasmine
               .createSpy(`defB.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-b attribute-b-a-key="attribute-b-a-value" id="" attribute-b-b-key="attribute-b-b-value" id="" easily-confused-with-id="" also-easily-confused-with-id="" id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`
               ),
           };
           defCContent = {
             get: jasmine
               .createSpy(`defC.get`)
-              .and.returnValue(
+              .and.resolveTo(
                 `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`
               ),
           };

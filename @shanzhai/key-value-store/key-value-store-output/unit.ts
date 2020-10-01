@@ -60,7 +60,7 @@ describe(`KeyValueStoreOutput`, () => {
 
     let keyValueStoreOutput: KeyValueStoreOutput<TestKey, TestValue>;
 
-    beforeAll(() => {
+    beforeAll(async () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
@@ -72,7 +72,7 @@ describe(`KeyValueStoreOutput`, () => {
         `Test Key`
       );
 
-      keyValueStoreOutput.set(`Test Value`);
+      await keyValueStoreOutput.set(`Test Value`);
     });
 
     it(`continues to expose the key value store`, () => {

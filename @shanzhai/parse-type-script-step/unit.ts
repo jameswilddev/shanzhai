@@ -76,13 +76,13 @@ describe(`ParseTypeScriptStep`, () => {
       beforeAll(async () => {
         inputGet = jasmine
           .createSpy(`inputGet`)
-          .and.returnValue(`const example: string = "Test Example";`);
+          .and.resolveTo(`const example: string = "Test Example";`);
         input = { get: inputGet };
         compilerOptionsGet = jasmine
           .createSpy(`compilerOptionsGet`)
-          .and.returnValue({});
+          .and.resolveTo({});
         compilerOptions = { get: compilerOptionsGet };
-        outputSet = jasmine.createSpy(`outputSet`);
+        outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
         output = { set: outputSet };
 
         parseTypeScriptStep = new ParseTypeScriptStep(
@@ -149,15 +149,15 @@ describe(`ParseTypeScriptStep`, () => {
       beforeAll(async () => {
         inputGet = jasmine
           .createSpy(`inputGet`)
-          .and.returnValue(`const example: string = "Test Example";`);
+          .and.resolveTo(`const example: string = "Test Example";`);
         input = { get: inputGet };
         compilerOptionsGet = jasmine
           .createSpy(`compilerOptionsGet`)
-          .and.returnValue({
+          .and.resolveTo({
             target: typescript.ScriptTarget.ES2015,
           });
         compilerOptions = { get: compilerOptionsGet };
-        outputSet = jasmine.createSpy(`outputSet`);
+        outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
         output = { set: outputSet };
 
         parseTypeScriptStep = new ParseTypeScriptStep(
@@ -230,7 +230,7 @@ describe(`ParseTypeScriptStep`, () => {
       let error: null | Error = null;
 
       beforeAll(async () => {
-        inputGet = jasmine.createSpy(`inputGet`).and.returnValue(
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(
           `};
           !;
           thisLine.isFine();
@@ -239,7 +239,7 @@ describe(`ParseTypeScriptStep`, () => {
         input = { get: inputGet };
         compilerOptionsGet = jasmine
           .createSpy(`compilerOptionsGet`)
-          .and.returnValue({});
+          .and.resolveTo({});
         compilerOptions = { get: compilerOptionsGet };
         outputSet = jasmine.createSpy(`outputSet`);
         output = { set: outputSet };

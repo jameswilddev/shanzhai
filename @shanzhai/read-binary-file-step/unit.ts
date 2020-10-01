@@ -110,7 +110,7 @@ describe(`ReadBinaryFileStep`, () => {
         ])
       );
 
-      outputSet = jasmine.createSpy(`outputSet`);
+      outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
       output = { set: outputSet };
 
       readBinaryFileStep = new ReadBinaryFileStep(

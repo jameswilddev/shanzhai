@@ -49,14 +49,13 @@ describe(`ParsePugStep`, () => {
       let parsePugStep: ParsePugStep;
 
       beforeAll(async () => {
-        inputGet = jasmine.createSpy(`inputGet`).and
-          .returnValue(`example-element
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(`example-element
   example-mid-level#an-id
     example-child.class-a
     example-child.class-b
   example-footer(example-attribute-key="example-attribute-value")`);
         input = { get: inputGet };
-        outputSet = jasmine.createSpy(`outputSet`);
+        outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
         output = { set: outputSet };
 
         parsePugStep = new ParsePugStep(`Test Name`, input, output);
@@ -96,8 +95,7 @@ describe(`ParsePugStep`, () => {
       let error: null | Error = null;
 
       beforeAll(async () => {
-        inputGet = jasmine.createSpy(`inputGet`).and
-          .returnValue(`example-element
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(`example-element
   example-mid-level#
     example-child.class-a
     example-child.

@@ -55,7 +55,7 @@ describe(`ZipStep`, () => {
     let zipStep: ZipStep;
 
     beforeAll(async () => {
-      inputGet = jasmine.createSpy(`inputGet`).and.returnValue({
+      inputGet = jasmine.createSpy(`inputGet`).and.resolveTo({
         "subdirectory-a/subdirectory-b/file-a": `Test File A Content`,
         "file-b": Buffer.from(
           new Uint8Array([
@@ -91,7 +91,7 @@ describe(`ZipStep`, () => {
         get: inputGet,
       };
 
-      outputSet = jasmine.createSpy(`outputSet`);
+      outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
       output = { set: outputSet };
 
       zipStep = new ZipStep(`Test Name`, input, output);

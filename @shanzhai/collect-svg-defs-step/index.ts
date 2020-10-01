@@ -17,9 +17,9 @@ export class CollectSvgDefsStep extends ActionStep {
 
   async execute(): Promise<void> {
     if (this.defs.length === 0) {
-      this.typeScript.set(`type AnySvg = never;`);
-      this.constants.set({});
-      this.svg.set(``);
+      await this.typeScript.set(`type AnySvg = never;`);
+      await this.constants.set({});
+      await this.svg.set(``);
     } else {
       const sortedDefs = this.defs
         .slice()
@@ -35,28 +35,28 @@ export class CollectSvgDefsStep extends ActionStep {
         constants[sortedDefs[index].typeScriptName] = index;
       }
 
-      const svg = sortedDefs
-        .map((def, index) => {
-          const content = def.content.get();
+      let svg = ``;
 
-          const matches = content.match(/(\s)id=""/g);
+      for (let index = 0; index < sortedDefs.length; index++) {
+        const content = await sortedDefs[index].content.get();
 
-          if (matches === null || matches.length !== 1) {
-            throw new Error(`Failed to inject ID into SVG def.`);
-          }
+        const matches = content.match(/(\s)id=""/g);
 
-          return content.replace(
-            /\sid=""/,
-            `${matches[0].slice(0, matches[0].length - 5)}id="${index}"`
-          );
-        })
-        .join(``);
+        if (matches === null || matches.length !== 1) {
+          throw new Error(`Failed to inject ID into SVG def.`);
+        }
 
-      this.typeScript.set(typeScript);
+        svg += content.replace(
+          /\sid=""/,
+          `${matches[0].slice(0, matches[0].length - 5)}id="${index}"`
+        );
+      }
 
-      this.constants.set(constants);
+      await this.typeScript.set(typeScript);
 
-      this.svg.set(svg);
+      await this.constants.set(constants);
+
+      await this.svg.set(svg);
     }
   }
 }

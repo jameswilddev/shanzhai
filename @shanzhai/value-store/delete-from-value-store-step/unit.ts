@@ -54,7 +54,7 @@ describe(`DeleteFromValueStoreStep`, () => {
 
     beforeAll(async () => {
       valueStoreGet = jasmine.createSpy(`valueStoreGet`);
-      valueStoreSet = jasmine.createSpy(`alueStoreSet`);
+      valueStoreSet = jasmine.createSpy(`valueStoreSet`);
       valueStoreDelete = jasmine.createSpy(`valueStoreDelete`);
       valueStore = {
         name: `Test Name`,

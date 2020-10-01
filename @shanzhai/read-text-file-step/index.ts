@@ -11,7 +11,7 @@ export class ReadTextFileStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    this.output.set(
+    await this.output.set(
       await fs.promises.readFile(path.join(...this.pathSegments), `utf8`)
     );
   }

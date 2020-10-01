@@ -10,6 +10,6 @@ export class ParseJsonStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    this.output.set(JSON.parse(this.input.get()));
+    await this.output.set(JSON.parse(await this.input.get()));
   }
 }

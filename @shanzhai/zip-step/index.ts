@@ -22,7 +22,7 @@ export class ZipStep extends ActionStep {
     try {
       await fs.promises.mkdir(temporaryDirectory, { recursive: true });
 
-      const input = this.input.get();
+      const input = await this.input.get();
 
       for (const name in input) {
         const fileName = path.join(temporaryDirectory, name);
@@ -56,7 +56,7 @@ export class ZipStep extends ActionStep {
       });
 
       const zip = await fs.promises.readFile(targetPath);
-      this.output.set(zip);
+      await this.output.set(zip);
     } finally {
       await fs.promises.rmdir(targetPath, { recursive: true });
       await fs.promises.rmdir(temporaryDirectory, { recursive: true });

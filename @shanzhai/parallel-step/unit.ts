@@ -221,7 +221,7 @@ describe(`ParallelStep`, () => {
       beforeAll(async () => {
         executePerActionStepA = jasmine
           .createSpy(`executePerActionStepA`)
-          .and.returnValue(Promise.resolve());
+          .and.resolveTo();
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
@@ -241,7 +241,7 @@ describe(`ParallelStep`, () => {
 
         executePerActionStepC = jasmine
           .createSpy(`executePerActionStepC`)
-          .and.returnValue(Promise.resolve());
+          .and.resolveTo();
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
@@ -249,7 +249,7 @@ describe(`ParallelStep`, () => {
 
         executePerActionStepD = jasmine
           .createSpy(`executePerActionStepD`)
-          .and.returnValue(Promise.resolve());
+          .and.resolveTo();
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,
@@ -316,7 +316,7 @@ describe(`ParallelStep`, () => {
       beforeAll(() => {
         executePerActionStepA = jasmine
           .createSpy(`executePerActionStepA`)
-          .and.returnValue(Promise.resolve());
+          .and.resolveTo();
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
@@ -324,7 +324,7 @@ describe(`ParallelStep`, () => {
 
         executePerActionStepB = jasmine
           .createSpy(`executePerActionStepB`)
-          .and.returnValue(Promise.resolve());
+          .and.resolveTo();
         childB = {
           name: `Test Child Name B`,
           executePerActionStep: executePerActionStepB,
@@ -332,7 +332,7 @@ describe(`ParallelStep`, () => {
 
         executePerActionStepC = jasmine
           .createSpy(`executePerActionStepC`)
-          .and.returnValue(Promise.resolve());
+          .and.resolveTo();
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
@@ -340,7 +340,7 @@ describe(`ParallelStep`, () => {
 
         executePerActionStepD = jasmine
           .createSpy(`executePerActionStepD`)
-          .and.returnValue(Promise.resolve());
+          .and.resolveTo();
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,
@@ -398,7 +398,7 @@ describe(`ParallelStep`, () => {
       beforeAll(() => {
         executePerActionStepA = jasmine
           .createSpy(`executePerActionStepA`)
-          .and.returnValue(Promise.resolve());
+          .and.resolveTo();
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
@@ -406,7 +406,7 @@ describe(`ParallelStep`, () => {
 
         executePerActionStepB = jasmine
           .createSpy(`executePerActionStepB`)
-          .and.returnValue(Promise.reject(new Error(`Test Error`)));
+          .and.rejectWith(new Error(`Test Error`));
         childB = {
           name: `Test Child Name B`,
           executePerActionStep: executePerActionStepB,
@@ -414,7 +414,7 @@ describe(`ParallelStep`, () => {
 
         executePerActionStepC = jasmine
           .createSpy(`executePerActionStepC`)
-          .and.returnValue(Promise.resolve());
+          .and.resolveTo();
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
@@ -422,7 +422,7 @@ describe(`ParallelStep`, () => {
 
         executePerActionStepD = jasmine
           .createSpy(`executePerActionStepD`)
-          .and.returnValue(Promise.resolve());
+          .and.resolveTo();
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,

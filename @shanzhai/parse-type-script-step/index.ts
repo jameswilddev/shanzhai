@@ -12,9 +12,9 @@ export class ParseTypeScriptStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    const input = this.input.get();
+    const input = await this.input.get();
 
-    const options = this.compilerOptions.get();
+    const options = await this.compilerOptions.get();
 
     const result = typescript.createSourceFile(
       this.fileName,
@@ -48,6 +48,6 @@ export class ParseTypeScriptStep extends ActionStep {
       throw new Error(output);
     }
 
-    this.output.set(result);
+    await this.output.set(result);
   }
 }

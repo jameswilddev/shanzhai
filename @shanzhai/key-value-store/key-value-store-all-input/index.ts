@@ -7,7 +7,7 @@ export class KeyValueStoreAllInput<TKey extends string, TValue>
     public readonly keyValueStore: KeyValueStoreInterface<TKey, TValue>
   ) {}
 
-  get(): ReadonlyArray<readonly [TKey, TValue]> {
+  async get(): Promise<ReadonlyArray<readonly [TKey, TValue]>> {
     return this.keyValueStore.getAll();
   }
 }

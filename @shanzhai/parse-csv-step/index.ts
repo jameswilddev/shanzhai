@@ -27,7 +27,7 @@ export class ParseCsvStep extends ActionStep {
       line[line.length - 1] += character;
     };
 
-    for (const character of this.input.get()) {
+    for (const character of await this.input.get()) {
       switch (state) {
         case `nothingOnLine`:
           switch (character) {
@@ -170,6 +170,6 @@ export class ParseCsvStep extends ActionStep {
       }
     }
 
-    this.output.set(output);
+    await this.output.set(output);
   }
 }

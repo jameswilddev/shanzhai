@@ -53,11 +53,9 @@ describe(`ParseCsvStep`, () => {
         let parseCsvStep: ParseCsvStep;
 
         beforeAll(async () => {
-          inputGet = jasmine
-            .createSpy(`inputGet`)
-            .and.returnValue(inputContent);
+          inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(inputContent);
           input = { get: inputGet };
-          outputSet = jasmine.createSpy(`outputSet`);
+          outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
           output = { set: outputSet };
 
           parseCsvStep = new ParseCsvStep(`Test Name`, input, output);
@@ -144,9 +142,7 @@ F A,,F C
         let error: null | Error = null;
 
         beforeAll(async () => {
-          inputGet = jasmine
-            .createSpy(`inputGet`)
-            .and.returnValue(inputContent);
+          inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(inputContent);
           input = { get: inputGet };
           outputSet = jasmine.createSpy(`outputSet`);
           output = { set: outputSet };

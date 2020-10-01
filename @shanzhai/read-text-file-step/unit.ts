@@ -95,7 +95,7 @@ describe(`ReadTextFileStep`, () => {
         `Test Content`
       );
 
-      outputSet = jasmine.createSpy(`outputSet`);
+      outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
       output = { set: outputSet };
 
       readTextFileStep = new ReadTextFileStep(

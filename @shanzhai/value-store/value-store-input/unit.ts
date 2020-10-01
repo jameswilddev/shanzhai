@@ -47,15 +47,15 @@ describe(`ValueStoreInput`, () => {
 
     let result: TestValue;
 
-    beforeAll(() => {
-      get = jasmine.createSpy(`get`).and.returnValue(`Test Value`);
+    beforeAll(async () => {
+      get = jasmine.createSpy(`get`).and.resolveTo(`Test Value`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
       valueStore = { name: `Test Name`, get, set, delete: _delete };
 
       valueStoreInput = new ValueStoreInput<TestValue>(valueStore);
 
-      result = valueStoreInput.get();
+      result = await valueStoreInput.get();
     });
 
     it(`continues to expose the value store`, () => {

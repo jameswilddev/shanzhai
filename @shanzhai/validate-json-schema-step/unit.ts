@@ -82,9 +82,9 @@ describe(`ValidateJsonSchemaStep`, () => {
         };
         inputGet = jasmine
           .createSpy(`inputGet`)
-          .and.returnValue({ keyA: { keyB: `Test Valid` } });
+          .and.resolveTo({ keyA: { keyB: `Test Valid` } });
         input = { get: inputGet };
-        outputSet = jasmine.createSpy(`outputSet`);
+        outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
         output = { set: outputSet };
 
         validateJsonSchemaStep = new ValidateJsonSchemaStep(
@@ -149,7 +149,7 @@ describe(`ValidateJsonSchemaStep`, () => {
         };
         inputGet = jasmine
           .createSpy(`inputGet`)
-          .and.returnValue({ keyA: { keyB: 123 } });
+          .and.resolveTo({ keyA: { keyB: 123 } });
         input = { get: inputGet };
         outputSet = jasmine.createSpy(`outputSet`);
         output = { set: outputSet };

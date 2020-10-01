@@ -40,7 +40,7 @@ export class ConvertJsonToTypeScriptStep extends ActionStep {
       }
     };
 
-    const json = this.input.get();
+    const json = await this.input.get();
 
     let combined = ``;
 
@@ -53,6 +53,6 @@ export class ConvertJsonToTypeScriptStep extends ActionStep {
       combined += `const ${key}: ${types} = ${values};\n\n`;
     }
 
-    this.output.set(combined);
+    await this.output.set(combined);
   }
 }

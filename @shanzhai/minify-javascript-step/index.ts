@@ -20,7 +20,7 @@ export class MinifyJavascriptStep<
 
   async iterate(value: string): Promise<string> {
     if (this.constantsCache === null) {
-      this.constantsCache = this.constants.get();
+      this.constantsCache = await this.constants.get();
     }
 
     const parsed = uglifyJs.minify(value, {

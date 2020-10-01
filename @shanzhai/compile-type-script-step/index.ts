@@ -11,8 +11,9 @@ export class CompileTypeScriptStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    const inputs = this.input.get();
-    const options = { ...this.compilerOptions.get(), noEmitOnError: true };
+    const inputs = await this.input.get();
+    const compilerOptions = await this.compilerOptions.get();
+    const options = { ...compilerOptions, noEmitOnError: true };
     const rootNames = inputs.map((sourceFile) => sourceFile.fileName);
 
     const host = typescript.createCompilerHost({});
@@ -79,7 +80,7 @@ export class CompileTypeScriptStep extends ActionStep {
 
       throw new Error(output);
     } else {
-      this.output.set(output);
+      await this.output.set(output);
     }
   }
 }

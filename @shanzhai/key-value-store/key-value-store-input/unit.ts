@@ -62,8 +62,8 @@ describe(`KeyValueStoreInput`, () => {
 
     let result: TestValue;
 
-    beforeAll(() => {
-      get = jasmine.createSpy(`get`).and.returnValue(`Test Value`);
+    beforeAll(async () => {
+      get = jasmine.createSpy(`get`).and.resolveTo(`Test Value`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
       getAll = jasmine.createSpy(`getAll`);
@@ -74,7 +74,7 @@ describe(`KeyValueStoreInput`, () => {
         `Test Key`
       );
 
-      result = keyValueStoreInput.get();
+      result = await keyValueStoreInput.get();
     });
 
     it(`continues to expose the value store`, () => {

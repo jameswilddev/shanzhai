@@ -8,7 +8,7 @@ export class KeyValueStoreInput<TKey extends string, TValue>
     public readonly key: TKey
   ) {}
 
-  get(): TValue {
+  async get(): Promise<TValue> {
     return this.keyValueStore.get(this.key);
   }
 }

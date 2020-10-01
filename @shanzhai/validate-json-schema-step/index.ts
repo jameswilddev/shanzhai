@@ -12,12 +12,12 @@ export class ValidateJsonSchemaStep<T extends Json> extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    const input = this.input.get();
+    const input = await this.input.get();
 
     const result = jsonschema.validate(input, this.schema);
 
     if (result.valid) {
-      this.output.set(input as T);
+      await this.output.set(input as T);
     } else {
       throw new Error(
         `JSON schema validation failed:${result.errors

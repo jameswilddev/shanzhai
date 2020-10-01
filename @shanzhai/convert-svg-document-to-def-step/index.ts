@@ -33,7 +33,7 @@ export class ConvertSvgDocumentToDefStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    const svgDocument = this.svgDocument.get();
+    const svgDocument = await this.svgDocument.get();
 
     const root = await new Promise<AnySvgElement>((resolve) =>
       svg2js(svgDocument, resolve)
@@ -66,6 +66,6 @@ export class ConvertSvgDocumentToDefStep extends ActionStep {
     root.content[0].attrs.id = idSource.content[0].attrs.id;
 
     const generated = new JS2SVG(root).data;
-    this.svgDef.set(generated);
+    await this.svgDef.set(generated);
   }
 }
