@@ -1,0 +1,30 @@
+{
+  "name": "@shanzhai/compile-type-script-step",
+  "description": "A Shanzhai build step which compiles parsed TypeScript to Javascript.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "4.0.3"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.0"
+  },
+  "types": "index.d.ts"
+}
