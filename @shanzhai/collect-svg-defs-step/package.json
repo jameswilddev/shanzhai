@@ -1,0 +1,27 @@
+{
+  "name": "@shanzhai/collect-svg-defs-step",
+  "description": "A Shanzhai step which collects a number of SVG defs into a single document, and generates TypeScript source which can be used to refer to those defs.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.0"
+  },
+  "types": "index.d.ts"
+}
