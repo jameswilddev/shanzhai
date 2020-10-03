@@ -1,4 +1,5 @@
 export { ActionStep } from "./action-step";
+export { Diff } from "./diff";
 export { Input } from "./input";
 export { Json } from "./json";
 export { Output } from "./output";
