@@ -28,6 +28,10 @@ describe(`DeleteFromValueStoreStep`, () => {
       expect(deleteFromValueStoreStep.name).toEqual(`Delete from "Test Name"`);
     });
 
+    it(`exposes the expected effects`, () => {
+      expect(deleteFromValueStoreStep.effects).toEqual([]);
+    });
+
     it(`exposes the value store`, () => {
       expect(deleteFromValueStoreStep.valueStore).toBe(valueStore);
     });

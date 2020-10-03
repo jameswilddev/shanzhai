@@ -1,7 +1,62 @@
-import { Step } from "@shanzhai/interfaces";
+import { Step, Effect } from "@shanzhai/interfaces";
 import { SerialStep } from ".";
 
 describe(`SerialStep`, () => {
+  const effectAA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect AA` },
+  };
+
+  const effectAB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect AB` },
+  };
+
+  const effectBA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect BA` },
+  };
+
+  const effectBB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect BB` },
+  };
+
+  const effectBC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect BC` },
+  };
+
+  const effectBD: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect BD` },
+  };
+
+  const effectCA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect CA` },
+  };
+
+  const effectCB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect CB` },
+  };
+
+  const effectDA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect DA` },
+  };
+
+  const effectDB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect DB` },
+  };
+
+  const effectDC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect DC` },
+  };
+
   describe(`on construction`, () => {
     let childA: Step;
     let executePerActionStepA: jasmine.Spy;
@@ -18,24 +73,28 @@ describe(`SerialStep`, () => {
       childA = {
         name: `Test Child Name A`,
         executePerActionStep: executePerActionStepA,
+        effects: [effectAA, effectAB],
       };
 
       executePerActionStepB = jasmine.createSpy(`executePerActionStepB`);
       childB = {
         name: `Test Child Name B`,
         executePerActionStep: executePerActionStepB,
+        effects: [effectBA, effectBB, effectBC, effectBD],
       };
 
       executePerActionStepC = jasmine.createSpy(`executePerActionStepC`);
       childC = {
         name: `Test Child Name C`,
         executePerActionStep: executePerActionStepC,
+        effects: [effectCA, effectCB],
       };
 
       executePerActionStepD = jasmine.createSpy(`executePerActionStepD`);
       childD = {
         name: `Test Child Name D`,
         executePerActionStep: executePerActionStepD,
+        effects: [effectDA, effectDB, effectDC],
       };
 
       serialStep = new SerialStep(`Test Name`, [
@@ -59,6 +118,22 @@ describe(`SerialStep`, () => {
       expect(executePerActionStepB).not.toHaveBeenCalled();
       expect(executePerActionStepC).not.toHaveBeenCalled();
       expect(executePerActionStepD).not.toHaveBeenCalled();
+    });
+
+    it(`exposes the effects of its children`, () => {
+      expect(serialStep.effects).toEqual([
+        effectAA,
+        effectAB,
+        effectBA,
+        effectBB,
+        effectBC,
+        effectBD,
+        effectCA,
+        effectCB,
+        effectDA,
+        effectDB,
+        effectDC,
+      ]);
     });
   });
 
@@ -89,6 +164,10 @@ describe(`SerialStep`, () => {
       it(`resolves the returned promise`, async () => {
         await expectAsync(promise).toBeResolved();
       });
+
+      it(`continues to expose no effects`, () => {
+        expect(serialStep.effects).toEqual([]);
+      });
     });
 
     describe(`without any completing`, () => {
@@ -115,24 +194,28 @@ describe(`SerialStep`, () => {
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
+          effects: [effectAA, effectAB],
         };
 
         executePerActionStepB = jasmine.createSpy(`executePerActionStepB`);
         childB = {
           name: `Test Child Name B`,
           executePerActionStep: executePerActionStepB,
+          effects: [effectBA, effectBB, effectBC, effectBD],
         };
 
         executePerActionStepC = jasmine.createSpy(`executePerActionStepC`);
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
+          effects: [effectCA, effectCB],
         };
 
         executePerActionStepD = jasmine.createSpy(`executePerActionStepD`);
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,
+          effects: [effectDA, effectDB, effectDC],
         };
 
         serialStep = new SerialStep(`Test Name`, [
@@ -185,6 +268,22 @@ describe(`SerialStep`, () => {
       it(`does not resolve or reject the returned promise`, () => {
         expect(resolvedOrRejected).toBeFalse();
       });
+
+      it(`continues to expose the effects of its children`, () => {
+        expect(serialStep.effects).toEqual([
+          effectAA,
+          effectAB,
+          effectBA,
+          effectBB,
+          effectBC,
+          effectBD,
+          effectCA,
+          effectCB,
+          effectDA,
+          effectDB,
+          effectDC,
+        ]);
+      });
     });
 
     describe(`with some completing successfully`, () => {
@@ -207,6 +306,7 @@ describe(`SerialStep`, () => {
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
+          effects: [effectAA, effectAB],
         };
 
         executePerActionStepB = jasmine
@@ -215,6 +315,7 @@ describe(`SerialStep`, () => {
         childB = {
           name: `Test Child Name B`,
           executePerActionStep: executePerActionStepB,
+          effects: [effectBA, effectBB, effectBC, effectBD],
         };
 
         executePerActionStepC = jasmine
@@ -227,12 +328,14 @@ describe(`SerialStep`, () => {
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
+          effects: [effectCA, effectCB],
         };
 
         executePerActionStepD = jasmine.createSpy(`executePerActionStepD`);
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,
+          effects: [effectDA, effectDB, effectDC],
         };
 
         serialStep = new SerialStep(`Test Name`, [
@@ -290,6 +393,22 @@ describe(`SerialStep`, () => {
       it(`does not resolve or reject the returned promise`, () => {
         expect(resolvedOrRejected).toBeFalse();
       });
+
+      it(`continues to expose the effects of its children`, () => {
+        expect(serialStep.effects).toEqual([
+          effectAA,
+          effectAB,
+          effectBA,
+          effectBB,
+          effectBC,
+          effectBD,
+          effectCA,
+          effectCB,
+          effectDA,
+          effectDB,
+          effectDC,
+        ]);
+      });
     });
 
     describe(`with all completing successfully`, () => {
@@ -312,6 +431,7 @@ describe(`SerialStep`, () => {
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
+          effects: [effectAA, effectAB],
         };
 
         executePerActionStepB = jasmine
@@ -320,6 +440,7 @@ describe(`SerialStep`, () => {
         childB = {
           name: `Test Child Name B`,
           executePerActionStep: executePerActionStepB,
+          effects: [effectBA, effectBB, effectBC, effectBD],
         };
 
         executePerActionStepC = jasmine
@@ -328,6 +449,7 @@ describe(`SerialStep`, () => {
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
+          effects: [effectCA, effectCB],
         };
 
         executePerActionStepD = jasmine
@@ -336,6 +458,7 @@ describe(`SerialStep`, () => {
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,
+          effects: [effectDA, effectDB, effectDC],
         };
 
         serialStep = new SerialStep(`Test Name`, [
@@ -379,6 +502,22 @@ describe(`SerialStep`, () => {
       it(`resolves the returned promise`, async () => {
         await expectAsync(promise).toBeResolved();
       });
+
+      it(`continues to expose the effects of its children`, () => {
+        expect(serialStep.effects).toEqual([
+          effectAA,
+          effectAB,
+          effectBA,
+          effectBB,
+          effectBC,
+          effectBD,
+          effectCA,
+          effectCB,
+          effectDA,
+          effectDB,
+          effectDC,
+        ]);
+      });
     });
 
     describe(`with some completing successfully, but one failing`, () => {
@@ -401,6 +540,7 @@ describe(`SerialStep`, () => {
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
+          effects: [effectAA, effectAB],
         };
 
         executePerActionStepB = jasmine
@@ -409,6 +549,7 @@ describe(`SerialStep`, () => {
         childB = {
           name: `Test Child Name B`,
           executePerActionStep: executePerActionStepB,
+          effects: [effectBA, effectBB, effectBC, effectBD],
         };
 
         executePerActionStepC = jasmine
@@ -417,12 +558,14 @@ describe(`SerialStep`, () => {
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
+          effects: [effectCA, effectCB],
         };
 
         executePerActionStepD = jasmine.createSpy(`executePerActionStepD`);
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,
+          effects: [effectDA, effectDB, effectDC],
         };
 
         serialStep = new SerialStep(`Test Name`, [
@@ -475,6 +618,22 @@ describe(`SerialStep`, () => {
 
       it(`passes on the rejection reason`, async () => {
         await expectAsync(promise).toBeRejectedWithError(`Test Error`);
+      });
+
+      it(`continues to expose the effects of its children`, () => {
+        expect(serialStep.effects).toEqual([
+          effectAA,
+          effectAB,
+          effectBA,
+          effectBB,
+          effectBC,
+          effectBD,
+          effectCA,
+          effectCB,
+          effectDA,
+          effectDB,
+          effectDC,
+        ]);
       });
     });
   });

@@ -13,4 +13,6 @@ export class SerialStep implements Step {
       await child.executePerActionStep(callback);
     }
   }
+
+  readonly effects = this.children.map((child) => child.effects).flat();
 }

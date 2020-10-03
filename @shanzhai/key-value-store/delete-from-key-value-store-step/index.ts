@@ -10,7 +10,10 @@ export class DeleteFromKeyValueStoreStep<
     public readonly key: TKey
   ) {
     super(
-      `Delete ${JSON.stringify(key)} from ${JSON.stringify(keyValueStore.name)}`
+      `Delete ${JSON.stringify(key)} from ${JSON.stringify(
+        keyValueStore.name
+      )}`,
+      [{ type: `keyedStoreDelete`, store: keyValueStore, key }]
     );
   }
 

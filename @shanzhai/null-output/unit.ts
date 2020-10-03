@@ -4,8 +4,14 @@ describe(`NullOutput`, () => {
   type TestValue = `Test Value`;
 
   describe(`on construction`, () => {
-    it(`does nothing`, () => {
-      new NullOutput<TestValue>();
+    let nullOutput: NullOutput<TestValue>;
+
+    beforeAll(() => {
+      nullOutput = new NullOutput<TestValue>();
+    });
+
+    it(`exposes no effects`, () => {
+      expect(nullOutput.effects).toEqual([]);
     });
   });
 
@@ -14,10 +20,12 @@ describe(`NullOutput`, () => {
 
     beforeAll(() => {
       nullOutput = new NullOutput<TestValue>();
+
+      nullOutput.set(`Test Value`);
     });
 
-    it(`does nothing`, async () => {
-      await nullOutput.set(`Test Value`);
+    it(`continues to expose no effects`, () => {
+      expect(nullOutput.effects).toEqual([]);
     });
   });
 });

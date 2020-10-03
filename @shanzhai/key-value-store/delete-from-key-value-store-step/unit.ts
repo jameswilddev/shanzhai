@@ -40,6 +40,12 @@ describe(`DeleteFromKeyValueStoreStep`, () => {
       );
     });
 
+    it(`exposes the expected effects`, () => {
+      expect(deleteFromKeyValueStoreStep.effects).toEqual([
+        { type: `keyedStoreDelete`, store: keyValueStore, key: `Test Key` },
+      ]);
+    });
+
     it(`exposes the key value store`, () => {
       expect(deleteFromKeyValueStoreStep.keyValueStore).toBe(keyValueStore);
     });

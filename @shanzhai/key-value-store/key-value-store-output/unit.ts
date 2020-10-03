@@ -34,6 +34,16 @@ describe(`KeyValueStoreOutput`, () => {
       expect(keyValueStoreOutput.key).toEqual(`Test Key`);
     });
 
+    it(`exposes the expected effects`, () => {
+      expect(keyValueStoreOutput.effects).toEqual([
+        {
+          type: `keyedStoreAdd`,
+          store: keyValueStore,
+          key: `Test Key`,
+        },
+      ]);
+    });
+
     it(`does not get a value from the store`, () => {
       expect(get).not.toHaveBeenCalled();
     });
@@ -51,7 +61,7 @@ describe(`KeyValueStoreOutput`, () => {
     });
   });
 
-  describe(`get`, () => {
+  describe(`set`, () => {
     let get: jasmine.Spy;
     let set: jasmine.Spy;
     let _delete: jasmine.Spy;
@@ -73,6 +83,16 @@ describe(`KeyValueStoreOutput`, () => {
       );
 
       await keyValueStoreOutput.set(`Test Value`);
+    });
+
+    it(`continues to expose the expected effects`, () => {
+      expect(keyValueStoreOutput.effects).toEqual([
+        {
+          type: `keyedStoreAdd`,
+          store: keyValueStore,
+          key: `Test Key`,
+        },
+      ]);
     });
 
     it(`continues to expose the key value store`, () => {

@@ -1,6 +1,6 @@
-export interface ValueStoreInterface<T> {
-  readonly name: string;
+import { Store } from "@shanzhai/interfaces";
 
+export interface ValueStoreInterface<T> extends Store {
   get(): T;
 
   set(value: T): void;

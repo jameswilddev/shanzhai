@@ -13,4 +13,6 @@ export class ParallelStep implements Step {
       this.children.map((child) => child.executePerActionStep(callback))
     );
   }
+
+  readonly effects = this.children.map((child) => child.effects).flat();
 }

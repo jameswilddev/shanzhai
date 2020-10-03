@@ -1,7 +1,62 @@
-import { Step } from "@shanzhai/interfaces";
+import { Step, Effect } from "@shanzhai/interfaces";
 import { ParallelStep } from ".";
 
 describe(`ParallelStep`, () => {
+  const effectAA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect AA` },
+  };
+
+  const effectAB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect AB` },
+  };
+
+  const effectBA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect BA` },
+  };
+
+  const effectBB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect BB` },
+  };
+
+  const effectBC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect BC` },
+  };
+
+  const effectBD: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect BD` },
+  };
+
+  const effectCA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect CA` },
+  };
+
+  const effectCB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect CB` },
+  };
+
+  const effectDA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect DA` },
+  };
+
+  const effectDB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect DB` },
+  };
+
+  const effectDC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Effect DC` },
+  };
+
   describe(`on construction`, () => {
     let childA: Step;
     let executePerActionStepA: jasmine.Spy;
@@ -18,24 +73,28 @@ describe(`ParallelStep`, () => {
       childA = {
         name: `Test Child Name A`,
         executePerActionStep: executePerActionStepA,
+        effects: [effectAA, effectAB],
       };
 
       executePerActionStepB = jasmine.createSpy(`executePerActionStepB`);
       childB = {
         name: `Test Child Name B`,
         executePerActionStep: executePerActionStepB,
+        effects: [effectBA, effectBB, effectBC, effectBD],
       };
 
       executePerActionStepC = jasmine.createSpy(`executePerActionStepC`);
       childC = {
         name: `Test Child Name C`,
         executePerActionStep: executePerActionStepC,
+        effects: [effectCA, effectCB],
       };
 
       executePerActionStepD = jasmine.createSpy(`executePerActionStepD`);
       childD = {
         name: `Test Child Name D`,
         executePerActionStep: executePerActionStepD,
+        effects: [effectDA, effectDB, effectDC],
       };
 
       parallelStep = new ParallelStep(`Test Name`, [
@@ -59,6 +118,22 @@ describe(`ParallelStep`, () => {
       expect(executePerActionStepB).not.toHaveBeenCalled();
       expect(executePerActionStepC).not.toHaveBeenCalled();
       expect(executePerActionStepD).not.toHaveBeenCalled();
+    });
+
+    it(`exposes the effects of its children`, () => {
+      expect(parallelStep.effects).toEqual([
+        effectAA,
+        effectAB,
+        effectBA,
+        effectBB,
+        effectBC,
+        effectBD,
+        effectCA,
+        effectCB,
+        effectDA,
+        effectDB,
+        effectDC,
+      ]);
     });
   });
 
@@ -89,6 +164,10 @@ describe(`ParallelStep`, () => {
       it(`resolves the returned promise`, async () => {
         await expectAsync(promise).toBeResolved();
       });
+
+      it(`continues to expose no effects`, () => {
+        expect(parallelStep.effects).toEqual([]);
+      });
     });
 
     describe(`without any completing`, () => {
@@ -115,6 +194,7 @@ describe(`ParallelStep`, () => {
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
+          effects: [effectAA, effectAB],
         };
 
         executePerActionStepB = jasmine
@@ -127,6 +207,7 @@ describe(`ParallelStep`, () => {
         childB = {
           name: `Test Child Name B`,
           executePerActionStep: executePerActionStepB,
+          effects: [effectBA, effectBB, effectBC, effectBD],
         };
 
         executePerActionStepC = jasmine
@@ -139,6 +220,7 @@ describe(`ParallelStep`, () => {
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
+          effects: [effectCA, effectCB],
         };
 
         executePerActionStepD = jasmine
@@ -151,6 +233,7 @@ describe(`ParallelStep`, () => {
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,
+          effects: [effectDA, effectDB, effectDC],
         };
 
         parallelStep = new ParallelStep(`Test Name`, [
@@ -203,6 +286,22 @@ describe(`ParallelStep`, () => {
       it(`does not resolve or reject the returned promise`, () => {
         expect(resolvedOrRejected).toBeFalse();
       });
+
+      it(`continues to expose the effects of its children`, () => {
+        expect(parallelStep.effects).toEqual([
+          effectAA,
+          effectAB,
+          effectBA,
+          effectBB,
+          effectBC,
+          effectBD,
+          effectCA,
+          effectCB,
+          effectDA,
+          effectDB,
+          effectDC,
+        ]);
+      });
     });
 
     describe(`with some completing successfully`, () => {
@@ -225,6 +324,7 @@ describe(`ParallelStep`, () => {
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
+          effects: [effectAA, effectAB],
         };
 
         executePerActionStepB = jasmine
@@ -237,6 +337,7 @@ describe(`ParallelStep`, () => {
         childB = {
           name: `Test Child Name B`,
           executePerActionStep: executePerActionStepB,
+          effects: [effectBA, effectBB, effectBC, effectBD],
         };
 
         executePerActionStepC = jasmine
@@ -245,6 +346,7 @@ describe(`ParallelStep`, () => {
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
+          effects: [effectCA, effectCB],
         };
 
         executePerActionStepD = jasmine
@@ -253,6 +355,7 @@ describe(`ParallelStep`, () => {
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,
+          effects: [effectDA, effectDB, effectDC],
         };
 
         parallelStep = new ParallelStep(`Test Name`, [
@@ -298,6 +401,22 @@ describe(`ParallelStep`, () => {
       it(`does not resolve or reject the returned promise`, () => {
         expect(resolvedOrRejected).toBeFalse();
       });
+
+      it(`continues to expose the effects of its children`, () => {
+        expect(parallelStep.effects).toEqual([
+          effectAA,
+          effectAB,
+          effectBA,
+          effectBB,
+          effectBC,
+          effectBD,
+          effectCA,
+          effectCB,
+          effectDA,
+          effectDB,
+          effectDC,
+        ]);
+      });
     });
 
     describe(`with all completing successfully`, () => {
@@ -320,6 +439,7 @@ describe(`ParallelStep`, () => {
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
+          effects: [effectAA, effectAB],
         };
 
         executePerActionStepB = jasmine
@@ -328,6 +448,7 @@ describe(`ParallelStep`, () => {
         childB = {
           name: `Test Child Name B`,
           executePerActionStep: executePerActionStepB,
+          effects: [effectBA, effectBB, effectBC, effectBD],
         };
 
         executePerActionStepC = jasmine
@@ -336,6 +457,7 @@ describe(`ParallelStep`, () => {
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
+          effects: [effectCA, effectCB],
         };
 
         executePerActionStepD = jasmine
@@ -344,6 +466,7 @@ describe(`ParallelStep`, () => {
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,
+          effects: [effectDA, effectDB, effectDC],
         };
 
         parallelStep = new ParallelStep(`Test Name`, [
@@ -380,6 +503,22 @@ describe(`ParallelStep`, () => {
       it(`resolves the returned promise`, async () => {
         await expectAsync(promise).toBeResolved();
       });
+
+      it(`continues to expose the effects of its children`, () => {
+        expect(parallelStep.effects).toEqual([
+          effectAA,
+          effectAB,
+          effectBA,
+          effectBB,
+          effectBC,
+          effectBD,
+          effectCA,
+          effectCB,
+          effectDA,
+          effectDB,
+          effectDC,
+        ]);
+      });
     });
 
     describe(`with some completing successfully, but one failing`, () => {
@@ -402,6 +541,7 @@ describe(`ParallelStep`, () => {
         childA = {
           name: `Test Child Name A`,
           executePerActionStep: executePerActionStepA,
+          effects: [effectAA, effectAB],
         };
 
         executePerActionStepB = jasmine
@@ -410,6 +550,7 @@ describe(`ParallelStep`, () => {
         childB = {
           name: `Test Child Name B`,
           executePerActionStep: executePerActionStepB,
+          effects: [effectBA, effectBB, effectBC, effectBD],
         };
 
         executePerActionStepC = jasmine
@@ -418,6 +559,7 @@ describe(`ParallelStep`, () => {
         childC = {
           name: `Test Child Name C`,
           executePerActionStep: executePerActionStepC,
+          effects: [effectCA, effectCB],
         };
 
         executePerActionStepD = jasmine
@@ -426,6 +568,7 @@ describe(`ParallelStep`, () => {
         childD = {
           name: `Test Child Name D`,
           executePerActionStep: executePerActionStepD,
+          effects: [effectDA, effectDB, effectDC],
         };
 
         parallelStep = new ParallelStep(`Test Name`, [
@@ -469,6 +612,22 @@ describe(`ParallelStep`, () => {
 
       it(`passes on the rejection reason`, async () => {
         await expectAsync(promise).toBeRejectedWithError(`Test Error`);
+      });
+
+      it(`continues to expose the effects of its children`, () => {
+        expect(parallelStep.effects).toEqual([
+          effectAA,
+          effectAB,
+          effectBA,
+          effectBB,
+          effectBC,
+          effectBD,
+          effectCA,
+          effectCB,
+          effectDA,
+          effectDB,
+          effectDC,
+        ]);
       });
     });
   });

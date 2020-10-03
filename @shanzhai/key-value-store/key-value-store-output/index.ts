@@ -1,4 +1,4 @@
-import { Output } from "@shanzhai/interfaces";
+import { Output, Effect } from "@shanzhai/interfaces";
 import { KeyValueStoreInterface } from "..";
 
 export class KeyValueStoreOutput<TKey extends string, TValue>
@@ -11,4 +11,12 @@ export class KeyValueStoreOutput<TKey extends string, TValue>
   async set(value: TValue): Promise<void> {
     this.keyValueStore.set(this.key, value);
   }
+
+  readonly effects: ReadonlyArray<Effect> = [
+    {
+      type: `keyedStoreAdd`,
+      store: this.keyValueStore,
+      key: this.key,
+    },
+  ];
 }

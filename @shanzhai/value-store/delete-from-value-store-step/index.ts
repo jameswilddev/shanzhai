@@ -3,7 +3,7 @@ import { ValueStoreInterface } from "../value-store-interface";
 
 export class DeleteFromValueStoreStep<TValue> extends ActionStep {
   constructor(public readonly valueStore: ValueStoreInterface<TValue>) {
-    super(`Delete from ${JSON.stringify(valueStore.name)}`);
+    super(`Delete from ${JSON.stringify(valueStore.name)}`, []);
   }
 
   async execute(): Promise<void> {

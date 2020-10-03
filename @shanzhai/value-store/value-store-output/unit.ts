@@ -20,6 +20,15 @@ describe(`ValueStoreOutput`, () => {
       valueStoreOutput = new ValueStoreOutput<TestValue>(valueStore);
     });
 
+    it(`exposes the expected effects`, () => {
+      expect(valueStoreOutput.effects).toEqual([
+        {
+          type: `storeUpdate`,
+          store: valueStore,
+        },
+      ]);
+    });
+
     it(`exposes the value store`, () => {
       expect(valueStoreOutput.valueStore).toBe(valueStore);
     });
@@ -37,7 +46,7 @@ describe(`ValueStoreOutput`, () => {
     });
   });
 
-  describe(`get`, () => {
+  describe(`set`, () => {
     let get: jasmine.Spy;
     let set: jasmine.Spy;
     let _delete: jasmine.Spy;
@@ -54,6 +63,15 @@ describe(`ValueStoreOutput`, () => {
       valueStoreOutput = new ValueStoreOutput<TestValue>(valueStore);
 
       await valueStoreOutput.set(`Test Value`);
+    });
+
+    it(`continues to expose the expected effects`, () => {
+      expect(valueStoreOutput.effects).toEqual([
+        {
+          type: `storeUpdate`,
+          store: valueStore,
+        },
+      ]);
     });
 
     it(`continues to expose the value store`, () => {
