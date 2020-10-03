@@ -26,6 +26,14 @@ export async function writePackageJson(
     }
   }
 
+  const processDependencyList = (
+    list: undefined | { readonly [name: string]: string }
+  ): undefined | { readonly [name: string]: string } => {
+    return list !== undefined && Object.keys(list).length > 0
+      ? list
+      : undefined;
+  };
+
   const newPackageJson = {
     name: `${name.join(`/`)}`,
     description: originalPackageJson.description,
@@ -44,8 +52,8 @@ export async function writePackageJson(
       url: `https://github.com/jameswilddev/shanzhai`,
     },
     license: `MIT`,
-    dependencies: originalPackageJson.dependencies,
-    devDependencies: originalPackageJson.devDependencies,
+    dependencies: processDependencyList(originalPackageJson.dependencies),
+    devDependencies: processDependencyList(originalPackageJson.devDependencies),
     bin: originalPackageJson.bin,
     scripts: originalPackageJson.scripts,
     types: hasTypes ? `index.d.ts` : undefined,
