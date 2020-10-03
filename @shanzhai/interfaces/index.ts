@@ -6,3 +6,4 @@ export { Output } from "./output";
 export { ParsedPath } from "./parsed-path";
 export { Plugin } from "./plugin";
 export { Step } from "./step";
+export { Store } from "./store";
