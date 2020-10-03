@@ -1,4 +1,5 @@
-import { Diff, generateDiff } from "..";
+import { Diff } from "@shanzhai/interfaces";
+import { generateDiff } from "..";
 
 describe(`generateDiff`, () => {
   let diff: Diff<string>;

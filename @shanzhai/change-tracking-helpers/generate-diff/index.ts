@@ -1,5 +1,5 @@
+import { Diff } from "@shanzhai/interfaces";
 import { Timestamps } from "../timestamps";
-import { Diff } from "../diff";
 
 export const generateDiff = (
   from: Timestamps,

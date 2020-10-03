@@ -1,4 +1,5 @@
-import { Diff, filterDiff } from "..";
+import { Diff } from "@shanzhai/interfaces";
+import { filterDiff } from "..";
 
 describe(`filterDiff`, () => {
   type TestInput =

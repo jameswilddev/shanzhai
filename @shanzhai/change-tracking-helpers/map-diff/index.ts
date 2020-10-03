@@ -1,4 +1,4 @@
-import { Diff } from "../diff";
+import { Diff } from "@shanzhai/interfaces";
 
 export const mapDiff = <TInput, TOutput>(
   diff: Diff<TInput>,
