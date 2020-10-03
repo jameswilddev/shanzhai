@@ -1,0 +1,30 @@
+{
+  "name": "@shanzhai/global-store",
+  "description": "A Shanzhai store for global variables to be included in Javascript builds.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/key-value-store": "0.0.2"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.2"
+  },
+  "types": "index.d.ts"
+}
