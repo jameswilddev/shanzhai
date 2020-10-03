@@ -5,3 +5,4 @@ export { parsePath } from "./parse-path";
 export { pathAccepted } from "./path-accepted";
 export { singleFile } from "./single-file";
 export { Hashes } from "./hashes";
+export { hashFile } from "./hash-file";
