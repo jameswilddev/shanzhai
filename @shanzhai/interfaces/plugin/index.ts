@@ -1,5 +1,5 @@
 import { Trigger } from "../trigger";
 
-export type Plugin = {
-  readonly triggers: ReadonlyArray<Trigger>;
+export type Plugin<T extends { readonly [name: string]: Trigger }> = {
+  readonly triggers: T;
 };
