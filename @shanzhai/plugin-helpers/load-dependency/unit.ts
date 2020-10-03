@@ -3,7 +3,7 @@ import * as path from "path";
 import * as fs from "fs";
 import * as uuid from "uuid";
 import { loadDependency } from ".";
-import { Plugin } from "@shanzhai/interfaces";
+import { Plugin, Trigger } from "@shanzhai/interfaces";
 
 describe(`loadDependency`, () => {
   describe(`unscoped`, () => {
@@ -203,7 +203,7 @@ describe(`loadDependency`, () => {
     describe(`when package.json does not describe a Shanzhai plugin`, () => {
       let originalWorkingDirectory: string;
       let root: string;
-      let result: null | Plugin;
+      let result: null | Plugin<{ readonly [name: string]: Trigger }>;
 
       beforeAll(async () => {
         originalWorkingDirectory = process.cwd();
@@ -240,7 +240,7 @@ describe(`loadDependency`, () => {
     describe(`when package.json describes a Shanzhai plugin`, () => {
       let originalWorkingDirectory: string;
       let root: string;
-      let result: null | Plugin;
+      let result: null | Plugin<{ readonly [name: string]: Trigger }>;
 
       beforeAll(async () => {
         originalWorkingDirectory = process.cwd();
@@ -261,7 +261,7 @@ describe(`loadDependency`, () => {
 
         await fs.promises.writeFile(
           path.join(root, `node_modules`, `test-package-name`, `index.js`),
-          `module.exports = { perFile: null, aggregation: null };`
+          `module.exports = { triggers: {} };`
         );
 
         process.chdir(root);
@@ -276,8 +276,7 @@ describe(`loadDependency`, () => {
 
       it(`resolves to the plugin`, () => {
         expect(result).toEqual({
-          perFile: null,
-          aggregation: null,
+          triggers: {},
         });
       });
     });
@@ -542,7 +541,7 @@ describe(`loadDependency`, () => {
     describe(`when package.json does not describe a Shanzhai plugin`, () => {
       let originalWorkingDirectory: string;
       let root: string;
-      let result: null | Plugin;
+      let result: null | Plugin<{ readonly [name: string]: Trigger }>;
 
       beforeAll(async () => {
         originalWorkingDirectory = process.cwd();
@@ -592,7 +591,7 @@ describe(`loadDependency`, () => {
     describe(`when package.json describes a Shanzhai plugin`, () => {
       let originalWorkingDirectory: string;
       let root: string;
-      let result: null | Plugin;
+      let result: null | Plugin<{ readonly [name: string]: Trigger }>;
 
       beforeAll(async () => {
         originalWorkingDirectory = process.cwd();
@@ -630,7 +629,7 @@ describe(`loadDependency`, () => {
             `test-package-name`,
             `index.js`
           ),
-          `module.exports = { perFile: null, aggregation: null };`
+          `module.exports = { triggers: {} };`
         );
 
         process.chdir(root);
@@ -647,8 +646,7 @@ describe(`loadDependency`, () => {
 
       it(`resolves to the plugin`, () => {
         expect(result).toEqual({
-          perFile: null,
-          aggregation: null,
+          triggers: {},
         });
       });
     });

@@ -3,12 +3,12 @@ import * as path from "path";
 import * as fs from "fs";
 import * as uuid from "uuid";
 import { searchForPlugins } from ".";
-import { Plugin } from "@shanzhai/interfaces";
+import { Plugin, Trigger } from "@shanzhai/interfaces";
 
 describe(`searchForPlugins`, () => {
   let originalWorkingDirectory: string;
   let root: string;
-  let result: ReadonlyArray<Plugin>;
+  let result: ReadonlyArray<Plugin<{ readonly [name: string]: Trigger }>>;
 
   beforeAll(async () => {
     originalWorkingDirectory = process.cwd();

@@ -1,11 +1,13 @@
-import { Plugin } from "@shanzhai/interfaces";
+import { Plugin, Trigger } from "@shanzhai/interfaces";
 import { listAllDependencies } from "./list-all-dependencies";
 import { loadDependency } from "./load-dependency";
 
-export async function searchForPlugins(): Promise<ReadonlyArray<Plugin>> {
+export async function searchForPlugins(): Promise<
+  ReadonlyArray<Plugin<{ readonly [name: string]: Trigger }>>
+> {
   const dependencies = await listAllDependencies();
 
-  const output: Plugin[] = [];
+  const output: Plugin<{ readonly [name: string]: Trigger }>[] = [];
 
   for (const dependency of dependencies) {
     const plugin = await loadDependency(dependency);

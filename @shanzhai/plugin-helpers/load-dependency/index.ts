@@ -1,8 +1,10 @@
 import * as path from "path";
 import * as fs from "fs";
-import { Plugin } from "@shanzhai/interfaces";
+import { Plugin, Trigger } from "@shanzhai/interfaces";
 
-export async function loadDependency(name: string): Promise<null | Plugin> {
+export async function loadDependency(
+  name: string
+): Promise<null | Plugin<{ readonly [name: string]: Trigger }>> {
   const scoped = /@([^\/]+)\/([^\/]+)$/.exec(name);
 
   const dependencyLocation =
