@@ -14,4 +14,5 @@ export { StoreUpdateEffect } from "./effect/store-update-effect";
 export { Trigger } from "./trigger";
 export { FileTrigger } from "./trigger/file-trigger";
 export { KeyedStoreTrigger } from "./trigger/keyed-store-trigger";
+export { OneTimeTrigger } from "./trigger/one-time-trigger";
 export { StoreTrigger } from "./trigger/store-trigger";
