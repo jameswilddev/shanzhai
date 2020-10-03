@@ -11,6 +11,7 @@ export async function writePackageJson(
     readonly peerDependencies?: { readonly [name: string]: string };
     readonly bin?: { readonly [name: string]: string };
     readonly scripts?: { readonly [name: string]: string };
+    readonly shanzhaiPlugin?: true;
   }
 ): Promise<void> {
   console.log(`${name.join(`/`)} - Writing package.json...`);
@@ -61,6 +62,7 @@ export async function writePackageJson(
     bin: originalPackageJson.bin,
     scripts: originalPackageJson.scripts,
     types: hasTypes ? `index.d.ts` : undefined,
+    shanzhaiPlugin: originalPackageJson.shanzhaiPlugin,
   };
 
   const newPackageJsonText = `${JSON.stringify(newPackageJson, null, 2)}\n`;
