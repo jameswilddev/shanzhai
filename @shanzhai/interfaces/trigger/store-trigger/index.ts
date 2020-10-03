@@ -6,6 +6,6 @@ export type StoreTrigger = {
 
   readonly stores: ReadonlyArray<Store>;
 
-  readonly down: ReadonlyArray<Step>;
-  readonly up: ReadonlyArray<Step>;
+  down(): Promise<ReadonlyArray<Step>>;
+  up(): Promise<ReadonlyArray<Step>>;
 };

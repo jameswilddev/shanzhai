@@ -6,6 +6,6 @@ export type KeyedStoreTrigger = {
 
   readonly regeneratedByChangesToStores: ReadonlyArray<Store>;
 
-  down(key: string): ReadonlyArray<Step>;
-  up(key: string): ReadonlyArray<Step>;
+  down(key: string): Promise<ReadonlyArray<Step>>;
+  up(key: string): Promise<ReadonlyArray<Step>>;
 };
