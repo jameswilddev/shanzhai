@@ -23,7 +23,7 @@
   "dependencies": {
     "@shanzhai/build-object-input": "0.0.1",
     "@shanzhai/interfaces": "0.0.2",
-    "@shanzhai/key-value-store": "0.0.1",
+    "@shanzhai/key-value-store": "0.0.2",
     "@shanzhai/minify-step": "0.0.0",
     "@shanzhai/parallel-step": "0.0.0",
     "@shanzhai/parse-pug-step": "0.0.0",
