@@ -30,7 +30,7 @@
     "@shanzhai/read-text-file-step": "0.0.0",
     "@shanzhai/render-pug-step": "0.0.0",
     "@shanzhai/serial-step": "0.0.0",
-    "@shanzhai/value-store": "0.0.1",
+    "@shanzhai/value-store": "0.0.2",
     "@shanzhai/zip-step": "0.0.0",
     "@shanzhai/minify-html-step": "0.0.1",
     "@shanzhai/change-tracking-helpers": "0.0.3",
