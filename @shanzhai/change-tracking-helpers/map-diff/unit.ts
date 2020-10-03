@@ -1,4 +1,5 @@
-import { Diff, mapDiff } from "..";
+import { Diff } from "@shanzhai/interfaces";
+import { mapDiff } from "..";
 
 describe(`mapDiff`, () => {
   type TestInput =

@@ -1,30 +1,31 @@
-import { Diff, generateDiff } from "..";
+import { Diff } from "@shanzhai/interfaces";
+import { generateDiff } from "..";
 
 describe(`generateDiff`, () => {
   let diff: Diff<string>;
   beforeAll(() => {
     diff = generateDiff(
       {
-        testChangedKeyA: 250977841,
-        testChangedKeyB: 498066877,
-        testUnchangedKeyC: 529788615,
-        testUnchangedKeyA: 789707642,
-        testDeletedKeyB: 592434368,
-        testChangedKeyC: 657809196,
-        testDeletedKeyA: 786761939,
-        testUnchangedKeyB: 591733676,
-        testDeletedKeyC: 670674224,
+        testChangedKeyA: `Test Changed Value A A`,
+        testChangedKeyB: `Test Changed Value B A`,
+        testUnchangedKeyC: `Test Unchanged Value C`,
+        testUnchangedKeyA: `Test Unchanged Value A`,
+        testDeletedKeyB: `Test Deleted Value B`,
+        testChangedKeyC: `Test Changed Value C A`,
+        testDeletedKeyA: `Test Deleted Value A`,
+        testUnchangedKeyB: `Test Unchanged Value B`,
+        testDeletedKeyC: `Test Deleted Value C`,
       },
       {
-        testChangedKeyA: 419651368,
-        testUnchangedKeyB: 591733676,
-        testAddedKeyB: 622964471,
-        testChangedKeyC: 860705509,
-        testChangedKeyB: 640184614,
-        testAddedKeyC: 842584506,
-        testUnchangedKeyA: 789707642,
-        testAddedKeyA: 152522627,
-        testUnchangedKeyC: 529788615,
+        testChangedKeyA: `Test Changed Value A B`,
+        testUnchangedKeyB: `Test Unchanged Value B`,
+        testAddedKeyB: `Test Added Value B`,
+        testChangedKeyC: `Test Changed Value C B`,
+        testChangedKeyB: `Test Changed Value B B`,
+        testAddedKeyC: `Test Added Value C`,
+        testUnchangedKeyA: `Test Unchanged Value A`,
+        testAddedKeyA: `Test Added Value A`,
+        testUnchangedKeyC: `Test Unchanged Value C`,
       }
     );
   });

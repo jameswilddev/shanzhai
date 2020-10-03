@@ -1,4 +1,4 @@
-import { Diff } from "../diff";
+import { Diff } from "@shanzhai/interfaces";
 
 export const filterDiff = <TInput, TFilterBy extends string>(
   diff: Diff<TInput>,

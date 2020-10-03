@@ -1,10 +1,7 @@
-import { Timestamps } from "../timestamps";
-import { Diff } from "../diff";
+import { Diff } from "@shanzhai/interfaces";
+import { Hashes } from "../hashes";
 
-export const generateDiff = (
-  from: Timestamps,
-  to: Timestamps
-): Diff<string> => {
+export const generateDiff = (from: Hashes, to: Hashes): Diff<string> => {
   const fromKeys = Object.keys(from).sort();
   const toKeys = Object.keys(to).sort();
 
