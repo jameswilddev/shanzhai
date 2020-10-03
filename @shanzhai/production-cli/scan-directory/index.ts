@@ -1,28 +1,42 @@
 import * as fs from "fs";
 import * as path from "path";
-import { Timestamps, pathAccepted } from "@shanzhai/change-tracking-helpers";
+import {
+  Hashes,
+  hashFile,
+  pathAccepted,
+} from "@shanzhai/change-tracking-helpers";
 
-export async function scanDirectory(root: string): Promise<Timestamps> {
-  const timestamps: { [path: string]: number } = {};
+export async function scanDirectory(root: string): Promise<Hashes> {
+  const hashes: { [path: string]: string } = {};
 
   const recurse = async (subPath: string, prefix: string): Promise<void> => {
     for (const child of await fs.promises.readdir(subPath)) {
-      const joined = path.join(subPath, child);
-      const stat = await fs.promises.stat(joined);
+      const fullPath = path.join(subPath, child);
 
-      if (stat.isDirectory()) {
-        await recurse(joined, `${prefix}${child}/`);
-      } else {
-        const path = `${prefix}${child}`;
+      let hash: string;
 
-        if (pathAccepted(path)) {
-          timestamps[path] = stat.mtimeMs;
+      try {
+        hash = await hashFile(fullPath);
+      } catch (e) {
+        /* istanbul ignore else */
+        if (e.code === `EISDIR`) {
+          await recurse(fullPath, `${prefix}${child}/`);
+          continue;
+        } else {
+          // There is no reliable way to trigger this branch.
+          throw e;
         }
+      }
+
+      const outputPath = `${prefix}${child}`;
+
+      if (pathAccepted(outputPath)) {
+        hashes[outputPath] = hash;
       }
     }
   };
 
   await recurse(root, ``);
 
-  return timestamps;
+  return hashes;
 }

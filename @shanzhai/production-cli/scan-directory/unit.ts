@@ -2,13 +2,13 @@ import * as os from "os";
 import * as path from "path";
 import * as fs from "fs";
 import * as uuid from "uuid";
-import { Timestamps } from "@shanzhai/change-tracking-helpers";
+import { Hashes } from "@shanzhai/change-tracking-helpers";
 import { scanDirectory } from ".";
 
 describe(`scanDirectory`, () => {
   describe(`when the directory is empty`, () => {
     let root: string;
-    let promise: Promise<Timestamps>;
+    let promise: Promise<Hashes>;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
@@ -22,21 +22,24 @@ describe(`scanDirectory`, () => {
       await fs.promises.rmdir(root, { recursive: true });
     });
 
-    it(`returns the expected object of timestamps`, async () => {
+    it(`returns the expected object of hashes`, async () => {
       await expectAsync(promise).toBeResolvedTo({});
     });
   });
 
   describe(`when the directory exists`, () => {
     let root: string;
-    let promise: Promise<Timestamps>;
+    let promise: Promise<Hashes>;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
 
       await fs.promises.mkdir(root, { recursive: true });
 
-      await fs.promises.writeFile(path.join(root, `at-root`), Buffer.alloc(0));
+      await fs.promises.writeFile(
+        path.join(root, `at-root`),
+        `Test File Content A`
+      );
       await fs.promises.utimes(path.join(root, `at-root`), 8945735, 4556363);
 
       await fs.promises.mkdir(path.join(root, `empty-subdirectory`), {
@@ -50,7 +53,7 @@ describe(`scanDirectory`, () => {
 
       await fs.promises.writeFile(
         path.join(root, `level-one`, `level-two`, `.excluded-file`),
-        Buffer.alloc(0)
+        `Test File Content B`
       );
 
       await fs.promises.writeFile(
@@ -61,7 +64,7 @@ describe(`scanDirectory`, () => {
           `level-three`,
           `deeply-nested`
         ),
-        Buffer.alloc(0)
+        `Test File Content C`
       );
       await fs.promises.utimes(
         path.join(
@@ -92,7 +95,7 @@ describe(`scanDirectory`, () => {
           `.filtered-level-two`,
           `file-filtered-by-parent`
         ),
-        Buffer.alloc(0)
+        `Test File Content D`
       );
 
       await fs.promises.writeFile(
@@ -103,7 +106,7 @@ describe(`scanDirectory`, () => {
           `filtered-level-three`,
           `file-filtered-by-parents-parent`
         ),
-        Buffer.alloc(0)
+        `Test File Content E`
       );
 
       promise = scanDirectory(root);
@@ -113,10 +116,10 @@ describe(`scanDirectory`, () => {
       await fs.promises.rmdir(root, { recursive: true });
     });
 
-    it(`returns the expected object of timestamps`, async () => {
+    it(`returns the expected object of hashes`, async () => {
       await expectAsync(promise).toBeResolvedTo({
-        "at-root": 4556363000,
-        "level-one/level-two/level-three/deeply-nested": 768936000,
+        "at-root": `311e6e92408f2f6bd98cea1f4902e12c90453291`,
+        "level-one/level-two/level-three/deeply-nested": `45ff1166b6f77d161fb0c5bc7215d97b9ff58611`,
       });
     });
   });
