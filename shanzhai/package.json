@@ -26,7 +26,7 @@
     "@shanzhai/key-value-store": "0.0.2",
     "@shanzhai/minify-step": "0.0.1",
     "@shanzhai/parallel-step": "0.0.1",
-    "@shanzhai/parse-pug-step": "0.0.0",
+    "@shanzhai/parse-pug-step": "0.0.1",
     "@shanzhai/read-text-file-step": "0.0.0",
     "@shanzhai/render-pug-step": "0.0.0",
     "@shanzhai/serial-step": "0.0.0",
