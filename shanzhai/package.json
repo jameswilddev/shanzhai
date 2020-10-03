@@ -21,9 +21,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/build-object-input": "0.0.0",
+    "@shanzhai/build-object-input": "0.0.1",
     "@shanzhai/interfaces": "0.0.2",
-    "@shanzhai/key-value-store": "0.0.1",
+    "@shanzhai/key-value-store": "0.0.2",
     "@shanzhai/minify-step": "0.0.0",
     "@shanzhai/parallel-step": "0.0.0",
     "@shanzhai/parse-pug-step": "0.0.0",
@@ -32,8 +32,8 @@
     "@shanzhai/serial-step": "0.0.0",
     "@shanzhai/value-store": "0.0.1",
     "@shanzhai/zip-step": "0.0.0",
-    "@shanzhai/minify-html-step": "0.0.0",
-    "@shanzhai/change-tracking-helpers": "0.0.2",
+    "@shanzhai/minify-html-step": "0.0.1",
+    "@shanzhai/change-tracking-helpers": "0.0.3",
     "svgo": "1.3.2",
     "typescript": "4.0.3",
     "uuid": "8.3.0"
