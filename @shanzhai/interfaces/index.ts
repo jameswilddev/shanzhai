@@ -11,3 +11,7 @@ export { Effect } from "./effect";
 export { KeyedStoreAddEffect } from "./effect/keyed-store-add-effect";
 export { KeyedStoreDeleteEffect } from "./effect/keyed-store-delete-effect";
 export { StoreUpdateEffect } from "./effect/store-update-effect";
+export { Trigger } from "./trigger";
+export { FileTrigger } from "./trigger/file-trigger";
+export { KeyedStoreTrigger } from "./trigger/keyed-store-trigger";
+export { StoreTrigger } from "./trigger/store-trigger";
