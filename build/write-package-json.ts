@@ -8,6 +8,7 @@ export async function writePackageJson(
     readonly version: string;
     readonly dependencies?: { readonly [name: string]: string };
     readonly devDependencies?: { readonly [name: string]: string };
+    readonly peerDependencies?: { readonly [name: string]: string };
     readonly bin?: { readonly [name: string]: string };
     readonly scripts?: { readonly [name: string]: string };
   }
@@ -54,6 +55,9 @@ export async function writePackageJson(
     license: `MIT`,
     dependencies: processDependencyList(originalPackageJson.dependencies),
     devDependencies: processDependencyList(originalPackageJson.devDependencies),
+    peerDependencies: processDependencyList(
+      originalPackageJson.peerDependencies
+    ),
     bin: originalPackageJson.bin,
     scripts: originalPackageJson.scripts,
     types: hasTypes ? `index.d.ts` : undefined,
