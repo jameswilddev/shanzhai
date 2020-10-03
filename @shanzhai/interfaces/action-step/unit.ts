@@ -1,5 +1,4 @@
 import { ActionStep } from "..";
-import { Input } from "../input";
 import { Output } from "../output";
 
 describe(`ActionStep`, () => {
@@ -10,11 +9,6 @@ describe(`ActionStep`, () => {
   describe(`on construction`, () => {
     let actionStep: TestActionStep;
 
-    let inputAGet: jasmine.Spy;
-    let inputA: Input<number>;
-    let inputBGet: jasmine.Spy;
-    let inputB: Input<boolean>;
-
     let outputASet: jasmine.Spy;
     let outputA: Output<string>;
     let outputBSet: jasmine.Spy;
@@ -23,11 +17,6 @@ describe(`ActionStep`, () => {
     let outputC: Output<ReadonlyArray<number>>;
 
     beforeAll(() => {
-      inputAGet = jasmine.createSpy(`inputAGet`);
-      inputA = { get: inputAGet };
-      inputBGet = jasmine.createSpy(`inputBGet`);
-      inputB = { get: inputBGet };
-
       outputASet = jasmine.createSpy(`outputASet`);
       outputA = { set: outputASet };
       outputBSet = jasmine.createSpy(`outputBSet`);
@@ -35,24 +24,11 @@ describe(`ActionStep`, () => {
       outputCSet = jasmine.createSpy(`outputCSet`);
       outputC = { set: outputCSet };
 
-      actionStep = new TestActionStep(
-        `Test Name`,
-        [inputA, inputB],
-        [outputA, outputB, outputC]
-      );
+      actionStep = new TestActionStep(`Test Name`, [outputA, outputB, outputC]);
     });
 
     it(`exposes its name`, () => {
       expect(actionStep.name).toEqual(`Test Name`);
-    });
-
-    it(`exposes its inputs`, () => {
-      expect(actionStep.inputs).toEqual([inputA, inputB]);
-    });
-
-    it(`does not get any of its inputs`, () => {
-      expect(inputAGet).not.toHaveBeenCalled();
-      expect(inputBGet).not.toHaveBeenCalled();
     });
 
     it(`exposes its outputs`, () => {
@@ -73,11 +49,6 @@ describe(`ActionStep`, () => {
   describe(`on calling executePerActionStep`, () => {
     let actionStep: TestActionStep;
 
-    let inputAGet: jasmine.Spy;
-    let inputA: Input<number>;
-    let inputBGet: jasmine.Spy;
-    let inputB: Input<boolean>;
-
     let outputASet: jasmine.Spy;
     let outputA: Output<string>;
     let outputBSet: jasmine.Spy;
@@ -88,11 +59,6 @@ describe(`ActionStep`, () => {
     let callback: jasmine.Spy;
 
     beforeAll(() => {
-      inputAGet = jasmine.createSpy(`inputAGet`);
-      inputA = { get: inputAGet };
-      inputBGet = jasmine.createSpy(`inputBGet`);
-      inputB = { get: inputBGet };
-
       outputASet = jasmine.createSpy(`outputASet`);
       outputA = { set: outputASet };
       outputBSet = jasmine.createSpy(`outputBSet`);
@@ -100,11 +66,7 @@ describe(`ActionStep`, () => {
       outputCSet = jasmine.createSpy(`outputCSet`);
       outputC = { set: outputCSet };
 
-      actionStep = new TestActionStep(
-        `Test Name`,
-        [inputA, inputB],
-        [outputA, outputB, outputC]
-      );
+      actionStep = new TestActionStep(`Test Name`, [outputA, outputB, outputC]);
 
       callback = jasmine.createSpy(`callback`);
 
@@ -113,15 +75,6 @@ describe(`ActionStep`, () => {
 
     it(`exposes its name`, () => {
       expect(actionStep.name).toEqual(`Test Name`);
-    });
-
-    it(`exposes its inputs`, () => {
-      expect(actionStep.inputs).toEqual([inputA, inputB]);
-    });
-
-    it(`does not get any of its inputs`, () => {
-      expect(inputAGet).not.toHaveBeenCalled();
-      expect(inputBGet).not.toHaveBeenCalled();
     });
 
     it(`exposes its outputs`, () => {

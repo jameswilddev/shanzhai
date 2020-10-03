@@ -1,5 +1,4 @@
 import { ActionStep } from "../action-step";
-import { Input } from "../input";
 import { Output } from "../output";
 
 export interface Step {
@@ -9,6 +8,5 @@ export interface Step {
     callback: (actionStep: ActionStep) => Promise<void>
   ): Promise<void>;
 
-  inputs: ReadonlyArray<Input<unknown>>;
   outputs: ReadonlyArray<Output<unknown>>;
 }
