@@ -2,7 +2,7 @@ import * as os from "os";
 import * as path from "path";
 import * as fs from "fs";
 import * as uuid from "uuid";
-import { hashFile } from ".";
+import { hashFile } from "..";
 
 describe(`hashFile`, () => {
   let root: string;
