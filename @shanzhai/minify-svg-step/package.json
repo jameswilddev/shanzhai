@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minify-svg-step",
   "description": "A Shanzhai build step minifies a SVG file.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },

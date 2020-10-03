@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/convert-json-to-type-script-step",
   "description": "A Shanzhai build step which converts a JSON value to TypeScript source code.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/parse-pug-step",
   "description": "A Shanzhai build step which parses Pug files.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/key-value-store",
   "description": "A store which holds a keyed set of values, with inputs and outputs for interacting with Shanzhai build steps and some helper build steps.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },

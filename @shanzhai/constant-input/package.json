@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/constant-input",
   "description": "A Shanzhai input which provides a constant input to a build step.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },

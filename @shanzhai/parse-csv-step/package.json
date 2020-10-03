@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/parse-csv-step",
   "description": "A Shanzhai build step which parses CSV files.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
