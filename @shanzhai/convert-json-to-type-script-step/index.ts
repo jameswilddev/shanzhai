@@ -12,14 +12,12 @@ export class ConvertJsonToTypeScriptStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    const recurse = (json: Json, prefix: string): string => {
+    const recurse = (json: Json): string => {
       if (json === null) {
         return `null`;
       } else if (typeof json === `object`) {
         if (Array.isArray(json)) {
-          return `${prefix}[${json
-            .map((item) => recurse(item, prefix))
-            .join(`, `)}]`;
+          return `readonly [${json.map(recurse).join(`, `)}]`;
         } else {
           const entries = Object.entries(json);
 
@@ -30,7 +28,7 @@ export class ConvertJsonToTypeScriptStep extends ActionStep {
               .sort(([a], [b]) => a.localeCompare(b))
               .map(
                 ([key, value]) =>
-                  `${prefix}${JSON.stringify(key)}: ${recurse(value, prefix)}`
+                  `readonly ${JSON.stringify(key)}: ${recurse(value)}`
               )
               .join(`, `)} }`;
           }
@@ -47,10 +45,9 @@ export class ConvertJsonToTypeScriptStep extends ActionStep {
     for (const key of Object.keys(json).sort()) {
       const value = json[key];
 
-      const types = recurse(value, `readonly `);
-      const values = recurse(value, ``);
+      const types = recurse(value);
 
-      combined += `const ${key}: ${types} = ${values};\n\n`;
+      combined += `declare const ${key}: ${types};\n\n`;
     }
 
     await this.output.set(combined);

@@ -136,43 +136,43 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
           "Test Root A": 36.5,
         },
       },
-      `const testComplexName: { readonly "Test Root A": 36.5, readonly "Test Root B": readonly [null, { readonly "Test \\"Nested\\" B": "Test \\"Nested\\" String", readonly "Test Nested A": true, readonly "Test Nested C": false }, readonly [{}], -70] } = { "Test Root A": 36.5, "Test Root B": [null, { "Test \\"Nested\\" B": "Test \\"Nested\\" String", "Test Nested A": true, "Test Nested C": false }, [{}], -70] };
+      `declare const testComplexName: { readonly "Test Root A": 36.5, readonly "Test Root B": readonly [null, { readonly "Test \\"Nested\\" B": "Test \\"Nested\\" String", readonly "Test Nested A": true, readonly "Test Nested C": false }, readonly [{}], -70] };
 
-const testEmptyArrayName: readonly [] = [];
+declare const testEmptyArrayName: readonly [];
 
-const testEmptyObjectName: {} = {};
+declare const testEmptyObjectName: {};
 
-const testEmptyStringName: "" = "";
+declare const testEmptyStringName: "";
 
-const testFalseName: false = false;
+declare const testFalseName: false;
 
-const testNegativeFloatName: -3.58 = -3.58;
+declare const testNegativeFloatName: -3.58;
 
-const testNegativeIntegerName: -358 = -358;
+declare const testNegativeIntegerName: -358;
 
-const testNonEmptyStringName: "Test \\"Non-Empty\\" String" = "Test \\"Non-Empty\\" String";
+declare const testNonEmptyStringName: "Test \\"Non-Empty\\" String";
 
-const testNullName: null = null;
+declare const testNullName: null;
 
-const testOneItemArrayName: readonly [false] = [false];
+declare const testOneItemArrayName: readonly [false];
 
-const testOneItemObjectName: { readonly "Test Key B": false } = { "Test Key B": false };
+declare const testOneItemObjectName: { readonly "Test Key B": false };
 
-const testPositiveFloatName: 3.58 = 3.58;
+declare const testPositiveFloatName: 3.58;
 
-const testPositiveIntegerName: 358 = 358;
+declare const testPositiveIntegerName: 358;
 
-const testThreeItemArrayName: readonly [false, 358, true] = [false, 358, true];
+declare const testThreeItemArrayName: readonly [false, 358, true];
 
-const testThreeItemObjectName: { readonly "Test Key A": null, readonly "Test Key B": false, readonly "Test Key C": true } = { "Test Key A": null, "Test Key B": false, "Test Key C": true };
+declare const testThreeItemObjectName: { readonly "Test Key A": null, readonly "Test Key B": false, readonly "Test Key C": true };
 
-const testTrueName: true = true;
+declare const testTrueName: true;
 
-const testTwoItemArrayName: readonly [false, 358] = [false, 358];
+declare const testTwoItemArrayName: readonly [false, 358];
 
-const testTwoItemObjectName: { readonly "Test Key A": null, readonly "Test Key B": false } = { "Test Key A": null, "Test Key B": false };
+declare const testTwoItemObjectName: { readonly "Test Key A": null, readonly "Test Key B": false };
 
-const testZeroName: 0 = 0;
+declare const testZeroName: 0;
 
 `
     );
