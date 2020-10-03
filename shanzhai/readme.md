@@ -8,9 +8,7 @@ This package has the following runtime dependencies:
 
 Name       | Version                                                                                          
 ---------- | -------------------------------------------------------------------------------------------------
-svgo       | [![1.3.2](https://img.shields.io/npm/v/svgo.svg)](https://www.npmjs.com/package/svgo)            
-typescript | [![4.0.3](https://img.shields.io/npm/v/typescript.svg)](https://www.npmjs.com/package/typescript)
-uuid       | [![8.3.0](https://img.shields.io/npm/v/uuid.svg)](https://www.npmjs.com/package/uuid)            
+typescript | [![3.4.3](https://img.shields.io/npm/v/typescript.svg)](https://www.npmjs.com/package/typescript)
 
 ## Peer Dependencies
 

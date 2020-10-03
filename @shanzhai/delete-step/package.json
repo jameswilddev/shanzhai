@@ -21,6 +21,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/uuid": "3.4.3",
     "@shanzhai/interfaces": "0.0.4",
     "uuid": "8.3.0"
   },
