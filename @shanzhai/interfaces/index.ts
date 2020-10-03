@@ -7,3 +7,7 @@ export { ParsedPath } from "./parsed-path";
 export { Plugin } from "./plugin";
 export { Step } from "./step";
 export { Store } from "./store";
+export { OutputEffect } from "./output-effect";
+export { KeyedStoreAddOutputEffect } from "./output-effect/keyed-store-add-output-effect";
+export { KeyedStoreDeleteOutputEffect } from "./output-effect/keyed-store-delete-output-effect";
+export { StoreUpdateOutputEffect } from "./output-effect/store-update-output-effect";

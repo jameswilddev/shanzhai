@@ -18,11 +18,11 @@ describe(`ActionStep`, () => {
 
     beforeAll(() => {
       outputASet = jasmine.createSpy(`outputASet`);
-      outputA = { set: outputASet };
+      outputA = { set: outputASet, effects: [] };
       outputBSet = jasmine.createSpy(`outputBSet`);
-      outputB = { set: outputBSet };
+      outputB = { set: outputBSet, effects: [] };
       outputCSet = jasmine.createSpy(`outputCSet`);
-      outputC = { set: outputCSet };
+      outputC = { set: outputCSet, effects: [] };
 
       actionStep = new TestActionStep(`Test Name`, [outputA, outputB, outputC]);
     });
@@ -60,11 +60,11 @@ describe(`ActionStep`, () => {
 
     beforeAll(() => {
       outputASet = jasmine.createSpy(`outputASet`);
-      outputA = { set: outputASet };
+      outputA = { set: outputASet, effects: [] };
       outputBSet = jasmine.createSpy(`outputBSet`);
-      outputB = { set: outputBSet };
+      outputB = { set: outputBSet, effects: [] };
       outputCSet = jasmine.createSpy(`outputCSet`);
-      outputC = { set: outputCSet };
+      outputC = { set: outputCSet, effects: [] };
 
       actionStep = new TestActionStep(`Test Name`, [outputA, outputB, outputC]);
 
