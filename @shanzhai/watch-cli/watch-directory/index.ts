@@ -1,19 +1,26 @@
 import * as fs from "fs";
+import * as path from "path";
 import * as chokidar from "chokidar";
-import { Timestamps, pathAccepted } from "@shanzhai/change-tracking-helpers";
+import {
+  Hashes,
+  hashFile,
+  pathAccepted,
+} from "@shanzhai/change-tracking-helpers";
 
 export function watchDirectory(
   root: string,
-  onChange: (next: Timestamps) => void,
+  onChange: (next: Hashes) => void,
   onError: (error: Error) => void
 ): () => void {
-  const current: { [path: string]: number } = {};
+  const timestamps: { [path: string]: number } = {};
+  const hashes: { [path: string]: string } = {};
 
   let ready = false;
 
   let timeout: null | NodeJS.Timeout = null;
 
-  const normalizePath = (path: string): string => path.replace(/\\/g, `/`);
+  const normalizePath = (filePath: string): string =>
+    filePath.replace(/\\/g, `/`);
 
   const invalidate = (): void => {
     if (ready) {
@@ -23,18 +30,38 @@ export function watchDirectory(
 
       timeout = setTimeout(() => {
         timeout = null;
-        onChange({ ...current });
+        onChange({ ...hashes });
       }, 250);
     }
   };
 
-  const handle = (path: string, stats: undefined | fs.Stats): void => {
-    path = normalizePath(path);
+  const handle = async (
+    filePath: string,
+    stats: undefined | fs.Stats
+  ): Promise<void> => {
+    filePath = normalizePath(filePath);
 
-    if (pathAccepted(path)) {
+    if (pathAccepted(filePath)) {
       stats = stats as fs.Stats;
-      current[path] = stats.mtimeMs;
-      invalidate();
+
+      timestamps[filePath] = stats.mtimeMs;
+
+      const hash = await hashFile(path.join(root, filePath));
+
+      // We have no way to reliably not hit these conditions in tests.
+      /* istanbul ignore else */
+      if (Object.prototype.hasOwnProperty.call(timestamps, filePath)) {
+        /* istanbul ignore else */
+        if (timestamps[filePath] === stats.mtimeMs) {
+          if (
+            !Object.prototype.hasOwnProperty.call(hashes, filePath) ||
+            hash !== hashes[filePath]
+          ) {
+            hashes[filePath] = hash;
+            invalidate();
+          }
+        }
+      }
     }
   };
 
@@ -44,17 +71,18 @@ export function watchDirectory(
       alwaysStat: true,
       usePolling: process.platform === `win32`,
     })
-    .on(`add`, (path, stats) => {
-      handle(path, stats);
+    .on(`add`, async (path, stats) => {
+      await handle(path, stats);
     })
-    .on(`change`, (path, stats) => {
-      handle(path, stats);
+    .on(`change`, async (path, stats) => {
+      await handle(path, stats);
     })
     .on(`unlink`, (path) => {
       path = normalizePath(path);
 
       if (pathAccepted(path)) {
-        delete current[path];
+        delete timestamps[path];
+        delete hashes[path];
         invalidate();
       }
     })

@@ -33,7 +33,7 @@ describe(`watchDirectory`, () => {
       expect(onChange).toHaveBeenCalledTimes(1);
     });
 
-    it(`calls onChange with the expected object of timestamps`, () => {
+    it(`calls onChange with the expected object of hashes`, () => {
       expect(onChange).toHaveBeenCalledWith({});
     });
 
@@ -60,7 +60,7 @@ describe(`watchDirectory`, () => {
 
         await fs.promises.writeFile(
           path.join(root, `at-root`),
-          Buffer.alloc(0)
+          `Test At Root A`
         );
         await fs.promises.utimes(path.join(root, `at-root`), 8945735, 4556363);
 
@@ -75,7 +75,7 @@ describe(`watchDirectory`, () => {
 
         await fs.promises.writeFile(
           path.join(root, `level-one`, `level-two`, `.excluded-file`),
-          Buffer.alloc(0)
+          `Test Excluded File A`
         );
         await fs.promises.utimes(
           path.join(root, `level-one`, `level-two`, `.excluded-file`),
@@ -91,7 +91,7 @@ describe(`watchDirectory`, () => {
             `level-three`,
             `deeply-nested`
           ),
-          Buffer.alloc(0)
+          `Test Deeply Nested File A`
         );
         await fs.promises.utimes(
           path.join(
@@ -122,7 +122,7 @@ describe(`watchDirectory`, () => {
             `.filtered-level-two`,
             `file-filtered-by-parent`
           ),
-          Buffer.alloc(0)
+          `Test File Filtered By Parent A`
         );
         await fs.promises.utimes(
           path.join(
@@ -143,7 +143,7 @@ describe(`watchDirectory`, () => {
             `filtered-level-three`,
             `file-filtered-by-parents-parent`
           ),
-          Buffer.alloc(0)
+          `Test File Filtered By Parent B`
         );
         await fs.promises.utimes(
           path.join(
@@ -174,17 +174,17 @@ describe(`watchDirectory`, () => {
         await fs.promises.rmdir(root, { recursive: true });
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
 
-      it(`does not modify the previously presented object of timestamps`, () => {
+      it(`does not modify the previously presented object of hashes`, () => {
         expect((onChange as jasmine.Spy).calls.argsFor(0)[0]).toEqual({
-          "at-root": 4556363000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
 
@@ -211,18 +211,21 @@ describe(`watchDirectory`, () => {
   scenario(
     `when a file is added at the root (without timestamp)`,
     async (root) => {
-      await fs.promises.writeFile(path.join(root, `new-file`), Buffer.alloc(0));
+      await fs.promises.writeFile(
+        path.join(root, `new-file`),
+        `Test New Added File A`
+      );
     },
     (onChange) => {
       it(`calls onChange again`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "new-file": jasmine.any(Number),
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "new-file": `5ea602fdd14b83de7a8f8d13967ac15e60c7172a`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -231,7 +234,10 @@ describe(`watchDirectory`, () => {
   scenario(
     `when a file is added at the root (with explicit timestamp)`,
     async (root) => {
-      await fs.promises.writeFile(path.join(root, `new-file`), Buffer.alloc(0));
+      await fs.promises.writeFile(
+        path.join(root, `new-file`),
+        `Test New Added File A`
+      );
       await fs.promises.utimes(path.join(root, `new-file`), 837924, 495049);
     },
     (onChange) => {
@@ -239,30 +245,45 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "new-file": 495049000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "new-file": `5ea602fdd14b83de7a8f8d13967ac15e60c7172a`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
   );
 
   scenario(
-    `when a file at the root is updated`,
+    `when a file at the root is updated without making any actual changes`,
     async (root) => {
       await fs.promises.utimes(path.join(root, `at-root`), 45052507, 9084375);
+    },
+    (onChange) => {
+      it(`does not call onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(1);
+      });
+    }
+  );
+
+  scenario(
+    `when a file at the root is updated with its contents updated`,
+    async (root) => {
+      await fs.promises.writeFile(
+        path.join(root, `at-root`),
+        `Test Updated File`
+      );
     },
     (onChange) => {
       it(`calls onChange again`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 9084375000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "at-root": `0b94b5c822083c0769696a0938a25b18b2abca57`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -281,10 +302,10 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "new-name": 4556363000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "new-name": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -300,9 +321,9 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -313,7 +334,7 @@ describe(`watchDirectory`, () => {
     async (root) => {
       await fs.promises.writeFile(
         path.join(root, `empty-subdirectory`, `new-file`),
-        Buffer.alloc(0)
+        `Test New Added File A`
       );
     },
     (onChange) => {
@@ -321,11 +342,11 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "empty-subdirectory/new-file": jasmine.any(Number),
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "empty-subdirectory/new-file": `5ea602fdd14b83de7a8f8d13967ac15e60c7172a`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -336,7 +357,7 @@ describe(`watchDirectory`, () => {
     async (root) => {
       await fs.promises.writeFile(
         path.join(root, `empty-subdirectory`, `new-file`),
-        Buffer.alloc(0)
+        `Test New Added File A`
       );
       await fs.promises.utimes(
         path.join(root, `empty-subdirectory`, `new-file`),
@@ -349,18 +370,18 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "empty-subdirectory/new-file": 495049000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "empty-subdirectory/new-file": `5ea602fdd14b83de7a8f8d13967ac15e60c7172a`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
   );
 
   scenario(
-    `when a file in a subdirectory is updated`,
+    `when a file in a subdirectory is updated without making any actual changes`,
     async (root) => {
       await fs.promises.utimes(
         path.join(
@@ -375,14 +396,35 @@ describe(`watchDirectory`, () => {
       );
     },
     (onChange) => {
+      it(`does not call onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(1);
+      });
+    }
+  );
+
+  scenario(
+    `when a file in a subdirectory is updated with its contents updated`,
+    async (root) => {
+      await fs.promises.writeFile(
+        path.join(
+          root,
+          `level-one`,
+          `level-two`,
+          `level-three`,
+          `deeply-nested`
+        ),
+        `Test Updated File`
+      );
+    },
+    (onChange) => {
       it(`calls onChange again`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "level-one/level-two/level-three/deeply-nested": 9084375000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "level-one/level-two/level-three/deeply-nested": `0b94b5c822083c0769696a0938a25b18b2abca57`,
         });
       });
     }
@@ -407,10 +449,10 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "level-one/level-two/level-three/new-name": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "level-one/level-two/level-three/new-name": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -434,9 +476,9 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
         });
       });
     }
@@ -510,9 +552,9 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
         });
       });
     }
@@ -531,10 +573,10 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "level-one/renamed/level-three/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "level-one/renamed/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -546,7 +588,7 @@ describe(`watchDirectory`, () => {
       await fs.promises.mkdir(path.join(root, `new-directory`));
       await fs.promises.writeFile(
         path.join(root, `new-directory`, `new-file`),
-        Buffer.alloc(0)
+        `Test File In New Directory`
       );
     },
     (onChange) => {
@@ -554,11 +596,11 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "new-directory/new-file": jasmine.any(Number),
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "new-directory/new-file": `e2aed23b59b2c49c27d094d22769aba741ed6b52`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -570,7 +612,7 @@ describe(`watchDirectory`, () => {
       await fs.promises.mkdir(path.join(root, `new-directory`));
       await fs.promises.writeFile(
         path.join(root, `new-directory`, `new-file`),
-        Buffer.alloc(0)
+        `Test File In New Directory`
       );
       await fs.promises.utimes(
         path.join(root, `new-directory`, `new-file`),
@@ -583,11 +625,11 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "new-directory/new-file": 495049000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "new-directory/new-file": `e2aed23b59b2c49c27d094d22769aba741ed6b52`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -606,10 +648,10 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "empty-directory/level-three/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "empty-directory/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -634,10 +676,10 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "empty-subdirectory/deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "empty-subdirectory/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -662,10 +704,10 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "deeply-nested": 768936000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -684,10 +726,10 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "empty-subdirectory/at-root": 4556363000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
+          "empty-subdirectory/at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
         });
       });
     }
@@ -708,7 +750,7 @@ describe(`watchDirectory`, () => {
   );
 
   scenario(
-    `when a filtered file is updated`,
+    `when a filtered file is updated without making any actual changes`,
     async (root) => {
       await fs.promises.utimes(
         path.join(root, `level-one`, `level-two`, `.excluded-file`),
@@ -724,11 +766,26 @@ describe(`watchDirectory`, () => {
   );
 
   scenario(
+    `when a filtered file is updated with its contents updated`,
+    async (root) => {
+      await fs.promises.writeFile(
+        path.join(root, `level-one`, `level-two`, `.excluded-file`),
+        `Test Updated File`
+      );
+    },
+    (onChange) => {
+      it(`does not call onChange again`, () => {
+        expect(onChange()).toHaveBeenCalledTimes(1);
+      });
+    }
+  );
+
+  scenario(
     `when a filtered file is added`,
     async (root) => {
       await fs.promises.writeFile(
         path.join(root, `level-one`, `level-two`, `.additional-excluded-file`),
-        Buffer.alloc(0)
+        `Test Filtered File`
       );
     },
     (onChange) => {
@@ -766,11 +823,11 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
-          "level-one/level-two/no-longer-excluded-file": 457895000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
+          "level-one/level-two/no-longer-excluded-file": `bb46d5a5577afc2a2b87c460ddbbd375a25e445e`,
         });
       });
     }
@@ -801,9 +858,9 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
         });
       });
     }
@@ -820,7 +877,7 @@ describe(`watchDirectory`, () => {
           `filtered-level-three`,
           `new-filtered-file`
         ),
-        Buffer.alloc(0)
+        `Test Filtered File`
       );
     },
     (onChange) => {
@@ -875,13 +932,11 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
-          "level-one/level-two/level-three/file-no-longer-filtered": jasmine.any(
-            Number
-          ),
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
+          "level-one/level-two/level-three/file-no-longer-filtered": `1705e87d76f3df0de2a14268e353cfe6b9307b27`,
         });
       });
     }
@@ -912,9 +967,9 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
         });
       });
     }
@@ -933,9 +988,9 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
         });
       });
     }
@@ -954,16 +1009,12 @@ describe(`watchDirectory`, () => {
         expect(onChange()).toHaveBeenCalledTimes(2);
       });
 
-      it(`calls onChange with the expected object of timestamps`, () => {
+      it(`calls onChange with the expected object of hashes`, () => {
         expect(onChange()).toHaveBeenCalledWith({
-          "at-root": 4556363000,
-          "level-one/level-two/level-three/deeply-nested": 768936000,
-          "level-one/now-unfiltered-level-two/file-filtered-by-parent": jasmine.any(
-            Number
-          ),
-          "level-one/now-unfiltered-level-two/filtered-level-three/file-filtered-by-parents-parent": jasmine.any(
-            Number
-          ),
+          "at-root": `a0b1afbe9ee172c04204225c23ce16f2da253a79`,
+          "level-one/level-two/level-three/deeply-nested": `3e355e8ae075e6f2f7e6b2c799ad0ec8c0b9d7c0`,
+          "level-one/now-unfiltered-level-two/file-filtered-by-parent": `8045ef5170be638c49344fc55ac46a62c82da869`,
+          "level-one/now-unfiltered-level-two/filtered-level-three/file-filtered-by-parents-parent": `1705e87d76f3df0de2a14268e353cfe6b9307b27`,
         });
       });
     }
