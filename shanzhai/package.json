@@ -32,7 +32,7 @@
     "@shanzhai/serial-step": "0.0.0",
     "@shanzhai/value-store": "0.0.1",
     "@shanzhai/zip-step": "0.0.0",
-    "@shanzhai/minify-html-step": "0.0.0",
+    "@shanzhai/minify-html-step": "0.0.1",
     "@shanzhai/change-tracking-helpers": "0.0.3",
     "svgo": "1.3.2",
     "typescript": "4.0.3",
