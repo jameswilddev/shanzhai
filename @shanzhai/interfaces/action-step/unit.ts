@@ -1,5 +1,5 @@
 import { ActionStep } from "..";
-import { Output } from "../output";
+import { Effect } from "../effect";
 
 describe(`ActionStep`, () => {
   class TestActionStep extends ActionStep {
@@ -9,36 +9,24 @@ describe(`ActionStep`, () => {
   describe(`on construction`, () => {
     let actionStep: TestActionStep;
 
-    let outputASet: jasmine.Spy;
-    let outputA: Output<string>;
-    let outputBSet: jasmine.Spy;
-    let outputB: Output<ReadonlyArray<string>>;
-    let outputCSet: jasmine.Spy;
-    let outputC: Output<ReadonlyArray<number>>;
+    let effectA: Effect;
+    let effectB: Effect;
+    let effectC: Effect;
 
     beforeAll(() => {
-      outputASet = jasmine.createSpy(`outputASet`);
-      outputA = { set: outputASet, effects: [] };
-      outputBSet = jasmine.createSpy(`outputBSet`);
-      outputB = { set: outputBSet, effects: [] };
-      outputCSet = jasmine.createSpy(`outputCSet`);
-      outputC = { set: outputCSet, effects: [] };
+      effectA = { type: `storeUpdate`, store: { name: `Test Name` } };
+      effectB = { type: `storeUpdate`, store: { name: `Test Name` } };
+      effectC = { type: `storeUpdate`, store: { name: `Test Name` } };
 
-      actionStep = new TestActionStep(`Test Name`, [outputA, outputB, outputC]);
+      actionStep = new TestActionStep(`Test Name`, [effectA, effectB, effectC]);
     });
 
     it(`exposes its name`, () => {
       expect(actionStep.name).toEqual(`Test Name`);
     });
 
-    it(`exposes its outputs`, () => {
-      expect(actionStep.outputs).toEqual([outputA, outputB, outputC]);
-    });
-
-    it(`does not set any of its outputs`, () => {
-      expect(outputASet).not.toHaveBeenCalled();
-      expect(outputBSet).not.toHaveBeenCalled();
-      expect(outputCSet).not.toHaveBeenCalled();
+    it(`exposes its effects`, () => {
+      expect(actionStep.effects).toEqual([effectA, effectB, effectC]);
     });
 
     it(`does not execute itself`, () => {
@@ -49,24 +37,18 @@ describe(`ActionStep`, () => {
   describe(`on calling executePerActionStep`, () => {
     let actionStep: TestActionStep;
 
-    let outputASet: jasmine.Spy;
-    let outputA: Output<string>;
-    let outputBSet: jasmine.Spy;
-    let outputB: Output<ReadonlyArray<string>>;
-    let outputCSet: jasmine.Spy;
-    let outputC: Output<ReadonlyArray<number>>;
+    let effectA: Effect;
+    let effectB: Effect;
+    let effectC: Effect;
 
     let callback: jasmine.Spy;
 
     beforeAll(() => {
-      outputASet = jasmine.createSpy(`outputASet`);
-      outputA = { set: outputASet, effects: [] };
-      outputBSet = jasmine.createSpy(`outputBSet`);
-      outputB = { set: outputBSet, effects: [] };
-      outputCSet = jasmine.createSpy(`outputCSet`);
-      outputC = { set: outputCSet, effects: [] };
+      effectA = { type: `storeUpdate`, store: { name: `Test Name` } };
+      effectB = { type: `storeUpdate`, store: { name: `Test Name` } };
+      effectC = { type: `storeUpdate`, store: { name: `Test Name` } };
 
-      actionStep = new TestActionStep(`Test Name`, [outputA, outputB, outputC]);
+      actionStep = new TestActionStep(`Test Name`, [effectA, effectB, effectC]);
 
       callback = jasmine.createSpy(`callback`);
 
@@ -77,14 +59,8 @@ describe(`ActionStep`, () => {
       expect(actionStep.name).toEqual(`Test Name`);
     });
 
-    it(`exposes its outputs`, () => {
-      expect(actionStep.outputs).toEqual([outputA, outputB, outputC]);
-    });
-
-    it(`does not set any of its outputs`, () => {
-      expect(outputASet).not.toHaveBeenCalled();
-      expect(outputBSet).not.toHaveBeenCalled();
-      expect(outputCSet).not.toHaveBeenCalled();
+    it(`exposes its effects`, () => {
+      expect(actionStep.effects).toEqual([effectA, effectB, effectC]);
     });
 
     it(`does not execute itself`, () => {

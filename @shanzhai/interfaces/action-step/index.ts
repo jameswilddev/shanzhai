@@ -1,10 +1,10 @@
-import { Output } from "../output";
+import { Effect } from "../effect";
 import { Step } from "../step";
 
 export abstract class ActionStep implements Step {
   constructor(
     public readonly name: string,
-    public readonly outputs: ReadonlyArray<Output<unknown>>
+    public readonly effects: ReadonlyArray<Effect>
   ) {}
 
   executePerActionStep(
