@@ -12,7 +12,11 @@ export class CollectSvgDefsStep extends ActionStep {
     public readonly constants: Output<{ readonly [key: string]: Json }>,
     public readonly svg: Output<string>
   ) {
-    super(`Collect SVG defs`);
+    super(`Collect SVG defs`, [
+      ...typeScript.effects,
+      ...constants.effects,
+      ...svg.effects,
+    ]);
   }
 
   async execute(): Promise<void> {

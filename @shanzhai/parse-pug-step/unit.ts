@@ -1,8 +1,23 @@
 import * as pug from "pug";
-import { Input, Output } from "@shanzhai/interfaces";
+import { Input, Output, Effect } from "@shanzhai/interfaces";
 import { ParsePugStep } from ".";
 
 describe(`ParsePugStep`, () => {
+  const outputEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect A` },
+  };
+
+  const outputEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect B` },
+  };
+
+  const outputEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect C` },
+  };
+
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
     let input: Input<string>;
@@ -14,13 +29,24 @@ describe(`ParsePugStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       parsePugStep = new ParsePugStep(`Test Name`, input, output);
     });
 
     it(`exposes its name`, () => {
       expect(parsePugStep.name).toEqual(`Test Name`);
+    });
+
+    it(`exposes the output's effects`, () => {
+      expect(parsePugStep.effects).toEqual([
+        outputEffectA,
+        outputEffectB,
+        outputEffectC,
+      ]);
     });
 
     it(`exposes its input`, () => {
@@ -56,7 +82,10 @@ describe(`ParsePugStep`, () => {
   example-footer(example-attribute-key="example-attribute-value")`);
         input = { get: inputGet };
         outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-        output = { set: outputSet };
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         parsePugStep = new ParsePugStep(`Test Name`, input, output);
 
@@ -102,7 +131,10 @@ describe(`ParsePugStep`, () => {
   example-footer(example-attribute-key=)`);
         input = { get: inputGet };
         outputSet = jasmine.createSpy(`outputSet`);
-        output = { set: outputSet };
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         parsePugStep = new ParsePugStep(`Test Name`, input, output);
 

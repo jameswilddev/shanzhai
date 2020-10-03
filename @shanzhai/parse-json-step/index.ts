@@ -6,7 +6,7 @@ export class ParseJsonStep extends ActionStep {
     public readonly input: Input<string>,
     public readonly output: Output<Json>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   async execute(): Promise<void> {

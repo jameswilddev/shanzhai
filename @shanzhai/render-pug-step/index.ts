@@ -8,7 +8,7 @@ export class RenderPugStep extends ActionStep {
     public readonly locals: Input<pug.LocalsObject>,
     public readonly output: Output<string>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   async execute(): Promise<void> {

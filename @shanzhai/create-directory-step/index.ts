@@ -7,7 +7,7 @@ export class CreateDirectoryStep extends ActionStep {
     name: string,
     public readonly pathSegments: ReadonlyArray<string>
   ) {
-    super(name);
+    super(name, []);
   }
 
   async execute(): Promise<void> {

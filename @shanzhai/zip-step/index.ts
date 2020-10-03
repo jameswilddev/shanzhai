@@ -12,7 +12,7 @@ export class ZipStep extends ActionStep {
     public readonly input: Input<{ readonly [path: string]: string | Buffer }>,
     public readonly output: Output<Buffer>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   async execute(): Promise<void> {

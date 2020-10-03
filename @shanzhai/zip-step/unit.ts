@@ -3,10 +3,25 @@ import * as path from "path";
 import * as fs from "fs";
 import * as uuid from "uuid";
 import * as extractZip from "extract-zip";
-import { Input, Output } from "@shanzhai/interfaces";
+import { Input, Output, Effect } from "@shanzhai/interfaces";
 import { ZipStep } from ".";
 
 describe(`ZipStep`, () => {
+  const outputEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect A` },
+  };
+
+  const outputEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect B` },
+  };
+
+  const outputEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect C` },
+  };
+
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
     let input: Input<{ readonly [path: string]: string | Buffer }>;
@@ -21,13 +36,24 @@ describe(`ZipStep`, () => {
       };
 
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       zipStep = new ZipStep(`Test Name`, input, output);
     });
 
     it(`exposes its name`, () => {
       expect(zipStep.name).toEqual(`Test Name`);
+    });
+
+    it(`exposes the output's effects`, () => {
+      expect(zipStep.effects).toEqual([
+        outputEffectA,
+        outputEffectB,
+        outputEffectC,
+      ]);
     });
 
     it(`exposes its input`, () => {
@@ -92,7 +118,10 @@ describe(`ZipStep`, () => {
       };
 
       outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       zipStep = new ZipStep(`Test Name`, input, output);
 

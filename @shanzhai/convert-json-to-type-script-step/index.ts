@@ -8,7 +8,7 @@ export class ConvertJsonToTypeScriptStep extends ActionStep {
     public readonly input: Input<KeyedJson>,
     public readonly output: Output<string>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   async execute(): Promise<void> {

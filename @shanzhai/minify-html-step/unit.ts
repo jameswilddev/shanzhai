@@ -14,7 +14,7 @@ describe(`MinifyHtmlStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = { set: outputSet, effects: [] };
 
       minifyHtmlStep = new MinifyHtmlStep(`Test Name`, input, output);
     });
@@ -58,7 +58,7 @@ describe(`MinifyHtmlStep`, () => {
       minifyHtmlStep = new MinifyHtmlStep(
         `Test Name`,
         { get: inputGet },
-        { set: outputSet }
+        { set: outputSet, effects: [] }
       );
 
       minified = await minifyHtmlStep.iterate(original);

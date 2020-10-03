@@ -8,7 +8,7 @@ export class ParseTypeScriptStep extends ActionStep {
     public readonly fileName: string,
     public readonly output: Output<typescript.SourceFile>
   ) {
-    super(`Parse ${JSON.stringify(fileName)} as TypeScript`);
+    super(`Parse ${JSON.stringify(fileName)} as TypeScript`, output.effects);
   }
 
   async execute(): Promise<void> {

@@ -2,10 +2,25 @@ import * as os from "os";
 import * as path from "path";
 import * as fs from "fs";
 import * as uuid from "uuid";
-import { Output } from "@shanzhai/interfaces";
+import { Output, Effect } from "@shanzhai/interfaces";
 import { ReadTextFileStep } from ".";
 
 describe(`ReadTextFileStep`, () => {
+  const outputEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect A` },
+  };
+
+  const outputEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect B` },
+  };
+
+  const outputEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect C` },
+  };
+
   describe(`on construction`, () => {
     let originalWorkingDirectory: string;
     let root: string;
@@ -37,7 +52,10 @@ describe(`ReadTextFileStep`, () => {
       );
 
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       readTextFileStep = new ReadTextFileStep(
         [`subdirectory-a`, `subdirectory-b`, `subdirectory-c`, `test-file`],
@@ -55,6 +73,14 @@ describe(`ReadTextFileStep`, () => {
       expect(readTextFileStep.name).toEqual(
         `Read text file "subdirectory-a/subdirectory-b/subdirectory-c/test-file"`
       );
+    });
+
+    it(`exposes the output's effects`, () => {
+      expect(readTextFileStep.effects).toEqual([
+        outputEffectA,
+        outputEffectB,
+        outputEffectC,
+      ]);
     });
 
     it(`exposes its output`, () => {
@@ -96,7 +122,10 @@ describe(`ReadTextFileStep`, () => {
       );
 
       outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       readTextFileStep = new ReadTextFileStep(
         [

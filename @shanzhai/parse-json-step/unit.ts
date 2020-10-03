@@ -1,6 +1,22 @@
+import { Effect } from "@shanzhai/interfaces";
 import { ParseJsonStep } from ".";
 
 describe(`ParseJsonStep`, () => {
+  const outputEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect A` },
+  };
+
+  const outputEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect B` },
+  };
+
+  const outputEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect C` },
+  };
+
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
     let outputSet: jasmine.Spy;
@@ -13,12 +29,23 @@ describe(`ParseJsonStep`, () => {
       parseJsonStep = new ParseJsonStep(
         `Test Name`,
         { get: inputGet },
-        { set: outputSet }
+        {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        }
       );
     });
 
     it(`exposes its name`, () => {
       expect(parseJsonStep.name).toEqual(`Test Name`);
+    });
+
+    it(`exposes the output's effects`, () => {
+      expect(parseJsonStep.effects).toEqual([
+        outputEffectA,
+        outputEffectB,
+        outputEffectC,
+      ]);
     });
 
     it(`does not read from the input`, () => {
@@ -44,7 +71,10 @@ describe(`ParseJsonStep`, () => {
         const parseJsonStep = new ParseJsonStep(
           `Test Name`,
           { get: inputGet },
-          { set: outputSet }
+          {
+            set: outputSet,
+            effects: [outputEffectA, outputEffectB, outputEffectC],
+          }
         );
 
         await parseJsonStep.execute();
@@ -79,7 +109,10 @@ describe(`ParseJsonStep`, () => {
         const parseJsonStep = new ParseJsonStep(
           `Test Name`,
           { get: inputGet },
-          { set: outputSet }
+          {
+            set: outputSet,
+            effects: [outputEffectA, outputEffectB, outputEffectC],
+          }
         );
 
         try {

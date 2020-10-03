@@ -39,6 +39,10 @@ describe(`DeleteStep`, () => {
         expect(deleteFileStep.name).toEqual(`Test Name`);
       });
 
+      it(`exposes no effects`, () => {
+        expect(deleteFileStep.effects).toEqual([]);
+      });
+
       it(`does not create anything`, async () => {
         await expectAsync(
           fs.promises.readdir(

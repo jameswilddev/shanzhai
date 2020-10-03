@@ -8,7 +8,7 @@ export class WriteFileStep<T extends string | Buffer> extends ActionStep {
     public readonly pathSegments: ReadonlyArray<string>,
     public readonly input: Input<T>
   ) {
-    super(name);
+    super(name, []);
   }
 
   async execute(): Promise<void> {

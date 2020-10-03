@@ -22,7 +22,10 @@ describe(`MinifyJavascriptStep`, () => {
       constantsGet = jasmine.createSpy(`constantsGet`);
       constants = { get: constantsGet };
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [],
+      };
 
       minifyJavascriptStep = new MinifyJavascriptStep(
         `Test Name`,
@@ -94,7 +97,10 @@ describe(`MinifyJavascriptStep`, () => {
         `Test Name`,
         { get: inputGet },
         constants,
-        { set: outputSet }
+        {
+          set: outputSet,
+          effects: [],
+        }
       );
 
       minified = await minifyJavascriptStep.iterate(original);
@@ -172,7 +178,10 @@ describe(`MinifyJavascriptStep`, () => {
         `Test Name`,
         { get: inputGet },
         constants,
-        { set: outputSet }
+        {
+          set: outputSet,
+          effects: [],
+        }
       );
 
       await minifyJavascriptStep.iterate(`irrelevant();`);
@@ -251,7 +260,10 @@ describe(`MinifyJavascriptStep`, () => {
         `Test Name`,
         { get: inputGet },
         constants,
-        { set: outputSet }
+        {
+          set: outputSet,
+          effects: [],
+        }
       );
 
       try {

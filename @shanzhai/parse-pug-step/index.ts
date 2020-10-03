@@ -7,7 +7,7 @@ export class ParsePugStep extends ActionStep {
     public readonly input: Input<string>,
     public readonly output: Output<pug.compileTemplate>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   async execute(): Promise<void> {

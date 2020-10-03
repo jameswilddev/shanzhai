@@ -8,7 +8,7 @@ export class ValidateJsonSchemaStep<T extends Json> extends ActionStep {
     public readonly input: Input<Json>,
     public readonly output: Output<T>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   async execute(): Promise<void> {

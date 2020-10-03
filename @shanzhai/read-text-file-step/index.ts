@@ -7,7 +7,10 @@ export class ReadTextFileStep extends ActionStep {
     public readonly pathSegments: ReadonlyArray<string>,
     public readonly output: Output<string>
   ) {
-    super(`Read text file ${JSON.stringify(pathSegments.join(`/`))}`);
+    super(
+      `Read text file ${JSON.stringify(pathSegments.join(`/`))}`,
+      output.effects
+    );
   }
 
   async execute(): Promise<void> {

@@ -6,7 +6,7 @@ export class StringifyJsonStep extends ActionStep {
     public readonly input: Input<Json>,
     public readonly output: Output<string>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   async execute(): Promise<void> {

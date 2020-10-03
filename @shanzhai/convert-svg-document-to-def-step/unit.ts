@@ -1,7 +1,22 @@
-import { Input, Output } from "@shanzhai/interfaces";
+import { Input, Output, Effect } from "@shanzhai/interfaces";
 import { ConvertSvgDocumentToDefStep } from ".";
 
 describe(`ConvertSvgDocumentToDefStep`, () => {
+  const outputEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect A` },
+  };
+
+  const outputEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect B` },
+  };
+
+  const outputEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect C` },
+  };
+
   describe(`on construction`, () => {
     let svgDocument: Input<string>;
     let svgDef: Output<string>;
@@ -9,7 +24,10 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
 
     beforeAll(() => {
       svgDocument = { get: jasmine.createSpy(`svgDocument.get`) };
-      svgDef = { set: jasmine.createSpy(`svgDef.set`) };
+      svgDef = {
+        set: jasmine.createSpy(`svgDef.set`),
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       convertSvgDocumentToDefStep = new ConvertSvgDocumentToDefStep(
         svgDocument,
@@ -21,6 +39,14 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
       expect(convertSvgDocumentToDefStep.name).toEqual(
         `Convert SVG document to def`
       );
+    });
+
+    it(`exposes the output's effects`, () => {
+      expect(convertSvgDocumentToDefStep.effects).toEqual([
+        outputEffectA,
+        outputEffectB,
+        outputEffectC,
+      ]);
     });
 
     it(`exposes the given input`, () => {
@@ -51,7 +77,10 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
         svgDocument = {
           get: jasmine.createSpy(`svgDocument.get`).and.resolveTo(`<svg/>`),
         };
-        svgDef = { set: jasmine.createSpy(`svgDef.set`) };
+        svgDef = {
+          set: jasmine.createSpy(`svgDef.set`),
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         convertSvgDocumentToDefStep = new ConvertSvgDocumentToDefStep(
           svgDocument,
@@ -106,7 +135,10 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
             .createSpy(`svgDocument.get`)
             .and.resolveTo(`<svg></svg>`),
         };
-        svgDef = { set: jasmine.createSpy(`svgDef.set`) };
+        svgDef = {
+          set: jasmine.createSpy(`svgDef.set`),
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         convertSvgDocumentToDefStep = new ConvertSvgDocumentToDefStep(
           svgDocument,
@@ -164,7 +196,10 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
             </svg>
           `),
         };
-        svgDef = { set: jasmine.createSpy(`svgDef.set`).and.resolveTo() };
+        svgDef = {
+          set: jasmine.createSpy(`svgDef.set`).and.resolveTo(),
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         convertSvgDocumentToDefStep = new ConvertSvgDocumentToDefStep(
           svgDocument,
@@ -221,7 +256,10 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
             </svg>
           `),
         };
-        svgDef = { set: jasmine.createSpy(`svgDef.set`).and.resolveTo() };
+        svgDef = {
+          set: jasmine.createSpy(`svgDef.set`).and.resolveTo(),
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         convertSvgDocumentToDefStep = new ConvertSvgDocumentToDefStep(
           svgDocument,
@@ -281,7 +319,10 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
             </svg>
           `),
         };
-        svgDef = { set: jasmine.createSpy(`svgDef.set`).and.resolveTo() };
+        svgDef = {
+          set: jasmine.createSpy(`svgDef.set`).and.resolveTo(),
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         convertSvgDocumentToDefStep = new ConvertSvgDocumentToDefStep(
           svgDocument,

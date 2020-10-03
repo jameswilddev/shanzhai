@@ -7,7 +7,7 @@ export class ConvertParsedCsvToStructOfArraysStep extends ActionStep {
     public readonly input: Input<ReadonlyArray<ReadonlyArray<string>>>,
     public readonly output: Output<{ readonly [key: string]: Json }>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   async execute(): Promise<void> {

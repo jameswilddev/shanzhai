@@ -1,7 +1,22 @@
-import { Input, Output } from "@shanzhai/interfaces";
+import { Input, Output, Effect } from "@shanzhai/interfaces";
 import { ConvertJsonToTypeScriptStep, KeyedJson } from ".";
 
 describe(`ConvertJsonToTypeScriptStep`, () => {
+  const outputEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect A` },
+  };
+
+  const outputEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect B` },
+  };
+
+  const outputEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect C` },
+  };
+
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
     let input: Input<KeyedJson>;
@@ -13,7 +28,10 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       convertJsonToTypeScriptStep = new ConvertJsonToTypeScriptStep(
         `Test Name`,
@@ -24,6 +42,14 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
 
     it(`exposes its name`, () => {
       expect(convertJsonToTypeScriptStep.name).toEqual(`Test Name`);
+    });
+
+    it(`exposes the output's effects`, () => {
+      expect(convertJsonToTypeScriptStep.effects).toEqual([
+        outputEffectA,
+        outputEffectB,
+        outputEffectC,
+      ]);
     });
 
     it(`exposes the input`, () => {
@@ -62,7 +88,10 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
             .and.resolveTo(inputKeyedJson);
           input = { get: inputGet };
           outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-          output = { set: outputSet };
+          output = {
+            set: outputSet,
+            effects: [outputEffectA, outputEffectB, outputEffectC],
+          };
 
           convertJsonToTypeScriptStep = new ConvertJsonToTypeScriptStep(
             `Test Name`,

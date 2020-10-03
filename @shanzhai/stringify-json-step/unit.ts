@@ -1,7 +1,22 @@
 import { StringifyJsonStep } from ".";
-import { Input, Output, Json } from "@shanzhai/interfaces";
+import { Input, Output, Json, Effect } from "@shanzhai/interfaces";
 
 describe(`StringifyJsonStep`, () => {
+  const outputEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect A` },
+  };
+
+  const outputEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect B` },
+  };
+
+  const outputEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect C` },
+  };
+
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
     let input: Input<Json>;
@@ -13,13 +28,24 @@ describe(`StringifyJsonStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       parseJsonStep = new StringifyJsonStep(`Test Name`, input, output);
     });
 
     it(`exposes its name`, () => {
       expect(parseJsonStep.name).toEqual(`Test Name`);
+    });
+
+    it(`exposes the output's effects`, () => {
+      expect(parseJsonStep.effects).toEqual([
+        outputEffectA,
+        outputEffectB,
+        outputEffectC,
+      ]);
     });
 
     it(`exposes the input`, () => {
@@ -56,7 +82,10 @@ describe(`StringifyJsonStep`, () => {
           inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(inputJson);
           input = { get: inputGet };
           outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-          output = { set: outputSet };
+          output = {
+            set: outputSet,
+            effects: [outputEffectA, outputEffectB, outputEffectC],
+          };
 
           stringifyJsonStep = new StringifyJsonStep(`Test Name`, input, output);
 

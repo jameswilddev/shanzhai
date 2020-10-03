@@ -29,7 +29,7 @@ export class ConvertSvgDocumentToDefStep extends ActionStep {
     public readonly svgDocument: Input<string>,
     public readonly svgDef: Output<string>
   ) {
-    super(`Convert SVG document to def`);
+    super(`Convert SVG document to def`, svgDef.effects);
   }
 
   async execute(): Promise<void> {

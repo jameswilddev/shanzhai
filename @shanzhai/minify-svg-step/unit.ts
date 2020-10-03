@@ -15,7 +15,7 @@ describe(`MinifySvgStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = { set: outputSet, effects: [] };
 
       minifySvgStep = new MinifySvgStep(`Test Name`, input, output);
     });
@@ -59,7 +59,7 @@ describe(`MinifySvgStep`, () => {
       minifySvgStep = new MinifySvgStep(
         `Test Name`,
         { get: inputGet },
-        { set: outputSet }
+        { set: outputSet, effects: [] }
       );
 
       minified = await minifySvgStep.iterate(original);

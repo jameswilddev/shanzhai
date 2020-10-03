@@ -6,7 +6,7 @@ export abstract class MinifyStep<T> extends ActionStep {
     public readonly input: Input<T>,
     public readonly output: Output<T>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   abstract readonly maximumIterations: number;

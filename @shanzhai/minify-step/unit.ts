@@ -1,4 +1,4 @@
-import { Input, Output } from "@shanzhai/interfaces";
+import { Input, Output, Effect } from "@shanzhai/interfaces";
 import { MinifyStep } from ".";
 
 describe(`MinifyStep`, () => {
@@ -14,6 +14,21 @@ describe(`MinifyStep`, () => {
     readonly iterate = jasmine.createSpy(`iterate`);
   }
 
+  const outputEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect A` },
+  };
+
+  const outputEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect B` },
+  };
+
+  const outputEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect C` },
+  };
+
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
     let input: Input<TestValue>;
@@ -25,13 +40,24 @@ describe(`MinifyStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       minifyStep = new TestMinifyStep(`Test Name`, input, output);
     });
 
     it(`exposes its name`, () => {
       expect(minifyStep.name).toEqual(`Test Name`);
+    });
+
+    it(`exposes the output's effects`, () => {
+      expect(minifyStep.effects).toEqual([
+        outputEffectA,
+        outputEffectB,
+        outputEffectC,
+      ]);
     });
 
     it(`exposes its input`, () => {
@@ -66,7 +92,10 @@ describe(`MinifyStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(`Test Value A`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       minifyStep = new TestMinifyStep(`Test Name`, input, output);
       minifyStep.iterate.and.resolveTo(`Test Value A`);
@@ -114,7 +143,10 @@ describe(`MinifyStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(`Test Value A`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       minifyStep = new TestMinifyStep(`Test Name`, input, output);
       minifyStep.iterate.and.resolveTo(`Test Value B`);
@@ -166,7 +198,10 @@ describe(`MinifyStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(`Test Value A`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       minifyStep = new TestMinifyStep(`Test Name`, input, output);
       minifyStep.iterate.and.callFake(async (value) => {
@@ -235,7 +270,10 @@ describe(`MinifyStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(`Test Value A`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       minifyStep = new TestMinifyStep(`Test Name`, input, output);
       minifyStep.iterate.and.callFake(async (value) => {

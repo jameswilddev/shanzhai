@@ -7,7 +7,7 @@ export class CompileTypeScriptStep extends ActionStep {
     public readonly compilerOptions: Input<typescript.CompilerOptions>,
     public readonly output: Output<{ readonly [fileName: string]: string }>
   ) {
-    super(`Compile TypeScript`);
+    super(`Compile TypeScript`, output.effects);
   }
 
   async execute(): Promise<void> {

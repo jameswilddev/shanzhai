@@ -1,9 +1,24 @@
 import * as jsonschema from "jsonschema";
 import { ValidateJsonSchemaStep } from ".";
-import { Input, Output, Json } from "@shanzhai/interfaces";
+import { Input, Output, Json, Effect } from "@shanzhai/interfaces";
 
 describe(`ValidateJsonSchemaStep`, () => {
   type TestValue = { readonly keyA: { readonly keyB: `Test Valid` } };
+
+  const outputEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect A` },
+  };
+
+  const outputEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect B` },
+  };
+
+  const outputEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect C` },
+  };
 
   describe(`on construction`, () => {
     let schema: jsonschema.Schema;
@@ -26,7 +41,10 @@ describe(`ValidateJsonSchemaStep`, () => {
       inputGet = jasmine.createSpy(`inputGet`);
       input = { get: inputGet };
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       validateJsonSchemaStep = new ValidateJsonSchemaStep(
         `Test Name`,
@@ -38,6 +56,14 @@ describe(`ValidateJsonSchemaStep`, () => {
 
     it(`exposes its name`, () => {
       expect(validateJsonSchemaStep.name).toEqual(`Test Name`);
+    });
+
+    it(`exposes the output's effects`, () => {
+      expect(validateJsonSchemaStep.effects).toEqual([
+        outputEffectA,
+        outputEffectB,
+        outputEffectC,
+      ]);
     });
 
     it(`exposes the schema`, () => {
@@ -85,7 +111,10 @@ describe(`ValidateJsonSchemaStep`, () => {
           .and.resolveTo({ keyA: { keyB: `Test Valid` } });
         input = { get: inputGet };
         outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-        output = { set: outputSet };
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         validateJsonSchemaStep = new ValidateJsonSchemaStep(
           `Test Name`,
@@ -152,7 +181,10 @@ describe(`ValidateJsonSchemaStep`, () => {
           .and.resolveTo({ keyA: { keyB: 123 } });
         input = { get: inputGet };
         outputSet = jasmine.createSpy(`outputSet`);
-        output = { set: outputSet };
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         validateJsonSchemaStep = new ValidateJsonSchemaStep(
           `Test Name`,

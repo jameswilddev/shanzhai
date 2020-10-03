@@ -8,7 +8,7 @@ export class ReadBinaryFileStep extends ActionStep {
     public readonly pathSegments: ReadonlyArray<string>,
     public readonly output: Output<Buffer>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   async execute(): Promise<void> {

@@ -6,7 +6,7 @@ export class ParseCsvStep extends ActionStep {
     public readonly input: Input<string>,
     public readonly output: Output<ReadonlyArray<ReadonlyArray<string>>>
   ) {
-    super(name);
+    super(name, output.effects);
   }
 
   async execute(): Promise<void> {

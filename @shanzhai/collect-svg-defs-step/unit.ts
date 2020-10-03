@@ -1,7 +1,52 @@
-import { Input, Json, Output } from "@shanzhai/interfaces";
+import { Input, Json, Output, Effect } from "@shanzhai/interfaces";
 import { CollectSvgDefsStep } from ".";
 
 describe(`CollectSvgDefsStep`, () => {
+  const typeScriptEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test TypeScript Effect A` },
+  };
+
+  const typeScriptEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test TypeScript Effect B` },
+  };
+
+  const typeScriptEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test TypeScript Effect C` },
+  };
+
+  const typeScriptEffectD: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test TypeScript Effect D` },
+  };
+
+  const constantsEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Constants Effect A` },
+  };
+
+  const constantsEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Constants Effect B` },
+  };
+
+  const svgEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Svg Effect A` },
+  };
+
+  const svgEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Svg Effect B` },
+  };
+
+  const svgEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Svg Effect C` },
+  };
+
   describe(`without defs`, () => {
     describe(`on construction`, () => {
       let typeScript: Output<string>;
@@ -10,9 +55,23 @@ describe(`CollectSvgDefsStep`, () => {
       let collectSvgDefsStep: CollectSvgDefsStep;
 
       beforeAll(() => {
-        typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-        constants = { set: jasmine.createSpy(`constants.set`) };
-        svg = { set: jasmine.createSpy(`svg.set`) };
+        typeScript = {
+          set: jasmine.createSpy(`typeScript.set`),
+          effects: [
+            typeScriptEffectA,
+            typeScriptEffectB,
+            typeScriptEffectC,
+            typeScriptEffectD,
+          ],
+        };
+        constants = {
+          set: jasmine.createSpy(`constants.set`),
+          effects: [constantsEffectA, constantsEffectB],
+        };
+        svg = {
+          set: jasmine.createSpy(`svg.set`),
+          effects: [svgEffectA, svgEffectB, svgEffectC],
+        };
 
         collectSvgDefsStep = new CollectSvgDefsStep(
           [],
@@ -24,6 +83,20 @@ describe(`CollectSvgDefsStep`, () => {
 
       it(`exposes the expected name`, () => {
         expect(collectSvgDefsStep.name).toEqual(`Collect SVG defs`);
+      });
+
+      it(`exposes the output's effects`, () => {
+        expect(collectSvgDefsStep.effects).toEqual([
+          typeScriptEffectA,
+          typeScriptEffectB,
+          typeScriptEffectC,
+          typeScriptEffectD,
+          constantsEffectA,
+          constantsEffectB,
+          svgEffectA,
+          svgEffectB,
+          svgEffectC,
+        ]);
       });
 
       it(`exposes the expected array of defs`, () => {
@@ -64,9 +137,21 @@ describe(`CollectSvgDefsStep`, () => {
       beforeAll(async () => {
         typeScript = {
           set: jasmine.createSpy(`typeScript.set`).and.resolveTo(),
+          effects: [
+            typeScriptEffectA,
+            typeScriptEffectB,
+            typeScriptEffectC,
+            typeScriptEffectD,
+          ],
         };
-        constants = { set: jasmine.createSpy(`constants.set`).and.resolveTo() };
-        svg = { set: jasmine.createSpy(`svg.set`).and.resolveTo() };
+        constants = {
+          set: jasmine.createSpy(`constants.set`).and.resolveTo(),
+          effects: [constantsEffectA, constantsEffectB],
+        };
+        svg = {
+          set: jasmine.createSpy(`svg.set`).and.resolveTo(),
+          effects: [svgEffectA, svgEffectB, svgEffectC],
+        };
 
         collectSvgDefsStep = new CollectSvgDefsStep(
           [],
@@ -134,9 +219,23 @@ describe(`CollectSvgDefsStep`, () => {
 
       beforeAll(() => {
         defAContent = { get: jasmine.createSpy(`defA.get`) };
-        typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-        constants = { set: jasmine.createSpy(`constants.set`) };
-        svg = { set: jasmine.createSpy(`svg.set`) };
+        typeScript = {
+          set: jasmine.createSpy(`typeScript.set`),
+          effects: [
+            typeScriptEffectA,
+            typeScriptEffectB,
+            typeScriptEffectC,
+            typeScriptEffectD,
+          ],
+        };
+        constants = {
+          set: jasmine.createSpy(`constants.set`),
+          effects: [constantsEffectA, constantsEffectB],
+        };
+        svg = {
+          set: jasmine.createSpy(`svg.set`),
+          effects: [svgEffectA, svgEffectB, svgEffectC],
+        };
 
         collectSvgDefsStep = new CollectSvgDefsStep(
           [
@@ -210,9 +309,21 @@ describe(`CollectSvgDefsStep`, () => {
         };
         typeScript = {
           set: jasmine.createSpy(`typeScript.set`).and.resolveTo(),
+          effects: [
+            typeScriptEffectA,
+            typeScriptEffectB,
+            typeScriptEffectC,
+            typeScriptEffectD,
+          ],
         };
-        constants = { set: jasmine.createSpy(`constants.set`).and.resolveTo() };
-        svg = { set: jasmine.createSpy(`svg.set`).and.resolveTo() };
+        constants = {
+          set: jasmine.createSpy(`constants.set`).and.resolveTo(),
+          effects: [constantsEffectA, constantsEffectB],
+        };
+        svg = {
+          set: jasmine.createSpy(`svg.set`).and.resolveTo(),
+          effects: [svgEffectA, svgEffectB, svgEffectC],
+        };
 
         collectSvgDefsStep = new CollectSvgDefsStep(
           [
@@ -300,9 +411,23 @@ describe(`CollectSvgDefsStep`, () => {
       beforeAll(() => {
         defAContent = { get: jasmine.createSpy(`defA.get`) };
         defBContent = { get: jasmine.createSpy(`defB.get`) };
-        typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-        constants = { set: jasmine.createSpy(`constants.set`) };
-        svg = { set: jasmine.createSpy(`svg.set`) };
+        typeScript = {
+          set: jasmine.createSpy(`typeScript.set`),
+          effects: [
+            typeScriptEffectA,
+            typeScriptEffectB,
+            typeScriptEffectC,
+            typeScriptEffectD,
+          ],
+        };
+        constants = {
+          set: jasmine.createSpy(`constants.set`),
+          effects: [constantsEffectA, constantsEffectB],
+        };
+        svg = {
+          set: jasmine.createSpy(`svg.set`),
+          effects: [svgEffectA, svgEffectB, svgEffectC],
+        };
 
         collectSvgDefsStep = new CollectSvgDefsStep(
           [
@@ -393,9 +518,21 @@ describe(`CollectSvgDefsStep`, () => {
         };
         typeScript = {
           set: jasmine.createSpy(`typeScript.set`).and.resolveTo(),
+          effects: [
+            typeScriptEffectA,
+            typeScriptEffectB,
+            typeScriptEffectC,
+            typeScriptEffectD,
+          ],
         };
-        constants = { set: jasmine.createSpy(`constants.set`).and.resolveTo() };
-        svg = { set: jasmine.createSpy(`svg.set`).and.resolveTo() };
+        constants = {
+          set: jasmine.createSpy(`constants.set`).and.resolveTo(),
+          effects: [constantsEffectA, constantsEffectB],
+        };
+        svg = {
+          set: jasmine.createSpy(`svg.set`).and.resolveTo(),
+          effects: [svgEffectA, svgEffectB, svgEffectC],
+        };
 
         collectSvgDefsStep = new CollectSvgDefsStep(
           [
@@ -495,9 +632,23 @@ describe(`CollectSvgDefsStep`, () => {
         defAContent = { get: jasmine.createSpy(`defA.get`) };
         defBContent = { get: jasmine.createSpy(`defB.get`) };
         defCContent = { get: jasmine.createSpy(`defC.get`) };
-        typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-        constants = { set: jasmine.createSpy(`constants.set`) };
-        svg = { set: jasmine.createSpy(`svg.set`) };
+        typeScript = {
+          set: jasmine.createSpy(`typeScript.set`),
+          effects: [
+            typeScriptEffectA,
+            typeScriptEffectB,
+            typeScriptEffectC,
+            typeScriptEffectD,
+          ],
+        };
+        constants = {
+          set: jasmine.createSpy(`constants.set`),
+          effects: [constantsEffectA, constantsEffectB],
+        };
+        svg = {
+          set: jasmine.createSpy(`svg.set`),
+          effects: [svgEffectA, svgEffectB, svgEffectC],
+        };
 
         collectSvgDefsStep = new CollectSvgDefsStep(
           [
@@ -606,11 +757,21 @@ describe(`CollectSvgDefsStep`, () => {
           };
           typeScript = {
             set: jasmine.createSpy(`typeScript.set`).and.resolveTo(),
+            effects: [
+              typeScriptEffectA,
+              typeScriptEffectB,
+              typeScriptEffectC,
+              typeScriptEffectD,
+            ],
           };
           constants = {
             set: jasmine.createSpy(`constants.set`).and.resolveTo(),
+            effects: [constantsEffectA, constantsEffectB],
           };
-          svg = { set: jasmine.createSpy(`svg.set`).and.resolveTo() };
+          svg = {
+            set: jasmine.createSpy(`svg.set`).and.resolveTo(),
+            effects: [svgEffectA, svgEffectB, svgEffectC],
+          };
 
           collectSvgDefsStep = new CollectSvgDefsStep(
             [
@@ -739,9 +900,23 @@ describe(`CollectSvgDefsStep`, () => {
                 `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`
               ),
           };
-          typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-          constants = { set: jasmine.createSpy(`constants.set`) };
-          svg = { set: jasmine.createSpy(`svg.set`) };
+          typeScript = {
+            set: jasmine.createSpy(`typeScript.set`),
+            effects: [
+              typeScriptEffectA,
+              typeScriptEffectB,
+              typeScriptEffectC,
+              typeScriptEffectD,
+            ],
+          };
+          constants = {
+            set: jasmine.createSpy(`constants.set`),
+            effects: [constantsEffectA, constantsEffectB],
+          };
+          svg = {
+            set: jasmine.createSpy(`svg.set`),
+            effects: [svgEffectA, svgEffectB, svgEffectC],
+          };
 
           collectSvgDefsStep = new CollectSvgDefsStep(
             [
@@ -852,9 +1027,23 @@ describe(`CollectSvgDefsStep`, () => {
                 `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`
               ),
           };
-          typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-          constants = { set: jasmine.createSpy(`constants.set`) };
-          svg = { set: jasmine.createSpy(`svg.set`) };
+          typeScript = {
+            set: jasmine.createSpy(`typeScript.set`),
+            effects: [
+              typeScriptEffectA,
+              typeScriptEffectB,
+              typeScriptEffectC,
+              typeScriptEffectD,
+            ],
+          };
+          constants = {
+            set: jasmine.createSpy(`constants.set`),
+            effects: [constantsEffectA, constantsEffectB],
+          };
+          svg = {
+            set: jasmine.createSpy(`svg.set`),
+            effects: [svgEffectA, svgEffectB, svgEffectC],
+          };
 
           collectSvgDefsStep = new CollectSvgDefsStep(
             [
@@ -965,9 +1154,23 @@ describe(`CollectSvgDefsStep`, () => {
                 `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`
               ),
           };
-          typeScript = { set: jasmine.createSpy(`typeScript.set`) };
-          constants = { set: jasmine.createSpy(`constants.set`) };
-          svg = { set: jasmine.createSpy(`svg.set`) };
+          typeScript = {
+            set: jasmine.createSpy(`typeScript.set`),
+            effects: [
+              typeScriptEffectA,
+              typeScriptEffectB,
+              typeScriptEffectC,
+              typeScriptEffectD,
+            ],
+          };
+          constants = {
+            set: jasmine.createSpy(`constants.set`),
+            effects: [constantsEffectA, constantsEffectB],
+          };
+          svg = {
+            set: jasmine.createSpy(`svg.set`),
+            effects: [svgEffectA, svgEffectB, svgEffectC],
+          };
 
           collectSvgDefsStep = new CollectSvgDefsStep(
             [

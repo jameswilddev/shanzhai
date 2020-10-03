@@ -56,6 +56,10 @@ describe(`WriteFileStep`, () => {
             expect(writeFileStep.name).toEqual(`Test Name`);
           });
 
+          it(`expoes no effects`, () => {
+            expect(writeFileStep.effects).toEqual([]);
+          });
+
           it(`exposes its input`, () => {
             expect(writeFileStep.input).toBe(input);
           });

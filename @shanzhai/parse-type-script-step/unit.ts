@@ -1,8 +1,23 @@
 import * as typescript from "typescript";
-import { Input, Output } from "@shanzhai/interfaces";
+import { Input, Output, Effect } from "@shanzhai/interfaces";
 import { ParseTypeScriptStep } from ".";
 
 describe(`ParseTypeScriptStep`, () => {
+  const outputEffectA: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect A` },
+  };
+
+  const outputEffectB: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect B` },
+  };
+
+  const outputEffectC: Effect = {
+    type: `storeUpdate`,
+    store: { name: `Test Output Effect C` },
+  };
+
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
     let input: Input<string>;
@@ -18,7 +33,10 @@ describe(`ParseTypeScriptStep`, () => {
       compilerOptionsGet = jasmine.createSpy(`compilerOptionsGet`);
       compilerOptions = { get: compilerOptionsGet };
       outputSet = jasmine.createSpy(`outputSet`);
-      output = { set: outputSet };
+      output = {
+        set: outputSet,
+        effects: [outputEffectA, outputEffectB, outputEffectC],
+      };
 
       parseTypeScriptStep = new ParseTypeScriptStep(
         input,
@@ -32,6 +50,14 @@ describe(`ParseTypeScriptStep`, () => {
       expect(parseTypeScriptStep.name).toEqual(
         `Parse "Test File Name" as TypeScript`
       );
+    });
+
+    it(`exposes the output's effects`, () => {
+      expect(parseTypeScriptStep.effects).toEqual([
+        outputEffectA,
+        outputEffectB,
+        outputEffectC,
+      ]);
     });
 
     it(`exposes the input`, () => {
@@ -83,7 +109,10 @@ describe(`ParseTypeScriptStep`, () => {
           .and.resolveTo({});
         compilerOptions = { get: compilerOptionsGet };
         outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-        output = { set: outputSet };
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         parseTypeScriptStep = new ParseTypeScriptStep(
           input,
@@ -158,7 +187,10 @@ describe(`ParseTypeScriptStep`, () => {
           });
         compilerOptions = { get: compilerOptionsGet };
         outputSet = jasmine.createSpy(`outputSet`).and.resolveTo();
-        output = { set: outputSet };
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         parseTypeScriptStep = new ParseTypeScriptStep(
           input,
@@ -242,7 +274,10 @@ describe(`ParseTypeScriptStep`, () => {
           .and.resolveTo({});
         compilerOptions = { get: compilerOptionsGet };
         outputSet = jasmine.createSpy(`outputSet`);
-        output = { set: outputSet };
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
 
         parseTypeScriptStep = new ParseTypeScriptStep(
           input,
