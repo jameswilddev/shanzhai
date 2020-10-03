@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/global-store",
   "description": "A Shanzhai store for global variables to be included in Javascript builds.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/key-value-store": "0.0.3"
+    "@shanzhai/key-value-store": "0.0.4"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.6"
