@@ -5,6 +5,6 @@ import { StoreTrigger } from "./store-trigger";
 
 export type Trigger =
   | FileTrigger
-  | KeyedStoreTrigger
+  | KeyedStoreTrigger<unknown>
   | OneTimeTrigger
   | StoreTrigger;
