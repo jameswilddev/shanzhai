@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/convert-json-to-type-script-step",
   "description": "A Shanzhai build step which converts a JSON value to TypeScript source code for ambient declarations.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.6"
+    "@shanzhai/interfaces": "0.0.7"
   },
   "types": "index.d.ts"
 }

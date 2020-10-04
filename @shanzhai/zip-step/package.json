@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/zip-step",
   "description": "A Shanzhai step which creates a zip file from a list of binary or UTF-8 encoded text files.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -24,7 +24,7 @@
     "7zip-bin": "5.0.3"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.6",
+    "@shanzhai/interfaces": "0.0.7",
     "@types/uuid": "8.3.0",
     "uuid": "8.3.0",
     "extract-zip": "2.0.1"

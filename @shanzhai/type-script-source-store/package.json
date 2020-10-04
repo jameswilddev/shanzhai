@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/type-script-source-store",
   "description": "A Shanzhai store for TypeScript source files.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -24,7 +24,7 @@
     "@shanzhai/key-value-store": "0.0.4"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.6"
+    "@shanzhai/interfaces": "0.0.7"
   },
   "types": "index.d.ts"
 }

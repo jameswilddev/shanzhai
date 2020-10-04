@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/type-script-compiler-options-store",
   "description": "A Shanzhai store for TypeScript compiler options.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -24,7 +24,7 @@
     "@shanzhai/value-store": "0.0.3"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.6",
+    "@shanzhai/interfaces": "0.0.7",
     "typescript": "3.4.3"
   },
   "types": "index.d.ts"

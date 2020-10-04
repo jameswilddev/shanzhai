@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/create-directory-step",
   "description": "A Shanzhai step which ensures that a directory exists (as well as all of its parent directories).",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.6",
+    "@shanzhai/interfaces": "0.0.7",
     "@types/uuid": "8.3.0",
     "uuid": "8.3.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/change-tracking-helpers",
   "description": "Helpers for tracking changes to files during a Shanzhai build.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.6",
+    "@shanzhai/interfaces": "0.0.7",
     "@types/uuid": "8.3.0",
     "uuid": "8.3.0"
   },
