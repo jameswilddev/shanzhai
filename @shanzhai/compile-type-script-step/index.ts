@@ -5,7 +5,7 @@ export class CompileTypeScriptStep extends ActionStep {
   constructor(
     public readonly input: Input<ReadonlyArray<typescript.SourceFile>>,
     public readonly compilerOptions: Input<typescript.CompilerOptions>,
-    public readonly output: Output<{ readonly [fileName: string]: string }>
+    public readonly output: Output<string>
   ) {
     super(`Compile TypeScript`, output.effects);
   }
@@ -80,7 +80,19 @@ export class CompileTypeScriptStep extends ActionStep {
 
       throw new Error(output);
     } else {
-      await this.output.set(output);
+      const writtenFiles = Object.keys(output).sort();
+
+      if (writtenFiles.length < 1) {
+        throw new Error(`No files were written.`);
+      } else if (writtenFiles.length > 1) {
+        throw new Error(
+          `Multiple files (${writtenFiles
+            .map((file) => JSON.stringify(file))
+            .join(`, `)}) were written.`
+        );
+      }
+
+      await this.output.set(output[writtenFiles[0]]);
     }
   }
 }

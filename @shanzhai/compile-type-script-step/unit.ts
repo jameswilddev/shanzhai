@@ -26,7 +26,7 @@ describe(`CompileTypeScriptStep`, () => {
     let compilerOptionsGet: jasmine.Spy;
     let compilerOptions: Input<typescript.CompilerOptions>;
     let outputSet: jasmine.Spy;
-    let output: Output<{ readonly [fileName: string]: string }>;
+    let output: Output<string>;
     let compileTypeScriptStep: CompileTypeScriptStep;
 
     beforeAll(async () => {
@@ -93,7 +93,7 @@ describe(`CompileTypeScriptStep`, () => {
       let compilerOptionsGet: jasmine.Spy;
       let compilerOptions: Input<typescript.CompilerOptions>;
       let outputSet: jasmine.Spy;
-      let output: Output<{ readonly [fileName: string]: string }>;
+      let output: Output<string>;
       let compileTypeScriptStep: CompileTypeScriptStep;
 
       beforeAll(async () => {
@@ -193,9 +193,7 @@ describe(`CompileTypeScriptStep`, () => {
 
         const compiled = outputSet.calls.argsFor(0)[0];
 
-        expect(compiled).toEqual({ "result.js": jasmine.any(String) });
-
-        eval(compiled[`result.js`]);
+        eval(compiled);
 
         expect(results).toEqual([`Example 441`]);
       });
@@ -207,7 +205,7 @@ describe(`CompileTypeScriptStep`, () => {
       let compilerOptionsGet: jasmine.Spy;
       let compilerOptions: Input<typescript.CompilerOptions>;
       let outputSet: jasmine.Spy;
-      let output: Output<{ readonly [fileName: string]: string }>;
+      let output: Output<string>;
       let compileTypeScriptStep: CompileTypeScriptStep;
       let error: null | Error = null;
 
@@ -319,6 +317,329 @@ Test Path/To Another/Test/File.ts@5: Type '{ y: string; }[][]' is not assignable
       Property 'x' is missing in type '{ y: string; }' but required in type '{ x: number; }'.
 Test Path/To Another/Test/File.ts@6: Argument of type 'null' is not assignable to parameter of type 'number'.
 Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter of type 'number'.`)
+        );
+      });
+    });
+
+    describe(`no files emitted`, () => {
+      let inputGet: jasmine.Spy;
+      let input: Input<ReadonlyArray<typescript.SourceFile>>;
+      let compilerOptionsGet: jasmine.Spy;
+      let compilerOptions: Input<typescript.CompilerOptions>;
+      let outputSet: jasmine.Spy;
+      let output: Output<string>;
+      let compileTypeScriptStep: CompileTypeScriptStep;
+      let error: null | Error = null;
+
+      beforeAll(async () => {
+        const files: typescript.SourceFile[] = [];
+
+        const prepareInput = (source: string, fileName: string): void => {
+          files.push(
+            typescript.createSourceFile(
+              fileName,
+              source,
+              typescript.ScriptTarget.ES2015,
+              false,
+              typescript.ScriptKind.TS
+            )
+          );
+        };
+
+        prepareInput(
+          await fs.promises.readFile(
+            require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`)),
+            `utf8`
+          ),
+          require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`))
+        );
+
+        prepareInput(
+          await fs.promises.readFile(
+            require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`)),
+            `utf8`
+          ),
+          require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`))
+        );
+
+        prepareInput(
+          `declare function callback(value: string): void;`,
+          path.join(`Test Path`, `To Test`, `File.ts`)
+        );
+
+        prepareInput(
+          `const square = (value: number): number => value * value;`,
+          path.join(`Test Path`, `To Another`, `Test`, `File.ts`)
+        );
+
+        prepareInput(`callback("Example " + square(21));`, `Test Root File.ts`);
+
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(files);
+        input = { get: inputGet };
+        compilerOptionsGet = jasmine
+          .createSpy(`compilerOptionsGet`)
+          .and.resolveTo({
+            lib: [`dom`, `es5`],
+            noEmit: true,
+            strictNullChecks: true,
+            target: typescript.ScriptTarget.ES5,
+            types: [],
+            typeRoots: [],
+          });
+        compilerOptions = { get: compilerOptionsGet };
+        outputSet = jasmine.createSpy(`outputSet`);
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
+
+        compileTypeScriptStep = new CompileTypeScriptStep(
+          input,
+          compilerOptions,
+          output
+        );
+
+        try {
+          await compileTypeScriptStep.execute();
+        } catch (e) {
+          error = e;
+        }
+      });
+
+      it(`does not change its exposed input`, () => {
+        expect(compileTypeScriptStep.input).toBe(input);
+      });
+
+      it(`reads each of its exposed inputs once`, () => {
+        expect(inputGet).toHaveBeenCalledTimes(1);
+      });
+
+      it(`does not change its exposed output`, () => {
+        expect(compileTypeScriptStep.output).toBe(output);
+      });
+
+      it(`does not write to its output`, () => {
+        expect(outputSet).not.toHaveBeenCalled();
+      });
+
+      it(`throws the expected error`, () => {
+        expect(error).toEqual(new Error(`No files were written.`));
+      });
+    });
+
+    describe(`two files emitted`, () => {
+      let inputGet: jasmine.Spy;
+      let input: Input<ReadonlyArray<typescript.SourceFile>>;
+      let compilerOptionsGet: jasmine.Spy;
+      let compilerOptions: Input<typescript.CompilerOptions>;
+      let outputSet: jasmine.Spy;
+      let output: Output<string>;
+      let compileTypeScriptStep: CompileTypeScriptStep;
+      let error: null | Error = null;
+
+      beforeAll(async () => {
+        const files: typescript.SourceFile[] = [];
+
+        const prepareInput = (source: string, fileName: string): void => {
+          files.push(
+            typescript.createSourceFile(
+              fileName,
+              source,
+              typescript.ScriptTarget.ES2015,
+              false,
+              typescript.ScriptKind.TS
+            )
+          );
+        };
+
+        prepareInput(
+          await fs.promises.readFile(
+            require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`)),
+            `utf8`
+          ),
+          require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`))
+        );
+
+        prepareInput(
+          await fs.promises.readFile(
+            require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`)),
+            `utf8`
+          ),
+          require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`))
+        );
+
+        prepareInput(
+          `declare function callback(value: string): void;`,
+          path.join(`Test Path`, `To Test`, `File.ts`)
+        );
+
+        prepareInput(
+          `const square = (value: number): number => value * value;
+          callback("Example " + square(21));`,
+          path.join(`Test Path`, `To Another`, `Test`, `File.ts`)
+        );
+
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(files);
+        input = { get: inputGet };
+        compilerOptionsGet = jasmine
+          .createSpy(`compilerOptionsGet`)
+          .and.resolveTo({
+            lib: [`dom`, `es5`],
+            strictNullChecks: true,
+            target: typescript.ScriptTarget.ES5,
+            types: [],
+            typeRoots: [],
+          });
+        compilerOptions = { get: compilerOptionsGet };
+        outputSet = jasmine.createSpy(`outputSet`);
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
+
+        compileTypeScriptStep = new CompileTypeScriptStep(
+          input,
+          compilerOptions,
+          output
+        );
+
+        try {
+          await compileTypeScriptStep.execute();
+        } catch (e) {
+          error = e;
+        }
+      });
+
+      it(`does not change its exposed input`, () => {
+        expect(compileTypeScriptStep.input).toBe(input);
+      });
+
+      it(`reads each of its exposed inputs once`, () => {
+        expect(inputGet).toHaveBeenCalledTimes(1);
+      });
+
+      it(`does not change its exposed output`, () => {
+        expect(compileTypeScriptStep.output).toBe(output);
+      });
+
+      it(`does not write to its output`, () => {
+        expect(outputSet).not.toHaveBeenCalled();
+      });
+
+      it(`throws the expected error`, () => {
+        expect(error).toEqual(
+          new Error(
+            `Multiple files ("Test Path/To Another/Test/File.js", "Test Path/To Test/File.js") were written.`
+          )
+        );
+      });
+    });
+
+    describe(`three files emitted`, () => {
+      let inputGet: jasmine.Spy;
+      let input: Input<ReadonlyArray<typescript.SourceFile>>;
+      let compilerOptionsGet: jasmine.Spy;
+      let compilerOptions: Input<typescript.CompilerOptions>;
+      let outputSet: jasmine.Spy;
+      let output: Output<string>;
+      let compileTypeScriptStep: CompileTypeScriptStep;
+      let error: null | Error = null;
+
+      beforeAll(async () => {
+        const files: typescript.SourceFile[] = [];
+
+        const prepareInput = (source: string, fileName: string): void => {
+          files.push(
+            typescript.createSourceFile(
+              fileName,
+              source,
+              typescript.ScriptTarget.ES2015,
+              false,
+              typescript.ScriptKind.TS
+            )
+          );
+        };
+
+        prepareInput(
+          await fs.promises.readFile(
+            require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`)),
+            `utf8`
+          ),
+          require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`))
+        );
+
+        prepareInput(
+          await fs.promises.readFile(
+            require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`)),
+            `utf8`
+          ),
+          require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`))
+        );
+
+        prepareInput(
+          `declare function callback(value: string): void;`,
+          path.join(`Test Path`, `To Test`, `File.ts`)
+        );
+
+        prepareInput(
+          `const square = (value: number): number => value * value;`,
+          path.join(`Test Path`, `To Another`, `Test`, `File.ts`)
+        );
+
+        prepareInput(`callback("Example " + square(21));`, `Test Root File.ts`);
+
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(files);
+        input = { get: inputGet };
+        compilerOptionsGet = jasmine
+          .createSpy(`compilerOptionsGet`)
+          .and.resolveTo({
+            lib: [`dom`, `es5`],
+            strictNullChecks: true,
+            target: typescript.ScriptTarget.ES5,
+            types: [],
+            typeRoots: [],
+          });
+        compilerOptions = { get: compilerOptionsGet };
+        outputSet = jasmine.createSpy(`outputSet`);
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
+
+        compileTypeScriptStep = new CompileTypeScriptStep(
+          input,
+          compilerOptions,
+          output
+        );
+
+        try {
+          await compileTypeScriptStep.execute();
+        } catch (e) {
+          error = e;
+        }
+      });
+
+      it(`does not change its exposed input`, () => {
+        expect(compileTypeScriptStep.input).toBe(input);
+      });
+
+      it(`reads each of its exposed inputs once`, () => {
+        expect(inputGet).toHaveBeenCalledTimes(1);
+      });
+
+      it(`does not change its exposed output`, () => {
+        expect(compileTypeScriptStep.output).toBe(output);
+      });
+
+      it(`does not write to its output`, () => {
+        expect(outputSet).not.toHaveBeenCalled();
+      });
+
+      it(`throws the expected error`, () => {
+        expect(error).toEqual(
+          new Error(
+            `Multiple files ("Test Path/To Another/Test/File.js", "Test Path/To Test/File.js", "Test Root File.js") were written.`
+          )
         );
       });
     });
