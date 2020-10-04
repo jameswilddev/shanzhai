@@ -1,13 +1,13 @@
 import { Step } from "../../step";
 import { Store } from "../../store";
 
-export type KeyedStoreTrigger = {
+export type KeyedStoreTrigger<T> = {
   readonly type: `keyedStore`;
 
   readonly store: Store;
 
   readonly regeneratedByChangesToStores: ReadonlyArray<Store>;
 
-  down(key: string): Promise<ReadonlyArray<Step>>;
-  up(key: string): Promise<ReadonlyArray<Step>>;
+  down(key: T): Promise<ReadonlyArray<Step>>;
+  up(key: T): Promise<ReadonlyArray<Step>>;
 };
