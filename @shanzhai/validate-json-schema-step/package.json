@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "jsonschema": "1.2.10"
+    "jsonschema": "1.2.11"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.7"
