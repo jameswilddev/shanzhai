@@ -6,9 +6,9 @@ A Shanzhai build step which validates a JSON value against a JSON schema.
 
 This package has the following runtime dependencies:
 
-Name       | Version                                                                                           
----------- | --------------------------------------------------------------------------------------------------
-jsonschema | [![1.2.11](https://img.shields.io/npm/v/jsonschema.svg)](https://www.npmjs.com/package/jsonschema)
+Name       | Version                                                                                          
+---------- | -------------------------------------------------------------------------------------------------
+jsonschema | [![1.3.0](https://img.shields.io/npm/v/jsonschema.svg)](https://www.npmjs.com/package/jsonschema)
 
 ## Peer Dependencies
 
