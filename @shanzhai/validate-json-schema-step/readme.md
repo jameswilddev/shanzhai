@@ -8,7 +8,7 @@ This package has the following runtime dependencies:
 
 Name       | Version                                                                                          
 ---------- | -------------------------------------------------------------------------------------------------
-jsonschema | [![1.3.0](https://img.shields.io/npm/v/jsonschema.svg)](https://www.npmjs.com/package/jsonschema)
+jsonschema | [![1.4.0](https://img.shields.io/npm/v/jsonschema.svg)](https://www.npmjs.com/package/jsonschema)
 
 ## Peer Dependencies
 
