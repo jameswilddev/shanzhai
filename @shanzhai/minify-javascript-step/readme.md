@@ -8,7 +8,7 @@ This package has the following runtime dependencies:
 
 Name      | Version                                                                                         
 --------- | ------------------------------------------------------------------------------------------------
-uglify-js | [![3.11.3](https://img.shields.io/npm/v/uglify-js.svg)](https://www.npmjs.com/package/uglify-js)
+uglify-js | [![3.11.4](https://img.shields.io/npm/v/uglify-js.svg)](https://www.npmjs.com/package/uglify-js)
 
 ## Peer Dependencies
 
