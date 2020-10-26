@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "uglify-js": "3.11.3",
+    "uglify-js": "3.11.4",
     "@shanzhai/minify-step": "0.0.2"
   },
   "devDependencies": {
