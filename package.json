@@ -13,8 +13,8 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jasmine": "3.6.2",
-    "@typescript-eslint/eslint-plugin": "4.10.0",
-    "@typescript-eslint/parser": "4.10.0",
+    "@typescript-eslint/eslint-plugin": "4.11.0",
+    "@typescript-eslint/parser": "4.11.0",
     "del-cli": "3.0.1",
     "eslint": "7.16.0",
     "eslint-config-prettier": "7.1.0",
