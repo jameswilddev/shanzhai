@@ -8,7 +8,7 @@ This package has the following runtime dependencies:
 
 Name     | Version                                                                                      
 -------- | ---------------------------------------------------------------------------------------------
-chokidar | [![3.4.3](https://img.shields.io/npm/v/chokidar.svg)](https://www.npmjs.com/package/chokidar)
+chokidar | [![3.5.1](https://img.shields.io/npm/v/chokidar.svg)](https://www.npmjs.com/package/chokidar)
 
 ## Peer Dependencies
 
