@@ -8,7 +8,7 @@ This package has the following runtime dependencies:
 
 Name | Version                                                                            
 ---- | -----------------------------------------------------------------------------------
-pug  | [![3.0.0](https://img.shields.io/npm/v/pug.svg)](https://www.npmjs.com/package/pug)
+pug  | [![3.0.2](https://img.shields.io/npm/v/pug.svg)](https://www.npmjs.com/package/pug)
 
 ## Peer Dependencies
 
