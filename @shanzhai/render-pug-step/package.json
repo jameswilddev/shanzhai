@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "pug": "3.0.0"
+    "pug": "3.0.2"
   },
   "devDependencies": {
     "@types/pug": "2.0.4",
