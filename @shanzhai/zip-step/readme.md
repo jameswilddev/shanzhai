@@ -8,7 +8,7 @@ This package has the following runtime dependencies:
 
 Name     | Version                                                                                      
 -------- | ---------------------------------------------------------------------------------------------
-7zip-bin | [![5.1.0](https://img.shields.io/npm/v/7zip-bin.svg)](https://www.npmjs.com/package/7zip-bin)
+7zip-bin | [![5.1.1](https://img.shields.io/npm/v/7zip-bin.svg)](https://www.npmjs.com/package/7zip-bin)
 
 ## Peer Dependencies
 
