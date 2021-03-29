@@ -28,7 +28,7 @@
     "@shanzhai/interfaces": "0.0.7",
     "@types/jsdom": "16.2.9",
     "@types/html-minifier": "4.0.0",
-    "jsdom": "16.5.1"
+    "jsdom": "16.5.2"
   },
   "types": "index.d.ts"
 }
