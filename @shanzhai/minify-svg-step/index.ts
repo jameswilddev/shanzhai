@@ -3,70 +3,139 @@ import { MinifyStep } from "@shanzhai/minify-step";
 
 const floatPrecision = 0;
 
-const svgo = new Svgo({
-  plugins: [
+const options: Svgo.OptimizeOptions = {
+  floatPrecision,
+  full: true,
+  multipass: true,
+  plugins: Svgo.extendDefaultPlugins([
     {
-      cleanupAttrs: true,
+      name: `cleanupAttrs`,
+      active: true,
+      params: {
+        newlines: true,
+        trim: true,
+        spaces: true,
+      },
     },
     {
-      inlineStyles: true,
+      name: `mergeStyles`,
+      active: true,
     },
     {
-      removeDoctype: true,
+      name: `inlineStyles`,
+      active: true,
+      params: {
+        onlyMatchedOnce: true,
+        removeMatchedSelectors: true,
+        useMqs: ["", "screen"],
+        usePseudos: [""],
+      },
     },
     {
-      removeXMLProcInst: true,
+      name: `removeDoctype`,
+      active: true,
     },
     {
-      removeComments: true,
+      name: `removeXMLProcInst`,
+      active: true,
     },
     {
-      removeMetadata: true,
+      name: `removeComments`,
+      active: true,
     },
     {
-      removeTitle: true,
+      name: `removeMetadata`,
+      active: true,
     },
     {
-      removeDesc: true,
+      name: `removeTitle`,
+      active: true,
     },
     {
-      removeUselessDefs: true,
+      name: `removeDesc`,
+      active: true,
+      params: {
+        removeAny: true,
+      },
     },
     {
-      removeXMLNS: true,
+      name: `removeUselessDefs`,
+      active: true,
     },
     {
-      removeEditorsNSData: true,
+      name: `removeXMLNS`,
+      active: true,
     },
     {
-      removeEmptyAttrs: true,
+      name: `removeEditorsNSData`,
+      active: true,
+      params: {
+        additionalNamespaces: [],
+      },
     },
     {
-      removeHiddenElems: true,
+      name: `removeEmptyAttrs`,
+      active: true,
     },
     {
-      removeEmptyText: true,
+      name: `removeHiddenElems`,
+      active: true,
     },
     {
-      removeEmptyContainers: true,
+      name: `removeEmptyText`,
+      active: true,
+      params: {
+        text: true,
+        tspan: true,
+        tref: true,
+      },
     },
     {
-      removeViewBox: true,
+      name: `removeEmptyContainers`,
+      active: true,
     },
     {
-      cleanupEnableBackground: true,
+      name: `removeViewBox`,
+      active: true,
     },
     {
-      minifyStyles: true,
+      name: `cleanupEnableBackground`,
+      active: true,
     },
     {
-      convertStyleToAttrs: true,
+      name: `minifyStyles`,
+      active: true,
+      params: {
+        usage: {
+          force: false,
+          ids: true,
+          classes: true,
+          tags: true,
+        },
+      },
     },
     {
-      convertColors: true,
+      name: `convertStyleToAttrs`,
+      active: true,
+      params: {
+        keepImportant: false,
+      },
     },
     {
-      convertPathData: {
+      name: `convertColors`,
+      active: true,
+      params: {
+        currentColor: false,
+        names2hex: true,
+        rgb2hex: true,
+        shorthex: true,
+        shortname: true,
+      },
+    },
+    {
+      name: `convertPathData`,
+      active: true,
+      params: {
         applyTransforms: true,
         applyTransformsStroked: true,
         makeArcs: {
@@ -88,73 +157,212 @@ const svgo = new Svgo({
       },
     },
     {
-      convertTransform: {
+      name: `convertTransform`,
+      active: true,
+      params: {
+        convertToShorts: true,
+        floatPrecision,
+        transformPrecision: 5,
+        matrixToTransform: true,
+        shortTranslate: true,
+        shortScale: true,
+        shortRotate: true,
+        removeUseless: true,
+        collapseIntoOne: true,
+        leadingZero: true,
+        negativeExtraSpace: false,
+      },
+    },
+    {
+      name: `removeUnknownsAndDefaults`,
+      active: true,
+      params: {
+        unknownContent: true,
+        unknownAttrs: true,
+        defaultAttrs: true,
+        uselessOverrides: true,
+        keepDataAttrs: true,
+        keepAriaAttrs: true,
+        keepRoleAttr: false,
+      },
+    },
+    {
+      name: `removeNonInheritableGroupAttrs`,
+      active: true,
+    },
+    {
+      name: `removeUselessStrokeAndFill`,
+      active: true,
+      params: {
+        stroke: true,
+        fill: true,
+        removeNone: false,
+        hasStyleOrScript: false,
+      },
+    },
+    {
+      name: `removeUnusedNS`,
+      active: true,
+    },
+    {
+      name: `prefixIds`,
+      active: false,
+      params: {
+        delim: "__",
+        prefixIds: true,
+        prefixClassNames: true,
+      },
+    },
+    {
+      name: `cleanupIDs`,
+      active: true,
+      params: {
+        remove: true,
+        minify: true,
+        prefix: "",
+        preserve: [],
+        preservePrefixes: [],
+        force: false,
+      },
+    },
+    {
+      name: `cleanupNumericValues`,
+      active: true,
+      params: {
+        floatPrecision,
+        leadingZero: true,
+        defaultPx: true,
+        convertToPx: true,
+      },
+    },
+    {
+      name: `cleanupListOfValues`,
+      active: true,
+      params: {
+        floatPrecision,
+        leadingZero: true,
+        defaultPx: true,
+        convertToPx: true,
+      },
+    },
+    {
+      name: `moveElemsAttrsToGroup`,
+      active: true,
+    },
+    {
+      name: `moveGroupAttrsToElems`,
+      active: true,
+    },
+    {
+      name: `collapseGroups`,
+      active: true,
+    },
+    {
+      name: `removeRasterImages`,
+      active: true,
+    },
+    {
+      name: `mergePaths`,
+      active: true,
+    },
+    {
+      name: `convertShapeToPath`,
+      active: true,
+      params: {
+        convertArcs: false,
         floatPrecision,
       },
     },
     {
-      removeUnknownsAndDefaults: true,
+      name: `convertEllipseToCircle`,
+      active: true,
     },
     {
-      removeNonInheritableGroupAttrs: true,
-    },
-    {
-      removeUselessStrokeAndFill: true,
-    },
-    {
-      removeUnusedNS: true,
-    },
-    {
-      cleanupIDs: true,
-    },
-    {
-      cleanupNumericValues: {
-        floatPrecision,
+      name: `sortAttrs`,
+      active: true,
+      params: {
+        order: [
+          `id`,
+          `width`,
+          `height`,
+          `x`,
+          `x1`,
+          `x2`,
+          `y`,
+          `y1`,
+          `y2`,
+          `cx`,
+          `cy`,
+          `r`,
+          `fill`,
+          `stroke`,
+          `marker`,
+          `d`,
+          `points`,
+        ],
       },
     },
     {
-      cleanupListOfValues: {
-        floatPrecision,
+      name: `sortDefsChildren`,
+      active: true,
+    },
+    {
+      name: `removeDimensions`,
+      active: true,
+    },
+    {
+      name: `removeAttrs`,
+      active: false,
+      params: {
+        elemSeparator: `:`,
+        preserveCurrentColor: false,
+        attrs: [],
       },
     },
     {
-      moveElemsAttrsToGroup: true,
+      name: `removeAttributesBySelector`,
+      active: false,
     },
     {
-      moveGroupAttrsToElems: true,
+      name: `removeElementsByAttr`,
+      active: false,
+      params: {
+        id: [],
+        class: [],
+      },
     },
     {
-      collapseGroups: true,
+      name: `addClassesToSVGElement`,
+      active: false,
     },
     {
-      removeRasterImages: true,
+      name: `addAttributesToSVGElement`,
+      active: false,
     },
     {
-      mergePaths: true,
+      name: `removeOffCanvasPaths`,
+      active: true,
     },
     {
-      convertShapeToPath: true,
+      name: `removeStyleElement`,
+      active: true,
     },
     {
-      sortAttrs: true,
+      name: `removeScriptElement`,
+      active: true,
     },
     {
-      removeDimensions: false,
+      name: `reusePaths`,
+      active: true,
     },
-    {
-      removeStyleElement: true,
-    },
-    {
-      removeScriptElement: true,
-    },
-  ],
-});
+  ]),
+};
 
 export class MinifySvgStep extends MinifyStep<string> {
   readonly maximumIterations = 10;
 
   async iterate(value: string): Promise<string> {
-    const optimized = await svgo.optimize(value);
+    const optimized = await Svgo.optimize(value, options);
     return optimized.data;
   }
 }
