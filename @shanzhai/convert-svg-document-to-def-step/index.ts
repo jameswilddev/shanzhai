@@ -6,23 +6,12 @@ const JS2SVG = require("svgo/lib/svgo/js2svg");
 
 import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
-type AnySvgElement = SvgElementWithTextContent | SvgElementWithArrayContent;
-
-type SvgElement<TContent> = {
-  content: TContent;
-
+type ParsedSvg = {
+  children: ReadonlyArray<ParsedSvg>;
   readonly attrs: {
-    id: string;
+    [key: string]: string;
   };
 };
-
-type SvgElementWithTextContent = SvgElement<string>;
-
-type SvgElementWithArrayContent = SvgElement<AnySvgElement[]>;
-
-type SvgElementWithArrayOfArraysContent = SvgElement<
-  SvgElementWithArrayContent[]
->;
 
 export class ConvertSvgDocumentToDefStep extends ActionStep {
   constructor(
@@ -35,35 +24,28 @@ export class ConvertSvgDocumentToDefStep extends ActionStep {
   async execute(): Promise<void> {
     const svgDocument = await this.svgDocument.get();
 
-    const root = await new Promise<AnySvgElement>((resolve) =>
-      svg2js(svgDocument, resolve)
-    );
+    const root = svg2js(svgDocument) as ParsedSvg;
 
-    const children = (root as SvgElementWithArrayOfArraysContent).content[0]
-      .content;
+    const children = root.children[0].children;
 
-    if (children === undefined) {
+    if (children.length === 0) {
       throw new Error(`Empty SVG documents cannot be converted into defs.`);
     }
 
     if (children.length === 1) {
       // Remove the wrapping <svg> (there's already a single root).
-      root.content = children;
+      root.children = children;
     } else {
       // Replace the wrapping <svg> with a <g>.
-      const groupSource = await new Promise<SvgElementWithArrayOfArraysContent>(
-        (resolve) => svg2js(`<svg><g></g></svg>`, resolve)
-      );
-      root.content = groupSource.content[0].content;
-      groupSource.content[0].content[0].content = children;
+      const groupSource = svg2js(`<svg><g></g></svg>`) as ParsedSvg;
+      root.children = groupSource.children[0].children;
+      groupSource.children[0].children[0].children = children;
     }
 
     // Inject a blank ID.  This should be safely replaceable later down
     // the line, as we've already filtered out IDs using SVGO.
-    const idSource = await new Promise<SvgElementWithArrayContent>((resolve) =>
-      svg2js(`<svg id="" />`, resolve)
-    );
-    root.content[0].attrs.id = idSource.content[0].attrs.id;
+    const idSource = svg2js(`<svg id="" />`) as ParsedSvg;
+    root.children[0].attrs.id = idSource.children[0].attrs.id;
 
     const generated = new JS2SVG(root).data;
     await this.svgDef.set(generated);
