@@ -69,7 +69,7 @@ export function watchDirectory(
     .watch(".", {
       cwd: root,
       alwaysStat: true,
-      usePolling: process.platform === `win32`,
+      usePolling: true,
     })
     .on(`add`, async (path, stats) => {
       await handle(path, stats);

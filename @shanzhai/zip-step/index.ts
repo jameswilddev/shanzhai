@@ -32,7 +32,7 @@ export class ZipStep extends ActionStep {
         await fs.promises.writeFile(fileName, input[name]);
       }
 
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         childProcess
           .execFile(_7zipBin.path7za, [
             `a`,
