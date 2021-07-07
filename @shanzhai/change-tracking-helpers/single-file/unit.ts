@@ -53,7 +53,7 @@ describe(`singleFile`, () => {
         const promises: { resolve(): void; reject(reason: Error): void }[] = [];
 
         execute = jasmine.createSpy(`execute`).and.callFake(() => {
-          return new Promise((resolve, reject) => {
+          return new Promise<void>((resolve, reject) => {
             promises.push({ resolve, reject });
           });
         });
