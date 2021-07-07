@@ -27,7 +27,7 @@
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.7",
     "@types/jsdom": "16.2.10",
-    "@types/html-minifier": "4.0.0",
+    "@types/html-minifier": "4.0.1",
     "jsdom": "16.5.3"
   },
   "types": "index.d.ts"
