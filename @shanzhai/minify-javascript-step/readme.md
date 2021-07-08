@@ -6,9 +6,9 @@ A Shanzhai build step minifies a Javascript file.
 
 This package has the following runtime dependencies:
 
-Name      | Version                                                                                         
---------- | ------------------------------------------------------------------------------------------------
-uglify-js | [![3.13.5](https://img.shields.io/npm/v/uglify-js.svg)](https://www.npmjs.com/package/uglify-js)
+Name      | Version                                                                                          
+--------- | -------------------------------------------------------------------------------------------------
+uglify-js | [![3.13.10](https://img.shields.io/npm/v/uglify-js.svg)](https://www.npmjs.com/package/uglify-js)
 
 ## Peer Dependencies
 
