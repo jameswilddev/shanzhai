@@ -24,7 +24,7 @@
     "pug": "3.0.2"
   },
   "devDependencies": {
-    "@types/pug": "2.0.4",
+    "@types/pug": "2.0.5",
     "@shanzhai/interfaces": "0.0.7"
   },
   "types": "index.d.ts"
