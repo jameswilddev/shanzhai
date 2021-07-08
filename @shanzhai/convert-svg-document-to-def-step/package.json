@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "svgo": "2.3.0"
+    "svgo": "2.3.1"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.7"
