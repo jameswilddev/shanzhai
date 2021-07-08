@@ -29,7 +29,7 @@
     "@types/svgo": "2.3.0",
     "@types/sharp": "0.28.0",
     "sharp": "0.28.1",
-    "@types/pixelmatch": "5.2.3",
+    "@types/pixelmatch": "5.2.4",
     "pixelmatch": "5.2.1"
   },
   "types": "index.d.ts"
