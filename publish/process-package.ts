@@ -10,7 +10,7 @@ export default async function (name: ReadonlyArray<string>): Promise<void> {
   try {
     publishedVersion = (
       await runCommandLine(`npm view ${name.join(`/`)} version`, process.cwd())
-    ).trim();
+    ).stdout.trim();
   } catch (e) {
     if (!e.message.includes(` is not in the npm registry.`)) {
       throw e;
