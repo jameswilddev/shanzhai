@@ -37,7 +37,7 @@ describe(`KeyValueStoreOutput`, () => {
     it(`exposes the expected effects`, () => {
       expect(keyValueStoreOutput.effects).toEqual([
         {
-          type: `keyedStoreAdd`,
+          type: `keyedStoreSet`,
           store: keyValueStore,
           key: `Test Key`,
         },
@@ -88,7 +88,7 @@ describe(`KeyValueStoreOutput`, () => {
     it(`continues to expose the expected effects`, () => {
       expect(keyValueStoreOutput.effects).toEqual([
         {
-          type: `keyedStoreAdd`,
+          type: `keyedStoreSet`,
           store: keyValueStore,
           key: `Test Key`,
         },
