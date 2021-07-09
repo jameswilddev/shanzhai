@@ -5,7 +5,7 @@ import { Plugin, Trigger } from "@shanzhai/interfaces";
 export async function loadDependency(
   name: string
 ): Promise<null | Plugin<{ readonly [name: string]: Trigger }>> {
-  const scoped = /@([^\/]+)\/([^\/]+)$/.exec(name);
+  const scoped = /@([^/]+)\/([^/]+)$/.exec(name);
 
   const dependencyLocation =
     scoped === null
