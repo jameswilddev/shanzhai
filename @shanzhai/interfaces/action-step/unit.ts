@@ -14,9 +14,9 @@ describe(`ActionStep`, () => {
     let effectC: Effect;
 
     beforeAll(() => {
-      effectA = { type: `storeUpdate`, store: { name: `Test Name` } };
-      effectB = { type: `storeUpdate`, store: { name: `Test Name` } };
-      effectC = { type: `storeUpdate`, store: { name: `Test Name` } };
+      effectA = { type: `storeSet`, store: { name: `Test Name` } };
+      effectB = { type: `storeSet`, store: { name: `Test Name` } };
+      effectC = { type: `storeSet`, store: { name: `Test Name` } };
 
       actionStep = new TestActionStep(`Test Name`, [effectA, effectB, effectC]);
     });
@@ -44,9 +44,9 @@ describe(`ActionStep`, () => {
     let callback: jasmine.Spy;
 
     beforeAll(() => {
-      effectA = { type: `storeUpdate`, store: { name: `Test Name` } };
-      effectB = { type: `storeUpdate`, store: { name: `Test Name` } };
-      effectC = { type: `storeUpdate`, store: { name: `Test Name` } };
+      effectA = { type: `storeSet`, store: { name: `Test Name` } };
+      effectB = { type: `storeSet`, store: { name: `Test Name` } };
+      effectC = { type: `storeSet`, store: { name: `Test Name` } };
 
       actionStep = new TestActionStep(`Test Name`, [effectA, effectB, effectC]);
 

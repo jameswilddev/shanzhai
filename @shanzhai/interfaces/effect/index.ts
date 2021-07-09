@@ -1,8 +1,8 @@
-import { KeyedStoreAddEffect } from "./keyed-store-add-effect";
+import { KeyedStoreSetEffect } from "./keyed-store-set-effect";
 import { KeyedStoreDeleteEffect } from "./keyed-store-delete-effect";
-import { StoreUpdateEffect } from "./store-update-effect";
+import { StoreSetEffect } from "./store-set-effect";
 
 export type Effect =
-  | KeyedStoreAddEffect<unknown>
+  | KeyedStoreSetEffect<unknown>
   | KeyedStoreDeleteEffect<unknown>
-  | StoreUpdateEffect;
+  | StoreSetEffect;
