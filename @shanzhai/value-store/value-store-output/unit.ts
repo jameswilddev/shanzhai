@@ -23,7 +23,7 @@ describe(`ValueStoreOutput`, () => {
     it(`exposes the expected effects`, () => {
       expect(valueStoreOutput.effects).toEqual([
         {
-          type: `storeUpdate`,
+          type: `storeSet`,
           store: valueStore,
         },
       ]);
@@ -68,7 +68,7 @@ describe(`ValueStoreOutput`, () => {
     it(`continues to expose the expected effects`, () => {
       expect(valueStoreOutput.effects).toEqual([
         {
-          type: `storeUpdate`,
+          type: `storeSet`,
           store: valueStore,
         },
       ]);

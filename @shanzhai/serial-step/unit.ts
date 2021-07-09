@@ -3,57 +3,57 @@ import { SerialStep } from ".";
 
 describe(`SerialStep`, () => {
   const effectAA: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect AA` },
   };
 
   const effectAB: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect AB` },
   };
 
   const effectBA: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect BA` },
   };
 
   const effectBB: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect BB` },
   };
 
   const effectBC: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect BC` },
   };
 
   const effectBD: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect BD` },
   };
 
   const effectCA: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect CA` },
   };
 
   const effectCB: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect CB` },
   };
 
   const effectDA: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect DA` },
   };
 
   const effectDB: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect DB` },
   };
 
   const effectDC: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Effect DC` },
   };
 
