@@ -9,6 +9,7 @@ describe(`KeyValueStoreInput`, () => {
     let set: jasmine.Spy;
     let _delete: jasmine.Spy;
     let getAll: jasmine.Spy;
+    let getKeys: jasmine.Spy;
     let keyValueStore: KeyValueStoreInterface<TestKey, TestValue>;
 
     let keyValueStoreInput: KeyValueStoreInput<TestKey, TestValue>;
@@ -18,7 +19,15 @@ describe(`KeyValueStoreInput`, () => {
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
       getAll = jasmine.createSpy(`getAll`);
-      keyValueStore = { name: `Test Name`, get, set, delete: _delete, getAll };
+      getKeys = jasmine.createSpy(`getKeys`);
+      keyValueStore = {
+        name: `Test Name`,
+        get,
+        set,
+        delete: _delete,
+        getAll,
+        getKeys,
+      };
 
       keyValueStoreInput = new KeyValueStoreInput<TestKey, TestValue>(
         keyValueStore,
@@ -49,6 +58,10 @@ describe(`KeyValueStoreInput`, () => {
     it(`does not get all from the store`, () => {
       expect(getAll).not.toHaveBeenCalled();
     });
+
+    it(`does not get keys from the store`, () => {
+      expect(getKeys).not.toHaveBeenCalled();
+    });
   });
 
   describe(`get`, () => {
@@ -56,6 +69,7 @@ describe(`KeyValueStoreInput`, () => {
     let set: jasmine.Spy;
     let _delete: jasmine.Spy;
     let getAll: jasmine.Spy;
+    let getKeys: jasmine.Spy;
     let keyValueStore: KeyValueStoreInterface<TestKey, TestValue>;
 
     let keyValueStoreInput: KeyValueStoreInput<TestKey, TestValue>;
@@ -67,7 +81,15 @@ describe(`KeyValueStoreInput`, () => {
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
       getAll = jasmine.createSpy(`getAll`);
-      keyValueStore = { name: `Test Name`, get, set, delete: _delete, getAll };
+      getKeys = jasmine.createSpy(`getKeys`);
+      keyValueStore = {
+        name: `Test Name`,
+        get,
+        set,
+        delete: _delete,
+        getAll,
+        getKeys,
+      };
 
       keyValueStoreInput = new KeyValueStoreInput<TestKey, TestValue>(
         keyValueStore,
@@ -107,6 +129,10 @@ describe(`KeyValueStoreInput`, () => {
 
     it(`does not get all from the store`, () => {
       expect(getAll).not.toHaveBeenCalled();
+    });
+
+    it(`does not get keys from the store`, () => {
+      expect(getKeys).not.toHaveBeenCalled();
     });
   });
 });

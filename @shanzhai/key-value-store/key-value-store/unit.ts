@@ -61,6 +61,20 @@ describe(`KeyValueStore`, () => {
 
         expect(keyValueStore.getAll()).toEqual(expected);
       });
+
+      it(`allows retrieval of keys`, () => {
+        const expected: TestKey[] = [];
+
+        if (keyValueA !== null) {
+          expected.push(`Test Key A`);
+        }
+
+        if (keyValueB !== null) {
+          expected.push(`Test Key B`);
+        }
+
+        expect(keyValueStore.getKeys()).toEqual(expected);
+      });
     });
 
     if (events.length < 4) {
@@ -104,6 +118,19 @@ describe(`KeyValueStore`, () => {
           ...events,
           (KeyValueStore) => {
             KeyValueStore.getAll();
+          },
+        ],
+        remainingValues,
+        keyValueA,
+        keyValueB
+      );
+
+      recurse(
+        `getKeys`,
+        [
+          ...events,
+          (KeyValueStore) => {
+            KeyValueStore.getKeys();
           },
         ],
         remainingValues,

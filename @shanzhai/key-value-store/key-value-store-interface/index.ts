@@ -1,7 +1,7 @@
-import { Store } from "@shanzhai/interfaces";
+import { KeyedStore } from "@shanzhai/interfaces";
 
 export interface KeyValueStoreInterface<TKey extends string, TValue>
-  extends Store {
+  extends KeyedStore<TKey> {
   get(key: TKey): TValue;
 
   set(key: TKey, value: TValue): void;

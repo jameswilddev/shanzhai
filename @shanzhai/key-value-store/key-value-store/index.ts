@@ -32,4 +32,8 @@ export class KeyValueStore<TKey extends string, TValue>
       a[0].localeCompare(b[0])
     );
   }
+
+  getKeys(): ReadonlyArray<TKey> {
+    return Array.from(this.data.keys()).sort();
+  }
 }
