@@ -192,7 +192,7 @@ describe(`CollectSvgDefsStep`, () => {
       });
 
       it(`writes the expected constants`, () => {
-        expect(constants.set).toHaveBeenCalledWith({});
+        expect(constants.set).toHaveBeenCalledWith({} as Record<string, never>);
       });
 
       it(`continues to expose its svg output`, () => {
@@ -380,7 +380,7 @@ describe(`CollectSvgDefsStep`, () => {
       it(`writes the expected constants`, () => {
         expect(constants.set).toHaveBeenCalledWith({
           testTypeScriptNameA: 0,
-        });
+        } as Record<string, number>);
       });
 
       it(`continues to expose its svg output`, () => {
@@ -599,7 +599,7 @@ describe(`CollectSvgDefsStep`, () => {
         expect(constants.set).toHaveBeenCalledWith({
           testTypeScriptNameA: 0,
           testTypeScriptNameB: 1,
-        });
+        } as Record<string, number>);
       });
 
       it(`continues to expose its svg output`, () => {
@@ -850,7 +850,7 @@ describe(`CollectSvgDefsStep`, () => {
             testTypeScriptNameA: 0,
             testTypeScriptNameB: 1,
             testTypeScriptNameC: 2,
-          });
+          } as Record<string, number>);
         });
 
         it(`continues to expose its svg output`, () => {
