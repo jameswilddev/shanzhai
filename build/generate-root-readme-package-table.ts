@@ -1,3 +1,4 @@
+import * as path from "path";
 import { getAllPackages } from "./get-all-packages";
 import { generateMarkdownTable } from "./generate-markdown-table";
 import { runCommandLine } from "./run-command-line";
@@ -46,7 +47,7 @@ ${generateMarkdownTable(
       }
 
       const packOutput = (
-        await runCommandLine(`npm pack ${pkg.name.join(`/`)}`, process.cwd())
+        await runCommandLine(`npm pack`, path.join(process.cwd(), ...pkg.name))
       ).stderr;
 
       const packOutputMatches = /^npm notice shasum:\s*([0-9a-f]+)\s*$/m.exec(
