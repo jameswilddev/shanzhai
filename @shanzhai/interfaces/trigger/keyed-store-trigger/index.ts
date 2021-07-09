@@ -6,8 +6,6 @@ export type KeyedStoreTrigger<T> = {
 
   readonly store: Store;
 
-  readonly regeneratedByChangesToStores: Store;
-
   down(key: T): Step;
   up(key: T): Step;
 };
