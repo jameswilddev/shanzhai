@@ -8,7 +8,9 @@ import { Plugin, Trigger } from "@shanzhai/interfaces";
 describe(`searchForPlugins`, () => {
   let originalWorkingDirectory: string;
   let root: string;
-  let result: ReadonlyArray<Plugin<{ readonly [name: string]: Trigger }>>;
+  let result: {
+    readonly [name: string]: Plugin<{ readonly [name: string]: Trigger }>;
+  };
 
   beforeAll(async () => {
     originalWorkingDirectory = process.cwd();
@@ -126,26 +128,20 @@ describe(`searchForPlugins`, () => {
   });
 
   it(`resolves to the plugins`, () => {
-    expect(result).toEqual([
-      {
-        perFile: null,
-        aggregation: {
-          down: [],
-          up: [],
-          regeneratesOnEvents: [],
-          raisesEvents: [],
-        },
-      },
-      {
-        perFile: {
-          extension: "test extension",
-          down: jasmine.any(Function),
-          up: jasmine.any(Function),
-          regeneratesOnEvents: [],
-          raisesEvents: [],
-        },
-        aggregation: null,
-      },
-    ]);
+    expect(result).toEqual({
+      "test-unscoped-package-name": require(path.join(
+        root,
+        `node_modules`,
+        `test-unscoped-package-name`,
+        `index.js`
+      )),
+      "@test-organization-name/test-package-name": require(path.join(
+        root,
+        `node_modules`,
+        `@test-organization-name`,
+        `test-package-name`,
+        `index.js`
+      )),
+    });
   });
 });
