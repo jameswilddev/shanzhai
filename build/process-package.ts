@@ -1,30 +1,32 @@
 import { writeReadme } from "./write-readme";
-import { readPackageJson } from "./read-package-json";
 import { copyLicense } from "./copy-license";
 import { writePackageJson } from "./write-package-json";
-import { allPackages } from "./all-packages";
 import { installDependencies } from "./install-dependencies";
 
-export async function processPackage(
-  name: ReadonlyArray<string>
-): Promise<void> {
-  const originalPackageJson = await readPackageJson(name);
-  allPackages.push({
-    name: name.join(`/`),
-    version: originalPackageJson.version,
-    description: originalPackageJson.description,
-  });
+export async function processPackage(pkg: {
+  readonly name: ReadonlyArray<string>;
+  readonly json: {
+    readonly description: string;
+    readonly version: string;
+    readonly dependencies?: { readonly [name: string]: string };
+    readonly peerDependencies?: { readonly [name: string]: string };
+    readonly devDependencies?: { readonly [name: string]: string };
+    readonly bin?: { readonly [name: string]: string };
+    readonly scripts?: { readonly [name: string]: string };
+    readonly shanzhaiPlugin?: true;
+  };
+}): Promise<void> {
   await Promise.all([
     writeReadme(
-      name,
-      originalPackageJson.description,
-      originalPackageJson.dependencies,
-      originalPackageJson.peerDependencies
+      pkg.name,
+      pkg.json.description,
+      pkg.json.dependencies,
+      pkg.json.peerDependencies
     ),
-    copyLicense(name),
+    copyLicense(pkg.name),
     (async () => {
-      await writePackageJson(name, originalPackageJson);
-      await installDependencies(name);
+      await writePackageJson(pkg.name, pkg.json);
+      await installDependencies(pkg.name);
     })(),
   ]);
 }

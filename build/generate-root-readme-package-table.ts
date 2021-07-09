@@ -1,7 +1,7 @@
-import { allPackages } from "./all-packages";
+import { getAllPackages } from "./get-all-packages";
 import { generateMarkdownTable } from "./generate-markdown-table";
 
-export function generateRootReadmePackageTable(): string {
+export async function generateRootReadmePackageTable(): Promise<string> {
   return `## NPM packages
 
 ${generateMarkdownTable(
@@ -11,11 +11,11 @@ ${generateMarkdownTable(
     [`description`, `Description`],
   ],
   `name`,
-  allPackages.map((p) => ({
-    name: p.name,
-    subdirectoryLink: `[${p.name}](${p.name})`,
-    npmLink: `[![${p.version}](https://img.shields.io/npm/v/${p.name}.svg)](https://www.npmjs.com/package/${p.name})`,
-    description: p.description,
+  (await getAllPackages()).map((p) => ({
+    name: p.name.join(`/`),
+    subdirectoryLink: `[${p.name.join(`/`)}](${p.name.join(`/`)})`,
+    npmLink: `[![${p.json.version}](https://img.shields.io/npm/v/${p.name}.svg)](https://www.npmjs.com/package/${p.name})`,
+    description: p.json.description,
   }))
 )}`;
 }
