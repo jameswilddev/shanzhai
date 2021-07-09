@@ -33,12 +33,13 @@ describe(`ConvertParsedCsvToStructOfArraysStep`, () => {
         effects: [outputEffectA, outputEffectB, outputEffectC],
       };
 
-      convertParsedCsvToStructOfArraysStep = new ConvertParsedCsvToStructOfArraysStep(
-        `Test Name`,
-        `testKeyPrefix`,
-        input,
-        output
-      );
+      convertParsedCsvToStructOfArraysStep =
+        new ConvertParsedCsvToStructOfArraysStep(
+          `Test Name`,
+          `testKeyPrefix`,
+          input,
+          output
+        );
     });
 
     it(`exposes its name`, () => {
@@ -98,12 +99,13 @@ describe(`ConvertParsedCsvToStructOfArraysStep`, () => {
             effects: [outputEffectA, outputEffectB, outputEffectC],
           };
 
-          convertParsedCsvToStructOfArraysStep = new ConvertParsedCsvToStructOfArraysStep(
-            `Test Name`,
-            `testKeyPrefix`,
-            input,
-            output
-          );
+          convertParsedCsvToStructOfArraysStep =
+            new ConvertParsedCsvToStructOfArraysStep(
+              `Test Name`,
+              `testKeyPrefix`,
+              input,
+              output
+            );
 
           await convertParsedCsvToStructOfArraysStep.execute();
         });
@@ -199,12 +201,13 @@ describe(`ConvertParsedCsvToStructOfArraysStep`, () => {
             effects: [outputEffectA, outputEffectB, outputEffectC],
           };
 
-          convertParsedCsvToStructOfArraysStep = new ConvertParsedCsvToStructOfArraysStep(
-            `Test Name`,
-            `testKeyPrefix`,
-            input,
-            output
-          );
+          convertParsedCsvToStructOfArraysStep =
+            new ConvertParsedCsvToStructOfArraysStep(
+              `Test Name`,
+              `testKeyPrefix`,
+              input,
+              output
+            );
 
           try {
             await convertParsedCsvToStructOfArraysStep.execute();

@@ -52,7 +52,7 @@ export const filterDiff = <TInput, TFilterBy extends string>(
   }
 
   return {
-    diffs: (filtered as unknown) as {
+    diffs: filtered as unknown as {
       readonly [filteredBy in TFilterBy]: Diff<TInput>;
     },
     errors,
