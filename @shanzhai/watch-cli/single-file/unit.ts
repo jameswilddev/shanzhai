@@ -1,4 +1,4 @@
-import { singleFile } from "..";
+import { singleFile } from ".";
 
 describe(`singleFile`, () => {
   type TestValue = `Test Value A` | `Test Value B` | `Test Value C`;
