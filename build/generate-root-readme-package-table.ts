@@ -14,7 +14,9 @@ ${generateMarkdownTable(
   ],
   `name`,
   await Promise.all(
-    (await getAllPackages()).map(async (pkg) => {
+    (
+      await getAllPackages()
+    ).map(async (pkg) => {
       let publishedVersion: string;
       try {
         publishedVersion = (

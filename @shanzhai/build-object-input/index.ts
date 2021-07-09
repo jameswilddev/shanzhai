@@ -1,7 +1,8 @@
 import { Input } from "@shanzhai/interfaces";
 
 export class BuildObjectInput<TKey extends string, TValue>
-  implements Input<{ readonly [key in TKey]: TValue }> {
+  implements Input<{ readonly [key in TKey]: TValue }>
+{
   constructor(
     public readonly sources: {
       readonly [key in TKey]: Input<TValue>;

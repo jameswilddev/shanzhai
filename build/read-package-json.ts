@@ -1,9 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 
-export async function readPackageJson(
-  name: ReadonlyArray<string>
-): Promise<{
+export async function readPackageJson(name: ReadonlyArray<string>): Promise<{
   readonly description: string;
   readonly version: string;
   readonly dependencies?: { readonly [name: string]: string };
