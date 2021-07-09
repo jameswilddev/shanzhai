@@ -15,17 +15,17 @@ describe(`MinifyStep`, () => {
   }
 
   const outputEffectA: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Output Effect A` },
   };
 
   const outputEffectB: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Output Effect B` },
   };
 
   const outputEffectC: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Output Effect C` },
   };
 
