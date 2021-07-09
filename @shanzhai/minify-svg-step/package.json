@@ -25,7 +25,7 @@
     "@shanzhai/minify-step": "0.0.2"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.7",
+    "@shanzhai/interfaces": "0.0.8",
     "@types/svgo": "2.3.1",
     "@types/sharp": "0.28.4",
     "sharp": "0.28.3",
