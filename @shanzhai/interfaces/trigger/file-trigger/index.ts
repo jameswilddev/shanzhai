@@ -6,8 +6,8 @@ export type FileTrigger = {
   readonly type: `file`;
 
   readonly extension: string;
-  readonly regeneratedByChangesToStores: ReadonlyArray<Store>;
+  readonly regeneratedByChangesToStore: Store;
 
-  down(path: ParsedPath): Promise<ReadonlyArray<Step>>;
-  up(path: ParsedPath): Promise<ReadonlyArray<Step>>;
+  down(path: ParsedPath): Step;
+  up(path: ParsedPath): Step;
 };
