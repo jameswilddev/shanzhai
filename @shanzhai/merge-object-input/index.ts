@@ -1,7 +1,8 @@
 import { Input } from "@shanzhai/interfaces";
 
 export class MergeObjectInput<TValue>
-  implements Input<{ readonly [key: string]: TValue }> {
+  implements Input<{ readonly [key: string]: TValue }>
+{
   constructor(
     public readonly sources: ReadonlyArray<
       Input<{ readonly [key: string]: TValue }>

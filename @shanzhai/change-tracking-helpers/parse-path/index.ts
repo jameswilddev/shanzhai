@@ -12,9 +12,10 @@ const kebabCaseToCamelCase = (input: string): string => {
 };
 
 export const parsePath = (input: string): null | ParsedPath => {
-  const match = /^((?:[a-z0-9$][a-z0-9-$]*[a-z0-9$]|[a-z0-9$])(?:\/(?:[a-z0-9$][a-z0-9-$]*[a-z0-9$]|[a-z0-9$]))*)\.([^.]+)$/.exec(
-    input
-  );
+  const match =
+    /^((?:[a-z0-9$][a-z0-9-$]*[a-z0-9$]|[a-z0-9$])(?:\/(?:[a-z0-9$][a-z0-9-$]*[a-z0-9$]|[a-z0-9$]))*)\.([^.]+)$/.exec(
+      input
+    );
 
   if (match === null) {
     return null;
