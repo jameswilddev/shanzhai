@@ -1,5 +1,5 @@
 import { Store } from "../store";
 
-export interface KeyedStore extends Store {
-  getKeys(): ReadonlyArray<string>;
+export interface KeyedStore<TKey extends string> extends Store {
+  getKeys(): ReadonlyArray<TKey>;
 }
