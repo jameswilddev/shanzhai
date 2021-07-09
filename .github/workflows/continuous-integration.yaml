@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   commit-changes:
     if: github.ref == 'refs/heads/master' && github.repository == 'jameswilddev/shanzhai'
+    concurrency: commit-changes
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -40,6 +41,7 @@ jobs:
     - run: npm run-script buildNyc
   release:
     if: github.ref == 'refs/heads/master' && github.repository == 'jameswilddev/shanzhai'
+    concurrency: release
     needs: build
     runs-on: ubuntu-18.04
     steps:
@@ -56,6 +58,7 @@ jobs:
     - run: npm run-script buildToolsPublish
   commit-root-readme-changes:
     if: github.ref == 'refs/heads/master' && github.repository == 'jameswilddev/shanzhai'
+    concurrency: commit-root-readme-changes
     needs: release
     runs-on: ubuntu-18.04
     steps:
