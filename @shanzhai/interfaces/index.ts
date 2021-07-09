@@ -7,6 +7,7 @@ export { ParsedPath } from "./parsed-path";
 export { Plugin } from "./plugin";
 export { Step } from "./step";
 export { Store } from "./store";
+export { KeyedStore } from "./keyed-store";
 export { Effect } from "./effect";
 export { KeyedStoreSetEffect } from "./effect/keyed-store-set-effect";
 export { KeyedStoreDeleteEffect } from "./effect/keyed-store-delete-effect";
