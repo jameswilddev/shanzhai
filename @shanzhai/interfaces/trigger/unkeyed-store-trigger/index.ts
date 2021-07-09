@@ -1,8 +1,8 @@
 import { Step } from "../../step";
 import { Store } from "../../store";
 
-export type StoreTrigger = {
-  readonly type: `store`;
+export type UnkeyedStoreTrigger = {
+  readonly type: `unkeyedStore`;
 
   readonly store: Store;
 
