@@ -54,3 +54,24 @@ jobs:
     - run: npm run-script buildTypeScript
     - run: echo ${{ secrets.npmrc }} > ${NPM_CONFIG_USERCONFIG}
     - run: npm run-script buildToolsPublish
+  commit-root-readme-changes:
+    if: github.ref == 'refs/heads/master' && github.repository == 'jameswilddev/shanzhai'
+    needs: release
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '12.x'
+        registry-url: 'https://registry.npmjs.org'
+    - run: npm ci
+    - run: npm run-script buildLintFix
+    - run: npm run-script buildToolsTypeScript
+    - run: npm run-script buildToolsRun
+    - run: npm run-script buildTypeScript
+    - run: npm run-script buildToolsRegenerateRootReadme
+    - run: git config user.email jameswilddev@outlook.com
+    - run: git config user.name jameswilddev
+    - run: git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+    - run: git add readme.md
+    - run: git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generated changes from build tools (root readme)."; git push)

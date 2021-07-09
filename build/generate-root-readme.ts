@@ -6,7 +6,7 @@ import { generateReadmeFooter } from "./generate-readme-footer";
 export async function generateRootReadme(): Promise<string> {
   return `# Shanzhai ${generateRootReadmeBadges()}${await readReadmeContent([])}
 
-${generateRootReadmePackageTable()}
+${await generateRootReadmePackageTable()}
 
 ${generateReadmeFooter()}
 `;
