@@ -3,7 +3,7 @@ import * as childProcess from "child_process";
 export async function runCommandLine(
   command: string,
   cwd: string
-): Promise<string> {
+): Promise<{ readonly stdout: string; readonly stderr: string }> {
   return await new Promise((resolve, reject) => {
     childProcess.exec(command, { cwd }, (error, stdout, stderr) => {
       if (error) {
@@ -14,7 +14,7 @@ export async function runCommandLine(
         );
       } else {
         console.log(stderr);
-        resolve(stdout);
+        resolve({ stdout, stderr });
       }
     });
   });

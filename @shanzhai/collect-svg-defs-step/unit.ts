@@ -3,47 +3,47 @@ import { CollectSvgDefsStep } from ".";
 
 describe(`CollectSvgDefsStep`, () => {
   const typeScriptEffectA: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test TypeScript Effect A` },
   };
 
   const typeScriptEffectB: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test TypeScript Effect B` },
   };
 
   const typeScriptEffectC: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test TypeScript Effect C` },
   };
 
   const typeScriptEffectD: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test TypeScript Effect D` },
   };
 
   const constantsEffectA: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Constants Effect A` },
   };
 
   const constantsEffectB: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Constants Effect B` },
   };
 
   const svgEffectA: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Svg Effect A` },
   };
 
   const svgEffectB: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Svg Effect B` },
   };
 
   const svgEffectC: Effect = {
-    type: `storeUpdate`,
+    type: `storeSet`,
     store: { name: `Test Svg Effect C` },
   };
 
