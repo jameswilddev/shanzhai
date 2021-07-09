@@ -7,3 +7,4 @@ node_modules
 /@shanzhai/*/node_modules
 /shanzhai/license
 /shanzhai/node_modules
+*.tgz

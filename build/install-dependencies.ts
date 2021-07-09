@@ -7,9 +7,8 @@ export async function installDependencies(
   console.log(`${name.join(`/`)} - Installing dependencies...`);
   const command = process.env.SHANZHAI_CI ? `ci` : `install`;
   console.log(
-    `${name.join(`/`)} - ${await runCommandLine(
-      `npm ${command}`,
-      path.join(...name)
-    )}`
+    `${name.join(`/`)} - ${
+      (await runCommandLine(`npm ${command}`, path.join(...name))).stdout
+    }`
   );
 }
