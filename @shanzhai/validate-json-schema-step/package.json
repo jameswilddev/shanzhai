@@ -24,7 +24,7 @@
     "jsonschema": "1.4.0"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.8"
+    "@shanzhai/interfaces": "0.0.10"
   },
   "types": "index.d.ts"
 }

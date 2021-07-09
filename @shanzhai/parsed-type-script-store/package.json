@@ -24,7 +24,7 @@
     "@shanzhai/key-value-store": "0.0.5"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.8",
+    "@shanzhai/interfaces": "0.0.10",
     "typescript": "4.3.5"
   },
   "types": "index.d.ts"

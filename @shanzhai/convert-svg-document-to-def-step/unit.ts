@@ -3,17 +3,17 @@ import { ConvertSvgDocumentToDefStep } from ".";
 
 describe(`ConvertSvgDocumentToDefStep`, () => {
   const outputEffectA: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Output Effect A` },
   };
 
   const outputEffectB: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Output Effect B` },
   };
 
   const outputEffectC: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Output Effect C` },
   };
 

@@ -3,57 +3,57 @@ import { ParallelStep } from ".";
 
 describe(`ParallelStep`, () => {
   const effectAA: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect AA` },
   };
 
   const effectAB: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect AB` },
   };
 
   const effectBA: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect BA` },
   };
 
   const effectBB: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect BB` },
   };
 
   const effectBC: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect BC` },
   };
 
   const effectBD: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect BD` },
   };
 
   const effectCA: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect CA` },
   };
 
   const effectCB: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect CB` },
   };
 
   const effectDA: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect DA` },
   };
 
   const effectDB: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect DB` },
   };
 
   const effectDC: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Effect DC` },
   };
 

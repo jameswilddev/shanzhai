@@ -4,17 +4,17 @@ import { ParsePugStep } from ".";
 
 describe(`ParsePugStep`, () => {
   const outputEffectA: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Output Effect A` },
   };
 
   const outputEffectB: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Output Effect B` },
   };
 
   const outputEffectC: Effect = {
-    type: `storeSet`,
+    type: `unkeyedStoreSet`,
     store: { name: `Test Output Effect C` },
   };
 
