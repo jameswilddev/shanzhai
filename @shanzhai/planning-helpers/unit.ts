@@ -305,4 +305,106 @@ describe(`plan`, () => {
       expect(fileTrigger.up).toHaveBeenCalledTimes(2);
     });
   });
+
+  describe(`first run without steps`, () => {
+    let output: {
+      readonly unmatchedAddedFiles: ReadonlyArray<string>;
+      readonly step: Step;
+    };
+
+    beforeAll(() => {
+      output = plan({}, true, {
+        added: [
+          `test/parsed/path.which-does-not-match-a`,
+          `test-d1rec$ory-name/test-valid-fi$le-na\tme.test-file-extension`,
+          `test/parsed/path.which-does-not-match-c`,
+        ],
+        deleted: [],
+        changed: [],
+        unchanged: [],
+      });
+
+      const outputStepsValue: Step[] = [];
+
+      function recurse(step: Step): void {
+        outputStepsValue.push(step);
+
+        if (step instanceof ParallelStep || step instanceof SerialStep) {
+          for (const child of step.children) {
+            recurse(child);
+          }
+        }
+      }
+
+      recurse(output.step);
+    });
+
+    it(`returns a no-op step`, () => {
+      expect([
+        new SerialStep(jasmine.any(String) as unknown as string, []),
+        new ParallelStep(jasmine.any(String) as unknown as string, []),
+      ] as ReadonlyArray<Step>).toContain(output.step);
+    });
+
+    it(`returns the unmatched added files`, () => {
+      expect(output.unmatchedAddedFiles).toEqual(
+        jasmine.arrayWithExactContents([
+          `test/parsed/path.which-does-not-match-a`,
+          `test-d1rec$ory-name/test-valid-fi$le-na\tme.test-file-extension`,
+          `test/parsed/path.which-does-not-match-c`,
+        ])
+      );
+    });
+  });
+
+  describe(`subsequent run without steps`, () => {
+    let output: {
+      readonly unmatchedAddedFiles: ReadonlyArray<string>;
+      readonly step: Step;
+    };
+
+    beforeAll(() => {
+      output = plan({}, false, {
+        added: [
+          `test/parsed/path.which-does-not-match-a`,
+          `test-d1rec$ory-name/test-valid-fi$le-na\tme.test-file-extension`,
+          `test/parsed/path.which-does-not-match-c`,
+        ],
+        deleted: [],
+        changed: [],
+        unchanged: [],
+      });
+
+      const outputStepsValue: Step[] = [];
+
+      function recurse(step: Step): void {
+        outputStepsValue.push(step);
+
+        if (step instanceof ParallelStep || step instanceof SerialStep) {
+          for (const child of step.children) {
+            recurse(child);
+          }
+        }
+      }
+
+      recurse(output.step);
+    });
+
+    it(`returns a no-op step`, () => {
+      expect([
+        new SerialStep(jasmine.any(String) as unknown as string, []),
+        new ParallelStep(jasmine.any(String) as unknown as string, []),
+      ] as ReadonlyArray<Step>).toContain(output.step);
+    });
+
+    it(`returns the unmatched added files`, () => {
+      expect(output.unmatchedAddedFiles).toEqual(
+        jasmine.arrayWithExactContents([
+          `test/parsed/path.which-does-not-match-a`,
+          `test-d1rec$ory-name/test-valid-fi$le-na\tme.test-file-extension`,
+          `test/parsed/path.which-does-not-match-c`,
+        ])
+      );
+    });
+  });
 });
