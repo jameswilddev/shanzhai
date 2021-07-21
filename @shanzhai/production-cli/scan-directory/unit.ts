@@ -8,16 +8,21 @@ describe(`scanDirectory`, () => {
   describe(`when the directory is empty`, () => {
     let root: string;
     let promise: Promise<ReadonlyArray<string>>;
+    let originalCwd: string;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
 
-      await fs.promises.mkdir(root, { recursive: true });
+      originalCwd = process.cwd();
 
-      promise = scanDirectory(root);
+      await fs.promises.mkdir(root, { recursive: true });
+      process.chdir(root);
+
+      promise = scanDirectory();
     });
 
     afterAll(async () => {
+      process.chdir(originalCwd);
       await fs.promises.rmdir(root, { recursive: true });
     });
 
@@ -29,11 +34,15 @@ describe(`scanDirectory`, () => {
   describe(`when the directory exists`, () => {
     let root: string;
     let promise: Promise<ReadonlyArray<string>>;
+    let originalCwd: string;
 
     beforeAll(async () => {
       root = path.join(os.tmpdir(), uuid.v4());
 
+      originalCwd = process.cwd();
+
       await fs.promises.mkdir(root, { recursive: true });
+      process.chdir(root);
 
       await fs.promises.writeFile(
         path.join(root, `at-root`),
@@ -108,10 +117,12 @@ describe(`scanDirectory`, () => {
         `Test File Content E`
       );
 
-      promise = scanDirectory(root);
+      promise = scanDirectory();
     });
 
     afterAll(async () => {
+      process.chdir(originalCwd);
+
       await fs.promises.rmdir(root, { recursive: true });
     });
 

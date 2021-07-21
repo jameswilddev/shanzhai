@@ -2,9 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { pathAccepted } from "@shanzhai/change-tracking-helpers";
 
-export async function scanDirectory(
-  root: string
-): Promise<ReadonlyArray<string>> {
+export async function scanDirectory(): Promise<ReadonlyArray<string>> {
   const output: string[] = [];
 
   const recurse = async (subPath: string, prefix: string): Promise<void> => {
@@ -24,7 +22,7 @@ export async function scanDirectory(
     }
   };
 
-  await recurse(root, ``);
+  await recurse(process.cwd(), ``);
 
   return output;
 }
