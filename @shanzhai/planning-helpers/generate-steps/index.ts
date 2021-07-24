@@ -124,12 +124,17 @@ export function generateSteps(
     return output;
   }
 
+  const oneTimeLeaves: Step[] = [];
+  const fileSteps: Step[] = [];
+
   for (const trigger of triggers) {
     switch (trigger.type) {
       case `file`:
         for (const deleted of diff.deleted) {
           if (deleted.fileExtension === trigger.extension) {
-            handleStep(null, trigger.down(deleted));
+            const step = trigger.down(deleted);
+            fileSteps.push(step);
+            handleStep(null, step);
           }
         }
 
@@ -145,18 +150,24 @@ export function generateSteps(
             for (const downStep of downSteps) {
               link(downStep, up);
             }
+
+            fileSteps.push(down, up);
           }
         }
 
         for (const added of diff.added) {
           if (added.fileExtension === trigger.extension) {
-            handleStep(null, trigger.up(added));
+            const step = trigger.up(added);
+
+            handleStep(null, step);
 
             const index = unmatchedAddedFiles.indexOf(added);
 
             if (index !== -1) {
               unmatchedAddedFiles.splice(index, 1);
             }
+
+            fileSteps.push(step);
           }
         }
         break;
@@ -166,12 +177,18 @@ export function generateSteps(
 
       case `oneTime`:
         if (firstRun) {
-          handleStep(null, trigger.up());
+          oneTimeLeaves.push(...handleStep(null, trigger.up()));
         }
         break;
 
       case `unkeyedStore`:
         break;
+    }
+  }
+
+  for (const oneTimeLeaf of oneTimeLeaves) {
+    for (const fileStep of fileSteps) {
+      link(oneTimeLeaf, fileStep);
     }
   }
 

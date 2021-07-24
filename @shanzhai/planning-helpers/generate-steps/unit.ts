@@ -389,6 +389,19 @@ describe(`generateSteps`, function () {
             keyedStoreTriggeredMultipleTimesStepA,
             keyedStoreTriggeredMultipleTimesStepC,
           ],
+          [keyedStoreTriggeredMultipleTimesStepB, fileTriggeredOnceStep],
+          [
+            keyedStoreTriggeredMultipleTimesStepB,
+            fileTriggeredMultipleTimesStepA,
+          ],
+          [
+            keyedStoreTriggeredMultipleTimesStepB,
+            fileTriggeredMultipleTimesStepB,
+          ],
+          [
+            keyedStoreTriggeredMultipleTimesStepB,
+            fileTriggeredMultipleTimesStepC,
+          ],
         ])
       );
     });
