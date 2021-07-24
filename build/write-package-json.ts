@@ -48,7 +48,7 @@ export async function writePackageJson(
       access: `public`,
     },
     private: false,
-    files: [`**/*.js`, `**/*.d.ts`, `!**/unit.*`],
+    files: [`**/*.js`, `**/*.d.ts`, `!**/unit.*`, `!test-data`],
     repository: {
       type: `git`,
       url: `https://github.com/jameswilddev/shanzhai`,
