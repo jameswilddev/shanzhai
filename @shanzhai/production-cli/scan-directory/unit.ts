@@ -5,6 +5,90 @@ import * as uuid from "uuid";
 import { scanDirectory } from ".";
 
 describe(`scanDirectory`, () => {
+  describe(`when the directory does not exist`, () => {
+    let root: string;
+    let promise: Promise<ReadonlyArray<string>>;
+    let originalCwd: string;
+
+    beforeAll(async () => {
+      root = path.join(os.tmpdir(), uuid.v4());
+
+      originalCwd = process.cwd();
+
+      await fs.promises.mkdir(path.join(root), { recursive: true });
+
+      await fs.promises.writeFile(
+        path.join(root, `red-herring`),
+        `Test Red Herring`
+      );
+
+      await fs.promises.mkdir(path.join(root, `nested`), { recursive: true });
+
+      await fs.promises.writeFile(
+        path.join(root, `nested`, `red-herring`),
+        `Test Nested Red Herring`
+      );
+
+      process.chdir(root);
+
+      promise = scanDirectory();
+    });
+
+    afterAll(async () => {
+      process.chdir(originalCwd);
+      await fs.promises.rmdir(root, { recursive: true });
+    });
+
+    it(`returns the expected error`, async () => {
+      await expectAsync(promise).toBeRejectedWithError(
+        `The "src" directory could not be found in the current working directory.  Please ensure that you are executing "shanzhai-production-cli" from your project's root directory.`
+      );
+    });
+  });
+
+  describe(`when the directory is actually a file`, () => {
+    let root: string;
+    let promise: Promise<ReadonlyArray<string>>;
+    let originalCwd: string;
+
+    beforeAll(async () => {
+      root = path.join(os.tmpdir(), uuid.v4());
+
+      originalCwd = process.cwd();
+
+      await fs.promises.mkdir(path.join(root), { recursive: true });
+
+      await fs.promises.writeFile(path.join(root, `src`), `Test Invalid Src`);
+
+      await fs.promises.writeFile(
+        path.join(root, `red-herring`),
+        `Test Red Herring`
+      );
+
+      await fs.promises.mkdir(path.join(root, `nested`), { recursive: true });
+
+      await fs.promises.writeFile(
+        path.join(root, `nested`, `red-herring`),
+        `Test Nested Red Herring`
+      );
+
+      process.chdir(root);
+
+      promise = scanDirectory();
+    });
+
+    afterAll(async () => {
+      process.chdir(originalCwd);
+      await fs.promises.rmdir(root, { recursive: true });
+    });
+
+    it(`returns the expected error`, async () => {
+      await expectAsync(promise).toBeRejectedWithError(
+        `The "src" path in the current working directory refers to a file, not a directory.  Please ensure that you are executing "shanzhai-production-cli" from your project's root directory.`
+      );
+    });
+  });
+
   describe(`when the directory is empty`, () => {
     let root: string;
     let promise: Promise<ReadonlyArray<string>>;
@@ -15,7 +99,20 @@ describe(`scanDirectory`, () => {
 
       originalCwd = process.cwd();
 
-      await fs.promises.mkdir(root, { recursive: true });
+      await fs.promises.mkdir(path.join(root, `src`), { recursive: true });
+
+      await fs.promises.writeFile(
+        path.join(root, `red-herring`),
+        `Test Red Herring`
+      );
+
+      await fs.promises.mkdir(path.join(root, `nested`), { recursive: true });
+
+      await fs.promises.writeFile(
+        path.join(root, `nested`, `red-herring`),
+        `Test Nested Red Herring`
+      );
+
       process.chdir(root);
 
       promise = scanDirectory();
@@ -41,32 +138,49 @@ describe(`scanDirectory`, () => {
 
       originalCwd = process.cwd();
 
-      await fs.promises.mkdir(root, { recursive: true });
+      await fs.promises.mkdir(path.join(root, `src`), { recursive: true });
       process.chdir(root);
 
       await fs.promises.writeFile(
-        path.join(root, `at-root`),
+        path.join(root, `red-herring`),
+        `Test Red Herring`
+      );
+
+      await fs.promises.mkdir(path.join(root, `nested`), { recursive: true });
+
+      await fs.promises.writeFile(
+        path.join(root, `nested`, `red-herring`),
+        `Test Nested Red Herring`
+      );
+
+      await fs.promises.writeFile(
+        path.join(root, `src`, `at-root`),
         `Test File Content A`
       );
-      await fs.promises.utimes(path.join(root, `at-root`), 8945735, 4556363);
+      await fs.promises.utimes(
+        path.join(root, `src`, `at-root`),
+        8945735,
+        4556363
+      );
 
       await fs.promises.mkdir(path.join(root, `empty-subdirectory`), {
         recursive: true,
       });
 
       await fs.promises.mkdir(
-        path.join(root, `level-one`, `level-two`, `level-three`),
+        path.join(root, `src`, `level-one`, `level-two`, `level-three`),
         { recursive: true }
       );
 
       await fs.promises.writeFile(
-        path.join(root, `level-one`, `level-two`, `.excluded-file`),
+        path.join(root, `src`, `level-one`, `level-two`, `.excluded-file`),
         `Test File Content B`
       );
 
       await fs.promises.writeFile(
         path.join(
           root,
+          `src`,
           `level-one`,
           `level-two`,
           `level-three`,
@@ -77,6 +191,7 @@ describe(`scanDirectory`, () => {
       await fs.promises.utimes(
         path.join(
           root,
+          `src`,
           `level-one`,
           `level-two`,
           `level-three`,
@@ -89,6 +204,7 @@ describe(`scanDirectory`, () => {
       await fs.promises.mkdir(
         path.join(
           root,
+          `src`,
           `level-one`,
           `.filtered-level-two`,
           `filtered-level-three`
@@ -99,6 +215,7 @@ describe(`scanDirectory`, () => {
       await fs.promises.writeFile(
         path.join(
           root,
+          `src`,
           `level-one`,
           `.filtered-level-two`,
           `file-filtered-by-parent`
@@ -109,6 +226,7 @@ describe(`scanDirectory`, () => {
       await fs.promises.writeFile(
         path.join(
           root,
+          `src`,
           `level-one`,
           `.filtered-level-two`,
           `filtered-level-three`,
