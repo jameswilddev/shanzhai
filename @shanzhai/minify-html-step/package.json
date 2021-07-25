@@ -26,7 +26,7 @@
     "@shanzhai/minify-step": "0.0.2"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.11",
+    "@shanzhai/interfaces": "0.0.12",
     "@types/jsdom": "16.2.13",
     "@types/html-minifier": "4.0.1",
     "jsdom": "16.6.0"
