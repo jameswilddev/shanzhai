@@ -23,7 +23,7 @@
     "noResolve": false,
     "noStrictGenericChecks": false,
     "skipDefaultLibCheck": false,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "preserveConstEnums": false,
     "preserveSymlinks": false,
     "preserveWatchOutput": true,
