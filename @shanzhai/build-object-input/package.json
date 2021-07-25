@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/build-object-input",
   "description": "A Shanzhai input which builds an object from a number of other inputs.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"
   },
