@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minified-javascript-store",
   "description": "A Shanzhai store for minified Javascript files.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"
   },

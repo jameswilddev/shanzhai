@@ -4,11 +4,7 @@ This is a stub package.  You probably want a @shanzhai/* package instead.
 
 ## Dependencies
 
-This package has the following runtime dependencies:
-
-Name       | Version                                                                                          
----------- | -------------------------------------------------------------------------------------------------
-typescript | [![4.3.5](https://img.shields.io/npm/v/typescript.svg)](https://www.npmjs.com/package/typescript)
+This package has no runtime dependencies.
 
 ## Peer Dependencies
 
