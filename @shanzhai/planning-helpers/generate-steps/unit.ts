@@ -6,7 +6,7 @@ import {
   UnkeyedStoreTrigger,
   KeyedStoreTrigger,
   KeyedStore,
-  Store,
+  UnkeyedStore,
   Effect,
 } from "@shanzhai/interfaces";
 import { generateSteps } from ".";
@@ -17,20 +17,6 @@ class DummyStep implements Step {
   readonly executePerActionStep = jasmine.createSpy(`executePerActionStep`);
 }
 
-type TestStoreKeyA = never;
-type TestStoreKeyB = `Test Store Key B A`;
-type TestStoreKeyC =
-  | `Test Store Key C A`
-  | `Test Store Key C B`
-  | `Test Store Key C C`;
-type TestStoreKeyD = `Test Store Key D A`;
-type TestStoreKeyE = `Test Store Key E A`;
-type TestStoreKeyF =
-  | `Test Store Key F A`
-  | `Test Store Key F B`
-  | `Test Store Key F C`;
-type TestStoreKeyG = never;
-
 describe(`generateSteps`, function () {
   describe(`first run`, () => {
     let addedParsedPathForFileTriggerTriggeredOnce: ParsedPath;
@@ -40,11 +26,11 @@ describe(`generateSteps`, function () {
     let addedParsedPathWhichDoesNotMatchA: ParsedPath;
     let addedParsedPathWhichDoesNotMatchB: ParsedPath;
     let addedParsedPathWhichDoesNotMatchC: ParsedPath;
-    let keyedStoreUntriggered: KeyedStore<TestStoreKeyA>;
-    let keyedStoreTriggeredOnce: KeyedStore<TestStoreKeyB>;
-    let keyedStoreTriggeredMultipleTimes: KeyedStore<TestStoreKeyC>;
-    let unkeyedStoreUntriggered: Store;
-    let unkeyedStoreTriggered: Store;
+    let keyedStoreUntriggered: KeyedStore;
+    let keyedStoreTriggeredOnce: KeyedStore;
+    let keyedStoreTriggeredMultipleTimes: KeyedStore;
+    let unkeyedStoreUntriggered: UnkeyedStore;
+    let unkeyedStoreTriggered: UnkeyedStore;
     let oneTimeStep: DummyStep;
     let fileTriggeredOnceStep: DummyStep;
     let fileTriggeredMultipleTimesStepA: DummyStep;
@@ -59,9 +45,9 @@ describe(`generateSteps`, function () {
     let untriggeredFileTrigger: FileTrigger;
     let fileTriggerTriggeredOnce: FileTrigger;
     let fileTriggerTriggeredMultipleTimes: FileTrigger;
-    let keyedStoreUntriggeredTrigger: KeyedStoreTrigger<TestStoreKeyA>;
-    let keyedStoreTriggerTriggeredOnce: KeyedStoreTrigger<TestStoreKeyB>;
-    let keyedStoreTriggerTriggeredMultipleTimes: KeyedStoreTrigger<TestStoreKeyC>;
+    let keyedStoreUntriggeredTrigger: KeyedStoreTrigger;
+    let keyedStoreTriggerTriggeredOnce: KeyedStoreTrigger;
+    let keyedStoreTriggerTriggeredMultipleTimes: KeyedStoreTrigger;
     let unkeyedStoreUntriggeredTrigger: UnkeyedStoreTrigger;
     let unkeyedStoreTriggeredTrigger: UnkeyedStoreTrigger;
     let output: {
@@ -114,27 +100,29 @@ describe(`generateSteps`, function () {
         fullPathWithoutExtension: `Test Added Parsed Path Which Does Not Match C Full Path Without Extension`,
       };
       keyedStoreUntriggered = {
+        type: `keyedStore`,
         name: `keyedStoreUntriggered`,
-        getKeys: jasmine.createSpy(`keyedStoreUntriggered.getKeys`),
       };
       keyedStoreTriggeredOnce = {
+        type: `keyedStore`,
         name: `keyedStoreTriggeredOnce`,
-        getKeys: jasmine.createSpy(`keyedStoreTriggeredOnce.getKeys`),
       };
       keyedStoreTriggeredMultipleTimes = {
+        type: `keyedStore`,
         name: `keyedStoreTriggeredMultipleTimes`,
-        getKeys: jasmine.createSpy(`keyedStoreTriggeredMultipleTimes.getKeys`),
       };
       unkeyedStoreUntriggered = {
+        type: `unkeyedStore`,
         name: `unkeyedStoreUntriggered`,
       };
       unkeyedStoreTriggered = {
+        type: `unkeyedStore`,
         name: `unkeyedStoreTriggered`,
       };
       oneTimeStep = new DummyStep(`oneTimeStep`, [
         {
           type: `keyedStoreSet`,
-          store: keyedStoreTriggeredMultipleTimes,
+          keyedStore: keyedStoreTriggeredMultipleTimes,
           key: `Test Store Key C B`,
         },
       ]);
@@ -148,11 +136,11 @@ describe(`generateSteps`, function () {
         [
           {
             type: `unkeyedStoreSet`,
-            store: unkeyedStoreTriggered,
+            unkeyedStore: unkeyedStoreTriggered,
           },
           {
             type: `keyedStoreSet`,
-            store: keyedStoreTriggeredMultipleTimes,
+            keyedStore: keyedStoreTriggeredMultipleTimes,
             key: `Test Store Key C A`,
           },
         ]
@@ -170,7 +158,7 @@ describe(`generateSteps`, function () {
         [
           {
             type: `keyedStoreSet`,
-            store: keyedStoreTriggeredMultipleTimes,
+            keyedStore: keyedStoreTriggeredMultipleTimes,
             key: `Test Store Key C C`,
           },
         ]
@@ -186,7 +174,7 @@ describe(`generateSteps`, function () {
       unkeyedStoreStep = new DummyStep(`unkeyedStoreStep`, [
         {
           type: `keyedStoreSet`,
-          store: keyedStoreTriggeredOnce,
+          keyedStore: keyedStoreTriggeredOnce,
           key: `Test Store Key B A`,
         },
       ]);
@@ -233,13 +221,13 @@ describe(`generateSteps`, function () {
       };
       keyedStoreUntriggeredTrigger = {
         type: `keyedStore`,
-        store: keyedStoreUntriggered,
+        keyedStore: keyedStoreUntriggered,
         down: jasmine.createSpy(`keyedStoreUntriggeredTrigger.down`),
         up: jasmine.createSpy(`keyedStoreUntriggeredTrigger.up`),
       };
       keyedStoreTriggerTriggeredOnce = {
         type: `keyedStore`,
-        store: keyedStoreTriggeredOnce,
+        keyedStore: keyedStoreTriggeredOnce,
         down: jasmine.createSpy(`keyedStoreTriggerTriggeredOnce.down`),
         up: jasmine
           .createSpy(`keyedStoreTriggerTriggeredOnce.up`)
@@ -247,7 +235,7 @@ describe(`generateSteps`, function () {
       };
       keyedStoreTriggerTriggeredMultipleTimes = {
         type: `keyedStore`,
-        store: keyedStoreTriggeredMultipleTimes,
+        keyedStore: keyedStoreTriggeredMultipleTimes,
         down: jasmine.createSpy(`keyedStoreTriggerTriggeredMultipleTimes.down`),
         up: jasmine
           .createSpy(`keyedStoreTriggerTriggeredMultipleTimes.up`)
@@ -267,13 +255,13 @@ describe(`generateSteps`, function () {
       };
       unkeyedStoreUntriggeredTrigger = {
         type: `unkeyedStore`,
-        store: unkeyedStoreUntriggered,
+        unkeyedStore: unkeyedStoreUntriggered,
         down: jasmine.createSpy(`unkeyedStoreUntriggeredTrigger.down`),
         up: jasmine.createSpy(`unkeyedStoreUntriggeredTrigger.up`),
       };
       unkeyedStoreTriggeredTrigger = {
         type: `unkeyedStore`,
-        store: unkeyedStoreTriggered,
+        unkeyedStore: unkeyedStoreTriggered,
         down: jasmine.createSpy(`unkeyedStoreTriggeredTrigger.down`),
         up: jasmine
           .createSpy(`unkeyedStoreTriggeredTrigger.up`)
@@ -442,12 +430,6 @@ describe(`generateSteps`, function () {
       ).not.toHaveBeenCalled();
       expect(unkeyedStoreStep.executePerActionStep).not.toHaveBeenCalled();
     });
-
-    it(`does not interact with any stores`, () => {
-      expect(keyedStoreUntriggered.getKeys).not.toHaveBeenCalled();
-      expect(keyedStoreTriggeredOnce.getKeys).not.toHaveBeenCalled();
-      expect(keyedStoreTriggeredMultipleTimes.getKeys).not.toHaveBeenCalled();
-    });
   });
 
   describe(`subsequent run`, () => {
@@ -486,14 +468,14 @@ describe(`generateSteps`, function () {
     let parsedPathUnmatchingD: ParsedPath;
     let parsedPathUnmatchingE: ParsedPath;
     let parsedPathUnmatchingF: ParsedPath;
-    let keyedStoreUntriggered: KeyedStore<TestStoreKeyA>;
-    let keyedStoreTriggeredOnceA: KeyedStore<TestStoreKeyB>;
-    let keyedStoreTriggeredOnceB: KeyedStore<TestStoreKeyC>;
-    let keyedStoreTriggeredOnceC: KeyedStore<TestStoreKeyD>;
-    let keyedStoreTriggeredOnceD: KeyedStore<TestStoreKeyE>;
-    let keyedStoreTriggeredMultipleTimes: KeyedStore<TestStoreKeyF>;
-    let unkeyedStoreUntriggered: Store;
-    let unkeyedStoreTriggered: Store;
+    let keyedStoreUntriggered: KeyedStore;
+    let keyedStoreTriggeredOnceA: KeyedStore;
+    let keyedStoreTriggeredOnceB: KeyedStore;
+    let keyedStoreTriggeredOnceC: KeyedStore;
+    let keyedStoreTriggeredOnceD: KeyedStore;
+    let keyedStoreTriggeredMultipleTimes: KeyedStore;
+    let unkeyedStoreUntriggered: UnkeyedStore;
+    let unkeyedStoreTriggered: UnkeyedStore;
     let fileTriggeredMultipleTimesStepA: DummyStep;
     let fileTriggeredMultipleTimesStepB: DummyStep;
     let fileTriggeredMultipleTimesStepC: DummyStep;
@@ -512,12 +494,12 @@ describe(`generateSteps`, function () {
     let keyedStoreTriggeredOnceStepD: DummyStep;
     let unkeyedStoreDownStep: DummyStep;
     let unkeyedStoreUpStep: DummyStep;
-    let keyedStoreTriggerTriggeredOnceA: KeyedStoreTrigger<TestStoreKeyB>;
-    let keyedStoreTriggerTriggeredOnceB: KeyedStoreTrigger<TestStoreKeyC>;
-    let keyedStoreTriggerTriggeredOnceC: KeyedStoreTrigger<TestStoreKeyD>;
-    let keyedStoreTriggerTriggeredOnceD: KeyedStoreTrigger<TestStoreKeyE>;
-    let keyedStoreTriggerTriggeredMultipleTimes: KeyedStoreTrigger<TestStoreKeyF>;
-    let keyedStoreTriggerUntriggered: KeyedStoreTrigger<TestStoreKeyG>;
+    let keyedStoreTriggerTriggeredOnceA: KeyedStoreTrigger;
+    let keyedStoreTriggerTriggeredOnceB: KeyedStoreTrigger;
+    let keyedStoreTriggerTriggeredOnceC: KeyedStoreTrigger;
+    let keyedStoreTriggerTriggeredOnceD: KeyedStoreTrigger;
+    let keyedStoreTriggerTriggeredMultipleTimes: KeyedStoreTrigger;
+    let keyedStoreTriggerUntriggered: KeyedStoreTrigger;
     let unkeyedStoreTriggerUntriggered: UnkeyedStoreTrigger;
     let unkeyedStoreTriggerTriggered: UnkeyedStoreTrigger;
     let oneTimeTrigger: OneTimeTrigger;
@@ -620,33 +602,35 @@ describe(`generateSteps`, function () {
         fullPathWithoutExtension: `Test ParsedPath N Full Path Without Extension`,
       };
       keyedStoreUntriggered = {
+        type: `keyedStore`,
         name: `keyedStoreUntriggered`,
-        getKeys: jasmine.createSpy(`keyedStoreUntriggered.getKeys`),
       };
       keyedStoreTriggeredOnceA = {
+        type: `keyedStore`,
         name: `keyedStoreTriggeredOnceA`,
-        getKeys: jasmine.createSpy(`keyedStoreTriggeredOnceA.getKeys`),
       };
       keyedStoreTriggeredOnceB = {
+        type: `keyedStore`,
         name: `keyedStoreTriggeredOnceB`,
-        getKeys: jasmine.createSpy(`keyedStoreTriggeredOnceB.getKeys`),
       };
       keyedStoreTriggeredOnceC = {
+        type: `keyedStore`,
         name: `keyedStoreTriggeredOnceC`,
-        getKeys: jasmine.createSpy(`keyedStoreTriggeredOnceC.getKeys`),
       };
       keyedStoreTriggeredOnceD = {
+        type: `keyedStore`,
         name: `keyedStoreTriggeredOnceD`,
-        getKeys: jasmine.createSpy(`keyedStoreTriggeredOnceD.getKeys`),
       };
       keyedStoreTriggeredMultipleTimes = {
+        type: `keyedStore`,
         name: `keyedStoreTriggeredMultipleTimes`,
-        getKeys: jasmine.createSpy(`keyedStoreTriggeredMultipleTimes.getKeys`),
       };
       unkeyedStoreUntriggered = {
+        type: `unkeyedStore`,
         name: `unkeyedStoreUntriggered`,
       };
       unkeyedStoreTriggered = {
+        type: `unkeyedStore`,
         name: `unkeyedStoreTriggered`,
       };
       fileTriggeredMultipleTimesStepA = new DummyStep(
@@ -654,11 +638,11 @@ describe(`generateSteps`, function () {
         [
           {
             type: `unkeyedStoreDelete`,
-            store: unkeyedStoreTriggered,
+            unkeyedStore: unkeyedStoreTriggered,
           },
           {
             type: `keyedStoreSet`,
-            store: keyedStoreTriggeredOnceA,
+            keyedStore: keyedStoreTriggeredOnceA,
             key: `Test Store Key B A`,
           },
         ]
@@ -668,12 +652,12 @@ describe(`generateSteps`, function () {
         [
           {
             type: `keyedStoreDelete`,
-            store: keyedStoreTriggeredOnceD,
+            keyedStore: keyedStoreTriggeredOnceD,
             key: `Test Store Key E A`,
           },
           {
             type: `keyedStoreDelete`,
-            store: keyedStoreTriggeredMultipleTimes,
+            keyedStore: keyedStoreTriggeredMultipleTimes,
             key: `Test Store Key F C`,
           },
         ]
@@ -683,7 +667,7 @@ describe(`generateSteps`, function () {
         [
           {
             type: `keyedStoreSet`,
-            store: keyedStoreTriggeredMultipleTimes,
+            keyedStore: keyedStoreTriggeredMultipleTimes,
             key: `Test Store Key F B`,
           },
         ]
@@ -693,12 +677,12 @@ describe(`generateSteps`, function () {
         [
           {
             type: `keyedStoreDelete`,
-            store: keyedStoreTriggeredOnceC,
+            keyedStore: keyedStoreTriggeredOnceC,
             key: `Test Store Key D A`,
           },
           {
             type: `unkeyedStoreSet`,
-            store: unkeyedStoreTriggered,
+            unkeyedStore: unkeyedStoreTriggered,
           },
         ]
       );
@@ -724,7 +708,7 @@ describe(`generateSteps`, function () {
         [
           {
             type: `keyedStoreSet`,
-            store: keyedStoreTriggeredMultipleTimes,
+            keyedStore: keyedStoreTriggeredMultipleTimes,
             key: `Test Store Key F A`,
           },
         ]
@@ -742,7 +726,7 @@ describe(`generateSteps`, function () {
         [
           {
             type: `keyedStoreDelete`,
-            store: keyedStoreTriggeredOnceB,
+            keyedStore: keyedStoreTriggeredOnceB,
             key: `Test Store Key C B`,
           },
         ]
@@ -755,7 +739,7 @@ describe(`generateSteps`, function () {
       };
       keyedStoreTriggerTriggeredOnceA = {
         type: `keyedStore`,
-        store: keyedStoreTriggeredOnceA,
+        keyedStore: keyedStoreTriggeredOnceA,
         down: jasmine.createSpy(`keyedStoreTriggerTriggeredOnceA.down`),
         up: jasmine
           .createSpy(`keyedStoreTriggerTriggeredOnceA.up`)
@@ -763,7 +747,7 @@ describe(`generateSteps`, function () {
       };
       keyedStoreTriggerTriggeredOnceB = {
         type: `keyedStore`,
-        store: keyedStoreTriggeredOnceB,
+        keyedStore: keyedStoreTriggeredOnceB,
         down: jasmine
           .createSpy(`keyedStoreTriggerTriggeredOnceB.down`)
           .and.returnValue(keyedStoreTriggeredOnceStepB),
@@ -771,7 +755,7 @@ describe(`generateSteps`, function () {
       };
       keyedStoreTriggerTriggeredOnceC = {
         type: `keyedStore`,
-        store: keyedStoreTriggeredOnceC,
+        keyedStore: keyedStoreTriggeredOnceC,
         down: jasmine
           .createSpy(`keyedStoreTriggerTriggeredOnceC.down`)
           .and.returnValue(keyedStoreTriggeredOnceStepC),
@@ -779,7 +763,7 @@ describe(`generateSteps`, function () {
       };
       keyedStoreTriggerTriggeredOnceD = {
         type: `keyedStore`,
-        store: keyedStoreTriggeredOnceD,
+        keyedStore: keyedStoreTriggeredOnceD,
         down: jasmine
           .createSpy(`keyedStoreTriggerTriggeredOnceD.down`)
           .and.returnValue(keyedStoreTriggeredOnceStepD),
@@ -787,7 +771,7 @@ describe(`generateSteps`, function () {
       };
       keyedStoreTriggerTriggeredMultipleTimes = {
         type: `keyedStore`,
-        store: keyedStoreTriggeredMultipleTimes,
+        keyedStore: keyedStoreTriggeredMultipleTimes,
         down: jasmine
           .createSpy(`keyedStoreTriggerTriggeredMultipleTimes.down`)
           .and.callFake((key) => {
@@ -818,19 +802,19 @@ describe(`generateSteps`, function () {
       };
       keyedStoreTriggerUntriggered = {
         type: `keyedStore`,
-        store: keyedStoreUntriggered,
+        keyedStore: keyedStoreUntriggered,
         down: jasmine.createSpy(`keyedStoreTriggerUntriggered.down`),
         up: jasmine.createSpy(`keyedStoreTriggerUntriggered.up`),
       };
       unkeyedStoreTriggerUntriggered = {
         type: `unkeyedStore`,
-        store: unkeyedStoreUntriggered,
+        unkeyedStore: unkeyedStoreUntriggered,
         down: jasmine.createSpy(`unkeyedStoreTriggerUntriggered.down`),
         up: jasmine.createSpy(`unkeyedStoreTriggerUntriggered.up`),
       };
       unkeyedStoreTriggerTriggered = {
         type: `unkeyedStore`,
-        store: unkeyedStoreTriggered,
+        unkeyedStore: unkeyedStoreTriggered,
         down: jasmine
           .createSpy(`unkeyedStoreTriggerTriggered.down`)
           .and.returnValue(unkeyedStoreDownStep),
@@ -1157,15 +1141,6 @@ describe(`generateSteps`, function () {
       ).not.toHaveBeenCalled();
       expect(unkeyedStoreDownStep.executePerActionStep).not.toHaveBeenCalled();
       expect(unkeyedStoreUpStep.executePerActionStep).not.toHaveBeenCalled();
-    });
-
-    it(`does not interact with any stores`, () => {
-      expect(keyedStoreUntriggered.getKeys).not.toHaveBeenCalled();
-      expect(keyedStoreTriggeredOnceA.getKeys).not.toHaveBeenCalled();
-      expect(keyedStoreTriggeredOnceB.getKeys).not.toHaveBeenCalled();
-      expect(keyedStoreTriggeredOnceC.getKeys).not.toHaveBeenCalled();
-      expect(keyedStoreTriggeredOnceD.getKeys).not.toHaveBeenCalled();
-      expect(keyedStoreTriggeredMultipleTimes.getKeys).not.toHaveBeenCalled();
     });
   });
 });

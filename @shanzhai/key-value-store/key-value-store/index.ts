@@ -1,6 +1,8 @@
 import { KeyValueStoreInterface } from "../key-value-store-interface";
 
 export class KeyValueStore<TValue> implements KeyValueStoreInterface<TValue> {
+  readonly type = `keyedStore`;
+
   private readonly data = new Map<string, TValue>();
 
   constructor(public readonly name: string) {}

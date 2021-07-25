@@ -4,17 +4,17 @@ import { Input, Output, Json, Effect } from "@shanzhai/interfaces";
 describe(`StringifyJsonStep`, () => {
   const outputEffectA: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Output Effect A` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Output Effect A` },
   };
 
   const outputEffectB: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Output Effect B` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Output Effect B` },
   };
 
   const outputEffectC: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Output Effect C` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Output Effect C` },
   };
 
   describe(`on construction`, () => {

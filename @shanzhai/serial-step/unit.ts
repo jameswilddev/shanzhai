@@ -4,57 +4,57 @@ import { SerialStep } from ".";
 describe(`SerialStep`, () => {
   const effectAA: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect AA` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect AA` },
   };
 
   const effectAB: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect AB` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect AB` },
   };
 
   const effectBA: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect BA` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect BA` },
   };
 
   const effectBB: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect BB` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect BB` },
   };
 
   const effectBC: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect BC` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect BC` },
   };
 
   const effectBD: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect BD` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect BD` },
   };
 
   const effectCA: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect CA` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect CA` },
   };
 
   const effectCB: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect CB` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect CB` },
   };
 
   const effectDA: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect DA` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect DA` },
   };
 
   const effectDB: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect DB` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect DB` },
   };
 
   const effectDC: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Effect DC` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect DC` },
   };
 
   describe(`on construction`, () => {

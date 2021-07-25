@@ -11,7 +11,7 @@ export class ValueStoreOutput<T> implements Output<T> {
   readonly effects: ReadonlyArray<Effect> = [
     {
       type: `unkeyedStoreSet`,
-      store: this.valueStore,
+      unkeyedStore: this.valueStore,
     },
   ];
 }

@@ -15,7 +15,13 @@ describe(`ValueStoreInput`, () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      valueStore = { name: `Test Name`, get, set, delete: _delete };
+      valueStore = {
+        type: `unkeyedStore`,
+        name: `Test Name`,
+        get,
+        set,
+        delete: _delete,
+      };
 
       valueStoreInput = new ValueStoreInput<TestValue>(valueStore);
     });
@@ -51,7 +57,13 @@ describe(`ValueStoreInput`, () => {
       get = jasmine.createSpy(`get`).and.resolveTo(`Test Value`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      valueStore = { name: `Test Name`, get, set, delete: _delete };
+      valueStore = {
+        type: `unkeyedStore`,
+        name: `Test Name`,
+        get,
+        set,
+        delete: _delete,
+      };
 
       valueStoreInput = new ValueStoreInput<TestValue>(valueStore);
 

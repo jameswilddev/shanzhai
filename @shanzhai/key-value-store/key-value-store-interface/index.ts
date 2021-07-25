@@ -1,4 +1,6 @@
-export interface KeyValueStoreInterface<TValue> {
+import { KeyedStore } from "@shanzhai/interfaces";
+
+export interface KeyValueStoreInterface<TValue> extends KeyedStore {
   readonly name: string;
 
   get(key: string): TValue;

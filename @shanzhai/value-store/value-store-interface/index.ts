@@ -1,6 +1,6 @@
-import { Store } from "@shanzhai/interfaces";
+import { UnkeyedStore } from "@shanzhai/interfaces";
 
-export interface ValueStoreInterface<T> extends Store {
+export interface ValueStoreInterface<T> extends UnkeyedStore {
   get(): T;
 
   set(value: T): void;

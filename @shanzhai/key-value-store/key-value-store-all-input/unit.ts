@@ -18,6 +18,7 @@ describe(`KeyValueStoreAllInput`, () => {
       _delete = jasmine.createSpy(`delete`);
       getAll = jasmine.createSpy(`getAll`);
       keyValueStore = {
+        type: `keyedStore`,
         name: `Test Name`,
         get,
         set,
@@ -72,6 +73,7 @@ describe(`KeyValueStoreAllInput`, () => {
         [`Test Key C`, `Test Value C`],
       ]);
       keyValueStore = {
+        type: `keyedStore`,
         name: `Test Name`,
         get,
         set,
