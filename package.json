@@ -33,7 +33,7 @@
     "buildToolsTypeScript": "tsc --project tools.tsconfig.json",
     "buildToolsRun": "node build",
     "buildTypeScript": "tsc --project packages.tsconfig.json",
-    "buildNyc": "nyc --check-coverage --all --exclude \"**/*.ts\" --exclude \"**/*.d.ts\" --exclude \"**/unit.*\" --exclude \"build/**/*\" --exclude \"publish/**/*\" --lines 100 --functions 100 --branches 100 --statements 100 npm run-script buildJasmine",
+    "buildNyc": "nyc --check-coverage --all --exclude \"**/*.ts\" --exclude \"**/*.d.ts\" --exclude \"**/unit.*\" --exclude \"build/**/*\" --exclude \"publish/**/*\" --exclude \"**/test-data/**\" --lines 100 --functions 100 --branches 100 --statements 100 npm run-script buildJasmine",
     "buildJasmine": "jasmine --config=jasmine.json",
     "buildToolsPublish": "node publish",
     "buildToolsRegenerateRootReadme": "node build/write-root-readme",
