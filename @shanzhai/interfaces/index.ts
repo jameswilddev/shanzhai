@@ -8,7 +8,6 @@ export { Plugin } from "./plugin";
 export { Step } from "./step";
 export { KeyValueStore } from "./stores/key-value-store";
 export { ValueStore } from "./stores/value-store";
-export { KeyedStore } from "./keyed-store";
 export { Effect } from "./effect";
 export { KeyedStoreSetEffect } from "./effect/keyed-store-set-effect";
 export { KeyedStoreDeleteEffect } from "./effect/keyed-store-delete-effect";
