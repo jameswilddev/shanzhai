@@ -5,6 +5,6 @@ import { UnkeyedStoreTrigger } from "./unkeyed-store-trigger";
 
 export type Trigger =
   | FileTrigger
-  | KeyedStoreTrigger<unknown>
+  | KeyedStoreTrigger
   | OneTimeTrigger
   | UnkeyedStoreTrigger;

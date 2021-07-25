@@ -1,7 +1,6 @@
 import { KeyValueStoreInterface, KeyValueStoreOutput } from "..";
 
 describe(`KeyValueStoreOutput`, () => {
-  type TestKey = `Test Key`;
   type TestValue = `Test Value`;
 
   describe(`on construction`, () => {
@@ -9,27 +8,24 @@ describe(`KeyValueStoreOutput`, () => {
     let set: jasmine.Spy;
     let _delete: jasmine.Spy;
     let getAll: jasmine.Spy;
-    let getKeys: jasmine.Spy;
-    let keyValueStore: KeyValueStoreInterface<TestKey, TestValue>;
+    let keyValueStore: KeyValueStoreInterface<TestValue>;
 
-    let keyValueStoreOutput: KeyValueStoreOutput<TestKey, TestValue>;
+    let keyValueStoreOutput: KeyValueStoreOutput<TestValue>;
 
     beforeAll(() => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
       getAll = jasmine.createSpy(`getAll`);
-      getKeys = jasmine.createSpy(`getKeys`);
       keyValueStore = {
         name: `Test Name`,
         get,
         set,
         delete: _delete,
         getAll,
-        getKeys,
       };
 
-      keyValueStoreOutput = new KeyValueStoreOutput<TestKey, TestValue>(
+      keyValueStoreOutput = new KeyValueStoreOutput<TestValue>(
         keyValueStore,
         `Test Key`
       );
@@ -68,10 +64,6 @@ describe(`KeyValueStoreOutput`, () => {
     it(`does not get all from the store`, () => {
       expect(getAll).not.toHaveBeenCalled();
     });
-
-    it(`does not get keys from the store`, () => {
-      expect(getKeys).not.toHaveBeenCalled();
-    });
   });
 
   describe(`set`, () => {
@@ -79,27 +71,24 @@ describe(`KeyValueStoreOutput`, () => {
     let set: jasmine.Spy;
     let _delete: jasmine.Spy;
     let getAll: jasmine.Spy;
-    let getKeys: jasmine.Spy;
-    let keyValueStore: KeyValueStoreInterface<TestKey, TestValue>;
+    let keyValueStore: KeyValueStoreInterface<TestValue>;
 
-    let keyValueStoreOutput: KeyValueStoreOutput<TestKey, TestValue>;
+    let keyValueStoreOutput: KeyValueStoreOutput<TestValue>;
 
     beforeAll(async () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
       getAll = jasmine.createSpy(`getAll`);
-      getKeys = jasmine.createSpy(`getKeys`);
       keyValueStore = {
         name: `Test Name`,
         get,
         set,
         delete: _delete,
         getAll,
-        getKeys,
       };
 
-      keyValueStoreOutput = new KeyValueStoreOutput<TestKey, TestValue>(
+      keyValueStoreOutput = new KeyValueStoreOutput<TestValue>(
         keyValueStore,
         `Test Key`
       );
@@ -147,14 +136,6 @@ describe(`KeyValueStoreOutput`, () => {
 
     it(`does not get all from the store`, () => {
       expect(getAll).not.toHaveBeenCalled();
-    });
-
-    it(`does not get keys from the store`, () => {
-      expect(getKeys).not.toHaveBeenCalled();
-    });
-
-    it(`does not get keys from the store`, () => {
-      expect(getKeys).not.toHaveBeenCalled();
     });
   });
 });

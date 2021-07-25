@@ -1,13 +1,11 @@
 import { KeyValueStoreInterface } from "../key-value-store-interface";
 
-export class KeyValueStore<TKey extends string, TValue>
-  implements KeyValueStoreInterface<TKey, TValue>
-{
-  private readonly data = new Map<TKey, TValue>();
+export class KeyValueStore<TValue> implements KeyValueStoreInterface<TValue> {
+  private readonly data = new Map<string, TValue>();
 
   constructor(public readonly name: string) {}
 
-  get(key: TKey): TValue {
+  get(key: string): TValue {
     if (this.data.has(key)) {
       return this.data.get(key) as TValue;
     } else {
@@ -19,21 +17,17 @@ export class KeyValueStore<TKey extends string, TValue>
     }
   }
 
-  set(key: TKey, value: TValue): void {
+  set(key: string, value: TValue): void {
     this.data.set(key, value);
   }
 
-  delete(key: TKey): void {
+  delete(key: string): void {
     this.data.delete(key);
   }
 
-  getAll(): ReadonlyArray<readonly [TKey, TValue]> {
+  getAll(): ReadonlyArray<readonly [string, TValue]> {
     return Array.from(this.data.entries()).sort((a, b) =>
       a[0].localeCompare(b[0])
     );
-  }
-
-  getKeys(): ReadonlyArray<TKey> {
-    return Array.from(this.data.keys()).sort();
   }
 }

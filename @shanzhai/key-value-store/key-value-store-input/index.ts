@@ -1,12 +1,10 @@
 import { Input } from "@shanzhai/interfaces";
 import { KeyValueStoreInterface } from "..";
 
-export class KeyValueStoreInput<TKey extends string, TValue>
-  implements Input<TValue>
-{
+export class KeyValueStoreInput<TValue> implements Input<TValue> {
   constructor(
-    public readonly keyValueStore: KeyValueStoreInterface<TKey, TValue>,
-    public readonly key: TKey
+    public readonly keyValueStore: KeyValueStoreInterface<TValue>,
+    public readonly key: string
   ) {}
 
   async get(): Promise<TValue> {

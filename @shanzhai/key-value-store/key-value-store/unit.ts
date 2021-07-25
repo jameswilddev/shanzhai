@@ -1,20 +1,17 @@
 import { KeyValueStore } from "..";
 
 describe(`KeyValueStore`, () => {
-  type TestKey = `Test Key A` | `Test Key B`;
   type TestValue = `Test Value A` | `Test Value B` | `Test Value C`;
 
   function recurse(
     description: string,
-    events: ReadonlyArray<
-      (keyValueStore: KeyValueStore<TestKey, TestValue>) => void
-    >,
+    events: ReadonlyArray<(keyValueStore: KeyValueStore<TestValue>) => void>,
     remainingValues: ReadonlyArray<TestValue>,
     keyValueA: null | TestValue,
     keyValueB: null | TestValue
   ): void {
     describe(description, () => {
-      let keyValueStore: KeyValueStore<TestKey, TestValue>;
+      let keyValueStore: KeyValueStore<TestValue>;
 
       beforeEach(() => {
         keyValueStore = new KeyValueStore(`Test Key Value Store`);
@@ -49,7 +46,7 @@ describe(`KeyValueStore`, () => {
       }
 
       it(`allows retrieval of all values`, () => {
-        const expected: (readonly [TestKey, TestValue])[] = [];
+        const expected: (readonly [string, TestValue])[] = [];
 
         if (keyValueA !== null) {
           expected.push([`Test Key A`, keyValueA]);
@@ -60,20 +57,6 @@ describe(`KeyValueStore`, () => {
         }
 
         expect(keyValueStore.getAll()).toEqual(expected);
-      });
-
-      it(`allows retrieval of keys`, () => {
-        const expected: TestKey[] = [];
-
-        if (keyValueA !== null) {
-          expected.push(`Test Key A`);
-        }
-
-        if (keyValueB !== null) {
-          expected.push(`Test Key B`);
-        }
-
-        expect(keyValueStore.getKeys()).toEqual(expected);
       });
     });
 
@@ -118,19 +101,6 @@ describe(`KeyValueStore`, () => {
           ...events,
           (KeyValueStore) => {
             KeyValueStore.getAll();
-          },
-        ],
-        remainingValues,
-        keyValueA,
-        keyValueB
-      );
-
-      recurse(
-        `getKeys`,
-        [
-          ...events,
-          (KeyValueStore) => {
-            KeyValueStore.getKeys();
           },
         ],
         remainingValues,

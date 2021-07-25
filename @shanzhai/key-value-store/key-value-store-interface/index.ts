@@ -1,12 +1,11 @@
-import { KeyedStore } from "@shanzhai/interfaces";
+export interface KeyValueStoreInterface<TValue> {
+  readonly name: string;
 
-export interface KeyValueStoreInterface<TKey extends string, TValue>
-  extends KeyedStore<TKey> {
-  get(key: TKey): TValue;
+  get(key: string): TValue;
 
-  set(key: TKey, value: TValue): void;
+  set(key: string, value: TValue): void;
 
-  delete(key: TKey): void;
+  delete(key: string): void;
 
-  getAll(): ReadonlyArray<readonly [TKey, TValue]>;
+  getAll(): ReadonlyArray<readonly [string, TValue]>;
 }

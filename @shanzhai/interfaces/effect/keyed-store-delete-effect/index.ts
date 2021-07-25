@@ -1,7 +1,7 @@
-import { Store } from "../../store";
+import { KeyedStore } from "../../stores/keyed-store";
 
-export type KeyedStoreDeleteEffect<T> = {
+export type KeyedStoreDeleteEffect = {
   readonly type: `keyedStoreDelete`;
-  readonly store: Store;
-  readonly key: T;
+  readonly keyedStore: KeyedStore;
+  readonly key: string;
 };

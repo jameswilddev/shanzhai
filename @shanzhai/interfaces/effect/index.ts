@@ -4,7 +4,7 @@ import { UnkeyedStoreSetEffect } from "./unkeyed-store-set-effect";
 import { UnkeyedStoreDeleteEffect } from "./unkeyed-store-delete-effect";
 
 export type Effect =
-  | KeyedStoreSetEffect<unknown>
-  | KeyedStoreDeleteEffect<unknown>
+  | KeyedStoreSetEffect
+  | KeyedStoreDeleteEffect
   | UnkeyedStoreSetEffect
   | UnkeyedStoreDeleteEffect;

@@ -1,6 +1,6 @@
-import { Store } from "../../store";
+import { UnkeyedStore } from "../../stores/unkeyed-store";
 
 export type UnkeyedStoreSetEffect = {
   readonly type: `unkeyedStoreSet`;
-  readonly store: Store;
+  readonly unkeyedStore: UnkeyedStore;
 };

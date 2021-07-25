@@ -1,6 +1,6 @@
-import { Store } from "../../store";
+import { UnkeyedStore } from "../../stores/unkeyed-store";
 
 export type UnkeyedStoreDeleteEffect = {
   readonly type: `unkeyedStoreDelete`;
-  readonly store: Store;
+  readonly unkeyedStore: UnkeyedStore;
 };

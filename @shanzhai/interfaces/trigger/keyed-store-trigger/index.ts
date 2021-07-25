@@ -1,11 +1,11 @@
+import { KeyedStore } from "../../stores/keyed-store";
 import { Step } from "../../step";
-import { Store } from "../../store";
 
-export type KeyedStoreTrigger<T> = {
+export type KeyedStoreTrigger = {
   readonly type: `keyedStore`;
 
-  readonly store: Store;
+  readonly keyedStore: KeyedStore;
 
-  down(key: T): Step;
-  up(key: T): Step;
+  down(key: string): Step;
+  up(key: string): Step;
 };

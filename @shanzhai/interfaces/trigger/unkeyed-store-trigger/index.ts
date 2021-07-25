@@ -1,10 +1,10 @@
+import { UnkeyedStore } from "../../stores/unkeyed-store";
 import { Step } from "../../step";
-import { Store } from "../../store";
 
 export type UnkeyedStoreTrigger = {
   readonly type: `unkeyedStore`;
 
-  readonly store: Store;
+  readonly unkeyedStore: UnkeyedStore;
 
   down(): Step;
   up(): Step;

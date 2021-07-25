@@ -1,13 +1,10 @@
 import { ActionStep } from "@shanzhai/interfaces";
 import { KeyValueStoreInterface } from "../key-value-store-interface";
 
-export class DeleteFromKeyValueStoreStep<
-  TKey extends string,
-  TValue
-> extends ActionStep {
+export class DeleteFromKeyValueStoreStep<TValue> extends ActionStep {
   constructor(
-    public readonly keyValueStore: KeyValueStoreInterface<TKey, TValue>,
-    public readonly key: TKey
+    public readonly keyValueStore: KeyValueStoreInterface<TValue>,
+    public readonly key: string
   ) {
     super(
       `Delete ${JSON.stringify(key)} from ${JSON.stringify(
