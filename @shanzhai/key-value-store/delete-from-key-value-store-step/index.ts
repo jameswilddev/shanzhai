@@ -10,7 +10,7 @@ export class DeleteFromKeyValueStoreStep<TValue> extends ActionStep {
       `Delete ${JSON.stringify(key)} from ${JSON.stringify(
         keyValueStore.name
       )}`,
-      [{ type: `keyedStoreDelete`, store: keyValueStore, key }]
+      [{ type: `keyedStoreDelete`, keyedStore: keyValueStore, key }]
     );
   }
 

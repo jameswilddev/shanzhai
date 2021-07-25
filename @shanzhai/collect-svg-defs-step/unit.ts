@@ -4,47 +4,47 @@ import { CollectSvgDefsStep } from ".";
 describe(`CollectSvgDefsStep`, () => {
   const typeScriptEffectA: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test TypeScript Effect A` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test TypeScript Effect A` },
   };
 
   const typeScriptEffectB: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test TypeScript Effect B` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test TypeScript Effect B` },
   };
 
   const typeScriptEffectC: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test TypeScript Effect C` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test TypeScript Effect C` },
   };
 
   const typeScriptEffectD: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test TypeScript Effect D` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test TypeScript Effect D` },
   };
 
   const constantsEffectA: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Constants Effect A` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Constants Effect A` },
   };
 
   const constantsEffectB: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Constants Effect B` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Constants Effect B` },
   };
 
   const svgEffectA: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Svg Effect A` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Svg Effect A` },
   };
 
   const svgEffectB: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Svg Effect B` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Svg Effect B` },
   };
 
   const svgEffectC: Effect = {
     type: `unkeyedStoreSet`,
-    store: { name: `Test Svg Effect C` },
+    unkeyedStore: { type: `unkeyedStore`, name: `Test Svg Effect C` },
   };
 
   describe(`without defs`, () => {

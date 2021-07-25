@@ -18,6 +18,7 @@ describe(`KeyValueStoreOutput`, () => {
       _delete = jasmine.createSpy(`delete`);
       getAll = jasmine.createSpy(`getAll`);
       keyValueStore = {
+        type: `keyedStore`,
         name: `Test Name`,
         get,
         set,
@@ -43,7 +44,7 @@ describe(`KeyValueStoreOutput`, () => {
       expect(keyValueStoreOutput.effects).toEqual([
         {
           type: `keyedStoreSet`,
-          store: keyValueStore,
+          keyedStore: keyValueStore,
           key: `Test Key`,
         },
       ]);
@@ -81,6 +82,7 @@ describe(`KeyValueStoreOutput`, () => {
       _delete = jasmine.createSpy(`delete`);
       getAll = jasmine.createSpy(`getAll`);
       keyValueStore = {
+        type: `keyedStore`,
         name: `Test Name`,
         get,
         set,
@@ -100,7 +102,7 @@ describe(`KeyValueStoreOutput`, () => {
       expect(keyValueStoreOutput.effects).toEqual([
         {
           type: `keyedStoreSet`,
-          store: keyValueStore,
+          keyedStore: keyValueStore,
           key: `Test Key`,
         },
       ]);

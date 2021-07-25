@@ -15,7 +15,13 @@ describe(`ValueStoreOutput`, () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      valueStore = { name: `Test Name`, get, set, delete: _delete };
+      valueStore = {
+        type: `unkeyedStore`,
+        name: `Test Name`,
+        get,
+        set,
+        delete: _delete,
+      };
 
       valueStoreOutput = new ValueStoreOutput<TestValue>(valueStore);
     });
@@ -24,7 +30,7 @@ describe(`ValueStoreOutput`, () => {
       expect(valueStoreOutput.effects).toEqual([
         {
           type: `unkeyedStoreSet`,
-          store: valueStore,
+          unkeyedStore: valueStore,
         },
       ]);
     });
@@ -58,7 +64,13 @@ describe(`ValueStoreOutput`, () => {
       get = jasmine.createSpy(`get`);
       set = jasmine.createSpy(`set`);
       _delete = jasmine.createSpy(`delete`);
-      valueStore = { name: `Test Name`, get, set, delete: _delete };
+      valueStore = {
+        type: `unkeyedStore`,
+        name: `Test Name`,
+        get,
+        set,
+        delete: _delete,
+      };
 
       valueStoreOutput = new ValueStoreOutput<TestValue>(valueStore);
 
@@ -69,7 +81,7 @@ describe(`ValueStoreOutput`, () => {
       expect(valueStoreOutput.effects).toEqual([
         {
           type: `unkeyedStoreSet`,
-          store: valueStore,
+          unkeyedStore: valueStore,
         },
       ]);
     });

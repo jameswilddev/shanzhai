@@ -1,6 +1,8 @@
 import { ValueStoreInterface } from "../value-store-interface";
 
 export class ValueStore<T> implements ValueStoreInterface<T> {
+  readonly type = `unkeyedStore`;
+
   private value: null | [T] = null;
 
   constructor(public readonly name: string) {}

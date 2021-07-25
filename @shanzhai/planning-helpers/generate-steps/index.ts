@@ -38,7 +38,7 @@ export function generateSteps(
                 break;
 
               case `keyedStore`:
-                if (trigger.store === effect.store) {
+                if (trigger.keyedStore === effect.keyedStore) {
                   output.push(...handleStep(step, trigger.up(effect.key)));
                 }
                 break;
@@ -59,7 +59,7 @@ export function generateSteps(
                 break;
 
               case `keyedStore`:
-                if (trigger.store === effect.store) {
+                if (trigger.keyedStore === effect.keyedStore) {
                   output.push(...handleStep(step, trigger.down(effect.key)));
                 }
                 break;
@@ -86,7 +86,7 @@ export function generateSteps(
                 break;
 
               case `unkeyedStore`:
-                if (trigger.store === effect.store) {
+                if (trigger.unkeyedStore === effect.unkeyedStore) {
                   output.push(...handleStep(step, trigger.up()));
                 }
                 break;
@@ -107,7 +107,7 @@ export function generateSteps(
                 break;
 
               case `unkeyedStore`:
-                if (trigger.store === effect.store) {
+                if (trigger.unkeyedStore === effect.unkeyedStore) {
                   output.push(...handleStep(step, trigger.down()));
                 }
                 break;

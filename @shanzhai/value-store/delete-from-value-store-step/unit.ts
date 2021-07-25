@@ -15,6 +15,7 @@ describe(`DeleteFromValueStoreStep`, () => {
       valueStoreSet = jasmine.createSpy(`valueStoreSet`);
       valueStoreDelete = jasmine.createSpy(`valueStoreDelete`);
       valueStore = {
+        type: `unkeyedStore`,
         name: `Test Name`,
         get: valueStoreGet,
         set: valueStoreSet,
@@ -61,6 +62,7 @@ describe(`DeleteFromValueStoreStep`, () => {
       valueStoreSet = jasmine.createSpy(`valueStoreSet`);
       valueStoreDelete = jasmine.createSpy(`valueStoreDelete`);
       valueStore = {
+        type: `unkeyedStore`,
         name: `Test Name`,
         get: valueStoreGet,
         set: valueStoreSet,
