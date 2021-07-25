@@ -11,6 +11,8 @@ export async function scanDirectory(): Promise<ReadonlyArray<string>> {
     try {
       names = await fs.promises.readdir(subPath);
     } catch (e) {
+      // We have no way to reliably not hit these conditions in tests.
+      /* istanbul ignore else */
       if (subPath === `src`) {
         switch (e.code) {
           case `ENOENT`:
@@ -23,7 +25,10 @@ export async function scanDirectory(): Promise<ReadonlyArray<string>> {
               `The "src" path in the current working directory refers to a file, not a directory.  Please ensure that you are executing "shanzhai-production-cli" from your project's root directory.`
             );
 
+          // We have no way to reliably hit these conditions in tests.
+          /* istanbul ignore next*/
           default:
+            /* istanbul ignore next*/
             throw e;
         }
       } else {
