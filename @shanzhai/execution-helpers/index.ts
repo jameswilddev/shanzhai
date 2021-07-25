@@ -19,35 +19,68 @@ export async function execute(
   if (totalActions === 0) {
     logOutput.write(`No steps to execute.\n`);
   } else {
-    const progress = new Progress(
-      `:bar :current/:total (:percent) :etas :message`,
-      {
-        width: 40,
-        total: totalActions + 1,
-        stream: logOutput,
-      }
-    );
+    logOutput.write(`Starting...\n`);
 
-    progress.render({ message: `Starting...` });
-
-    await step.executePerActionStep(async (step) => {
-      if (successful) {
-        progress.render({ message: step.name });
-
-        try {
-          await step.execute();
-        } catch (e) {
-          logOutput.write(`\nError in step "${step.name}":\n${e}\n`);
-          successful = false;
-          return;
+    if ((logOutput as unknown as { isTTY?: boolean }).isTTY) {
+      const progress = new Progress(
+        `:bar :current/:total (:percent) :etas :message`,
+        {
+          width: 40,
+          total: totalActions,
+          stream: logOutput,
+          renderThrottle: -1,
         }
+      );
 
-        progress.tick();
-      }
-    });
+      await step.executePerActionStep(async (step) => {
+        if (successful) {
+          progress.render({ message: `Starting "${step.name}"...` });
+
+          try {
+            await step.execute();
+          } catch (e) {
+            logOutput.write(`\nError in step "${step.name}":\n${e}\n`);
+            successful = false;
+            return;
+          }
+
+          progress.tick({
+            message: `Step "${step.name}" completed successfully.`,
+          });
+        }
+      });
+    } else {
+      let completedActions = 0;
+
+      await step.executePerActionStep(async (step) => {
+        if (successful) {
+          logOutput.write(
+            `${completedActions}/${totalActions} (${Math.round(
+              (100 * completedActions) / totalActions
+            )}%) Starting "${step.name}"...\n`
+          );
+
+          try {
+            await step.execute();
+          } catch (e) {
+            logOutput.write(`\nError in step "${step.name}":\n${e}\n`);
+            successful = false;
+            return;
+          }
+
+          completedActions++;
+
+          logOutput.write(
+            `${completedActions}/${totalActions} (${Math.round(
+              (100 * completedActions) / totalActions
+            )}%) Step "${step.name}" completed successfully.\n`
+          );
+        }
+      });
+    }
 
     if (successful) {
-      progress.tick({ message: `Done.` });
+      logOutput.write(`Done.\n`);
     }
   }
 
