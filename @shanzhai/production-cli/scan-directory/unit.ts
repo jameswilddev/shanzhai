@@ -32,6 +32,9 @@ describe(`scanDirectory`, () => {
       process.chdir(root);
 
       promise = scanDirectory();
+      promise.catch(() => {
+        // Prevent spurious error.
+      });
     });
 
     afterAll(async () => {
@@ -75,6 +78,9 @@ describe(`scanDirectory`, () => {
       process.chdir(root);
 
       promise = scanDirectory();
+      promise.catch(() => {
+        // Prevent spurious error.
+      });
     });
 
     afterAll(async () => {
@@ -116,6 +122,9 @@ describe(`scanDirectory`, () => {
       process.chdir(root);
 
       promise = scanDirectory();
+      promise.catch(() => {
+        // Prevent spurious error.
+      });
     });
 
     afterAll(async () => {
@@ -236,6 +245,9 @@ describe(`scanDirectory`, () => {
       );
 
       promise = scanDirectory();
+      promise.catch(() => {
+        // Prevent spurious error.
+      });
     });
 
     afterAll(async () => {
