@@ -24,7 +24,7 @@
   "dependencies": {
     "@shanzhai/change-tracking-helpers": "0.0.7",
     "@shanzhai/parallel-step": "0.0.3",
-    "@shanzhai/serial-step": "0.0.2"
+    "@shanzhai/serial-step": "0.0.3"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.13"
