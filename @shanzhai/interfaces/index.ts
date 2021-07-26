@@ -14,6 +14,7 @@ export { KeyedStoreDeleteEffect } from "./effect/keyed-store-delete-effect";
 export { UnkeyedStoreSetEffect } from "./effect/unkeyed-store-set-effect";
 export { Trigger } from "./trigger";
 export { FileTrigger } from "./trigger/file-trigger";
+export { FileExtensionTrigger } from "./trigger/file-extension-trigger";
 export { KeyedStoreTrigger } from "./trigger/keyed-store-trigger";
 export { OneTimeTrigger } from "./trigger/one-time-trigger";
 export { UnkeyedStoreTrigger } from "./trigger/unkeyed-store-trigger";
