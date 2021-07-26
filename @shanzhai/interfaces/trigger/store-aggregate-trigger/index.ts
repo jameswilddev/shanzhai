@@ -7,6 +7,5 @@ export type StoreAggregateTrigger = {
 
   readonly stores: ReadonlyArray<UnkeyedStore | KeyedStore>;
 
-  down(): Step;
-  up(): Step;
+  invalidated(): Step;
 };
