@@ -27,7 +27,7 @@
     "@shanzhai/serial-step": "0.0.2"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.12"
+    "@shanzhai/interfaces": "0.0.13"
   },
   "types": "index.d.ts"
 }

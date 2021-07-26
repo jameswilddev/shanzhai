@@ -26,7 +26,7 @@
     "@shanzhai/change-tracking-helpers": "0.0.7"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.12",
+    "@shanzhai/interfaces": "0.0.13",
     "uuid": "8.3.2",
     "@types/uuid": "8.3.1"
   }
