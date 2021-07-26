@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "html-minifier": "4.0.0",
-    "@shanzhai/minify-step": "0.0.2"
+    "@shanzhai/minify-step": "0.0.3"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.13",
