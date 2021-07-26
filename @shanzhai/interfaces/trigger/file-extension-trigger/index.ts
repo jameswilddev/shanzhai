@@ -2,7 +2,7 @@ import { ParsedPath } from "../../parsed-path";
 import { Step } from "../../step";
 
 export type FileExtensionTrigger = {
-  readonly type: `file`;
+  readonly type: `fileExtension`;
 
   readonly extension: string;
 

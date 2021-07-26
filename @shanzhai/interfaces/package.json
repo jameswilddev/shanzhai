@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/interfaces",
   "description": "TypeScript types used as interfaces between the various components of Shanzhai.",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "engines": {
     "node": ">=12.13.0"
   },
