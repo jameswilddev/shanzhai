@@ -127,15 +127,15 @@ describe(`generateSteps`, function () {
         },
       ]);
       fileExtensionTriggeredOnceStep = new DummyStep(
-        `fileTriggeredOnceStep`,
+        `fileExtensionTriggeredOnceStep`,
         []
       );
       fileExtensionTriggeredMultipleTimesStepA = new DummyStep(
-        `fileTriggeredMultipleTimesStepA`,
+        `fileExtensionTriggeredMultipleTimesStepA`,
         []
       );
       fileExtensionTriggeredMultipleTimesStepB = new DummyStep(
-        `fileTriggeredMultipleTimesStepB`,
+        `fileExtensionTriggeredMultipleTimesStepB`,
         [
           {
             type: `unkeyedStoreSet`,
@@ -149,7 +149,7 @@ describe(`generateSteps`, function () {
         ]
       );
       fileExtensionTriggeredMultipleTimesStepC = new DummyStep(
-        `fileTriggeredMultipleTimesStepC`,
+        `fileExtensionTriggeredMultipleTimesStepC`,
         []
       );
       keyedStoreTriggeredOnceStep = new DummyStep(
@@ -452,15 +452,15 @@ describe(`generateSteps`, function () {
 
   describe(`subsequent run`, () => {
     /*
-      [<reference> parsedPathMatchingMultipleTimesA] down -> [fileTriggeredMultipleTimesStepA]
-      [<reference> parsedPathMatchingMultipleTimesA] up -> [fileTriggeredMultipleTimesStepB]
-      [<reference> parsedPathMatchingMultipleTimesB] up -> [fileTriggeredMultipleTimesStepC]
-      [<reference> parsedPathMatchingMultipleTimesC] down -> [fileTriggeredMultipleTimesStepD]
-      [<reference> parsedPathMatchingOnceA] up -> [fileTriggeredOnceStepA]
-      [<reference> parsedPathMatchingOnceB] up -> [fileTriggeredOnceStepB]
-      [<reference> parsedPathMatchingOnceB] up -> [fileTriggeredOnceStepE]
-      [<reference> parsedPathMatchingOnceC] down -> [fileTriggeredOnceStepC]
-      [<reference> parsedPathMatchingOnceD] up -> [fileTriggeredOnceStepD]
+      [<reference> parsedPathMatchingMultipleTimesA] down -> [fileExtensionTriggeredMultipleTimesStepA]
+      [<reference> parsedPathMatchingMultipleTimesA] up -> [fileExtensionTriggeredMultipleTimesStepB]
+      [<reference> parsedPathMatchingMultipleTimesB] up -> [fileExtensionTriggeredMultipleTimesStepC]
+      [<reference> parsedPathMatchingMultipleTimesC] down -> [fileExtensionTriggeredMultipleTimesStepD]
+      [<reference> parsedPathMatchingOnceA] up -> [fileExtensionTriggeredOnceStepA]
+      [<reference> parsedPathMatchingOnceB] up -> [fileExtensionTriggeredOnceStepB]
+      [<reference> parsedPathMatchingOnceB] up -> [fileExtensionTriggeredOnceStepE]
+      [<reference> parsedPathMatchingOnceC] down -> [fileExtensionTriggeredOnceStepC]
+      [<reference> parsedPathMatchingOnceD] up -> [fileExtensionTriggeredOnceStepD]
       [fileExtensionTriggeredMultipleTimesStepA] -> [unkeyedStoreDownStep]
       [fileExtensionTriggeredMultipleTimesStepA] Test Store Key B A up -> [keyedStoreTriggeredOnceStepA]
       [fileExtensionTriggeredMultipleTimesStepB] Test Store Key E A down -> [keyedStoreTriggeredOnceStepD]
@@ -652,7 +652,7 @@ describe(`generateSteps`, function () {
         name: `unkeyedStoreTriggered`,
       };
       fileExtensionTriggeredMultipleTimesStepA = new DummyStep(
-        `fileTriggeredMultipleTimesStepA`,
+        `fileExtensionTriggeredMultipleTimesStepA`,
         [
           {
             type: `unkeyedStoreDelete`,
@@ -666,7 +666,7 @@ describe(`generateSteps`, function () {
         ]
       );
       fileExtensionTriggeredMultipleTimesStepB = new DummyStep(
-        `fileTriggeredMultipleTimesStepB`,
+        `fileExtensionTriggeredMultipleTimesStepB`,
         [
           {
             type: `keyedStoreDelete`,
@@ -681,7 +681,7 @@ describe(`generateSteps`, function () {
         ]
       );
       fileExtensionTriggeredMultipleTimesStepC = new DummyStep(
-        `fileTriggeredMultipleTimesStepC`,
+        `fileExtensionTriggeredMultipleTimesStepC`,
         [
           {
             type: `keyedStoreSet`,
@@ -691,7 +691,7 @@ describe(`generateSteps`, function () {
         ]
       );
       fileExtensionTriggeredMultipleTimesStepD = new DummyStep(
-        `fileTriggeredMultipleTimesStepD`,
+        `fileExtensionTriggeredMultipleTimesStepD`,
         [
           {
             type: `keyedStoreDelete`,
@@ -705,23 +705,23 @@ describe(`generateSteps`, function () {
         ]
       );
       fileExtensionTriggeredOnceStepA = new DummyStep(
-        `fileTriggeredOnceStepA`,
+        `fileExtensionTriggeredOnceStepA`,
         []
       );
       fileExtensionTriggeredOnceStepB = new DummyStep(
-        `fileTriggeredOnceStepB`,
+        `fileExtensionTriggeredOnceStepB`,
         []
       );
       fileExtensionTriggeredOnceStepC = new DummyStep(
-        `fileTriggeredOnceStepC`,
+        `fileExtensionTriggeredOnceStepC`,
         []
       );
       fileExtensionTriggeredOnceStepD = new DummyStep(
-        `fileTriggeredOnceStepD`,
+        `fileExtensionTriggeredOnceStepD`,
         []
       );
       fileExtensionTriggeredOnceStepE = new DummyStep(
-        `fileTriggeredOnceStepE`,
+        `fileExtensionTriggeredOnceStepE`,
         []
       );
       keyedStoreTriggeredMultipleTimesStepA = new DummyStep(
