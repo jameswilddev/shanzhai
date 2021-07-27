@@ -1,7 +1,7 @@
 import {
   Step,
   OneTimeTrigger,
-  FileTrigger,
+  FileExtensionTrigger,
   Effect,
 } from "@shanzhai/interfaces";
 import { ParallelStep } from "@shanzhai/parallel-step";
@@ -19,7 +19,7 @@ describe(`plan`, () => {
     let oneTimeStep: DummyStep;
     let addedFileStep: DummyStep;
     let oneTimeTrigger: OneTimeTrigger;
-    let fileTrigger: FileTrigger;
+    let fileExtensionTrigger: FileExtensionTrigger;
     let output: {
       readonly unmatchedAddedFiles: ReadonlyArray<string>;
       readonly step: Step;
@@ -33,8 +33,8 @@ describe(`plan`, () => {
         type: `oneTime`,
         up: jasmine.createSpy(`oneTimeTrigger.up`).and.returnValue(oneTimeStep),
       };
-      fileTrigger = {
-        type: `file`,
+      fileExtensionTrigger = {
+        type: `fileExtension`,
         extension: `with-matching-file-extension`,
         down: jasmine.createSpy(`fileTrigger.down`),
         up: jasmine.createSpy(`fileTrigger.up`).and.returnValue(addedFileStep),
@@ -43,7 +43,7 @@ describe(`plan`, () => {
       output = plan(
         {
           testPluginA: { triggers: { oneTimeTrigger } },
-          testPluginB: { triggers: { fileTrigger } },
+          testPluginB: { triggers: { fileTrigger: fileExtensionTrigger } },
         },
         true,
         {
@@ -99,14 +99,14 @@ describe(`plan`, () => {
     it(`interacts with triggers as expected`, () => {
       expect(oneTimeTrigger.up).toHaveBeenCalledTimes(1);
 
-      expect(fileTrigger.down).not.toHaveBeenCalled();
-      expect(fileTrigger.up).toHaveBeenCalledWith({
+      expect(fileExtensionTrigger.down).not.toHaveBeenCalled();
+      expect(fileExtensionTrigger.up).toHaveBeenCalledWith({
         typeScriptName: `test_parsed_path`,
         fullPath: `test/parsed/path.with-matching-file-extension`,
         fileExtension: `with-matching-file-extension`,
         fullPathWithoutExtension: `test/parsed/path`,
       });
-      expect(fileTrigger.up).toHaveBeenCalledTimes(1);
+      expect(fileExtensionTrigger.up).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -116,7 +116,7 @@ describe(`plan`, () => {
     let changedUpFileStep: DummyStep;
     let deletedFileStep: DummyStep;
     let oneTimeTrigger: OneTimeTrigger;
-    let fileTrigger: FileTrigger;
+    let fileExtensionTrigger: FileExtensionTrigger;
     let output: {
       readonly unmatchedAddedFiles: ReadonlyArray<string>;
       readonly step: Step;
@@ -132,8 +132,8 @@ describe(`plan`, () => {
         type: `oneTime`,
         up: jasmine.createSpy(`oneTimeTrigger.up`),
       };
-      fileTrigger = {
-        type: `file`,
+      fileExtensionTrigger = {
+        type: `fileExtension`,
         extension: `with-matching-file-extension`,
         down: jasmine
           .createSpy(`fileTrigger.down`)
@@ -176,7 +176,7 @@ describe(`plan`, () => {
       output = plan(
         {
           testPluginA: { triggers: { oneTimeTrigger } },
-          testPluginB: { triggers: { fileTrigger } },
+          testPluginB: { triggers: { fileTrigger: fileExtensionTrigger } },
         },
         false,
         {
@@ -277,32 +277,32 @@ describe(`plan`, () => {
     it(`interacts with triggers as expected`, () => {
       expect(oneTimeTrigger.up).not.toHaveBeenCalled();
 
-      expect(fileTrigger.down).toHaveBeenCalledWith({
+      expect(fileExtensionTrigger.down).toHaveBeenCalledWith({
         typeScriptName: `test_changed_path`,
         fullPath: `test/changed/path.with-matching-file-extension`,
         fileExtension: `with-matching-file-extension`,
         fullPathWithoutExtension: `test/changed/path`,
       });
-      expect(fileTrigger.down).toHaveBeenCalledWith({
+      expect(fileExtensionTrigger.down).toHaveBeenCalledWith({
         typeScriptName: `test_deleted_path`,
         fullPath: `test/deleted/path.with-matching-file-extension`,
         fileExtension: `with-matching-file-extension`,
         fullPathWithoutExtension: `test/deleted/path`,
       });
-      expect(fileTrigger.down).toHaveBeenCalledTimes(2);
-      expect(fileTrigger.up).toHaveBeenCalledWith({
+      expect(fileExtensionTrigger.down).toHaveBeenCalledTimes(2);
+      expect(fileExtensionTrigger.up).toHaveBeenCalledWith({
         typeScriptName: `test_added_path`,
         fullPath: `test/added/path.with-matching-file-extension`,
         fileExtension: `with-matching-file-extension`,
         fullPathWithoutExtension: `test/added/path`,
       });
-      expect(fileTrigger.up).toHaveBeenCalledWith({
+      expect(fileExtensionTrigger.up).toHaveBeenCalledWith({
         typeScriptName: `test_changed_path`,
         fullPath: `test/changed/path.with-matching-file-extension`,
         fileExtension: `with-matching-file-extension`,
         fullPathWithoutExtension: `test/changed/path`,
       });
-      expect(fileTrigger.up).toHaveBeenCalledTimes(2);
+      expect(fileExtensionTrigger.up).toHaveBeenCalledTimes(2);
     });
   });
 
