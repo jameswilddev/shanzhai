@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.13"
+    "@shanzhai/interfaces": "0.0.16"
   },
   "types": "index.d.ts"
 }
