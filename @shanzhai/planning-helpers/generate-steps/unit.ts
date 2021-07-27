@@ -2,7 +2,7 @@ import {
   Step,
   ParsedPath,
   OneTimeTrigger,
-  FileTrigger,
+  FileExtensionTrigger,
   UnkeyedStoreTrigger,
   KeyedStoreTrigger,
   KeyedStore,
@@ -19,10 +19,10 @@ class DummyStep implements Step {
 
 describe(`generateSteps`, function () {
   describe(`first run`, () => {
-    let addedParsedPathForFileTriggerTriggeredOnce: ParsedPath;
-    let addedParsedPathForFileTriggerTriggeredMultipleTimesA: ParsedPath;
-    let addedParsedPathForFileTriggerTriggeredMultipleTimesB: ParsedPath;
-    let addedParsedPathForFileTriggerTriggeredMultipleTimesC: ParsedPath;
+    let addedParsedPathForFileExtensionTriggerTriggeredOnce: ParsedPath;
+    let addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA: ParsedPath;
+    let addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesB: ParsedPath;
+    let addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesC: ParsedPath;
     let addedParsedPathWhichDoesNotMatchA: ParsedPath;
     let addedParsedPathWhichDoesNotMatchB: ParsedPath;
     let addedParsedPathWhichDoesNotMatchC: ParsedPath;
@@ -32,19 +32,19 @@ describe(`generateSteps`, function () {
     let unkeyedStoreUntriggered: UnkeyedStore;
     let unkeyedStoreTriggered: UnkeyedStore;
     let oneTimeStep: DummyStep;
-    let fileTriggeredOnceStep: DummyStep;
-    let fileTriggeredMultipleTimesStepA: DummyStep;
-    let fileTriggeredMultipleTimesStepB: DummyStep;
-    let fileTriggeredMultipleTimesStepC: DummyStep;
+    let fileExtensionTriggeredOnceStep: DummyStep;
+    let fileExtensionTriggeredMultipleTimesStepA: DummyStep;
+    let fileExtensionTriggeredMultipleTimesStepB: DummyStep;
+    let fileExtensionTriggeredMultipleTimesStepC: DummyStep;
     let keyedStoreTriggeredOnceStep: DummyStep;
     let keyedStoreTriggeredMultipleTimesStepA: DummyStep;
     let keyedStoreTriggeredMultipleTimesStepB: DummyStep;
     let keyedStoreTriggeredMultipleTimesStepC: DummyStep;
     let unkeyedStoreStep: DummyStep;
     let oneTimeTrigger: OneTimeTrigger;
-    let untriggeredFileTrigger: FileTrigger;
-    let fileTriggerTriggeredOnce: FileTrigger;
-    let fileTriggerTriggeredMultipleTimes: FileTrigger;
+    let untriggeredFileExtensionTrigger: FileExtensionTrigger;
+    let fileExtensionTriggerTriggeredOnce: FileExtensionTrigger;
+    let fileExtensionTriggerTriggeredMultipleTimes: FileExtensionTrigger;
     let keyedStoreUntriggeredTrigger: KeyedStoreTrigger;
     let keyedStoreTriggerTriggeredOnce: KeyedStoreTrigger;
     let keyedStoreTriggerTriggeredMultipleTimes: KeyedStoreTrigger;
@@ -57,29 +57,29 @@ describe(`generateSteps`, function () {
     };
 
     beforeAll(async () => {
-      addedParsedPathForFileTriggerTriggeredOnce = {
-        typeScriptName: `Test Added Parsed Path For File Trigger Triggered Once TypeScript Name`,
-        fullPath: `Test Added Parsed Path For File Trigger Triggered Once Full Path`,
-        fileExtension: `Test Added Parsed Path For File Trigger Triggered Once File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path For File Trigger Triggered Once Full Path Without Extension`,
+      addedParsedPathForFileExtensionTriggerTriggeredOnce = {
+        typeScriptName: `Test Added Parsed Path For File Extension Trigger Triggered Once TypeScript Name`,
+        fullPath: `Test Added Parsed Path For File Extension Trigger Triggered Once Full Path`,
+        fileExtension: `Test Added Parsed Path For File Extension Trigger Triggered Once File Extension`,
+        fullPathWithoutExtension: `Test Added Parsed Path For File Extension Trigger Triggered Once Full Path Without Extension`,
       };
-      addedParsedPathForFileTriggerTriggeredMultipleTimesA = {
-        typeScriptName: `Test Added Parsed Path For File Trigger Triggered Multiple Times A TypeScript Name`,
-        fullPath: `Test Added Parsed Path For File Trigger Triggered Multiple Times A Full Path`,
-        fileExtension: `Test Added Parsed Path For File Trigger Triggered Multiple Times File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path For File Trigger Triggered Multiple Times A Full Path Without Extension`,
+      addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA = {
+        typeScriptName: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times A TypeScript Name`,
+        fullPath: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times A Full Path`,
+        fileExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times File Extension`,
+        fullPathWithoutExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times A Full Path Without Extension`,
       };
-      addedParsedPathForFileTriggerTriggeredMultipleTimesB = {
-        typeScriptName: `Test Added Parsed Path For File Trigger Triggered Multiple Times B TypeScript Name`,
-        fullPath: `Test Added Parsed Path For File Trigger Triggered Multiple Times B Full Path`,
-        fileExtension: `Test Added Parsed Path For File Trigger Triggered Multiple Times File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path For File Trigger Triggered Multiple Times B Full Path Without Extension`,
+      addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesB = {
+        typeScriptName: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times B TypeScript Name`,
+        fullPath: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times B Full Path`,
+        fileExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times File Extension`,
+        fullPathWithoutExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times B Full Path Without Extension`,
       };
-      addedParsedPathForFileTriggerTriggeredMultipleTimesC = {
-        typeScriptName: `Test Added Parsed Path For File Trigger Triggered Multiple Times C TypeScript Name`,
-        fullPath: `Test Added Parsed Path For File Trigger Triggered Multiple Times C Full Path`,
-        fileExtension: `Test Added Parsed Path For File Trigger Triggered Multiple Times File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path For File Trigger Triggered Multiple Times C Full Path Without Extension`,
+      addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesC = {
+        typeScriptName: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times C TypeScript Name`,
+        fullPath: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times C Full Path`,
+        fileExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times File Extension`,
+        fullPathWithoutExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times C Full Path Without Extension`,
       };
       addedParsedPathWhichDoesNotMatchA = {
         typeScriptName: `Test Added Parsed Path Which Does Not Match A TypeScript Name`,
@@ -126,12 +126,15 @@ describe(`generateSteps`, function () {
           key: `Test Store Key C B`,
         },
       ]);
-      fileTriggeredOnceStep = new DummyStep(`fileTriggeredOnceStep`, []);
-      fileTriggeredMultipleTimesStepA = new DummyStep(
+      fileExtensionTriggeredOnceStep = new DummyStep(
+        `fileTriggeredOnceStep`,
+        []
+      );
+      fileExtensionTriggeredMultipleTimesStepA = new DummyStep(
         `fileTriggeredMultipleTimesStepA`,
         []
       );
-      fileTriggeredMultipleTimesStepB = new DummyStep(
+      fileExtensionTriggeredMultipleTimesStepB = new DummyStep(
         `fileTriggeredMultipleTimesStepB`,
         [
           {
@@ -145,7 +148,7 @@ describe(`generateSteps`, function () {
           },
         ]
       );
-      fileTriggeredMultipleTimesStepC = new DummyStep(
+      fileExtensionTriggeredMultipleTimesStepC = new DummyStep(
         `fileTriggeredMultipleTimesStepC`,
         []
       );
@@ -182,36 +185,36 @@ describe(`generateSteps`, function () {
         type: `oneTime`,
         up: jasmine.createSpy(`oneTimeTrigger.up`).and.returnValue(oneTimeStep),
       };
-      untriggeredFileTrigger = {
-        type: `file`,
-        extension: `Test Untriggered File Trigger File Extension`,
+      untriggeredFileExtensionTrigger = {
+        type: `fileExtension`,
+        extension: `Test Untriggered File Extension Trigger File Extension`,
         down: jasmine.createSpy(`untriggeredFileTrigger.down`),
         up: jasmine.createSpy(`untriggeredFileTrigger.up`),
       };
-      fileTriggerTriggeredOnce = {
-        type: `file`,
-        extension: `Test Added Parsed Path For File Trigger Triggered Once File Extension`,
+      fileExtensionTriggerTriggeredOnce = {
+        type: `fileExtension`,
+        extension: `Test Added Parsed Path For File Extension Trigger Triggered Once File Extension`,
         down: jasmine.createSpy(`fileTriggerTriggeredOnce.down`),
         up: jasmine
           .createSpy(`fileTriggerTriggeredOnce.up`)
-          .and.returnValue(fileTriggeredOnceStep),
+          .and.returnValue(fileExtensionTriggeredOnceStep),
       };
-      fileTriggerTriggeredMultipleTimes = {
-        type: `file`,
-        extension: `Test Added Parsed Path For File Trigger Triggered Multiple Times File Extension`,
+      fileExtensionTriggerTriggeredMultipleTimes = {
+        type: `fileExtension`,
+        extension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times File Extension`,
         down: jasmine.createSpy(`fileTriggerTriggeredMultipleTimes.down`),
         up: jasmine
           .createSpy(`fileTriggerTriggeredMultipleTimes.up`)
           .and.callFake((file) => {
             switch (file) {
-              case addedParsedPathForFileTriggerTriggeredMultipleTimesA:
-                return fileTriggeredMultipleTimesStepA;
+              case addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA:
+                return fileExtensionTriggeredMultipleTimesStepA;
 
-              case addedParsedPathForFileTriggerTriggeredMultipleTimesB:
-                return fileTriggeredMultipleTimesStepB;
+              case addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesB:
+                return fileExtensionTriggeredMultipleTimesStepB;
 
-              case addedParsedPathForFileTriggerTriggeredMultipleTimesC:
-                return fileTriggeredMultipleTimesStepC;
+              case addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesC:
+                return fileExtensionTriggeredMultipleTimesStepC;
 
               default:
                 fail(`Unexpected file ${JSON.stringify(file)}.`);
@@ -270,9 +273,9 @@ describe(`generateSteps`, function () {
       output = generateSteps(
         [
           oneTimeTrigger,
-          untriggeredFileTrigger,
-          fileTriggerTriggeredOnce,
-          fileTriggerTriggeredMultipleTimes,
+          untriggeredFileExtensionTrigger,
+          fileExtensionTriggerTriggeredOnce,
+          fileExtensionTriggerTriggeredMultipleTimes,
           keyedStoreUntriggeredTrigger,
           keyedStoreTriggerTriggeredOnce,
           keyedStoreTriggerTriggeredMultipleTimes,
@@ -282,10 +285,10 @@ describe(`generateSteps`, function () {
         true,
         {
           added: [
-            addedParsedPathForFileTriggerTriggeredOnce,
-            addedParsedPathForFileTriggerTriggeredMultipleTimesA,
-            addedParsedPathForFileTriggerTriggeredMultipleTimesB,
-            addedParsedPathForFileTriggerTriggeredMultipleTimesC,
+            addedParsedPathForFileExtensionTriggerTriggeredOnce,
+            addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA,
+            addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesB,
+            addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesC,
             addedParsedPathWhichDoesNotMatchA,
             addedParsedPathWhichDoesNotMatchB,
             addedParsedPathWhichDoesNotMatchC,
@@ -299,24 +302,34 @@ describe(`generateSteps`, function () {
 
     it(`queries all applicable triggers for steps exactly the expected times`, () => {
       expect(oneTimeTrigger.up).toHaveBeenCalledTimes(1);
-      expect(untriggeredFileTrigger.down).not.toHaveBeenCalled();
-      expect(untriggeredFileTrigger.up).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredOnce.down).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredOnce.up).toHaveBeenCalledWith(
-        addedParsedPathForFileTriggerTriggeredOnce
+      expect(untriggeredFileExtensionTrigger.down).not.toHaveBeenCalled();
+      expect(untriggeredFileExtensionTrigger.up).not.toHaveBeenCalled();
+      expect(fileExtensionTriggerTriggeredOnce.down).not.toHaveBeenCalled();
+      expect(fileExtensionTriggerTriggeredOnce.up).toHaveBeenCalledWith(
+        addedParsedPathForFileExtensionTriggerTriggeredOnce
       );
-      expect(fileTriggerTriggeredOnce.up).toHaveBeenCalledTimes(1);
-      expect(fileTriggerTriggeredMultipleTimes.down).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredMultipleTimes.up).toHaveBeenCalledWith(
-        addedParsedPathForFileTriggerTriggeredMultipleTimesA
+      expect(fileExtensionTriggerTriggeredOnce.up).toHaveBeenCalledTimes(1);
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.down
+      ).not.toHaveBeenCalled();
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.up
+      ).toHaveBeenCalledWith(
+        addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA
       );
-      expect(fileTriggerTriggeredMultipleTimes.up).toHaveBeenCalledWith(
-        addedParsedPathForFileTriggerTriggeredMultipleTimesB
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.up
+      ).toHaveBeenCalledWith(
+        addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesB
       );
-      expect(fileTriggerTriggeredMultipleTimes.up).toHaveBeenCalledWith(
-        addedParsedPathForFileTriggerTriggeredMultipleTimesC
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.up
+      ).toHaveBeenCalledWith(
+        addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesC
       );
-      expect(fileTriggerTriggeredMultipleTimes.up).toHaveBeenCalledTimes(3);
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.up
+      ).toHaveBeenCalledTimes(3);
       expect(keyedStoreUntriggeredTrigger.down).not.toHaveBeenCalled();
       expect(keyedStoreUntriggeredTrigger.up).not.toHaveBeenCalled();
       expect(keyedStoreTriggerTriggeredOnce.down).not.toHaveBeenCalled();
@@ -350,10 +363,10 @@ describe(`generateSteps`, function () {
       expect(output.steps).toEqual(
         jasmine.arrayWithExactContents([
           oneTimeStep,
-          fileTriggeredOnceStep,
-          fileTriggeredMultipleTimesStepA,
-          fileTriggeredMultipleTimesStepB,
-          fileTriggeredMultipleTimesStepC,
+          fileExtensionTriggeredOnceStep,
+          fileExtensionTriggeredMultipleTimesStepA,
+          fileExtensionTriggeredMultipleTimesStepB,
+          fileExtensionTriggeredMultipleTimesStepC,
           keyedStoreTriggeredOnceStep,
           keyedStoreTriggeredMultipleTimesStepA,
           keyedStoreTriggeredMultipleTimesStepB,
@@ -366,10 +379,10 @@ describe(`generateSteps`, function () {
     it(`returns the expected list of ordering constraints`, () => {
       expect(output.orderingConstraints).toEqual(
         jasmine.arrayWithExactContents([
-          [fileTriggeredMultipleTimesStepB, unkeyedStoreStep],
+          [fileExtensionTriggeredMultipleTimesStepB, unkeyedStoreStep],
           [unkeyedStoreStep, keyedStoreTriggeredOnceStep],
           [
-            fileTriggeredMultipleTimesStepB,
+            fileExtensionTriggeredMultipleTimesStepB,
             keyedStoreTriggeredMultipleTimesStepA,
           ],
           [oneTimeStep, keyedStoreTriggeredMultipleTimesStepB],
@@ -377,18 +390,21 @@ describe(`generateSteps`, function () {
             keyedStoreTriggeredMultipleTimesStepA,
             keyedStoreTriggeredMultipleTimesStepC,
           ],
-          [keyedStoreTriggeredMultipleTimesStepB, fileTriggeredOnceStep],
           [
             keyedStoreTriggeredMultipleTimesStepB,
-            fileTriggeredMultipleTimesStepA,
+            fileExtensionTriggeredOnceStep,
           ],
           [
             keyedStoreTriggeredMultipleTimesStepB,
-            fileTriggeredMultipleTimesStepB,
+            fileExtensionTriggeredMultipleTimesStepA,
           ],
           [
             keyedStoreTriggeredMultipleTimesStepB,
-            fileTriggeredMultipleTimesStepC,
+            fileExtensionTriggeredMultipleTimesStepB,
+          ],
+          [
+            keyedStoreTriggeredMultipleTimesStepB,
+            fileExtensionTriggeredMultipleTimesStepC,
           ],
         ])
       );
@@ -406,15 +422,17 @@ describe(`generateSteps`, function () {
 
     it(`does not execute any steps`, () => {
       expect(oneTimeStep.executePerActionStep).not.toHaveBeenCalled();
-      expect(fileTriggeredOnceStep.executePerActionStep).not.toHaveBeenCalled();
       expect(
-        fileTriggeredMultipleTimesStepA.executePerActionStep
+        fileExtensionTriggeredOnceStep.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
-        fileTriggeredMultipleTimesStepB.executePerActionStep
+        fileExtensionTriggeredMultipleTimesStepA.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
-        fileTriggeredMultipleTimesStepC.executePerActionStep
+        fileExtensionTriggeredMultipleTimesStepB.executePerActionStep
+      ).not.toHaveBeenCalled();
+      expect(
+        fileExtensionTriggeredMultipleTimesStepC.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
         keyedStoreTriggeredOnceStep.executePerActionStep
@@ -443,13 +461,13 @@ describe(`generateSteps`, function () {
       [<reference> parsedPathMatchingOnceB] up -> [fileTriggeredOnceStepE]
       [<reference> parsedPathMatchingOnceC] down -> [fileTriggeredOnceStepC]
       [<reference> parsedPathMatchingOnceD] up -> [fileTriggeredOnceStepD]
-      [fileTriggeredMultipleTimesStepA] -> [unkeyedStoreDownStep]
-      [fileTriggeredMultipleTimesStepA] Test Store Key B A up -> [keyedStoreTriggeredOnceStepA]
-      [fileTriggeredMultipleTimesStepB] Test Store Key E A down -> [keyedStoreTriggeredOnceStepD]
-      [fileTriggeredMultipleTimesStepB] Test Store Key F C down -> [keyedStoreTriggeredMultipleTimesStepA]
-      [fileTriggeredMultipleTimesStepC] Test Store Key F B up -> [keyedStoreTriggeredMultipleTimesStepC]
-      [fileTriggeredMultipleTimesStepD] Test Store Key D A down -> [keyedStoreTriggeredOnceStepC]
-      [fileTriggeredMultipleTimesStepD] -> [unkeyedStoreUpStep]
+      [fileExtensionTriggeredMultipleTimesStepA] -> [unkeyedStoreDownStep]
+      [fileExtensionTriggeredMultipleTimesStepA] Test Store Key B A up -> [keyedStoreTriggeredOnceStepA]
+      [fileExtensionTriggeredMultipleTimesStepB] Test Store Key E A down -> [keyedStoreTriggeredOnceStepD]
+      [fileExtensionTriggeredMultipleTimesStepB] Test Store Key F C down -> [keyedStoreTriggeredMultipleTimesStepA]
+      [fileExtensionTriggeredMultipleTimesStepC] Test Store Key F B up -> [keyedStoreTriggeredMultipleTimesStepC]
+      [fileExtensionTriggeredMultipleTimesStepD] Test Store Key D A down -> [keyedStoreTriggeredOnceStepC]
+      [fileExtensionTriggeredMultipleTimesStepD] -> [unkeyedStoreUpStep]
       [keyedStoreTriggeredOnceStepA] Test Store Key F A up -> [keyedStoreTriggeredMultipleTimesStepB]
       [keyedStoreTriggeredOnceStepD] Test Store Key C B down -> [keyedStoreTriggeredOnceStepB]
     */
@@ -476,15 +494,15 @@ describe(`generateSteps`, function () {
     let keyedStoreTriggeredMultipleTimes: KeyedStore;
     let unkeyedStoreUntriggered: UnkeyedStore;
     let unkeyedStoreTriggered: UnkeyedStore;
-    let fileTriggeredMultipleTimesStepA: DummyStep;
-    let fileTriggeredMultipleTimesStepB: DummyStep;
-    let fileTriggeredMultipleTimesStepC: DummyStep;
-    let fileTriggeredMultipleTimesStepD: DummyStep;
-    let fileTriggeredOnceStepA: DummyStep;
-    let fileTriggeredOnceStepB: DummyStep;
-    let fileTriggeredOnceStepC: DummyStep;
-    let fileTriggeredOnceStepD: DummyStep;
-    let fileTriggeredOnceStepE: DummyStep;
+    let fileExtensionTriggeredMultipleTimesStepA: DummyStep;
+    let fileExtensionTriggeredMultipleTimesStepB: DummyStep;
+    let fileExtensionTriggeredMultipleTimesStepC: DummyStep;
+    let fileExtensionTriggeredMultipleTimesStepD: DummyStep;
+    let fileExtensionTriggeredOnceStepA: DummyStep;
+    let fileExtensionTriggeredOnceStepB: DummyStep;
+    let fileExtensionTriggeredOnceStepC: DummyStep;
+    let fileExtensionTriggeredOnceStepD: DummyStep;
+    let fileExtensionTriggeredOnceStepE: DummyStep;
     let keyedStoreTriggeredMultipleTimesStepA: DummyStep;
     let keyedStoreTriggeredMultipleTimesStepB: DummyStep;
     let keyedStoreTriggeredMultipleTimesStepC: DummyStep;
@@ -503,13 +521,13 @@ describe(`generateSteps`, function () {
     let unkeyedStoreTriggerUntriggered: UnkeyedStoreTrigger;
     let unkeyedStoreTriggerTriggered: UnkeyedStoreTrigger;
     let oneTimeTrigger: OneTimeTrigger;
-    let fileTriggerUntriggered: FileTrigger;
-    let fileTriggerTriggeredMultipleTimes: FileTrigger;
-    let fileTriggerTriggeredOnceA: FileTrigger;
-    let fileTriggerTriggeredOnceB: FileTrigger;
-    let fileTriggerTriggeredOnceC: FileTrigger;
-    let fileTriggerTriggeredOnceD: FileTrigger;
-    let fileTriggerTriggeredOnceE: FileTrigger;
+    let fileExtensionTriggerUntriggered: FileExtensionTrigger;
+    let fileExtensionTriggerTriggeredMultipleTimes: FileExtensionTrigger;
+    let fileExtensionTriggerTriggeredOnceA: FileExtensionTrigger;
+    let fileExtensionTriggerTriggeredOnceB: FileExtensionTrigger;
+    let fileExtensionTriggerTriggeredOnceC: FileExtensionTrigger;
+    let fileExtensionTriggerTriggeredOnceD: FileExtensionTrigger;
+    let fileExtensionTriggerTriggeredOnceE: FileExtensionTrigger;
     let output: {
       readonly steps: ReadonlyArray<Step>;
       readonly orderingConstraints: ReadonlyArray<readonly [Step, Step]>;
@@ -633,7 +651,7 @@ describe(`generateSteps`, function () {
         type: `unkeyedStore`,
         name: `unkeyedStoreTriggered`,
       };
-      fileTriggeredMultipleTimesStepA = new DummyStep(
+      fileExtensionTriggeredMultipleTimesStepA = new DummyStep(
         `fileTriggeredMultipleTimesStepA`,
         [
           {
@@ -647,7 +665,7 @@ describe(`generateSteps`, function () {
           },
         ]
       );
-      fileTriggeredMultipleTimesStepB = new DummyStep(
+      fileExtensionTriggeredMultipleTimesStepB = new DummyStep(
         `fileTriggeredMultipleTimesStepB`,
         [
           {
@@ -662,7 +680,7 @@ describe(`generateSteps`, function () {
           },
         ]
       );
-      fileTriggeredMultipleTimesStepC = new DummyStep(
+      fileExtensionTriggeredMultipleTimesStepC = new DummyStep(
         `fileTriggeredMultipleTimesStepC`,
         [
           {
@@ -672,7 +690,7 @@ describe(`generateSteps`, function () {
           },
         ]
       );
-      fileTriggeredMultipleTimesStepD = new DummyStep(
+      fileExtensionTriggeredMultipleTimesStepD = new DummyStep(
         `fileTriggeredMultipleTimesStepD`,
         [
           {
@@ -686,11 +704,26 @@ describe(`generateSteps`, function () {
           },
         ]
       );
-      fileTriggeredOnceStepA = new DummyStep(`fileTriggeredOnceStepA`, []);
-      fileTriggeredOnceStepB = new DummyStep(`fileTriggeredOnceStepB`, []);
-      fileTriggeredOnceStepC = new DummyStep(`fileTriggeredOnceStepC`, []);
-      fileTriggeredOnceStepD = new DummyStep(`fileTriggeredOnceStepD`, []);
-      fileTriggeredOnceStepE = new DummyStep(`fileTriggeredOnceStepE`, []);
+      fileExtensionTriggeredOnceStepA = new DummyStep(
+        `fileTriggeredOnceStepA`,
+        []
+      );
+      fileExtensionTriggeredOnceStepB = new DummyStep(
+        `fileTriggeredOnceStepB`,
+        []
+      );
+      fileExtensionTriggeredOnceStepC = new DummyStep(
+        `fileTriggeredOnceStepC`,
+        []
+      );
+      fileExtensionTriggeredOnceStepD = new DummyStep(
+        `fileTriggeredOnceStepD`,
+        []
+      );
+      fileExtensionTriggeredOnceStepE = new DummyStep(
+        `fileTriggeredOnceStepE`,
+        []
+      );
       keyedStoreTriggeredMultipleTimesStepA = new DummyStep(
         `keyedStoreTriggeredMultipleTimesStepA`,
         []
@@ -822,24 +855,24 @@ describe(`generateSteps`, function () {
           .createSpy(`unkeyedStoreTriggerTriggered.up`)
           .and.returnValue(unkeyedStoreUpStep),
       };
-      fileTriggerUntriggered = {
-        type: `file`,
+      fileExtensionTriggerUntriggered = {
+        type: `fileExtension`,
         extension: `Test File Extension Untriggered B`,
         down: jasmine.createSpy(`fileTriggerUntriggered.down`),
         up: jasmine.createSpy(`fileTriggerUntriggered.down`),
       };
-      fileTriggerTriggeredMultipleTimes = {
-        type: `file`,
+      fileExtensionTriggerTriggeredMultipleTimes = {
+        type: `fileExtension`,
         extension: `Test File Extension Triggered Multiple Times`,
         down: jasmine
           .createSpy(`fileTriggerTriggeredMultipleTimes.down`)
           .and.callFake((parsedPath) => {
             switch (parsedPath) {
               case parsedPathMatchingMultipleTimesA:
-                return fileTriggeredMultipleTimesStepA;
+                return fileExtensionTriggeredMultipleTimesStepA;
 
               case parsedPathMatchingMultipleTimesC:
-                return fileTriggeredMultipleTimesStepD;
+                return fileExtensionTriggeredMultipleTimesStepD;
 
               default:
                 fail(`Unexpected parsed path ${JSON.stringify(parsedPath)}`);
@@ -851,10 +884,10 @@ describe(`generateSteps`, function () {
           .and.callFake((parsedPath) => {
             switch (parsedPath) {
               case parsedPathMatchingMultipleTimesA:
-                return fileTriggeredMultipleTimesStepB;
+                return fileExtensionTriggeredMultipleTimesStepB;
 
               case parsedPathMatchingMultipleTimesB:
-                return fileTriggeredMultipleTimesStepC;
+                return fileExtensionTriggeredMultipleTimesStepC;
 
               default:
                 fail(`Unexpected parsed path ${JSON.stringify(parsedPath)}`);
@@ -862,45 +895,45 @@ describe(`generateSteps`, function () {
             }
           }),
       };
-      fileTriggerTriggeredOnceA = {
-        type: `file`,
+      fileExtensionTriggerTriggeredOnceA = {
+        type: `fileExtension`,
         extension: `Test File Extension Triggered Once A`,
         down: jasmine.createSpy(`fileTriggerTriggeredOnceA.down`),
         up: jasmine
           .createSpy(`fileTriggerTriggeredOnceA.up`)
-          .and.returnValue(fileTriggeredOnceStepA),
+          .and.returnValue(fileExtensionTriggeredOnceStepA),
       };
-      fileTriggerTriggeredOnceB = {
-        type: `file`,
+      fileExtensionTriggerTriggeredOnceB = {
+        type: `fileExtension`,
         extension: `Test File Extension Triggered Once B`,
         down: jasmine.createSpy(`fileTriggerTriggeredOnceB.down`),
         up: jasmine
           .createSpy(`fileTriggerTriggeredOnceB.up`)
-          .and.returnValue(fileTriggeredOnceStepB),
+          .and.returnValue(fileExtensionTriggeredOnceStepB),
       };
-      fileTriggerTriggeredOnceC = {
-        type: `file`,
+      fileExtensionTriggerTriggeredOnceC = {
+        type: `fileExtension`,
         extension: `Test File Extension Triggered Once C`,
         down: jasmine
           .createSpy(`fileTriggerTriggeredOnceC.down`)
-          .and.returnValue(fileTriggeredOnceStepC),
+          .and.returnValue(fileExtensionTriggeredOnceStepC),
         up: jasmine.createSpy(`fileTriggerTriggeredOnceC.up`),
       };
-      fileTriggerTriggeredOnceD = {
-        type: `file`,
+      fileExtensionTriggerTriggeredOnceD = {
+        type: `fileExtension`,
         extension: `Test File Extension Triggered Once D`,
         down: jasmine.createSpy(`fileTriggerTriggeredOnceD.down`),
         up: jasmine
           .createSpy(`fileTriggerTriggeredOnceD.up`)
-          .and.returnValue(fileTriggeredOnceStepD),
+          .and.returnValue(fileExtensionTriggeredOnceStepD),
       };
-      fileTriggerTriggeredOnceE = {
-        type: `file`,
+      fileExtensionTriggerTriggeredOnceE = {
+        type: `fileExtension`,
         extension: `Test File Extension Triggered Once B`,
         down: jasmine.createSpy(`fileTriggerTriggeredOnceE.down`),
         up: jasmine
           .createSpy(`fileTriggerTriggeredOnceE.up`)
-          .and.returnValue(fileTriggeredOnceStepE),
+          .and.returnValue(fileExtensionTriggeredOnceStepE),
       };
 
       output = generateSteps(
@@ -914,13 +947,13 @@ describe(`generateSteps`, function () {
           keyedStoreTriggerUntriggered,
           unkeyedStoreTriggerUntriggered,
           unkeyedStoreTriggerTriggered,
-          fileTriggerUntriggered,
-          fileTriggerTriggeredMultipleTimes,
-          fileTriggerTriggeredOnceA,
-          fileTriggerTriggeredOnceB,
-          fileTriggerTriggeredOnceC,
-          fileTriggerTriggeredOnceD,
-          fileTriggerTriggeredOnceE,
+          fileExtensionTriggerUntriggered,
+          fileExtensionTriggerTriggeredMultipleTimes,
+          fileExtensionTriggerTriggeredOnceA,
+          fileExtensionTriggerTriggeredOnceB,
+          fileExtensionTriggerTriggeredOnceC,
+          fileExtensionTriggerTriggeredOnceD,
+          fileExtensionTriggerTriggeredOnceE,
         ],
         false,
         {
@@ -985,60 +1018,64 @@ describe(`generateSteps`, function () {
       expect(keyedStoreTriggerUntriggered.up).not.toHaveBeenCalled();
       unkeyedStoreTriggerUntriggered;
       unkeyedStoreTriggerTriggered;
-      expect(fileTriggerUntriggered.down).not.toHaveBeenCalled();
-      expect(fileTriggerUntriggered.up).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredMultipleTimes.down).toHaveBeenCalledWith(
-        parsedPathMatchingMultipleTimesA
-      );
-      expect(fileTriggerTriggeredMultipleTimes.down).toHaveBeenCalledWith(
-        parsedPathMatchingMultipleTimesC
-      );
-      expect(fileTriggerTriggeredMultipleTimes.down).toHaveBeenCalledTimes(2);
-      expect(fileTriggerTriggeredMultipleTimes.up).toHaveBeenCalledWith(
-        parsedPathMatchingMultipleTimesA
-      );
-      expect(fileTriggerTriggeredMultipleTimes.up).toHaveBeenCalledWith(
-        parsedPathMatchingMultipleTimesB
-      );
-      expect(fileTriggerTriggeredMultipleTimes.up).toHaveBeenCalledTimes(2);
-      expect(fileTriggerTriggeredOnceA.down).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredOnceA.up).toHaveBeenCalledWith(
+      expect(fileExtensionTriggerUntriggered.down).not.toHaveBeenCalled();
+      expect(fileExtensionTriggerUntriggered.up).not.toHaveBeenCalled();
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.down
+      ).toHaveBeenCalledWith(parsedPathMatchingMultipleTimesA);
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.down
+      ).toHaveBeenCalledWith(parsedPathMatchingMultipleTimesC);
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.down
+      ).toHaveBeenCalledTimes(2);
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.up
+      ).toHaveBeenCalledWith(parsedPathMatchingMultipleTimesA);
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.up
+      ).toHaveBeenCalledWith(parsedPathMatchingMultipleTimesB);
+      expect(
+        fileExtensionTriggerTriggeredMultipleTimes.up
+      ).toHaveBeenCalledTimes(2);
+      expect(fileExtensionTriggerTriggeredOnceA.down).not.toHaveBeenCalled();
+      expect(fileExtensionTriggerTriggeredOnceA.up).toHaveBeenCalledWith(
         parsedPathMatchingOnceA
       );
-      expect(fileTriggerTriggeredOnceA.up).toHaveBeenCalledTimes(1);
-      expect(fileTriggerTriggeredOnceB.down).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredOnceB.up).toHaveBeenCalledWith(
+      expect(fileExtensionTriggerTriggeredOnceA.up).toHaveBeenCalledTimes(1);
+      expect(fileExtensionTriggerTriggeredOnceB.down).not.toHaveBeenCalled();
+      expect(fileExtensionTriggerTriggeredOnceB.up).toHaveBeenCalledWith(
         parsedPathMatchingOnceB
       );
-      expect(fileTriggerTriggeredOnceC.down).toHaveBeenCalledWith(
+      expect(fileExtensionTriggerTriggeredOnceC.down).toHaveBeenCalledWith(
         parsedPathMatchingOnceC
       );
-      expect(fileTriggerTriggeredOnceC.down).toHaveBeenCalledTimes(1);
-      expect(fileTriggerTriggeredOnceC.up).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredOnceD.down).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredOnceD.up).toHaveBeenCalledWith(
+      expect(fileExtensionTriggerTriggeredOnceC.down).toHaveBeenCalledTimes(1);
+      expect(fileExtensionTriggerTriggeredOnceC.up).not.toHaveBeenCalled();
+      expect(fileExtensionTriggerTriggeredOnceD.down).not.toHaveBeenCalled();
+      expect(fileExtensionTriggerTriggeredOnceD.up).toHaveBeenCalledWith(
         parsedPathMatchingOnceD
       );
-      expect(fileTriggerTriggeredOnceD.up).toHaveBeenCalledTimes(1);
-      expect(fileTriggerTriggeredOnceE.down).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredOnceE.up).toHaveBeenCalledWith(
+      expect(fileExtensionTriggerTriggeredOnceD.up).toHaveBeenCalledTimes(1);
+      expect(fileExtensionTriggerTriggeredOnceE.down).not.toHaveBeenCalled();
+      expect(fileExtensionTriggerTriggeredOnceE.up).toHaveBeenCalledWith(
         parsedPathMatchingOnceB
       );
-      expect(fileTriggerTriggeredOnceE.up).toHaveBeenCalledTimes(1);
+      expect(fileExtensionTriggerTriggeredOnceE.up).toHaveBeenCalledTimes(1);
     });
 
     it(`returns the expected list of steps`, () => {
       expect(output.steps).toEqual(
         jasmine.arrayWithExactContents([
-          fileTriggeredMultipleTimesStepA,
-          fileTriggeredMultipleTimesStepB,
-          fileTriggeredMultipleTimesStepC,
-          fileTriggeredMultipleTimesStepD,
-          fileTriggeredOnceStepA,
-          fileTriggeredOnceStepB,
-          fileTriggeredOnceStepC,
-          fileTriggeredOnceStepD,
-          fileTriggeredOnceStepE,
+          fileExtensionTriggeredMultipleTimesStepA,
+          fileExtensionTriggeredMultipleTimesStepB,
+          fileExtensionTriggeredMultipleTimesStepC,
+          fileExtensionTriggeredMultipleTimesStepD,
+          fileExtensionTriggeredOnceStepA,
+          fileExtensionTriggeredOnceStepB,
+          fileExtensionTriggeredOnceStepC,
+          fileExtensionTriggeredOnceStepD,
+          fileExtensionTriggeredOnceStepE,
           keyedStoreTriggeredMultipleTimesStepA,
           keyedStoreTriggeredMultipleTimesStepB,
           keyedStoreTriggeredMultipleTimesStepC,
@@ -1055,26 +1092,35 @@ describe(`generateSteps`, function () {
     it(`returns the expected list of ordering constraints`, () => {
       expect(output.orderingConstraints).toEqual(
         jasmine.arrayWithExactContents([
-          [fileTriggeredMultipleTimesStepA, unkeyedStoreDownStep],
-          [fileTriggeredMultipleTimesStepA, keyedStoreTriggeredOnceStepA],
-          [fileTriggeredMultipleTimesStepB, keyedStoreTriggeredOnceStepD],
+          [fileExtensionTriggeredMultipleTimesStepA, unkeyedStoreDownStep],
           [
-            fileTriggeredMultipleTimesStepB,
+            fileExtensionTriggeredMultipleTimesStepA,
+            keyedStoreTriggeredOnceStepA,
+          ],
+          [
+            fileExtensionTriggeredMultipleTimesStepB,
+            keyedStoreTriggeredOnceStepD,
+          ],
+          [
+            fileExtensionTriggeredMultipleTimesStepB,
             keyedStoreTriggeredMultipleTimesStepA,
           ],
           [
-            fileTriggeredMultipleTimesStepC,
+            fileExtensionTriggeredMultipleTimesStepC,
             keyedStoreTriggeredMultipleTimesStepC,
           ],
-          [fileTriggeredMultipleTimesStepD, keyedStoreTriggeredOnceStepC],
-          [fileTriggeredMultipleTimesStepD, unkeyedStoreUpStep],
+          [
+            fileExtensionTriggeredMultipleTimesStepD,
+            keyedStoreTriggeredOnceStepC,
+          ],
+          [fileExtensionTriggeredMultipleTimesStepD, unkeyedStoreUpStep],
           [keyedStoreTriggeredOnceStepA, keyedStoreTriggeredMultipleTimesStepB],
           [keyedStoreTriggeredOnceStepD, keyedStoreTriggeredOnceStepB],
 
-          [unkeyedStoreDownStep, fileTriggeredMultipleTimesStepB],
+          [unkeyedStoreDownStep, fileExtensionTriggeredMultipleTimesStepB],
           [
             keyedStoreTriggeredMultipleTimesStepB,
-            fileTriggeredMultipleTimesStepB,
+            fileExtensionTriggeredMultipleTimesStepB,
           ],
         ])
       );
@@ -1092,31 +1138,31 @@ describe(`generateSteps`, function () {
 
     it(`does not execute any steps`, () => {
       expect(
-        fileTriggeredMultipleTimesStepA.executePerActionStep
+        fileExtensionTriggeredMultipleTimesStepA.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
-        fileTriggeredMultipleTimesStepB.executePerActionStep
+        fileExtensionTriggeredMultipleTimesStepB.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
-        fileTriggeredMultipleTimesStepC.executePerActionStep
+        fileExtensionTriggeredMultipleTimesStepC.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
-        fileTriggeredMultipleTimesStepD.executePerActionStep
+        fileExtensionTriggeredMultipleTimesStepD.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
-        fileTriggeredOnceStepA.executePerActionStep
+        fileExtensionTriggeredOnceStepA.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
-        fileTriggeredOnceStepB.executePerActionStep
+        fileExtensionTriggeredOnceStepB.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
-        fileTriggeredOnceStepC.executePerActionStep
+        fileExtensionTriggeredOnceStepC.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
-        fileTriggeredOnceStepD.executePerActionStep
+        fileExtensionTriggeredOnceStepD.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
-        fileTriggeredOnceStepE.executePerActionStep
+        fileExtensionTriggeredOnceStepE.executePerActionStep
       ).not.toHaveBeenCalled();
       expect(
         keyedStoreTriggeredMultipleTimesStepA.executePerActionStep
