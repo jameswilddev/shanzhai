@@ -188,23 +188,25 @@ describe(`generateSteps`, function () {
       untriggeredFileExtensionTrigger = {
         type: `fileExtension`,
         extension: `Test Untriggered File Extension Trigger File Extension`,
-        down: jasmine.createSpy(`untriggeredFileTrigger.down`),
-        up: jasmine.createSpy(`untriggeredFileTrigger.up`),
+        down: jasmine.createSpy(`untriggeredfileExtensionTrigger.down`),
+        up: jasmine.createSpy(`untriggeredfileExtensionTrigger.up`),
       };
       fileExtensionTriggerTriggeredOnce = {
         type: `fileExtension`,
         extension: `Test Added Parsed Path For File Extension Trigger Triggered Once File Extension`,
-        down: jasmine.createSpy(`fileTriggerTriggeredOnce.down`),
+        down: jasmine.createSpy(`fileExtensionTriggerTriggeredOnce.down`),
         up: jasmine
-          .createSpy(`fileTriggerTriggeredOnce.up`)
+          .createSpy(`fileExtensionTriggerTriggeredOnce.up`)
           .and.returnValue(fileExtensionTriggeredOnceStep),
       };
       fileExtensionTriggerTriggeredMultipleTimes = {
         type: `fileExtension`,
         extension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times File Extension`,
-        down: jasmine.createSpy(`fileTriggerTriggeredMultipleTimes.down`),
+        down: jasmine.createSpy(
+          `fileExtensionTriggerTriggeredMultipleTimes.down`
+        ),
         up: jasmine
-          .createSpy(`fileTriggerTriggeredMultipleTimes.up`)
+          .createSpy(`fileExtensionTriggerTriggeredMultipleTimes.up`)
           .and.callFake((file) => {
             switch (file) {
               case addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA:
@@ -858,14 +860,14 @@ describe(`generateSteps`, function () {
       fileExtensionTriggerUntriggered = {
         type: `fileExtension`,
         extension: `Test File Extension Untriggered B`,
-        down: jasmine.createSpy(`fileTriggerUntriggered.down`),
-        up: jasmine.createSpy(`fileTriggerUntriggered.down`),
+        down: jasmine.createSpy(`fileExtensionTriggerUntriggered.down`),
+        up: jasmine.createSpy(`fileExtensionTriggerUntriggered.down`),
       };
       fileExtensionTriggerTriggeredMultipleTimes = {
         type: `fileExtension`,
         extension: `Test File Extension Triggered Multiple Times`,
         down: jasmine
-          .createSpy(`fileTriggerTriggeredMultipleTimes.down`)
+          .createSpy(`fileExtensionTriggerTriggeredMultipleTimes.down`)
           .and.callFake((parsedPath) => {
             switch (parsedPath) {
               case parsedPathMatchingMultipleTimesA:
@@ -880,7 +882,7 @@ describe(`generateSteps`, function () {
             }
           }),
         up: jasmine
-          .createSpy(`fileTriggerTriggeredMultipleTimes.up`)
+          .createSpy(`fileExtensionTriggerTriggeredMultipleTimes.up`)
           .and.callFake((parsedPath) => {
             switch (parsedPath) {
               case parsedPathMatchingMultipleTimesA:
@@ -898,41 +900,41 @@ describe(`generateSteps`, function () {
       fileExtensionTriggerTriggeredOnceA = {
         type: `fileExtension`,
         extension: `Test File Extension Triggered Once A`,
-        down: jasmine.createSpy(`fileTriggerTriggeredOnceA.down`),
+        down: jasmine.createSpy(`fileExtensionTriggerTriggeredOnceA.down`),
         up: jasmine
-          .createSpy(`fileTriggerTriggeredOnceA.up`)
+          .createSpy(`fileExtensionTriggerTriggeredOnceA.up`)
           .and.returnValue(fileExtensionTriggeredOnceStepA),
       };
       fileExtensionTriggerTriggeredOnceB = {
         type: `fileExtension`,
         extension: `Test File Extension Triggered Once B`,
-        down: jasmine.createSpy(`fileTriggerTriggeredOnceB.down`),
+        down: jasmine.createSpy(`fileExtensionTriggerTriggeredOnceB.down`),
         up: jasmine
-          .createSpy(`fileTriggerTriggeredOnceB.up`)
+          .createSpy(`fileExtensionTriggerTriggeredOnceB.up`)
           .and.returnValue(fileExtensionTriggeredOnceStepB),
       };
       fileExtensionTriggerTriggeredOnceC = {
         type: `fileExtension`,
         extension: `Test File Extension Triggered Once C`,
         down: jasmine
-          .createSpy(`fileTriggerTriggeredOnceC.down`)
+          .createSpy(`fileExtensionTriggerTriggeredOnceC.down`)
           .and.returnValue(fileExtensionTriggeredOnceStepC),
-        up: jasmine.createSpy(`fileTriggerTriggeredOnceC.up`),
+        up: jasmine.createSpy(`fileExtensionTriggerTriggeredOnceC.up`),
       };
       fileExtensionTriggerTriggeredOnceD = {
         type: `fileExtension`,
         extension: `Test File Extension Triggered Once D`,
-        down: jasmine.createSpy(`fileTriggerTriggeredOnceD.down`),
+        down: jasmine.createSpy(`fileExtensionTriggerTriggeredOnceD.down`),
         up: jasmine
-          .createSpy(`fileTriggerTriggeredOnceD.up`)
+          .createSpy(`fileExtensionTriggerTriggeredOnceD.up`)
           .and.returnValue(fileExtensionTriggeredOnceStepD),
       };
       fileExtensionTriggerTriggeredOnceE = {
         type: `fileExtension`,
         extension: `Test File Extension Triggered Once B`,
-        down: jasmine.createSpy(`fileTriggerTriggeredOnceE.down`),
+        down: jasmine.createSpy(`fileExtensionTriggerTriggeredOnceE.down`),
         up: jasmine
-          .createSpy(`fileTriggerTriggeredOnceE.up`)
+          .createSpy(`fileExtensionTriggerTriggeredOnceE.up`)
           .and.returnValue(fileExtensionTriggeredOnceStepE),
       };
 
