@@ -1163,8 +1163,10 @@ describe(`generateSteps`, function () {
       expect(keyedStoreTriggerTriggeredOnceD.up).not.toHaveBeenCalled();
       expect(keyedStoreTriggerUntriggered.down).not.toHaveBeenCalled();
       expect(keyedStoreTriggerUntriggered.up).not.toHaveBeenCalled();
-      unkeyedStoreTriggerUntriggered;
-      unkeyedStoreTriggerTriggered;
+      expect(unkeyedStoreTriggerUntriggered.down).not.toHaveBeenCalled();
+      expect(unkeyedStoreTriggerUntriggered.up).not.toHaveBeenCalled();
+      expect(unkeyedStoreTriggerTriggered.down).toHaveBeenCalledTimes(1);
+      expect(unkeyedStoreTriggerTriggered.up).toHaveBeenCalledTimes(1);
       expect(fileExtensionTriggerUntriggered.down).not.toHaveBeenCalled();
       expect(fileExtensionTriggerUntriggered.up).not.toHaveBeenCalled();
       expect(
