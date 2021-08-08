@@ -29,7 +29,4 @@ import { scanDirectory } from "./scan-directory";
   } else {
     process.exit((await execute(step.step, process.stderr)) ? 0 : 1);
   }
-})().catch((reason) => {
-  console.error(reason);
-  process.exit(1);
-});
+})();
