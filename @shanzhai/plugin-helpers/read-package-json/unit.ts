@@ -5,7 +5,7 @@ import * as path from "path";
 import { JSONSchemaForNPMPackageJsonFiles } from "@schemastore/package";
 import { readPackageJson } from ".";
 
-fdescribe(`readPackageJson`, () => {
+describe(`readPackageJson`, () => {
   function resolves(
     description: string,
     packageJson: JSONSchemaForNPMPackageJsonFiles,
