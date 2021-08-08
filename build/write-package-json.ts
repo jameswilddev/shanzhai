@@ -9,7 +9,7 @@ export async function writePackageJson(
     readonly dependencies?: { readonly [name: string]: string };
     readonly devDependencies?: { readonly [name: string]: string };
     readonly peerDependencies?: { readonly [name: string]: string };
-    readonly bin?: { readonly [name: string]: string };
+    readonly bin?: string;
     readonly scripts?: { readonly [name: string]: string };
     readonly shanzhaiPlugin?: ReadonlyArray<string>;
   }
