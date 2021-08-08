@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/production-cli",
   "description": "A CLI tool which performs a one-off production build of the Shanzhai project in the current directory.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -28,12 +28,12 @@
     "@shanzhai/planning-helpers": "0.0.3"
   },
   "devDependencies": {
-    "@shanzhai/create-directory-step": "0.0.3",
+    "@shanzhai/create-directory-step": "0.0.4",
     "@shanzhai/interfaces": "0.0.16",
-    "@shanzhai/read-text-file-step": "0.0.3",
-    "@shanzhai/serial-step": "0.0.2",
-    "@shanzhai/value-store": "0.0.5",
-    "@shanzhai/write-file-step": "0.0.3",
+    "@shanzhai/read-text-file-step": "0.0.4",
+    "@shanzhai/serial-step": "0.0.4",
+    "@shanzhai/value-store": "0.0.6",
+    "@shanzhai/write-file-step": "0.0.4",
     "@types/fs-extra": "9.0.12",
     "@types/uuid": "8.3.1",
     "fs-extra": "10.0.0",

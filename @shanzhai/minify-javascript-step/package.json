@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minify-javascript-step",
   "description": "A Shanzhai step which minifies a Javascript file.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "uglify-js": "3.14.1",
-    "@shanzhai/minify-step": "0.0.3"
+    "@shanzhai/minify-step": "0.0.4"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.16",

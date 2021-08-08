@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minify-html-step",
   "description": "A Shanzhai step which minifies a HTML file.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "html-minifier": "4.0.0",
-    "@shanzhai/minify-step": "0.0.3"
+    "@shanzhai/minify-step": "0.0.4"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.16",
