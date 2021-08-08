@@ -48,11 +48,16 @@ export async function loadDependency(
   }
 
   const dependencyPackageJson: {
-    readonly shanzhaiPlugin?: true;
+    readonly shanzhaiPlugin?: ReadonlyArray<string>;
   } = JSON.parse(dependencyPackageJsonText);
 
   if (dependencyPackageJson.shanzhaiPlugin) {
-    return require(path.join(process.cwd(), `node_modules`, name));
+    return require(path.join(
+      process.cwd(),
+      `node_modules`,
+      name,
+      ...dependencyPackageJson.shanzhaiPlugin
+    ));
   } else {
     return null;
   }

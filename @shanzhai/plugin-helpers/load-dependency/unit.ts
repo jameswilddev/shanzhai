@@ -256,11 +256,20 @@ describe(`loadDependency`, () => {
 
         await fs.promises.writeFile(
           path.join(root, `node_modules`, `test-package-name`, `package.json`),
-          `{ "shanzhaiPlugin": true }`
+          `{ "shanzhaiPlugin": ["a", "path", "to", "a", "module.js"] }`
         );
 
         await fs.promises.writeFile(
-          path.join(root, `node_modules`, `test-package-name`, `index.js`),
+          path.join(
+            root,
+            `node_modules`,
+            `test-package-name`,
+            `a`,
+            `path`,
+            `to`,
+            `a`,
+            `module.js`
+          ),
           `module.exports = { triggers: {} };`
         );
 
@@ -618,7 +627,7 @@ describe(`loadDependency`, () => {
             `test-package-name`,
             `package.json`
           ),
-          `{ "shanzhaiPlugin": true }`
+          `{ "shanzhaiPlugin": ["a", "path", "to", "a", "module"] }`
         );
 
         await fs.promises.writeFile(
@@ -627,7 +636,11 @@ describe(`loadDependency`, () => {
             `node_modules`,
             `@test-organization-name`,
             `test-package-name`,
-            `index.js`
+            `a`,
+            `path`,
+            `to`,
+            `a`,
+            `module.js`
           ),
           `module.exports = { triggers: {} };`
         );

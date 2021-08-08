@@ -9,7 +9,7 @@ export async function readPackageJson(name: ReadonlyArray<string>): Promise<{
   readonly devDependencies?: { readonly [name: string]: string };
   readonly bin?: { readonly [name: string]: string };
   readonly scripts?: { readonly [name: string]: string };
-  readonly shanzhaiPlugin?: true;
+  readonly shanzhaiPlugin?: ReadonlyArray<string>;
 }> {
   console.log(`${name.join(`/`)} - Reading package.json...`);
   const packageJsonPath = path.join(...[...name, `package.json`]);

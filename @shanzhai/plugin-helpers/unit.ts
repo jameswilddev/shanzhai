@@ -45,7 +45,15 @@ describe(`searchForPlugins`, () => {
     );
 
     await fs.promises.mkdir(
-      path.join(root, `node_modules`, `test-unscoped-package-name`),
+      path.join(
+        root,
+        `node_modules`,
+        `test-unscoped-package-name`,
+        `a`,
+        `path`,
+        `to`,
+        `a`
+      ),
       {
         recursive: true,
       }
@@ -58,11 +66,20 @@ describe(`searchForPlugins`, () => {
         `test-unscoped-package-name`,
         `package.json`
       ),
-      `{ "shanzhaiPlugin": true }`
+      `{ "shanzhaiPlugin": ["a", "path", "to", "a", "module.js"] }`
     );
 
     await fs.promises.writeFile(
-      path.join(root, `node_modules`, `test-unscoped-package-name`, `index.js`),
+      path.join(
+        root,
+        `node_modules`,
+        `test-unscoped-package-name`,
+        `a`,
+        `path`,
+        `to`,
+        `a`,
+        `module.js`
+      ),
       `module.exports = {
         perFile: {
           extension: "test extension",
@@ -80,7 +97,11 @@ describe(`searchForPlugins`, () => {
         root,
         `node_modules`,
         `@test-organization-name`,
-        `test-package-name`
+        `test-package-name`,
+        `a`,
+        `path`,
+        `to`,
+        `another`
       ),
       {
         recursive: true,
@@ -95,7 +116,7 @@ describe(`searchForPlugins`, () => {
         `test-package-name`,
         `package.json`
       ),
-      `{ "shanzhaiPlugin": true }`
+      `{ "shanzhaiPlugin": ["a", "path", "to", "another", "module"] }`
     );
 
     await fs.promises.writeFile(
@@ -104,7 +125,11 @@ describe(`searchForPlugins`, () => {
         `node_modules`,
         `@test-organization-name`,
         `test-package-name`,
-        `index.js`
+        `a`,
+        `path`,
+        `to`,
+        `another`,
+        `module.js`
       ),
       `module.exports = {
         perFile: null,
@@ -133,14 +158,22 @@ describe(`searchForPlugins`, () => {
         root,
         `node_modules`,
         `test-unscoped-package-name`,
-        `index.js`
+        `a`,
+        `path`,
+        `to`,
+        `a`,
+        `module.js`
       )),
       "@test-organization-name/test-package-name": require(path.join(
         root,
         `node_modules`,
         `@test-organization-name`,
         `test-package-name`,
-        `index.js`
+        `a`,
+        `path`,
+        `to`,
+        `another`,
+        `module.js`
       )),
     });
   });
