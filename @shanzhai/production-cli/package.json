@@ -32,7 +32,7 @@
     "@shanzhai/interfaces": "0.0.16",
     "@shanzhai/read-text-file-step": "0.0.2",
     "@shanzhai/serial-step": "0.0.2",
-    "@shanzhai/value-store": "0.0.4",
+    "@shanzhai/value-store": "0.0.5",
     "@shanzhai/write-file-step": "0.0.2",
     "@types/fs-extra": "9.0.12",
     "@types/uuid": "8.3.1",
