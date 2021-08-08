@@ -110,7 +110,7 @@ No steps to execute.
 
     it(`produces the expected output`, () => {
       expect(output.message).toMatch(
-        /^Command failed: node .*\nSearching for plugins\.\.\.\nScanning for files\.\.\.\nPlanning\.\.\.\n\nThe following files were found to not match any installed plugins:\n\n - "example-file-a.with-unexpected-extension"\n - "example-file-b.with-unexpected-extension"\n - "example-file-c.with-unexpected-extension"\n$/
+        /^Command failed: node .*[/\\]@shanzhai[/\\]production-cli\nSearching for plugins\.\.\.\nScanning for files\.\.\.\nPlanning\.\.\.\n\nThe following files were found to not match any installed plugins:\n\n - "example-file-a.with-unexpected-extension"\n - "example-file-b.with-unexpected-extension"\n - "example-file-c.with-unexpected-extension"\n$/
       );
     });
 
@@ -171,7 +171,7 @@ No steps to execute.
 
     it(`produces the expected output`, () => {
       expect(output.message).toMatch(
-        /^Command failed: node .*\/@shanzhai\/production-cli\nSearching for plugins\.\.\.\nScanning for files\.\.\.\nPlanning\.\.\.\nStarting\.\.\.\n0\/3 \(0%\) Starting "Create Dist"\.\.\.\n1\/3 \(33%\) Step "Create Dist" completed successfully\.\n1\/3 \(33%\) Starting "Read text file "src\/example-file\.example-extension""\.\.\.\n2\/3 \(67%\) Step "Read text file "src\/example-file\.example-extension"" completed successfully\.\n2\/3 \(67%\) Starting "Write File"\.\.\.\n\nError in step "Write File":\nError: ENOENT: no such file or directory, open 'dist-fake\/example-file\.example-extension'\n$/
+        /^Command failed: node .*[/\\]@shanzhai[/\\]production-cli\nSearching for plugins\.\.\.\nScanning for files\.\.\.\nPlanning\.\.\.\nStarting\.\.\.\n0\/3 \(0%\) Starting "Create Dist"\.\.\.\n1\/3 \(33%\) Step "Create Dist" completed successfully\.\n1\/3 \(33%\) Starting "Read text file "src\/example-file\.example-extension""\.\.\.\n2\/3 \(67%\) Step "Read text file "src\/example-file\.example-extension"" completed successfully\.\n2\/3 \(67%\) Starting "Write File"\.\.\.\n\nError in step "Write File":\nError: ENOENT: no such file or directory, open 'dist-fake\/example-file\.example-extension'\n$/
       );
     });
   });
