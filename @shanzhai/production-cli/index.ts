@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { searchForPlugins } from "@shanzhai/plugin-helpers";
 import { plan } from "@shanzhai/planning-helpers";
 import { execute } from "@shanzhai/execution-helpers";
