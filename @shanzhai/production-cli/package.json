@@ -33,7 +33,7 @@
     "@shanzhai/read-text-file-step": "0.0.3",
     "@shanzhai/serial-step": "0.0.2",
     "@shanzhai/value-store": "0.0.5",
-    "@shanzhai/write-file-step": "0.0.2",
+    "@shanzhai/write-file-step": "0.0.3",
     "@types/fs-extra": "9.0.12",
     "@types/uuid": "8.3.1",
     "fs-extra": "10.0.0",
