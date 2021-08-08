@@ -1,6 +1,9 @@
 import * as fs from "fs";
 
-export async function listAllDependencies(): Promise<ReadonlyArray<string>> {
+export async function readPackageJson(): Promise<{
+  readonly dependencies: ReadonlyArray<string>;
+  readonly root: null | ReadonlyArray<string>;
+}> {
   let packageJsonText: string;
 
   try {
@@ -17,18 +20,21 @@ export async function listAllDependencies(): Promise<ReadonlyArray<string>> {
   const packageJson: {
     readonly dependencies?: { readonly [key: string]: string };
     readonly devDependencies?: { readonly [key: string]: string };
+    readonly shanzhaiPlugin?: ReadonlyArray<string>;
   } = JSON.parse(packageJsonText);
 
-  const output: string[] = [];
+  const dependencies: string[] = [];
 
-  function appendFrom(dependencies?: { readonly [key: string]: string }): void {
-    if (!dependencies) {
+  function appendFrom(packageDependencies?: {
+    readonly [key: string]: string;
+  }): void {
+    if (!packageDependencies) {
       return;
     }
 
-    for (const key in dependencies) {
-      if (!output.includes(key)) {
-        output.push(key);
+    for (const key in packageDependencies) {
+      if (!dependencies.includes(key)) {
+        dependencies.push(key);
       }
     }
   }
@@ -36,7 +42,7 @@ export async function listAllDependencies(): Promise<ReadonlyArray<string>> {
   appendFrom(packageJson.dependencies);
   appendFrom(packageJson.devDependencies);
 
-  output.sort();
+  dependencies.sort();
 
-  return output;
+  return { dependencies, root: packageJson.shanzhaiPlugin ?? null };
 }

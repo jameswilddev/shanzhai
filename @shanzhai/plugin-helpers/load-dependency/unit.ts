@@ -5,7 +5,7 @@ import * as uuid from "uuid";
 import { loadDependency } from ".";
 import { Plugin, Trigger } from "@shanzhai/interfaces";
 
-describe(`loadDependency`, () => {
+fdescribe(`loadDependency`, () => {
   describe(`unscoped`, () => {
     describe(`when the node_modules directory is missing`, () => {
       let originalWorkingDirectory: string;
