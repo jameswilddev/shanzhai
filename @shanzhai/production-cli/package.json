@@ -39,6 +39,5 @@
     "fs-extra": "10.0.0",
     "uuid": "8.3.2"
   },
-  "bin": ".",
-  "types": "index.d.ts"
+  "bin": "."
 }
