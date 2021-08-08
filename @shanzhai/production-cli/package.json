@@ -41,6 +41,5 @@
   },
   "bin": {
     "shanzhai-production-cli": "."
-  },
-  "types": "index.d.ts"
+  }
 }
