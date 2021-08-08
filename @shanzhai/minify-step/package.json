@@ -1,6 +1,6 @@
 {
   "name": "@shanzhai/minify-step",
-  "description": "A Shanzhai build step which can be built upon to create recursive minification build steps.",
+  "description": "A Shanzhai step which can be built upon to create recursive minification build steps.",
   "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"

@@ -1,6 +1,6 @@
 {
   "name": "@shanzhai/minify-html-step",
-  "description": "A Shanzhai build step minifies a HTML file.",
+  "description": "A Shanzhai step which minifies a HTML file.",
   "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"

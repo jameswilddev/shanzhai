@@ -1,6 +1,6 @@
 {
   "name": "@shanzhai/minify-javascript-step",
-  "description": "A Shanzhai build step minifies a Javascript file.",
+  "description": "A Shanzhai step which minifies a Javascript file.",
   "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"

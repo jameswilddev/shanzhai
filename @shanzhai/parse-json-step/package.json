@@ -1,6 +1,6 @@
 {
   "name": "@shanzhai/parse-json-step",
-  "description": "A Shanzhai build step which parses JSON from a string.",
+  "description": "A Shanzhai step which parses JSON from a string.",
   "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"
