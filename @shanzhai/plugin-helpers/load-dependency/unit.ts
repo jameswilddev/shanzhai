@@ -248,7 +248,16 @@ describe(`loadDependency`, () => {
         root = path.join(os.tmpdir(), uuid.v4());
 
         await fs.promises.mkdir(
-          path.join(root, `node_modules`, `test-package-name`),
+          path.join(
+            root,
+            `node_modules`,
+            `test-package-name`,
+            `a`,
+            `path`,
+            `to`,
+            `a`,
+            `module`
+          ),
           {
             recursive: true,
           }
@@ -612,7 +621,12 @@ describe(`loadDependency`, () => {
             root,
             `node_modules`,
             `@test-organization-name`,
-            `test-package-name`
+            `test-package-name`,
+            `a`,
+            `path`,
+            `to`,
+            `a`,
+            `module`
           ),
           {
             recursive: true,
