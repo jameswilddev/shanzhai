@@ -1,10 +1,4 @@
-import {
-  Step,
-  Trigger,
-  Diff,
-  ParsedPath,
-  StoreAggregateTrigger,
-} from "@shanzhai/interfaces";
+import { Step, Trigger, Diff, ParsedPath } from "@shanzhai/interfaces";
 
 export function generateSteps(
   triggers: ReadonlyArray<Trigger>,
@@ -15,139 +9,65 @@ export function generateSteps(
   readonly orderingConstraints: ReadonlyArray<readonly [Step, Step]>;
   readonly unmatchedAddedFiles: ReadonlyArray<ParsedPath>;
 } {
-  const steps: Step[] = [];
-  const orderingConstraints: (readonly [Step, Step])[] = [];
-  const unmatchedAddedFiles = [...diff.added];
-
-  function link(from: Step, to: Step): void {
-    orderingConstraints.push([from, to]);
-  }
-
-  const raisedStoreAggregates: {
-    readonly trigger: StoreAggregateTrigger;
+  const createdSteps: {
+    readonly stepFactory: unknown;
+    readonly args: ReadonlyArray<unknown>;
     readonly step: Step;
+    readonly leaves: ReadonlyArray<Step>;
   }[] = [];
 
-  function handleStoreAggregate(
-    triggeredBy: Step,
-    trigger: StoreAggregateTrigger
-  ): void {
-    const existing = raisedStoreAggregates.find(
-      (raised) => raised.trigger === trigger
-    );
+  const orderingConstraints: (readonly [Step, Step])[] = [];
 
-    if (existing === undefined) {
-      const step = trigger.invalidated();
-
-      raisedStoreAggregates.push({
-        trigger,
-        step,
-      });
-
-      handleStep(triggeredBy, step);
-    } else {
-      link(triggeredBy, existing.step);
+  function link(from: null | Step, to: Step): void {
+    if (
+      from !== null &&
+      !orderingConstraints.some(
+        (constraint) => constraint[0] === from && constraint[1] === to
+      )
+    ) {
+      orderingConstraints.push([from, to]);
     }
   }
 
-  function handleStep(
-    triggeredBy: null | Step,
-    step: Step
-  ): ReadonlyArray<Step> {
-    steps.push(step);
-
-    if (triggeredBy !== null) {
-      link(triggeredBy, step);
-    }
-
-    const output = [];
+  function handleEffects(step: Step): ReadonlyArray<Step> {
+    const leaves: Step[] = [];
 
     for (const effect of step.effects) {
       switch (effect.type) {
-        case `keyedStoreSet`:
-          for (const trigger of triggers) {
-            switch (trigger.type) {
-              case `file`:
-                break;
-
-              case `storeAggregate`:
-                if (trigger.stores.includes(effect.keyedStore)) {
-                  handleStoreAggregate(step, trigger);
-                }
-                break;
-
-              case `fileExtension`:
-                break;
-
-              case `keyedStore`:
-                if (trigger.keyedStore === effect.keyedStore) {
-                  output.push(...handleStep(step, trigger.up(effect.key)));
-                }
-                break;
-
-              case `oneTime`:
-                break;
-
-              case `unkeyedStore`:
-                break;
-            }
-          }
-          break;
-
         case `keyedStoreDelete`:
           for (const trigger of triggers) {
             switch (trigger.type) {
-              case `file`:
+              case `keyedStore`:
+                if (trigger.keyedStore === effect.keyedStore) {
+                  leaves.push(
+                    ...handleTrigger(step, trigger.down, [effect.key]).leaves
+                  );
+                }
                 break;
 
               case `storeAggregate`:
                 if (trigger.stores.includes(effect.keyedStore)) {
-                  handleStoreAggregate(step, trigger);
+                  handleTrigger(step, trigger.invalidated, []);
                 }
-                break;
-
-              case `fileExtension`:
-                break;
-
-              case `keyedStore`:
-                if (trigger.keyedStore === effect.keyedStore) {
-                  output.push(...handleStep(step, trigger.down(effect.key)));
-                }
-                break;
-
-              case `oneTime`:
-                break;
-
-              case `unkeyedStore`:
                 break;
             }
           }
           break;
 
-        case `unkeyedStoreSet`:
+        case `keyedStoreSet`:
           for (const trigger of triggers) {
             switch (trigger.type) {
-              case `file`:
-                break;
-
-              case `storeAggregate`:
-                if (trigger.stores.includes(effect.unkeyedStore)) {
-                  handleStoreAggregate(step, trigger);
+              case `keyedStore`:
+                if (trigger.keyedStore === effect.keyedStore) {
+                  leaves.push(
+                    ...handleTrigger(step, trigger.up, [effect.key]).leaves
+                  );
                 }
                 break;
 
-              case `fileExtension`:
-                break;
-
-              case `keyedStore`:
-                break;
-
-              case `oneTime`:
-                break;
-
-              case `unkeyedStore`:
-                if (trigger.unkeyedStore === effect.unkeyedStore) {
-                  output.push(...handleStep(step, trigger.up()));
+              case `storeAggregate`:
+                if (trigger.stores.includes(effect.keyedStore)) {
+                  handleTrigger(step, trigger.invalidated, []);
                 }
                 break;
             }
@@ -157,27 +77,33 @@ export function generateSteps(
         case `unkeyedStoreDelete`:
           for (const trigger of triggers) {
             switch (trigger.type) {
-              case `file`:
+              case `unkeyedStore`:
+                if (trigger.unkeyedStore === effect.unkeyedStore) {
+                  leaves.push(...handleTrigger(step, trigger.down, []).leaves);
+                }
                 break;
 
               case `storeAggregate`:
                 if (trigger.stores.includes(effect.unkeyedStore)) {
-                  handleStoreAggregate(step, trigger);
+                  handleTrigger(step, trigger.invalidated, []);
+                }
+                break;
+            }
+          }
+          break;
+
+        case `unkeyedStoreSet`:
+          for (const trigger of triggers) {
+            switch (trigger.type) {
+              case `unkeyedStore`:
+                if (trigger.unkeyedStore === effect.unkeyedStore) {
+                  leaves.push(...handleTrigger(step, trigger.up, []).leaves);
                 }
                 break;
 
-              case `fileExtension`:
-                break;
-
-              case `keyedStore`:
-                break;
-
-              case `oneTime`:
-                break;
-
-              case `unkeyedStore`:
-                if (trigger.unkeyedStore === effect.unkeyedStore) {
-                  output.push(...handleStep(step, trigger.down()));
+              case `storeAggregate`:
+                if (trigger.stores.includes(effect.unkeyedStore)) {
+                  handleTrigger(step, trigger.invalidated, []);
                 }
                 break;
             }
@@ -186,133 +112,159 @@ export function generateSteps(
       }
     }
 
-    if (output.length === 0) {
-      output.push(step);
+    if (leaves.length === 0) {
+      leaves.push(step);
     }
 
-    return output;
+    return leaves;
+  }
+
+  function handleTrigger<TParameters extends ReadonlyArray<unknown>>(
+    triggeredBy: null | Step,
+    stepFactory: (...args: TParameters) => Step,
+    args: TParameters
+  ): { readonly root: Step; readonly leaves: ReadonlyArray<Step> } {
+    const existingStep = createdSteps.find(
+      (step) =>
+        step.stepFactory === stepFactory &&
+        step.args.length === args.length &&
+        step.args.every((arg, index) => arg === args[index])
+    );
+
+    let root: Step;
+    let leaves: ReadonlyArray<Step>;
+
+    if (existingStep === undefined) {
+      root = stepFactory(...args);
+
+      leaves = handleEffects(root);
+
+      createdSteps.push({
+        stepFactory,
+        args,
+        step: root,
+        leaves,
+      });
+    } else {
+      root = existingStep.step;
+      leaves = existingStep.leaves;
+    }
+
+    if (triggeredBy !== null) {
+      link(triggeredBy, root);
+    }
+
+    return { root, leaves };
+  }
+
+  const unmatchedAddedFiles = [...diff.added];
+
+  function reportMatched(parsedPath: ParsedPath): void {
+    const index = unmatchedAddedFiles.indexOf(parsedPath);
+
+    if (index !== -1) {
+      unmatchedAddedFiles.splice(index, 1);
+    }
   }
 
   const oneTimeLeaves: Step[] = [];
-  const fileSteps: Step[] = [];
+  const otherTriggerRoots: Step[] = [];
 
   for (const trigger of triggers) {
     switch (trigger.type) {
-      case `file`: {
-        const path = trigger.path.join(`/`);
-
-        for (const deleted of diff.deleted) {
-          if (deleted.fullPath === path) {
-            const step = trigger.down(deleted);
-            fileSteps.push(step);
-            handleStep(null, step);
-          }
-        }
-
-        for (const changed of diff.changed) {
-          if (changed.fullPath === path) {
-            const down = trigger.down(changed);
-            const up = trigger.up(changed);
-
-            const downSteps = handleStep(null, down);
-
-            handleStep(null, up);
-
-            for (const downStep of downSteps) {
-              link(downStep, up);
-            }
-
-            fileSteps.push(down, up);
-          }
-        }
-
-        for (const added of diff.added) {
-          if (added.fullPath === path) {
-            const step = trigger.up(added);
-
-            handleStep(null, step);
-
-            const index = unmatchedAddedFiles.indexOf(added);
-
-            if (index !== -1) {
-              unmatchedAddedFiles.splice(index, 1);
-            }
-
-            fileSteps.push(step);
-          }
+      case `oneTime`:
+        if (firstRun) {
+          oneTimeLeaves.push(...handleTrigger(null, trigger.up, []).leaves);
         }
         break;
-      }
 
-      case `storeAggregate`:
+      case `file`:
+        {
+          const fullPath = trigger.path.join(`/`);
+
+          const addedPath = diff.added.find(
+            (parsedPath) => parsedPath.fullPath === fullPath
+          );
+
+          const changedPath = diff.changed.find(
+            (parsedPath) => parsedPath.fullPath === fullPath
+          );
+
+          const deletedPath = diff.deleted.find(
+            (parsedPath) => parsedPath.fullPath === fullPath
+          );
+
+          if (addedPath !== undefined) {
+            otherTriggerRoots.push(
+              handleTrigger(null, trigger.up, [addedPath]).root
+            );
+
+            reportMatched(addedPath);
+          }
+
+          if (changedPath !== undefined) {
+            const down = handleTrigger(null, trigger.down, [changedPath]);
+            const up = handleTrigger(null, trigger.up, [changedPath]);
+
+            otherTriggerRoots.push(down.root);
+
+            for (const downLeaf of down.leaves) {
+              link(downLeaf, up.root);
+            }
+          }
+
+          if (deletedPath !== undefined) {
+            otherTriggerRoots.push(
+              handleTrigger(null, trigger.down, [deletedPath]).root
+            );
+          }
+        }
         break;
 
       case `fileExtension`:
-        for (const deleted of diff.deleted) {
-          if (deleted.fileExtension === trigger.extension) {
-            const step = trigger.down(deleted);
-            fileSteps.push(step);
-            handleStep(null, step);
-          }
-        }
+        {
+          for (const parsedPath of diff.added) {
+            if (parsedPath.fileExtension === trigger.extension) {
+              otherTriggerRoots.push(
+                handleTrigger(null, trigger.up, [parsedPath]).root
+              );
 
-        for (const changed of diff.changed) {
-          if (changed.fileExtension === trigger.extension) {
-            const down = trigger.down(changed);
-            const up = trigger.up(changed);
-
-            const downSteps = handleStep(null, down);
-
-            handleStep(null, up);
-
-            for (const downStep of downSteps) {
-              link(downStep, up);
+              reportMatched(parsedPath);
             }
-
-            fileSteps.push(down, up);
           }
-        }
 
-        for (const added of diff.added) {
-          if (added.fileExtension === trigger.extension) {
-            const step = trigger.up(added);
+          for (const parsedPath of diff.changed) {
+            if (parsedPath.fileExtension === trigger.extension) {
+              const down = handleTrigger(null, trigger.down, [parsedPath]);
+              const up = handleTrigger(null, trigger.up, [parsedPath]);
 
-            handleStep(null, step);
+              otherTriggerRoots.push(down.root);
 
-            const index = unmatchedAddedFiles.indexOf(added);
-
-            if (index !== -1) {
-              unmatchedAddedFiles.splice(index, 1);
+              for (const downLeaf of down.leaves) {
+                link(downLeaf, up.root);
+              }
             }
+          }
 
-            fileSteps.push(step);
+          for (const parsedPath of diff.deleted) {
+            if (parsedPath.fileExtension === trigger.extension) {
+              otherTriggerRoots.push(
+                handleTrigger(null, trigger.down, [parsedPath]).root
+              );
+            }
           }
         }
-        break;
-
-      case `keyedStore`:
-        break;
-
-      case `oneTime`:
-        if (firstRun) {
-          oneTimeLeaves.push(...handleStep(null, trigger.up()));
-        }
-        break;
-
-      case `unkeyedStore`:
         break;
     }
   }
 
   for (const oneTimeLeaf of oneTimeLeaves) {
-    for (const fileStep of fileSteps) {
-      link(oneTimeLeaf, fileStep);
+    for (const otherTriggerRoot of otherTriggerRoots) {
+      link(oneTimeLeaf, otherTriggerRoot);
     }
   }
 
-  return {
-    steps,
-    orderingConstraints,
-    unmatchedAddedFiles,
-  };
+  const steps = createdSteps.map((data) => data.step);
+
+  return { steps, orderingConstraints, unmatchedAddedFiles };
 }

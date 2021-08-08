@@ -10,7 +10,7 @@ import {
   Effect,
 } from "@shanzhai/interfaces";
 import { generateSteps } from ".";
-import { FileTrigger } from "../../interfaces";
+import { FileTrigger, StoreAggregateTrigger } from "../../interfaces";
 
 class DummyStep implements Step {
   constructor(readonly name: string, readonly effects: ReadonlyArray<Effect>) {}
@@ -44,6 +44,9 @@ describe(`generateSteps`, function () {
     let keyedStoreTriggeredMultipleTimesStepB: DummyStep;
     let keyedStoreTriggeredMultipleTimesStepC: DummyStep;
     let unkeyedStoreStep: DummyStep;
+    let unkeyedTriggeredStoreAggregateStep: DummyStep;
+    let keyedTriggeredStoreAggregateStep: DummyStep;
+    let unkeyedAndKeyedTriggeredStoreAggregateStep: DummyStep;
     let oneTimeTrigger: OneTimeTrigger;
     let untriggeredFileExtensionTrigger: FileExtensionTrigger;
     let fileExtensionTriggerTriggeredOnce: FileExtensionTrigger;
@@ -55,6 +58,10 @@ describe(`generateSteps`, function () {
     let keyedStoreTriggerTriggeredMultipleTimes: KeyedStoreTrigger;
     let unkeyedStoreUntriggeredTrigger: UnkeyedStoreTrigger;
     let unkeyedStoreTriggeredTrigger: UnkeyedStoreTrigger;
+    let untriggeredStoreAggregateTrigger: StoreAggregateTrigger;
+    let unkeyedTriggeredStoreAggregateTrigger: StoreAggregateTrigger;
+    let keyedTriggeredStoreAggregateTrigger: StoreAggregateTrigger;
+    let unkeyedAndKeyedTriggeredStoreAggregateTrigger: StoreAggregateTrigger;
     let output: {
       readonly steps: ReadonlyArray<Step>;
       readonly orderingConstraints: ReadonlyArray<readonly [Step, Step]>;
@@ -193,6 +200,18 @@ describe(`generateSteps`, function () {
           key: `Test Store Key B A`,
         },
       ]);
+      unkeyedTriggeredStoreAggregateStep = new DummyStep(
+        `unkeyedTriggeredStoreAggregateStep`,
+        []
+      );
+      keyedTriggeredStoreAggregateStep = new DummyStep(
+        `keyedTriggeredStoreAggregateStep`,
+        []
+      );
+      unkeyedAndKeyedTriggeredStoreAggregateStep = new DummyStep(
+        `unkeyedAndKeyedTriggeredStoreAggregateStep`,
+        []
+      );
       oneTimeTrigger = {
         type: `oneTime`,
         up: jasmine.createSpy(`oneTimeTrigger.up`).and.returnValue(oneTimeStep),
@@ -302,6 +321,49 @@ describe(`generateSteps`, function () {
           .createSpy(`unkeyedStoreTriggeredTrigger.up`)
           .and.returnValue(unkeyedStoreStep),
       };
+      untriggeredStoreAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [unkeyedStoreUntriggered, keyedStoreUntriggered],
+        invalidated: jasmine.createSpy(
+          `untriggeredStoreAggregateTrigger.invalidated`
+        ),
+      };
+      unkeyedTriggeredStoreAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [
+          unkeyedStoreUntriggered,
+          unkeyedStoreTriggered,
+          keyedStoreUntriggered,
+        ],
+        invalidated: jasmine
+          .createSpy(`unkeyedTriggeredStoreAggregateTrigger.invalidated`)
+          .and.returnValue(unkeyedTriggeredStoreAggregateStep),
+      };
+      keyedTriggeredStoreAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [
+          unkeyedStoreUntriggered,
+          keyedStoreTriggeredOnce,
+          keyedStoreUntriggered,
+        ],
+        invalidated: jasmine
+          .createSpy(`keyedTriggeredStoreAggregateTrigger.invalidated`)
+          .and.returnValue(keyedTriggeredStoreAggregateStep),
+      };
+      unkeyedAndKeyedTriggeredStoreAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [
+          unkeyedStoreUntriggered,
+          keyedStoreTriggeredMultipleTimes,
+          keyedStoreUntriggered,
+          unkeyedStoreTriggered,
+        ],
+        invalidated: jasmine
+          .createSpy(
+            `unkeyedAndKeyedTriggeredStoreAggregateTrigger.invalidated`
+          )
+          .and.returnValue(unkeyedAndKeyedTriggeredStoreAggregateStep),
+      };
       output = generateSteps(
         [
           oneTimeTrigger,
@@ -315,6 +377,10 @@ describe(`generateSteps`, function () {
           unkeyedStoreTriggeredTrigger,
           untriggeredFileTrigger,
           fileTriggerTriggeredOnce,
+          untriggeredStoreAggregateTrigger,
+          unkeyedTriggeredStoreAggregateTrigger,
+          keyedTriggeredStoreAggregateTrigger,
+          unkeyedAndKeyedTriggeredStoreAggregateTrigger,
         ],
         true,
         {
@@ -397,6 +463,18 @@ describe(`generateSteps`, function () {
         addedParsedPathForFileTriggerTriggeredOnce
       );
       expect(fileTriggerTriggeredOnce.up).toHaveBeenCalledTimes(1);
+      expect(
+        untriggeredStoreAggregateTrigger.invalidated
+      ).not.toHaveBeenCalled();
+      expect(
+        unkeyedTriggeredStoreAggregateTrigger.invalidated
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        keyedTriggeredStoreAggregateTrigger.invalidated
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        unkeyedAndKeyedTriggeredStoreAggregateTrigger.invalidated
+      ).toHaveBeenCalledTimes(1);
     });
 
     it(`returns the expected list of steps`, () => {
@@ -413,6 +491,9 @@ describe(`generateSteps`, function () {
           keyedStoreTriggeredMultipleTimesStepC,
           unkeyedStoreStep,
           fileTriggeredOnceStep,
+          unkeyedTriggeredStoreAggregateStep,
+          keyedTriggeredStoreAggregateStep,
+          unkeyedAndKeyedTriggeredStoreAggregateStep,
         ])
       );
     });
@@ -448,6 +529,20 @@ describe(`generateSteps`, function () {
             fileExtensionTriggeredMultipleTimesStepC,
           ],
           [keyedStoreTriggeredMultipleTimesStepB, fileTriggeredOnceStep],
+          [
+            fileExtensionTriggeredMultipleTimesStepB,
+            unkeyedTriggeredStoreAggregateStep,
+          ],
+          [unkeyedStoreStep, keyedTriggeredStoreAggregateStep],
+          [
+            fileExtensionTriggeredMultipleTimesStepB,
+            unkeyedAndKeyedTriggeredStoreAggregateStep,
+          ],
+          [oneTimeStep, unkeyedAndKeyedTriggeredStoreAggregateStep],
+          [
+            keyedStoreTriggeredMultipleTimesStepA,
+            unkeyedAndKeyedTriggeredStoreAggregateStep,
+          ],
         ])
       );
     });
@@ -490,6 +585,15 @@ describe(`generateSteps`, function () {
       ).not.toHaveBeenCalled();
       expect(unkeyedStoreStep.executePerActionStep).not.toHaveBeenCalled();
       expect(fileTriggeredOnceStep.executePerActionStep).not.toHaveBeenCalled();
+      expect(
+        unkeyedTriggeredStoreAggregateStep.executePerActionStep
+      ).not.toHaveBeenCalled();
+      expect(
+        keyedTriggeredStoreAggregateStep.executePerActionStep
+      ).not.toHaveBeenCalled();
+      expect(
+        unkeyedAndKeyedTriggeredStoreAggregateStep.executePerActionStep
+      ).not.toHaveBeenCalled();
     });
   });
 
@@ -508,15 +612,27 @@ describe(`generateSteps`, function () {
       [<reference> parsedPathMatchingFileDeleted] down -> [fileTriggeredDeletedStep]
       [<reference> parsedPathMatchingFileChanged] down -> [fileTriggeredChangedDownStep]
       [<reference> parsedPathMatchingFileChanged] up -> [fileTriggeredChangedUpStep]
-      [fileExtensionTriggeredMultipleTimesStepA] -> [unkeyedStoreDownStep]
       [fileExtensionTriggeredMultipleTimesStepA] Test Store Key B A up -> [keyedStoreTriggeredOnceStepA]
-      [fileExtensionTriggeredMultipleTimesStepB] Test Store Key E A down -> [keyedStoreTriggeredOnceStepD]
+      [fileExtensionTriggeredMultipleTimesStepA] -> [keyedStoreUpStoreAggregateStep]
+      [fileExtensionTriggeredMultipleTimesStepA] -> [unkeyedAndKeyedStoreUpAndDownStoreAggregateStep]
+      [fileExtensionTriggeredMultipleTimesStepA] -> [unkeyedStoreDownStep]
+      [fileExtensionTriggeredMultipleTimesStepA] -> [unkeyedStoreDownStoreAggregateStep]
       [fileExtensionTriggeredMultipleTimesStepB] Test Store Key F C down -> [keyedStoreTriggeredMultipleTimesStepA]
+      [fileExtensionTriggeredMultipleTimesStepB] Test Store Key E A down -> [keyedStoreTriggeredOnceStepD]
       [fileExtensionTriggeredMultipleTimesStepC] Test Store Key F B up -> [keyedStoreTriggeredMultipleTimesStepC]
       [fileExtensionTriggeredMultipleTimesStepD] Test Store Key D A down -> [keyedStoreTriggeredOnceStepC]
+      [fileExtensionTriggeredMultipleTimesStepD] -> [unkeyedAndKeyedStoreUpAndDownStoreAggregateStep]
       [fileExtensionTriggeredMultipleTimesStepD] -> [unkeyedStoreUpStep]
+      [fileExtensionTriggeredMultipleTimesStepD] -> [unkeyedStoreUpStoreAggregateStep]
+      [fileTriggeredChangedDownStep] -> [fileTriggeredChangedUpStep]
+      [keyedStoreDownStoreAggregateStep] -> [unkeyedStoreMultipleTimesUpStep]
+      [keyedStoreTriggeredMultipleTimesStepB] -> [fileExtensionTriggeredMultipleTimesStepB]
       [keyedStoreTriggeredOnceStepA] Test Store Key F A up -> [keyedStoreTriggeredMultipleTimesStepB]
+      [keyedStoreTriggeredOnceStepD] -> [keyedStoreDownStoreAggregateStep]
       [keyedStoreTriggeredOnceStepD] Test Store Key C B down -> [keyedStoreTriggeredOnceStepB]
+      [keyedStoreTriggeredOnceStepD] -> [unkeyedAndKeyedStoreUpAndDownStoreAggregateStep]
+      [keyedStoreUpStoreAggregateStep] -> [unkeyedStoreMultipleTimesDownStep]
+      [unkeyedStoreDownStep] -> [fileExtensionTriggeredMultipleTimesStepB]
     */
 
     let parsedPathMatchingMultipleTimesA: ParsedPath;
@@ -544,7 +660,9 @@ describe(`generateSteps`, function () {
     let keyedStoreTriggeredOnceD: KeyedStore;
     let keyedStoreTriggeredMultipleTimes: KeyedStore;
     let unkeyedStoreUntriggered: UnkeyedStore;
-    let unkeyedStoreTriggered: UnkeyedStore;
+    let unkeyedStoreTriggeredOnceA: UnkeyedStore;
+    let unkeyedStoreTriggeredOnceB: UnkeyedStore;
+    let unkeyedStoreTriggeredMultipleTimes: UnkeyedStore;
     let fileExtensionTriggeredMultipleTimesStepA: DummyStep;
     let fileExtensionTriggeredMultipleTimesStepB: DummyStep;
     let fileExtensionTriggeredMultipleTimesStepC: DummyStep;
@@ -567,6 +685,13 @@ describe(`generateSteps`, function () {
     let keyedStoreTriggeredOnceStepD: DummyStep;
     let unkeyedStoreDownStep: DummyStep;
     let unkeyedStoreUpStep: DummyStep;
+    let unkeyedStoreMultipleTimesDownStep: DummyStep;
+    let unkeyedStoreMultipleTimesUpStep: DummyStep;
+    let unkeyedStoreUpStoreAggregateStep: DummyStep;
+    let unkeyedStoreDownStoreAggregateStep: DummyStep;
+    let keyedStoreUpStoreAggregateStep: DummyStep;
+    let keyedStoreDownStoreAggregateStep: DummyStep;
+    let unkeyedAndKeyedStoreUpAndDownStoreAggregateStep: DummyStep;
     let keyedStoreTriggerTriggeredOnceA: KeyedStoreTrigger;
     let keyedStoreTriggerTriggeredOnceB: KeyedStoreTrigger;
     let keyedStoreTriggerTriggeredOnceC: KeyedStoreTrigger;
@@ -574,7 +699,9 @@ describe(`generateSteps`, function () {
     let keyedStoreTriggerTriggeredMultipleTimes: KeyedStoreTrigger;
     let keyedStoreTriggerUntriggered: KeyedStoreTrigger;
     let unkeyedStoreTriggerUntriggered: UnkeyedStoreTrigger;
-    let unkeyedStoreTriggerTriggered: UnkeyedStoreTrigger;
+    let unkeyedStoreTriggerTriggeredOnceA: UnkeyedStoreTrigger;
+    let unkeyedStoreTriggerTriggeredOnceB: UnkeyedStoreTrigger;
+    let unkeyedStoreTriggerTriggeredMultipleTimes: UnkeyedStoreTrigger;
     let oneTimeTrigger: OneTimeTrigger;
     let fileExtensionTriggerUntriggered: FileExtensionTrigger;
     let fileExtensionTriggerTriggeredMultipleTimes: FileExtensionTrigger;
@@ -588,6 +715,12 @@ describe(`generateSteps`, function () {
     let fileTriggerChanged: FileTrigger;
     let fileTriggerUnchanged: FileTrigger;
     let fileTriggerUntriggered: FileTrigger;
+    let untriggeredStoreAggregateTrigger: StoreAggregateTrigger;
+    let unkeyedStoreUpStoreAggregateTrigger: StoreAggregateTrigger;
+    let unkeyedStoreDownStoreAggregateTrigger: StoreAggregateTrigger;
+    let keyedStoreUpStoreAggregateTrigger: StoreAggregateTrigger;
+    let keyedStoreDownStoreAggregateTrigger: StoreAggregateTrigger;
+    let unkeyedAndKeyedStoreUpAndDownStoreAggregateTrigger: StoreAggregateTrigger;
     let output: {
       readonly steps: ReadonlyArray<Step>;
       readonly orderingConstraints: ReadonlyArray<readonly [Step, Step]>;
@@ -731,16 +864,24 @@ describe(`generateSteps`, function () {
         type: `unkeyedStore`,
         name: `unkeyedStoreUntriggered`,
       };
-      unkeyedStoreTriggered = {
+      unkeyedStoreTriggeredOnceA = {
         type: `unkeyedStore`,
-        name: `unkeyedStoreTriggered`,
+        name: `unkeyedStoreTriggeredOnceA`,
+      };
+      unkeyedStoreTriggeredOnceB = {
+        type: `unkeyedStore`,
+        name: `unkeyedStoreTriggeredOnceB`,
+      };
+      unkeyedStoreTriggeredMultipleTimes = {
+        type: `unkeyedStore`,
+        name: `unkeyedStoreTriggeredMultipleTimes`,
       };
       fileExtensionTriggeredMultipleTimesStepA = new DummyStep(
         `fileExtensionTriggeredMultipleTimesStepA`,
         [
           {
             type: `unkeyedStoreDelete`,
-            unkeyedStore: unkeyedStoreTriggered,
+            unkeyedStore: unkeyedStoreTriggeredOnceB,
           },
           {
             type: `keyedStoreSet`,
@@ -784,7 +925,7 @@ describe(`generateSteps`, function () {
           },
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: unkeyedStoreTriggered,
+            unkeyedStore: unkeyedStoreTriggeredOnceA,
           },
         ]
       );
@@ -860,6 +1001,44 @@ describe(`generateSteps`, function () {
       );
       unkeyedStoreDownStep = new DummyStep(`unkeyedStoreDownStep`, []);
       unkeyedStoreUpStep = new DummyStep(`unkeyedStoreUpStep`, []);
+      unkeyedStoreMultipleTimesDownStep = new DummyStep(
+        `unkeyedStoreMultipleTimesDownStep`,
+        []
+      );
+      unkeyedStoreMultipleTimesUpStep = new DummyStep(
+        `unkeyedStoreMultipleTimesUpStep`,
+        []
+      );
+      unkeyedStoreUpStoreAggregateStep = new DummyStep(
+        `unkeyedStoreUpStoreAggregateStep`,
+        []
+      );
+      unkeyedStoreDownStoreAggregateStep = new DummyStep(
+        `unkeyedStoreDownStoreAggregateStep`,
+        []
+      );
+      keyedStoreUpStoreAggregateStep = new DummyStep(
+        `keyedStoreUpStoreAggregateStep`,
+        [
+          {
+            type: `unkeyedStoreDelete`,
+            unkeyedStore: unkeyedStoreTriggeredMultipleTimes,
+          },
+        ]
+      );
+      keyedStoreDownStoreAggregateStep = new DummyStep(
+        `keyedStoreDownStoreAggregateStep`,
+        [
+          {
+            type: `unkeyedStoreSet`,
+            unkeyedStore: unkeyedStoreTriggeredMultipleTimes,
+          },
+        ]
+      );
+      unkeyedAndKeyedStoreUpAndDownStoreAggregateStep = new DummyStep(
+        `unkeyedAndKeyedStoreUpAndDownStoreAggregateStep`,
+        []
+      );
       oneTimeTrigger = {
         type: `oneTime`,
         up: jasmine.createSpy(`oneTimeTrigger.up`),
@@ -939,15 +1118,31 @@ describe(`generateSteps`, function () {
         down: jasmine.createSpy(`unkeyedStoreTriggerUntriggered.down`),
         up: jasmine.createSpy(`unkeyedStoreTriggerUntriggered.up`),
       };
-      unkeyedStoreTriggerTriggered = {
+      unkeyedStoreTriggerTriggeredOnceA = {
         type: `unkeyedStore`,
-        unkeyedStore: unkeyedStoreTriggered,
-        down: jasmine
-          .createSpy(`unkeyedStoreTriggerTriggered.down`)
-          .and.returnValue(unkeyedStoreDownStep),
+        unkeyedStore: unkeyedStoreTriggeredOnceA,
+        down: jasmine.createSpy(`unkeyedStoreTriggerTriggeredOnceA.down`),
         up: jasmine
-          .createSpy(`unkeyedStoreTriggerTriggered.up`)
+          .createSpy(`unkeyedStoreTriggerTriggeredOnceA.up`)
           .and.returnValue(unkeyedStoreUpStep),
+      };
+      unkeyedStoreTriggerTriggeredOnceB = {
+        type: `unkeyedStore`,
+        unkeyedStore: unkeyedStoreTriggeredOnceB,
+        down: jasmine
+          .createSpy(`unkeyedStoreTriggerTriggeredOnceB.down`)
+          .and.returnValue(unkeyedStoreDownStep),
+        up: jasmine.createSpy(`unkeyedStoreTriggerTriggeredOnceB.up`),
+      };
+      unkeyedStoreTriggerTriggeredMultipleTimes = {
+        type: `unkeyedStore`,
+        unkeyedStore: unkeyedStoreTriggeredMultipleTimes,
+        down: jasmine
+          .createSpy(`unkeyedStoreTriggerTriggeredMultipleTimes.down`)
+          .and.returnValue(unkeyedStoreMultipleTimesDownStep),
+        up: jasmine
+          .createSpy(`unkeyedStoreTriggerTriggeredMultipleTimes.up`)
+          .and.returnValue(unkeyedStoreMultipleTimesUpStep),
       };
       fileExtensionTriggerUntriggered = {
         type: `fileExtension`,
@@ -1067,6 +1262,73 @@ describe(`generateSteps`, function () {
         down: jasmine.createSpy(`fileTriggerUntriggered.down`),
         up: jasmine.createSpy(`fileTriggerUntriggered.up`),
       };
+      untriggeredStoreAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [unkeyedStoreUntriggered, keyedStoreUntriggered],
+        invalidated: jasmine.createSpy(
+          `untriggeredStoreAggregateTrigger.invalidated`
+        ),
+      };
+      unkeyedStoreUpStoreAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [
+          unkeyedStoreUntriggered,
+          unkeyedStoreTriggeredOnceA,
+          keyedStoreUntriggered,
+        ],
+        invalidated: jasmine
+          .createSpy(`unkeyedStoreUpStoreAggregateTrigger.invalidated`)
+          .and.returnValue(unkeyedStoreUpStoreAggregateStep),
+      };
+      unkeyedStoreDownStoreAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [
+          unkeyedStoreUntriggered,
+          unkeyedStoreTriggeredOnceB,
+          keyedStoreUntriggered,
+        ],
+        invalidated: jasmine
+          .createSpy(`unkeyedStoreDownStoreAggregateTrigger.invalidated`)
+          .and.returnValue(unkeyedStoreDownStoreAggregateStep),
+      };
+      keyedStoreUpStoreAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [
+          unkeyedStoreUntriggered,
+          keyedStoreTriggeredOnceA,
+          keyedStoreUntriggered,
+        ],
+        invalidated: jasmine
+          .createSpy(`keyedStoreUpStoreAggregateTrigger.invalidated`)
+          .and.returnValue(keyedStoreUpStoreAggregateStep),
+      };
+      keyedStoreDownStoreAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [
+          unkeyedStoreUntriggered,
+          keyedStoreTriggeredOnceB,
+          keyedStoreUntriggered,
+        ],
+        invalidated: jasmine
+          .createSpy(`keyedStoreDownStoreAggregateTrigger.invalidated`)
+          .and.returnValue(keyedStoreDownStoreAggregateStep),
+      };
+      unkeyedAndKeyedStoreUpAndDownStoreAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [
+          unkeyedStoreUntriggered,
+          unkeyedStoreTriggeredOnceA,
+          unkeyedStoreTriggeredOnceB,
+          keyedStoreTriggeredOnceB,
+          keyedStoreTriggeredOnceA,
+          keyedStoreUntriggered,
+        ],
+        invalidated: jasmine
+          .createSpy(
+            `unkeyedAndKeyedStoreUpAndDownStoreAggregateTrigger.invalidated`
+          )
+          .and.returnValue(unkeyedAndKeyedStoreUpAndDownStoreAggregateStep),
+      };
 
       output = generateSteps(
         [
@@ -1078,7 +1340,9 @@ describe(`generateSteps`, function () {
           keyedStoreTriggerTriggeredOnceD,
           keyedStoreTriggerUntriggered,
           unkeyedStoreTriggerUntriggered,
-          unkeyedStoreTriggerTriggered,
+          unkeyedStoreTriggerTriggeredOnceA,
+          unkeyedStoreTriggerTriggeredOnceB,
+          unkeyedStoreTriggerTriggeredMultipleTimes,
           fileExtensionTriggerUntriggered,
           fileExtensionTriggerTriggeredMultipleTimes,
           fileExtensionTriggerTriggeredOnceA,
@@ -1091,6 +1355,12 @@ describe(`generateSteps`, function () {
           fileTriggerChanged,
           fileTriggerUnchanged,
           fileTriggerUntriggered,
+          untriggeredStoreAggregateTrigger,
+          unkeyedStoreUpStoreAggregateTrigger,
+          unkeyedStoreDownStoreAggregateTrigger,
+          keyedStoreUpStoreAggregateTrigger,
+          keyedStoreDownStoreAggregateTrigger,
+          unkeyedAndKeyedStoreUpAndDownStoreAggregateTrigger,
         ],
         false,
         {
@@ -1165,8 +1435,16 @@ describe(`generateSteps`, function () {
       expect(keyedStoreTriggerUntriggered.up).not.toHaveBeenCalled();
       expect(unkeyedStoreTriggerUntriggered.down).not.toHaveBeenCalled();
       expect(unkeyedStoreTriggerUntriggered.up).not.toHaveBeenCalled();
-      expect(unkeyedStoreTriggerTriggered.down).toHaveBeenCalledTimes(1);
-      expect(unkeyedStoreTriggerTriggered.up).toHaveBeenCalledTimes(1);
+      expect(unkeyedStoreTriggerTriggeredOnceA.down).not.toHaveBeenCalled();
+      expect(unkeyedStoreTriggerTriggeredOnceA.up).toHaveBeenCalledTimes(1);
+      expect(unkeyedStoreTriggerTriggeredOnceB.down).toHaveBeenCalledTimes(1);
+      expect(unkeyedStoreTriggerTriggeredOnceB.up).not.toHaveBeenCalled();
+      expect(
+        unkeyedStoreTriggerTriggeredMultipleTimes.down
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        unkeyedStoreTriggerTriggeredMultipleTimes.up
+      ).toHaveBeenCalledTimes(1);
       expect(fileExtensionTriggerUntriggered.down).not.toHaveBeenCalled();
       expect(fileExtensionTriggerUntriggered.up).not.toHaveBeenCalled();
       expect(
@@ -1233,6 +1511,24 @@ describe(`generateSteps`, function () {
       expect(fileTriggerUnchanged.up).not.toHaveBeenCalled();
       expect(fileTriggerUntriggered.down).not.toHaveBeenCalled();
       expect(fileTriggerUntriggered.up).not.toHaveBeenCalled();
+      expect(
+        untriggeredStoreAggregateTrigger.invalidated
+      ).not.toHaveBeenCalled();
+      expect(
+        unkeyedStoreUpStoreAggregateTrigger.invalidated
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        unkeyedStoreDownStoreAggregateTrigger.invalidated
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        keyedStoreUpStoreAggregateTrigger.invalidated
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        keyedStoreDownStoreAggregateTrigger.invalidated
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        unkeyedAndKeyedStoreUpAndDownStoreAggregateTrigger.invalidated
+      ).toHaveBeenCalledTimes(1);
     });
 
     it(`returns the expected list of steps`, () => {
@@ -1256,6 +1552,13 @@ describe(`generateSteps`, function () {
           keyedStoreTriggeredOnceStepD,
           unkeyedStoreDownStep,
           unkeyedStoreUpStep,
+          unkeyedStoreMultipleTimesDownStep,
+          unkeyedStoreMultipleTimesUpStep,
+          unkeyedStoreUpStoreAggregateStep,
+          unkeyedStoreDownStoreAggregateStep,
+          keyedStoreUpStoreAggregateStep,
+          keyedStoreDownStoreAggregateStep,
+          unkeyedAndKeyedStoreUpAndDownStoreAggregateStep,
           fileTriggeredAddedStep,
           fileTriggeredDeletedStep,
           fileTriggeredChangedDownStep,
@@ -1297,6 +1600,33 @@ describe(`generateSteps`, function () {
             fileExtensionTriggeredMultipleTimesStepB,
           ],
           [fileTriggeredChangedDownStep, fileTriggeredChangedUpStep],
+          [
+            fileExtensionTriggeredMultipleTimesStepD,
+            unkeyedStoreUpStoreAggregateStep,
+          ],
+          [
+            fileExtensionTriggeredMultipleTimesStepA,
+            unkeyedStoreDownStoreAggregateStep,
+          ],
+          [
+            fileExtensionTriggeredMultipleTimesStepA,
+            keyedStoreUpStoreAggregateStep,
+          ],
+          [keyedStoreTriggeredOnceStepD, keyedStoreDownStoreAggregateStep],
+          [
+            fileExtensionTriggeredMultipleTimesStepA,
+            unkeyedAndKeyedStoreUpAndDownStoreAggregateStep,
+          ],
+          [
+            fileExtensionTriggeredMultipleTimesStepD,
+            unkeyedAndKeyedStoreUpAndDownStoreAggregateStep,
+          ],
+          [keyedStoreUpStoreAggregateStep, unkeyedStoreMultipleTimesDownStep],
+          [keyedStoreDownStoreAggregateStep, unkeyedStoreMultipleTimesUpStep],
+          [
+            keyedStoreTriggeredOnceStepD,
+            unkeyedAndKeyedStoreUpAndDownStoreAggregateStep,
+          ],
         ])
       );
     });
@@ -1362,6 +1692,27 @@ describe(`generateSteps`, function () {
       ).not.toHaveBeenCalled();
       expect(unkeyedStoreDownStep.executePerActionStep).not.toHaveBeenCalled();
       expect(unkeyedStoreUpStep.executePerActionStep).not.toHaveBeenCalled();
+      expect(
+        unkeyedStoreMultipleTimesDownStep.executePerActionStep
+      ).not.toHaveBeenCalled();
+      expect(
+        unkeyedStoreMultipleTimesUpStep.executePerActionStep
+      ).not.toHaveBeenCalled();
+      expect(
+        unkeyedStoreUpStoreAggregateStep.executePerActionStep
+      ).not.toHaveBeenCalled();
+      expect(
+        unkeyedStoreDownStoreAggregateStep.executePerActionStep
+      ).not.toHaveBeenCalled();
+      expect(
+        keyedStoreUpStoreAggregateStep.executePerActionStep
+      ).not.toHaveBeenCalled();
+      expect(
+        keyedStoreDownStoreAggregateStep.executePerActionStep
+      ).not.toHaveBeenCalled();
+      expect(
+        unkeyedAndKeyedStoreUpAndDownStoreAggregateStep.executePerActionStep
+      ).not.toHaveBeenCalled();
       expect(
         fileTriggeredAddedStep.executePerActionStep
       ).not.toHaveBeenCalledWith();
