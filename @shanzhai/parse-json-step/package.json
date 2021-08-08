@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/parse-json-step",
   "description": "A Shanzhai step which parses JSON from a string.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,7 +21,7 @@
     "url": "https://github.com/jameswilddev/shanzhai"
   },
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "@shanzhai/interfaces": "0.0.16"
   },
   "types": "index.d.ts"

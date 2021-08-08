@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/delete-step",
   "description": "A Shanzhai step which deletes a file or directory (including any child files or directories) if it exists.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,9 +21,11 @@
     "url": "https://github.com/jameswilddev/shanzhai"
   },
   "license": "MIT",
+  "dependencies": {
+    "@shanzhai/interfaces": "0.0.16"
+  },
   "devDependencies": {
     "@types/uuid": "8.3.1",
-    "@shanzhai/interfaces": "0.0.16",
     "uuid": "8.3.2"
   },
   "types": "index.d.ts"

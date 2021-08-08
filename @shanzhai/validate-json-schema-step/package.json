@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/validate-json-schema-step",
   "description": "A Shanzhai step which validates a JSON value against a JSON schema.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,9 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "jsonschema": "1.4.0"
-  },
-  "devDependencies": {
+    "jsonschema": "1.4.0",
     "@shanzhai/interfaces": "0.0.16"
   },
   "types": "index.d.ts"

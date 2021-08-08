@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-text-file-step",
   "description": "A Shanzhai step which reads the content of a UTF-8 encoded text file.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,8 +21,10 @@
     "url": "https://github.com/jameswilddev/shanzhai"
   },
   "license": "MIT",
+  "dependencies": {
+    "@shanzhai/interfaces": "0.0.16"
+  },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.16",
     "uuid": "8.3.2",
     "@types/uuid": "8.3.1"
   },
