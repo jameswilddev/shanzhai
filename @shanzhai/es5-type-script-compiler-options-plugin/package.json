@@ -1,0 +1,41 @@
+{
+  "name": "@shanzhai/es5-type-script-compiler-options-plugin",
+  "description": "A Shanzhai plugin which loads a set of TypeScript compiler options for ES5.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/constant-input": "0.0.3",
+    "@shanzhai/copy-step": "0.0.1",
+    "@shanzhai/value-store": "0.0.6",
+    "typescript": "4.3.5"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.16",
+    "@shanzhai/type-script-compiler-options-store": "0.0.4"
+  },
+  "peerDependencies": {
+    "@shanzhai/type-script-compiler-options-store": "0.0.4"
+  },
+  "types": "index.d.ts",
+  "shanzhaiPlugin": [
+    "."
+  ]
+}
