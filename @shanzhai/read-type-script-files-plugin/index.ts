@@ -26,7 +26,7 @@ const readTypeScriptFilesPlugin: Plugin<{
       },
       up(path: ParsedPath): Step {
         return new ReadTextFileStep(
-          [path.fullPath],
+          [`src`, path.fullPath],
           new KeyValueStoreOutput(typeScriptSourceStore, path.fullPath)
         );
       },

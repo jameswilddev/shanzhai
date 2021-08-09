@@ -43,10 +43,10 @@ describe(`read-type-script-files-plugin`, () => {
       });
     });
 
-    it(`deletes the read file from the store`, () => {
+    it(`reads the file into the store`, () => {
       expect(step).toEqual(
         new ReadTextFileStep(
-          [`Test Full Path`],
+          [`src`, `Test Full Path`],
           new KeyValueStoreOutput(typeScriptSourceStore, `Test Full Path`)
         )
       );
