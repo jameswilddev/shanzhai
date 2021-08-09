@@ -34,4 +34,4 @@ const readTypeScriptFilesPlugin: Plugin<{
   },
 };
 
-export default readTypeScriptFilesPlugin;
+export = readTypeScriptFilesPlugin;

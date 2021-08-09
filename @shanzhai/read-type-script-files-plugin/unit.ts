@@ -3,7 +3,7 @@ import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { typeScriptSourceStore } from "@shanzhai/type-script-source-store";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
 import { KeyValueStoreOutput } from "@shanzhai/key-value-store";
-import readTypeScriptFilesPlugin from ".";
+import readTypeScriptFilesPlugin = require(".");
 
 describe(`read-type-script-files-plugin`, () => {
   it(`matches *.ts files`, () => {

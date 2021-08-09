@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-type-script-files-plugin",
   "description": "A Shanzhai plugin which reads TypeScript (*.ts) files into the TypeScript source store.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"
   },
