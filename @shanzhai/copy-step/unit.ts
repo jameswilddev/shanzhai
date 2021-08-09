@@ -31,7 +31,11 @@ describe(`copy-step`, () => {
         ],
       };
 
-      copyStep = new CopyStep(input, output);
+      copyStep = new CopyStep(`Test Name`, input, output);
+    });
+
+    it(`exposes its name`, () => {
+      expect(copyStep.name).toEqual(`Test Name`);
     });
 
     it(`exposes its input`, () => {
@@ -99,7 +103,7 @@ describe(`copy-step`, () => {
         ],
       };
 
-      copyStep = new CopyStep(input, output);
+      copyStep = new CopyStep(`Test Name`, input, output);
 
       await copyStep.execute();
     });
