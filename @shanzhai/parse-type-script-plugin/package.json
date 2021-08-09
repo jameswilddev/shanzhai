@@ -1,0 +1,44 @@
+{
+  "name": "@shanzhai/parse-type-script-plugin",
+  "description": "A Shanzhai plugin which parses TypeScript source files.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/key-value-store": "0.0.7",
+    "@shanzhai/parse-type-script-step": "0.0.4",
+    "@shanzhai/value-store": "0.0.6"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.16",
+    "@shanzhai/parsed-type-script-store": "0.0.5",
+    "@shanzhai/type-script-compiler-options-store": "0.0.4",
+    "@shanzhai/type-script-source-store": "0.0.5"
+  },
+  "peerDependencies": {
+    "@shanzhai/type-script-source-store": "0.0.5",
+    "@shanzhai/type-script-compiler-options-store": "0.0.4",
+    "@shanzhai/parsed-type-script-store": "0.0.5"
+  },
+  "types": "index.d.ts",
+  "shanzhaiPlugin": [
+    "."
+  ]
+}
