@@ -1,0 +1,30 @@
+{
+  "name": "@shanzhai/build-tsconfig-input",
+  "description": "A Shanzhai build step which converts TypeScript compiler options to JSON as would be found in a tsconfig.json file.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@schemastore/tsconfig": "0.0.9",
+    "@shanzhai/interfaces": "0.0.16",
+    "typescript": "4.3.5"
+  },
+  "types": "index.d.ts"
+}
