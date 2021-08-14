@@ -2,7 +2,7 @@ export function convertLib(
   lib: undefined | ReadonlyArray<string>
 ):
   | undefined
-  | ReadonlyArray<
+  | (
       | `ES5`
       | `ES6`
       | `ES7`
@@ -50,7 +50,7 @@ export function convertLib(
       | `ScriptHost`
       | `WebWorker`
       | `WebWorker.ImportScripts`
-    > {
+    )[] {
   if (lib === undefined) {
     return undefined;
   } else {

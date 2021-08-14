@@ -25,7 +25,7 @@ export function convertCompilerOptions(
       moduleResolution: convertModuleResolution(
         compilerOptions.moduleResolution
       ),
-      lib: lib === undefined ? undefined : [...lib],
+      lib,
       importsNotUsedAsValues: convertImportsNotUsedAsValues(
         compilerOptions.importsNotUsedAsValues
       ),
