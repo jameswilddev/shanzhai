@@ -1,6 +1,6 @@
 {
   "name": "@shanzhai/parallel-step",
-  "description": "A Shanzai build step which runs any number of child build steps in parallel.",
+  "description": "A Shanzhai build step which runs any number of child build steps in parallel.",
   "version": "0.0.4",
   "engines": {
     "node": ">=12.13.0"
