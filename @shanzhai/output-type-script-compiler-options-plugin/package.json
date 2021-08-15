@@ -1,0 +1,44 @@
+{
+  "name": "@shanzhai/output-type-script-compiler-options-plugin",
+  "description": "A Shanzhai plugin which outputs the current TypeScript compiler options to the current working directory.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/build-tsconfig-input": "0.0.0",
+    "@shanzhai/constant-input": "0.0.3",
+    "@shanzhai/delete-step": "0.0.4",
+    "@shanzhai/stringify-json-input": "0.0.0",
+    "@shanzhai/value-store": "0.0.6",
+    "@shanzhai/write-file-step": "0.0.4"
+  },
+  "devDependencies": {
+    "@schemastore/tsconfig": "0.0.9",
+    "@shanzhai/interfaces": "0.0.16",
+    "@shanzhai/type-script-compiler-options-store": "0.0.4"
+  },
+  "peerDependencies": {
+    "@shanzhai/type-script-compiler-options-store": "0.0.4"
+  },
+  "types": "index.d.ts",
+  "shanzhaiPlugin": [
+    "."
+  ]
+}
