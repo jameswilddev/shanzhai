@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/es5-type-script-compiler-options-plugin",
   "description": "A Shanzhai plugin which loads a set of TypeScript compiler options for ES5.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },

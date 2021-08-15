@@ -42,7 +42,7 @@ const es5TypeScriptCompilerOptionsPlugin: Plugin<{
             inlineSourceMap: false,
             inlineSources: false,
             isolatedModules: false,
-            jsx: typescript.JsxEmit.None,
+            jsx: typescript.JsxEmit.React,
             keyofStringsOnly: true,
             lib: [`dom`, `es5`, `scripthost`],
             // locale: string,

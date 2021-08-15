@@ -47,7 +47,7 @@ describe(`es5-type-script-compiler-options-plugin`, () => {
             inlineSourceMap: false,
             inlineSources: false,
             isolatedModules: false,
-            jsx: typescript.JsxEmit.None,
+            jsx: typescript.JsxEmit.React,
             keyofStringsOnly: true,
             lib: [`dom`, `es5`, `scripthost`],
             // locale: string,
