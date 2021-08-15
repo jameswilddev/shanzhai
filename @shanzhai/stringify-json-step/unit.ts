@@ -154,16 +154,17 @@ describe(`StringifyJsonStep`, () => {
         "Test Root B": [
           null,
           {
-            "Test Nested C": false,
+            "Test Nested D": false,
             "Test Nested A": true,
             'Test "Nested" B': `Test "Nested" String`,
+            "Test Nested C": undefined,
           },
           [{}],
           -70,
         ],
         "Test Root A": 36.5,
-      },
-      `{"Test Root A":36.5,"Test Root B":[null,{"Test \\"Nested\\" B":"Test \\"Nested\\" String","Test Nested A":true,"Test Nested C":false},[{}],-70]}`
+      } as unknown as Json,
+      `{"Test Root A":36.5,"Test Root B":[null,{"Test \\"Nested\\" B":"Test \\"Nested\\" String","Test Nested A":true,"Test Nested D":false},[{}],-70]}`
     );
   });
 });

@@ -16,6 +16,7 @@ export class StringifyJsonOutput implements Output<Json> {
           return `[${json.map(recurse).join(`,`)}]`;
         } else {
           return `{${Object.entries(json)
+            .filter(([, value]) => value !== undefined)
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([key, value]) => `${JSON.stringify(key)}:${recurse(value)}`)
             .join(`,`)}}`;
