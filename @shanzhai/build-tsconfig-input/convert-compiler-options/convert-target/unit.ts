@@ -1,7 +1,7 @@
 import { ScriptTarget } from "typescript";
 import { convertTarget } from ".";
 
-describe(`convert-target`, () => {
+fdescribe(`convert-target`, () => {
   function maps(
     from: undefined | ScriptTarget,
     to:
