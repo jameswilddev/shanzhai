@@ -7,7 +7,7 @@ export type DefEntry = {
 
 export class CollectSvgDefsStep extends ActionStep {
   constructor(
-    public readonly defs: ReadonlyArray<DefEntry>,
+    public readonly defs: Input<{ readonly [key: string]: DefEntry }>,
     public readonly typeScript: Output<string>,
     public readonly constants: Output<{ readonly [key: string]: Json }>,
     public readonly svg: Output<string>
@@ -20,14 +20,16 @@ export class CollectSvgDefsStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    if (this.defs.length === 0) {
+    const defs = await this.defs.get();
+
+    if (Object.keys(defs).length === 0) {
       await this.typeScript.set(`type AnySvg = never;`);
       await this.constants.set({});
       await this.svg.set(``);
     } else {
-      const sortedDefs = this.defs
-        .slice()
-        .sort((a, b) => a.typeScriptName.localeCompare(b.typeScriptName));
+      const sortedDefs = Object.values(defs).sort((a, b) =>
+        a.typeScriptName.localeCompare(b.typeScriptName)
+      );
 
       const typeScript = `type AnySvg = ${sortedDefs
         .map((_, index) => index.toString())
