@@ -7,6 +7,6 @@ export class KeyValueStoreAllInput<TValue>
   constructor(public readonly keyValueStore: KeyValueStoreInterface<TValue>) {}
 
   async get(): Promise<{ readonly [key: string]: TValue }> {
-    return Object.fromEntries(this.keyValueStore.getAll());
+    return Object.fromEntries(await this.keyValueStore.getAll());
   }
 }
