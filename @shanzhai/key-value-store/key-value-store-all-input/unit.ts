@@ -61,7 +61,7 @@ describe(`KeyValueStoreAllInput`, () => {
 
     let keyValueStoreAllInput: KeyValueStoreAllInput<TestValue>;
 
-    let result: ReadonlyArray<readonly [string, TestValue]>;
+    let result: { readonly [key: string]: TestValue };
 
     beforeAll(async () => {
       get = jasmine.createSpy(`get`);
@@ -97,11 +97,11 @@ describe(`KeyValueStoreAllInput`, () => {
     });
 
     it(`returns the value from the store`, () => {
-      expect(result).toEqual([
-        [`Test Key A`, `Test Value A`],
-        [`Test Key B`, `Test Value B`],
-        [`Test Key C`, `Test Value C`],
-      ]);
+      expect(result).toEqual({
+        "Test Key A": `Test Value A`,
+        "Test Key B": `Test Value B`,
+        "Test Key C": `Test Value C`,
+      });
     });
 
     it(`does not set a value in the store`, () => {
