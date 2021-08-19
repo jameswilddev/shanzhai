@@ -15,81 +15,69 @@ describe(`MergeObjectInput`, () => {
 
   describe(`on construction`, () => {
     let mergeObjectInput: MergeObjectInput<TestValue>;
-    let inputAGet: jasmine.Spy;
-    let inputA: Input<{ readonly [key: string]: TestValue }>;
-    let inputBGet: jasmine.Spy;
-    let inputB: Input<{ readonly [key: string]: TestValue }>;
-    let inputCGet: jasmine.Spy;
-    let inputC: Input<{ readonly [key: string]: TestValue }>;
+    let inputGet: jasmine.Spy;
+    let input: Input<{
+      readonly [keyA: string]: { readonly [keyB: string]: TestValue };
+    }>;
 
     beforeAll(() => {
-      inputAGet = jasmine.createSpy(`inputAGet`);
-      inputA = { get: inputAGet };
-      inputBGet = jasmine.createSpy(`inputBGet`);
-      inputB = { get: inputBGet };
-      inputCGet = jasmine.createSpy(`inputCGet`);
-      inputC = { get: inputCGet };
+      inputGet = jasmine.createSpy(`inputGet`);
+      input = { get: inputGet };
 
-      mergeObjectInput = new MergeObjectInput([inputA, inputB, inputC]);
+      mergeObjectInput = new MergeObjectInput(input);
     });
 
-    it(`exposes its inputs`, () => {
-      expect(mergeObjectInput.sources).toEqual([inputA, inputB, inputC]);
+    it(`exposes its input`, () => {
+      expect(mergeObjectInput.input).toEqual(input);
     });
 
-    it(`does not get any of its inputs`, () => {
-      expect(inputAGet).not.toHaveBeenCalled();
-      expect(inputBGet).not.toHaveBeenCalled();
-      expect(inputCGet).not.toHaveBeenCalled();
+    it(`does not get its input`, () => {
+      expect(inputGet).not.toHaveBeenCalled();
     });
   });
 
   describe(`get`, () => {
     describe(`when no collisions occur`, () => {
       let mergeObjectInput: MergeObjectInput<TestValue>;
-      let inputAGet: jasmine.Spy;
-      let inputA: Input<{ readonly [key: string]: TestValue }>;
-      let inputBGet: jasmine.Spy;
-      let inputB: Input<{ readonly [key: string]: TestValue }>;
-      let inputCGet: jasmine.Spy;
-      let inputC: Input<{ readonly [key: string]: TestValue }>;
+      let inputGet: jasmine.Spy;
+      let input: Input<{
+        readonly [keyA: string]: { readonly [keyB: string]: TestValue };
+      }>;
       let result: {
         readonly [key: string]: TestValue;
       };
 
       beforeAll(async () => {
-        inputAGet = jasmine.createSpy(`inputAGet`).and.resolveTo({
-          "Test Key A A": `Test Value A A`,
-          "Test Key A B": `Test Value A B`,
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo({
+          "Test Key A": {
+            "Test Key A A": `Test Value A A`,
+            "Test Key A B": `Test Value A B`,
+          },
+          "Test Key B": {
+            "Test Key B A": `Test Value B A`,
+            "Test Key B B": `Test Value B B`,
+            "Test Key B C": `Test Value B C`,
+            "Test Key B D": `Test Value B D`,
+          },
+          "Test Key C": {
+            "Test Key C A": `Test Value C A`,
+            "Test Key C B": `Test Value C B`,
+            "Test Key C C": `Test Value C C`,
+          },
         });
-        inputA = { get: inputAGet };
-        inputBGet = jasmine.createSpy(`inputBGet`).and.resolveTo({
-          "Test Key B A": `Test Value B A`,
-          "Test Key B B": `Test Value B B`,
-          "Test Key B C": `Test Value B C`,
-          "Test Key B D": `Test Value B D`,
-        });
-        inputB = { get: inputBGet };
-        inputCGet = jasmine.createSpy(`inputCGet`).and.resolveTo({
-          "Test Key C A": `Test Value C A`,
-          "Test Key C B": `Test Value C B`,
-          "Test Key C C": `Test Value C C`,
-        });
-        inputC = { get: inputCGet };
+        input = { get: inputGet };
 
-        mergeObjectInput = new MergeObjectInput([inputA, inputB, inputC]);
+        mergeObjectInput = new MergeObjectInput(input);
 
         result = await mergeObjectInput.get();
       });
 
-      it(`continues to expose its inputs`, () => {
-        expect(mergeObjectInput.sources).toEqual([inputA, inputB, inputC]);
+      it(`continues to expose its input`, () => {
+        expect(mergeObjectInput.input).toEqual(input);
       });
 
-      it(`gets each of its inputs once`, () => {
-        expect(inputAGet).toHaveBeenCalledTimes(1);
-        expect(inputBGet).toHaveBeenCalledTimes(1);
-        expect(inputCGet).toHaveBeenCalledTimes(1);
+      it(`gets its input once`, () => {
+        expect(inputGet).toHaveBeenCalledTimes(1);
       });
 
       it(`returns an object containing everything gotten`, () => {
@@ -109,35 +97,33 @@ describe(`MergeObjectInput`, () => {
 
     describe(`when a collision occurs`, () => {
       let mergeObjectInput: MergeObjectInput<TestValue>;
-      let inputAGet: jasmine.Spy;
-      let inputA: Input<{ readonly [key: string]: TestValue }>;
-      let inputBGet: jasmine.Spy;
-      let inputB: Input<{ readonly [key: string]: TestValue }>;
-      let inputCGet: jasmine.Spy;
-      let inputC: Input<{ readonly [key: string]: TestValue }>;
+      let inputGet: jasmine.Spy;
+      let input: Input<{
+        readonly [keyA: string]: { readonly [keyB: string]: TestValue };
+      }>;
       let error: Error;
 
       beforeAll(async () => {
-        inputAGet = jasmine.createSpy(`inputAGet`).and.resolveTo({
-          "Test Key A A": `Test Value A A`,
-          "Test Key C B": `Test Value A B`,
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo({
+          "Test Key A": {
+            "Test Key A A": `Test Value A A`,
+            "Test Key C B": `Test Value A B`,
+          },
+          "Test Key B": {
+            "Test Key B A": `Test Value B A`,
+            "Test Key B B": `Test Value B B`,
+            "Test Key B C": `Test Value B C`,
+            "Test Key B D": `Test Value B D`,
+          },
+          "Test Key C": {
+            "Test Key C A": `Test Value C A`,
+            "Test Key C B": `Test Value C B`,
+            "Test Key C C": `Test Value C C`,
+          },
         });
-        inputA = { get: inputAGet };
-        inputBGet = jasmine.createSpy(`inputBGet`).and.resolveTo({
-          "Test Key B A": `Test Value B A`,
-          "Test Key B B": `Test Value B B`,
-          "Test Key B C": `Test Value B C`,
-          "Test Key B D": `Test Value B D`,
-        });
-        inputB = { get: inputBGet };
-        inputCGet = jasmine.createSpy(`inputCGet`).and.resolveTo({
-          "Test Key C A": `Test Value C A`,
-          "Test Key C B": `Test Value C B`,
-          "Test Key C C": `Test Value C C`,
-        });
-        inputC = { get: inputCGet };
+        input = { get: inputGet };
 
-        mergeObjectInput = new MergeObjectInput([inputA, inputB, inputC]);
+        mergeObjectInput = new MergeObjectInput(input);
 
         try {
           await mergeObjectInput.get();
@@ -146,14 +132,12 @@ describe(`MergeObjectInput`, () => {
         }
       });
 
-      it(`continues to expose its inputs`, () => {
-        expect(mergeObjectInput.sources).toEqual([inputA, inputB, inputC]);
+      it(`continues to expose its input`, () => {
+        expect(mergeObjectInput.input).toEqual(input);
       });
 
-      it(`gets each of its inputs once`, () => {
-        expect(inputAGet).toHaveBeenCalledTimes(1);
-        expect(inputBGet).toHaveBeenCalledTimes(1);
-        expect(inputCGet).toHaveBeenCalledTimes(1);
+      it(`gets its input once`, () => {
+        expect(inputGet).toHaveBeenCalledTimes(1);
       });
 
       it(`throws the expected error`, () => {

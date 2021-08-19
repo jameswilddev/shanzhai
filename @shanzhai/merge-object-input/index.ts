@@ -4,27 +4,29 @@ export class MergeObjectInput<TValue>
   implements Input<{ readonly [key: string]: TValue }>
 {
   constructor(
-    public readonly sources: ReadonlyArray<
-      Input<{ readonly [key: string]: TValue }>
-    >
+    public readonly input: Input<{
+      readonly [keyA: string]: { readonly [keyB: string]: TValue };
+    }>
   ) {}
 
   async get(): Promise<{ readonly [key: string]: TValue }> {
     const output: { [key: string]: TValue } = {};
 
-    for (const source of this.sources) {
-      const data = await source.get();
+    const input = await this.input.get();
 
-      for (const key in data) {
-        if (Object.prototype.hasOwnProperty.call(output, key)) {
+    for (const keyA in input) {
+      const valueA = input[keyA];
+
+      for (const keyB in valueA) {
+        if (Object.prototype.hasOwnProperty.call(output, keyB)) {
           throw new Error(
             `Unable to merge objects as key ${JSON.stringify(
-              key
+              keyB
             )} exists in more than one source.`
           );
         }
 
-        output[key] = data[key];
+        output[keyB] = valueA[keyB];
       }
     }
 
