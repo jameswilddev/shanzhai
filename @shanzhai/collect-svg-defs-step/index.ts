@@ -1,13 +1,8 @@
 import { Input, Output, ActionStep, Json } from "@shanzhai/interfaces";
 
-export type DefEntry = {
-  readonly typeScriptName: string;
-  readonly content: Input<string>;
-};
-
 export class CollectSvgDefsStep extends ActionStep {
   constructor(
-    public readonly defs: Input<{ readonly [key: string]: DefEntry }>,
+    public readonly defs: Input<{ readonly [key: string]: string }>,
     public readonly typeScript: Output<string>,
     public readonly constants: Output<{ readonly [key: string]: Json }>,
     public readonly svg: Output<string>
@@ -27,8 +22,8 @@ export class CollectSvgDefsStep extends ActionStep {
       await this.constants.set({});
       await this.svg.set(``);
     } else {
-      const sortedDefs = Object.values(defs).sort((a, b) =>
-        a.typeScriptName.localeCompare(b.typeScriptName)
+      const sortedDefs = Object.entries(defs).sort((a, b) =>
+        a[0].localeCompare(b[0])
       );
 
       const typeScript = `type AnySvg = ${sortedDefs
@@ -38,13 +33,13 @@ export class CollectSvgDefsStep extends ActionStep {
       const constants: { [typeScriptName: string]: number } = {};
 
       for (let index = 0; index < sortedDefs.length; index++) {
-        constants[sortedDefs[index].typeScriptName] = index;
+        constants[sortedDefs[index][0]] = index;
       }
 
       let svg = ``;
 
       for (let index = 0; index < sortedDefs.length; index++) {
-        const content = await sortedDefs[index].content.get();
+        const content = await sortedDefs[index][1];
 
         const matches = content.match(/(\s)id=""/g);
 

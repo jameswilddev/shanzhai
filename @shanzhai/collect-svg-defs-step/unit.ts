@@ -1,5 +1,5 @@
 import { Input, Json, Output, Effect } from "@shanzhai/interfaces";
-import { CollectSvgDefsStep, DefEntry } from ".";
+import { CollectSvgDefsStep } from ".";
 
 describe(`CollectSvgDefsStep`, () => {
   const typeScriptEffectA: Effect = {
@@ -48,7 +48,7 @@ describe(`CollectSvgDefsStep`, () => {
   };
 
   describe(`on construction`, () => {
-    let defs: Input<{ readonly [key: string]: DefEntry }>;
+    let defs: Input<{ readonly [key: string]: string }>;
     let typeScript: Output<string>;
     let constants: Output<{ readonly [key: string]: Json }>;
     let svg: Output<string>;
@@ -137,7 +137,7 @@ describe(`CollectSvgDefsStep`, () => {
 
   describe(`on execution`, () => {
     describe(`without defs`, () => {
-      let defs: Input<{ readonly [key: string]: DefEntry }>;
+      let defs: Input<{ readonly [key: string]: string }>;
       let typeScript: Output<string>;
       let constants: Output<{ readonly [key: string]: Json }>;
       let svg: Output<string>;
@@ -225,7 +225,7 @@ describe(`CollectSvgDefsStep`, () => {
     });
 
     describe(`with one def`, () => {
-      let defs: Input<{ readonly [key: string]: DefEntry }>;
+      let defs: Input<{ readonly [key: string]: string }>;
       let typeScript: Output<string>;
       let constants: Output<{ readonly [key: string]: Json }>;
       let svg: Output<string>;
@@ -234,7 +234,7 @@ describe(`CollectSvgDefsStep`, () => {
       beforeAll(async () => {
         defs = {
           get: jasmine.createSpy(`defs.get`).and.resolveTo({
-            "Test Def A": `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
+            testTypeScriptNameA: `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
           }),
         };
         typeScript = {
@@ -319,7 +319,7 @@ describe(`CollectSvgDefsStep`, () => {
     });
 
     describe(`with two defs`, () => {
-      let defs: Input<{ readonly [key: string]: DefEntry }>;
+      let defs: Input<{ readonly [key: string]: string }>;
       let typeScript: Output<string>;
       let constants: Output<{ readonly [key: string]: Json }>;
       let svg: Output<string>;
@@ -328,8 +328,8 @@ describe(`CollectSvgDefsStep`, () => {
       beforeAll(async () => {
         defs = {
           get: jasmine.createSpy(`defs.get`).and.resolveTo({
-            "Test Def A": `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
-            "Test Def B": `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`,
+            testTypeScriptNameB: `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
+            testTypeScriptNameA: `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`,
           }),
         };
         typeScript = {
@@ -416,7 +416,7 @@ describe(`CollectSvgDefsStep`, () => {
 
     describe(`with three defs`, () => {
       describe(`all valid`, () => {
-        let defs: Input<{ readonly [key: string]: DefEntry }>;
+        let defs: Input<{ readonly [key: string]: string }>;
         let typeScript: Output<string>;
         let constants: Output<{ readonly [key: string]: Json }>;
         let svg: Output<string>;
@@ -425,9 +425,9 @@ describe(`CollectSvgDefsStep`, () => {
         beforeAll(async () => {
           defs = {
             get: jasmine.createSpy(`defs.get`).and.resolveTo({
-              "Test Def A": `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
-              "Test Def B": `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`,
-              "Test Def C": `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`,
+              testTypeScriptNameB: `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
+              testTypeScriptNameA: `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`,
+              testTypeScriptNameC: `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`,
             }),
           };
           typeScript = {
@@ -516,7 +516,7 @@ describe(`CollectSvgDefsStep`, () => {
       });
 
       describe(`where a def is missing an id`, () => {
-        let defs: Input<{ readonly [key: string]: DefEntry }>;
+        let defs: Input<{ readonly [key: string]: string }>;
         let typeScript: Output<string>;
         let constants: Output<{ readonly [key: string]: Json }>;
         let svg: Output<string>;
@@ -526,9 +526,9 @@ describe(`CollectSvgDefsStep`, () => {
         beforeAll(async () => {
           defs = {
             get: jasmine.createSpy(`defs.get`).and.resolveTo({
-              "Test Def A": `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
-              "Test Def B": `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" also-easily-confused-with-id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`,
-              "Test Def C": `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`,
+              testTypeScriptNameB: `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
+              testTypeScriptNameA: `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" also-easily-confused-with-id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`,
+              testTypeScriptNameC: `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`,
             }),
           };
           typeScript = {
@@ -605,7 +605,7 @@ describe(`CollectSvgDefsStep`, () => {
       });
 
       describe(`where a def has two ids`, () => {
-        let defs: Input<{ readonly [key: string]: DefEntry }>;
+        let defs: Input<{ readonly [key: string]: string }>;
         let typeScript: Output<string>;
         let constants: Output<{ readonly [key: string]: Json }>;
         let svg: Output<string>;
@@ -615,9 +615,9 @@ describe(`CollectSvgDefsStep`, () => {
         beforeAll(async () => {
           defs = {
             get: jasmine.createSpy(`defs.get`).and.resolveTo({
-              "Test Def A": `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
-              "Test Def B": `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`,
-              "Test Def C": `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`,
+              testTypeScriptNameB: `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
+              testTypeScriptNameA: `<element-b attribute-b-a-key="attribute-b-a-value" attribute-b-b-key="attribute-b-b-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`,
+              testTypeScriptNameC: `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`,
             }),
           };
           typeScript = {
@@ -694,7 +694,7 @@ describe(`CollectSvgDefsStep`, () => {
       });
 
       describe(`where a def has three ids`, () => {
-        let defs: Input<{ readonly [key: string]: DefEntry }>;
+        let defs: Input<{ readonly [key: string]: string }>;
         let typeScript: Output<string>;
         let constants: Output<{ readonly [key: string]: Json }>;
         let svg: Output<string>;
@@ -704,9 +704,9 @@ describe(`CollectSvgDefsStep`, () => {
         beforeAll(async () => {
           defs = {
             get: jasmine.createSpy(`defs.get`).and.resolveTo({
-              "Test Def A": `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
-              "Test Def B": `<element-b attribute-b-a-key="attribute-b-a-value" id="" attribute-b-b-key="attribute-b-b-value" id="" easily-confused-with-id="" also-easily-confused-with-id="" id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`,
-              "Test Def C": `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`,
+              testTypeScriptNameB: `<element-a attribute-a-a-key="attribute-a-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-a-b-key="attribute-a-b-value" attribute-a-c-key="attribute-a-c-value">text-a</element-a>`,
+              testTypeScriptNameA: `<element-b attribute-b-a-key="attribute-b-a-value" id="" attribute-b-b-key="attribute-b-b-value" id="" easily-confused-with-id="" also-easily-confused-with-id="" id="" attribute-b-c-key="attribute-b-c-value" attribute-b-d-key="attribute-b-d-value">text-b</element-b>`,
+              testTypeScriptNameC: `<element-c attribute-c-a-key="attribute-c-a-value" easily-confused-with-id="" id="" also-easily-confused-with-id="" attribute-c-b-key="attribute-c-b-value">text-c</element-c>`,
             }),
           };
           typeScript = {
