@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/zip-plugin",
   "description": "A Shanzhai plugin which zips the generated content.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -25,7 +25,7 @@
     "@shanzhai/key-value-store": "0.0.8",
     "@shanzhai/serial-step": "0.0.4",
     "@shanzhai/value-store": "0.0.6",
-    "@shanzhai/zip-step": "0.0.4"
+    "@shanzhai/zip-step": "0.0.5"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.16",
