@@ -2,15 +2,14 @@ import { Step } from "@shanzhai/interfaces";
 import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { svgDefStore } from "@shanzhai/svg-def-store";
 import { typeScriptSourceStore } from "@shanzhai/type-script-source-store";
-import { DeleteFromValueStoreStep } from "@shanzhai/value-store";
 import { CollectSvgDefsStep } from "@shanzhai/collect-svg-defs-step";
-import { collectedSvgDefStore } from "@shanzhai/collected-svg-def-store";
-import { globalStore } from "@shanzhai/global-store";
 import { KeyValueStoreOutput } from "@shanzhai/key-value-store";
 import { KeyValueStoreAllInput } from "@shanzhai/key-value-store";
 import { ParallelStep } from "@shanzhai/parallel-step";
 import { SerialStep } from "@shanzhai/serial-step";
-import { ValueStoreOutput } from "@shanzhai/value-store";
+import { pugLocalStore } from "@shanzhai/pug-local-store";
+import { typeScriptGlobalStore } from "@shanzhai/type-script-global-store";
+import { WrapInObjectOutput } from "@shanzhai/wrap-in-object-output";
 import collectSvgDefsPlugin = require(".");
 
 describe(`collect-svg-defs-plugin`, () => {
@@ -36,10 +35,13 @@ describe(`collect-svg-defs-plugin`, () => {
               `temp/collect-svg-defs-plugin.ts`
             ),
             new DeleteFromKeyValueStoreStep(
-              globalStore,
+              typeScriptGlobalStore,
               `collect-svg-defs-plugin`
             ),
-            new DeleteFromValueStoreStep(collectedSvgDefStore),
+            new DeleteFromKeyValueStoreStep(
+              pugLocalStore,
+              `collect-svg-defs-plugin-`
+            ),
           ]),
           new CollectSvgDefsStep(
             new KeyValueStoreAllInput(svgDefStore),
@@ -47,8 +49,14 @@ describe(`collect-svg-defs-plugin`, () => {
               typeScriptSourceStore,
               `temp/collect-svg-defs-plugin.ts`
             ),
-            new KeyValueStoreOutput(globalStore, `collect-svg-defs-plugin`),
-            new ValueStoreOutput(collectedSvgDefStore)
+            new KeyValueStoreOutput(
+              typeScriptGlobalStore,
+              `collect-svg-defs-plugin`
+            ),
+            new WrapInObjectOutput(
+              `collectSvgDefsPluginSvg`,
+              new KeyValueStoreOutput(pugLocalStore, `collect-svg-defs-plugin`)
+            )
           ),
         ])
       );

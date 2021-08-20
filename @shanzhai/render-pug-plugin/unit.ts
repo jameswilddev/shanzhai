@@ -9,7 +9,7 @@ import {
 import { parsedPugStore } from "@shanzhai/parsed-pug-store";
 import { RenderPugStep } from "@shanzhai/render-pug-step";
 import { MergeObjectInput } from "@shanzhai/merge-object-input";
-import { globalStore } from "@shanzhai/global-store";
+import { pugLocalStore } from "@shanzhai/pug-local-store";
 import readPugFilesPlugin = require(".");
 
 describe(`render-pug-plugin`, () => {
@@ -39,7 +39,7 @@ describe(`render-pug-plugin`, () => {
         new RenderPugStep(
           `Render Pug "Test Key"`,
           new KeyValueStoreInput(parsedPugStore, `Test Key`),
-          new MergeObjectInput(new KeyValueStoreAllInput(globalStore)),
+          new MergeObjectInput(new KeyValueStoreAllInput(pugLocalStore)),
           new KeyValueStoreOutput(htmlSourceStore, `Test Key`)
         )
       );

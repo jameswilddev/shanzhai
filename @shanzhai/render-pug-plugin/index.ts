@@ -8,7 +8,7 @@ import {
 import { parsedPugStore } from "@shanzhai/parsed-pug-store";
 import { htmlSourceStore } from "@shanzhai/html-source-store";
 import { RenderPugStep } from "@shanzhai/render-pug-step";
-import { globalStore } from "@shanzhai/global-store";
+import { pugLocalStore } from "@shanzhai/pug-local-store";
 import { MergeObjectInput } from "@shanzhai/merge-object-input";
 
 const renderPugPlugin: Plugin<{
@@ -25,7 +25,7 @@ const renderPugPlugin: Plugin<{
         return new RenderPugStep(
           `Render Pug "${key}"`,
           new KeyValueStoreInput(parsedPugStore, key),
-          new MergeObjectInput(new KeyValueStoreAllInput(globalStore)),
+          new MergeObjectInput(new KeyValueStoreAllInput(pugLocalStore)),
           new KeyValueStoreOutput(htmlSourceStore, key)
         );
       },
