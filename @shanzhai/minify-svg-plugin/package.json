@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@shanzhai/minify-svg-step": "0.0.5",
-    "@shanzhai/key-value-store": "0.0.7"
+    "@shanzhai/key-value-store": "0.0.8"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.16",
