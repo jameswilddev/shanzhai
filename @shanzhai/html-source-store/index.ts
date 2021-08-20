@@ -1,3 +1,3 @@
-import { ValueStore } from "@shanzhai/value-store";
+import { KeyValueStore } from "@shanzhai/key-value-store";
 
-export const htmlSourceStore = new ValueStore<string>(`htmlSourceStore`);
+export const htmlSourceStore = new KeyValueStore<string>(`htmlSourceStore`);
