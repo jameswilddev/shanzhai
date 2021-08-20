@@ -1,3 +1,3 @@
-import { ValueStore } from "@shanzhai/value-store";
+import { KeyValueStore } from "@shanzhai/key-value-store";
 
-export const pugSourceStore = new ValueStore<string>(`pugSourceStore`);
+export const pugSourceStore = new KeyValueStore<string>(`pugSourceStore`);
