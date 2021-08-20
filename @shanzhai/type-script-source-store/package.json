@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/key-value-store": "0.0.7"
+    "@shanzhai/key-value-store": "0.0.8"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.16"
