@@ -1,0 +1,40 @@
+{
+  "name": "@shanzhai/output-zip-content-plugin",
+  "description": "A Shanzhai plugin which outputs the content of the distributable zip to the dist/content subdirectory of the current working directory.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/delete-step": "0.0.4",
+    "@shanzhai/key-value-store": "0.0.7",
+    "@shanzhai/write-file-step": "0.0.4"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.16",
+    "@shanzhai/zip-content-store": "0.0.0"
+  },
+  "peerDependencies": {
+    "@shanzhai/zip-content-store": "0.0.0"
+  },
+  "types": "index.d.ts",
+  "shanzhaiPlugin": [
+    "."
+  ]
+}

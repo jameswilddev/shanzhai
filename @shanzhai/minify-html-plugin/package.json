@@ -1,0 +1,41 @@
+{
+  "name": "@shanzhai/minify-html-plugin",
+  "description": "A Shanzhai plugin which minifies HTML from the source store.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/minify-html-step": "0.0.4",
+    "@shanzhai/key-value-store": "0.0.7"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.16",
+    "@shanzhai/html-source-store": "0.0.1",
+    "@shanzhai/minified-html-store": "0.0.1"
+  },
+  "peerDependencies": {
+    "@shanzhai/html-source-store": "0.0.1",
+    "@shanzhai/minified-html-store": "0.0.1"
+  },
+  "types": "index.d.ts",
+  "shanzhaiPlugin": [
+    "."
+  ]
+}

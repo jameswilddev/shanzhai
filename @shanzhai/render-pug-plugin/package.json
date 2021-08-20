@@ -1,0 +1,43 @@
+{
+  "name": "@shanzhai/render-pug-plugin",
+  "description": "A Shanzhai plugin which renders parsed Pug.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/global-store": "0.0.6",
+    "@shanzhai/key-value-store": "0.0.8",
+    "@shanzhai/merge-object-input": "0.0.4",
+    "@shanzhai/render-pug-step": "0.0.4"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.16",
+    "@shanzhai/parsed-pug-store": "0.0.1",
+    "@shanzhai/html-source-store": "0.0.1"
+  },
+  "peerDependencies": {
+    "@shanzhai/parsed-pug-store": "0.0.1",
+    "@shanzhai/html-source-store": "0.0.1"
+  },
+  "types": "index.d.ts",
+  "shanzhaiPlugin": [
+    "."
+  ]
+}

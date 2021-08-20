@@ -1,0 +1,47 @@
+{
+  "name": "@shanzhai/collect-svg-defs-plugin",
+  "description": "A Shanzhai plugin which collects SVG defs.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/collect-svg-defs-step": "0.0.5",
+    "@shanzhai/key-value-store": "0.0.8",
+    "@shanzhai/parallel-step": "0.0.4",
+    "@shanzhai/serial-step": "0.0.4"
+  },
+  "devDependencies": {
+    "@shanzhai/collected-svg-def-store": "0.0.0",
+    "@shanzhai/global-store": "0.0.6",
+    "@shanzhai/interfaces": "0.0.16",
+    "@shanzhai/svg-def-store": "0.0.0",
+    "@shanzhai/type-script-source-store": "0.0.5"
+  },
+  "peerDependencies": {
+    "@shanzhai/collected-svg-def-store": "0.0.0",
+    "@shanzhai/svg-def-store": "0.0.0",
+    "@shanzhai/type-script-source-store": "0.0.5",
+    "@shanzhai/global-store": "0.0.6"
+  },
+  "types": "index.d.ts",
+  "shanzhaiPlugin": [
+    "."
+  ]
+}
