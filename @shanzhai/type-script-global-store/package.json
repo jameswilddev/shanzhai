@@ -1,6 +1,6 @@
 {
-  "name": "@shanzhai/global-store",
-  "description": "A Shanzhai store for global variables to be included in Javascript builds.",
+  "name": "@shanzhai/type-script-global-store",
+  "description": "A Shanzhai store for global variables to be included in TypeScript builds.",
   "version": "0.0.6",
   "engines": {
     "node": ">=12.13.0"

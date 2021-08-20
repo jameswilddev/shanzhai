@@ -1,6 +1,6 @@
 {
-  "name": "@shanzhai/collected-svg-def-store",
-  "description": "A Shanzhai store for the SVG of collected defs.",
+  "name": "@shanzhai/pug-local-store",
+  "description": "A Shanzhai store for locals to be passed to Pug templates.",
   "version": "0.0.0",
   "engines": {
     "node": ">=12.13.0"
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/value-store": "0.0.6"
+    "@shanzhai/key-value-store": "0.0.8"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.16"
