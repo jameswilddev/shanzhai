@@ -29,7 +29,7 @@
     "@shanzhai/interfaces": "0.0.16",
     "@types/svgo": "2.4.0",
     "@types/sharp": "0.28.5",
-    "sharp": "0.28.3",
+    "sharp": "0.29.0",
     "@types/pixelmatch": "5.2.4",
     "pixelmatch": "5.2.1"
   },
