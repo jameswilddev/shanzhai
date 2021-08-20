@@ -1,6 +1,6 @@
 import * as pug from "pug";
-import { ValueStore } from "@shanzhai/value-store";
+import { KeyValueStore } from "@shanzhai/key-value-store";
 
-export const parsedPugStore = new ValueStore<pug.compileTemplate>(
+export const parsedPugStore = new KeyValueStore<pug.compileTemplate>(
   `parsedPugStore`
 );
