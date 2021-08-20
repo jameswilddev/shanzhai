@@ -1,3 +1,3 @@
-import { ValueStore } from "@shanzhai/value-store";
+import { KeyValueStore } from "@shanzhai/key-value-store";
 
-export const minifiedHtmlStore = new ValueStore<string>(`minifiedHtmlStore`);
+export const minifiedHtmlStore = new KeyValueStore<string>(`minifiedHtmlStore`);
