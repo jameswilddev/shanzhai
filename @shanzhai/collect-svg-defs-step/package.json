@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/collect-svg-defs-step",
   "description": "A Shanzhai step which collects a number of SVG defs into a single document, and generates TypeScript source which can be used to refer to those defs.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "node": ">=12.13.0"
   },
