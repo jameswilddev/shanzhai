@@ -3,9 +3,9 @@ export interface UnkeyedStore<TValue> {
 
   readonly name: string;
 
-  get(): TValue;
+  get(): Promise<TValue>;
 
-  set(value: TValue): void;
+  set(value: TValue): Promise<void>;
 
-  delete(): void;
+  delete(): Promise<void>;
 }

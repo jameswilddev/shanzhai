@@ -3,13 +3,13 @@ export interface KeyedStore<TValue> {
 
   readonly name: string;
 
-  get(key: string): TValue;
+  get(key: string): Promise<TValue>;
 
-  set(key: string, value: TValue): void;
+  set(key: string, value: TValue): Promise<void>;
 
-  delete(key: string): void;
+  delete(key: string): Promise<void>;
 
-  getAll(): { readonly [key: string]: TValue };
+  getAll(): Promise<{ readonly [key: string]: TValue }>;
 
-  getKeys(): ReadonlyArray<string>;
+  getKeys(): Promise<ReadonlyArray<string>>;
 }
