@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minify-html-plugin",
   "description": "A Shanzhai plugin which minifies HTML from the source store.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -28,11 +28,11 @@
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.16",
     "@shanzhai/html-source-store": "0.0.1",
-    "@shanzhai/minified-html-store": "0.0.1"
+    "@shanzhai/zip-content-store": "0.0.0"
   },
   "peerDependencies": {
     "@shanzhai/html-source-store": "0.0.1",
-    "@shanzhai/minified-html-store": "0.0.1"
+    "@shanzhai/zip-content-store": "0.0.0"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

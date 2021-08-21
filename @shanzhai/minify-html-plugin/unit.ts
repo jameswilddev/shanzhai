@@ -6,7 +6,7 @@ import {
   KeyValueStoreInput,
   KeyValueStoreOutput,
 } from "@shanzhai/key-value-store";
-import { minifiedHtmlStore } from "@shanzhai/minified-html-store";
+import { zipContentStore } from "@shanzhai/zip-content-store";
 import minifyHtmlPlugin = require(".");
 
 describe(`minify-html-plugin`, () => {
@@ -25,7 +25,7 @@ describe(`minify-html-plugin`, () => {
 
     it(`deletes the minified HTML from the store`, () => {
       expect(step).toEqual(
-        new DeleteFromKeyValueStoreStep(minifiedHtmlStore, `Test Key`)
+        new DeleteFromKeyValueStoreStep(zipContentStore, `Test Key`)
       );
     });
   });
@@ -42,7 +42,7 @@ describe(`minify-html-plugin`, () => {
         new MinifyHtmlStep(
           `Test Key`,
           new KeyValueStoreInput(htmlSourceStore, `Test Key`),
-          new KeyValueStoreOutput(minifiedHtmlStore, `Test Key`)
+          new KeyValueStoreOutput(zipContentStore, `Test Key`)
         )
       );
     });
