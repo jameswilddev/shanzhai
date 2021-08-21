@@ -8,9 +8,10 @@ import {
   KeyedStore,
   UnkeyedStore,
   Effect,
+  FileTrigger,
+  StoreAggregateTrigger,
 } from "@shanzhai/interfaces";
 import { generateSteps } from ".";
-import { FileTrigger, StoreAggregateTrigger } from "../../interfaces";
 
 class DummyStep implements Step {
   constructor(readonly name: string, readonly effects: ReadonlyArray<Effect>) {}
