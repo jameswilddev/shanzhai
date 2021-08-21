@@ -1,5 +1,6 @@
 import { ActionStep } from "..";
 import { Effect } from "../effect";
+import { UnkeyedStore } from "../stores/unkeyed-store";
 
 describe(`ActionStep`, () => {
   class TestActionStep extends ActionStep {
@@ -9,22 +10,30 @@ describe(`ActionStep`, () => {
   describe(`on construction`, () => {
     let actionStep: TestActionStep;
 
+    let unkeyedStore: UnkeyedStore<unknown>;
     let effectA: Effect;
     let effectB: Effect;
     let effectC: Effect;
 
     beforeAll(() => {
+      unkeyedStore = {
+        type: `unkeyedStore`,
+        name: `Test Name`,
+        get: jasmine.createSpy(`unkeyedStore.get`),
+        set: jasmine.createSpy(`unkeyedStore.set`),
+        delete: jasmine.createSpy(`unkeyedStore.delete`),
+      };
       effectA = {
         type: `unkeyedStoreSet`,
-        unkeyedStore: { type: `unkeyedStore`, name: `Test Name` },
+        unkeyedStore,
       };
       effectB = {
         type: `unkeyedStoreSet`,
-        unkeyedStore: { type: `unkeyedStore`, name: `Test Name` },
+        unkeyedStore,
       };
       effectC = {
         type: `unkeyedStoreSet`,
-        unkeyedStore: { type: `unkeyedStore`, name: `Test Name` },
+        unkeyedStore,
       };
 
       actionStep = new TestActionStep(`Test Name`, [effectA, effectB, effectC]);
@@ -41,11 +50,18 @@ describe(`ActionStep`, () => {
     it(`does not execute itself`, () => {
       expect(actionStep.execute).not.toHaveBeenCalled();
     });
+
+    it(`does not interact with its effects`, () => {
+      expect(unkeyedStore.get).not.toHaveBeenCalled();
+      expect(unkeyedStore.set).not.toHaveBeenCalled();
+      expect(unkeyedStore.delete).not.toHaveBeenCalled();
+    });
   });
 
   describe(`on calling executePerActionStep`, () => {
     let actionStep: TestActionStep;
 
+    let unkeyedStore: UnkeyedStore<unknown>;
     let effectA: Effect;
     let effectB: Effect;
     let effectC: Effect;
@@ -53,17 +69,24 @@ describe(`ActionStep`, () => {
     let callback: jasmine.Spy;
 
     beforeAll(() => {
+      unkeyedStore = {
+        type: `unkeyedStore`,
+        name: `Test Name`,
+        get: jasmine.createSpy(`unkeyedStore.get`),
+        set: jasmine.createSpy(`unkeyedStore.set`),
+        delete: jasmine.createSpy(`unkeyedStore.delete`),
+      };
       effectA = {
         type: `unkeyedStoreSet`,
-        unkeyedStore: { type: `unkeyedStore`, name: `Test Name` },
+        unkeyedStore,
       };
       effectB = {
         type: `unkeyedStoreSet`,
-        unkeyedStore: { type: `unkeyedStore`, name: `Test Name` },
+        unkeyedStore,
       };
       effectC = {
         type: `unkeyedStoreSet`,
-        unkeyedStore: { type: `unkeyedStore`, name: `Test Name` },
+        unkeyedStore,
       };
 
       actionStep = new TestActionStep(`Test Name`, [effectA, effectB, effectC]);
@@ -91,6 +114,12 @@ describe(`ActionStep`, () => {
 
     it(`executes the callback with itself as the argument`, () => {
       expect(callback).toHaveBeenCalledWith(actionStep);
+    });
+
+    it(`does not interact with its effects`, () => {
+      expect(unkeyedStore.get).not.toHaveBeenCalled();
+      expect(unkeyedStore.set).not.toHaveBeenCalled();
+      expect(unkeyedStore.delete).not.toHaveBeenCalled();
     });
   });
 });

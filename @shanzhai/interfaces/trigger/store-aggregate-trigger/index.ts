@@ -5,7 +5,7 @@ import { Step } from "../../step";
 export type StoreAggregateTrigger = {
   readonly type: `storeAggregate`;
 
-  readonly stores: ReadonlyArray<UnkeyedStore | KeyedStore>;
+  readonly stores: ReadonlyArray<UnkeyedStore<unknown> | KeyedStore<unknown>>;
 
   invalidated(): Step;
 };
