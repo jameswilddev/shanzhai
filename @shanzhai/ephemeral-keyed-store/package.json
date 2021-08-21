@@ -1,0 +1,28 @@
+{
+  "name": "@shanzhai/ephemeral-keyed-store",
+  "description": "A keyed Shanzhai store which holds data in memory until the application closes.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.18"
+  },
+  "types": "index.d.ts"
+}
