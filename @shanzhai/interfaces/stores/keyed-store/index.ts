@@ -9,7 +9,7 @@ export interface KeyedStore<TValue> {
 
   delete(key: string): void;
 
-  getAll(): ReadonlyArray<readonly [string, TValue]>;
+  getAll(): { readonly [key: string]: TValue };
 
   getKeys(): ReadonlyArray<string>;
 }
