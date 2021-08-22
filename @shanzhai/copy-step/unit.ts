@@ -1,9 +1,17 @@
-import { Input, Output } from "@shanzhai/interfaces";
+import { Input, Output, UnkeyedStore } from "@shanzhai/interfaces";
 import { CopyStep } from ".";
 
 type TestValue = `Test Value`;
 
 describe(`copy-step`, () => {
+  const unkeyedStore: UnkeyedStore<unknown> = {
+    type: `unkeyedStore`,
+    name: `Test Unkeyed Store`,
+    get: jasmine.createSpy(`unkeyedStore.get`).and.callFake(fail),
+    set: jasmine.createSpy(`unkeyedStore.set`).and.callFake(fail),
+    delete: jasmine.createSpy(`unkeyedStore.delete`).and.callFake(fail),
+  };
+
   describe(`on construction`, () => {
     let input: Input<TestValue>;
     let output: Output<TestValue>;
@@ -16,17 +24,11 @@ describe(`copy-step`, () => {
         effects: [
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: {
-              type: `unkeyedStore`,
-              name: `Test Output Effect A`,
-            },
+            unkeyedStore,
           },
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: {
-              type: `unkeyedStore`,
-              name: `Test Output Effect B`,
-            },
+            unkeyedStore,
           },
         ],
       };
@@ -50,17 +52,11 @@ describe(`copy-step`, () => {
       expect(copyStep.effects).toEqual([
         {
           type: `unkeyedStoreSet`,
-          unkeyedStore: {
-            type: `unkeyedStore`,
-            name: `Test Output Effect A`,
-          },
+          unkeyedStore,
         },
         {
           type: `unkeyedStoreSet`,
-          unkeyedStore: {
-            type: `unkeyedStore`,
-            name: `Test Output Effect B`,
-          },
+          unkeyedStore,
         },
       ]);
     });
@@ -88,17 +84,11 @@ describe(`copy-step`, () => {
         effects: [
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: {
-              type: `unkeyedStore`,
-              name: `Test Output Effect A`,
-            },
+            unkeyedStore,
           },
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: {
-              type: `unkeyedStore`,
-              name: `Test Output Effect B`,
-            },
+            unkeyedStore,
           },
         ],
       };

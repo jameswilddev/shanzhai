@@ -1,60 +1,68 @@
-import { Step, Effect } from "@shanzhai/interfaces";
+import { Step, Effect, UnkeyedStore } from "@shanzhai/interfaces";
 import { SerialStep } from ".";
 
 describe(`SerialStep`, () => {
+  const unkeyedStore: UnkeyedStore<unknown> = {
+    type: `unkeyedStore`,
+    name: `Test Unkeyed Store`,
+    get: jasmine.createSpy(`unkeyedStore.get`).and.callFake(fail),
+    set: jasmine.createSpy(`unkeyedStore.set`).and.callFake(fail),
+    delete: jasmine.createSpy(`unkeyedStore.delete`).and.callFake(fail),
+  };
+
   const effectAA: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect AA` },
+    unkeyedStore,
   };
 
   const effectAB: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect AB` },
+    unkeyedStore,
   };
 
   const effectBA: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect BA` },
+    unkeyedStore,
   };
 
   const effectBB: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect BB` },
+    unkeyedStore,
   };
 
   const effectBC: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect BC` },
+    unkeyedStore,
   };
 
   const effectBD: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect BD` },
+    unkeyedStore,
   };
 
   const effectCA: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect CA` },
+    unkeyedStore,
   };
 
   const effectCB: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect CB` },
+    unkeyedStore,
   };
 
   const effectDA: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect DA` },
+    unkeyedStore,
   };
 
   const effectDB: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect DB` },
+    unkeyedStore,
   };
 
   const effectDC: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Effect DC` },
+    unkeyedStore,
   };
 
   describe(`on construction`, () => {

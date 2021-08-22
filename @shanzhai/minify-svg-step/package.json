@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minify-svg-step",
   "description": "A Shanzhai step which minifies a SVG file.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -26,7 +26,7 @@
     "@shanzhai/minify-step": "0.0.4"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.16",
+    "@shanzhai/interfaces": "0.0.18",
     "@types/svgo": "2.4.0",
     "@types/sharp": "0.28.5",
     "sharp": "0.29.0",

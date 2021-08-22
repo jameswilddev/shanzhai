@@ -1,50 +1,64 @@
-import { Input, Json, Output, Effect } from "@shanzhai/interfaces";
+import {
+  Input,
+  Json,
+  Output,
+  Effect,
+  UnkeyedStore,
+} from "@shanzhai/interfaces";
 import { CollectSvgDefsStep } from ".";
 
 describe(`CollectSvgDefsStep`, () => {
+  const unkeyedStore: UnkeyedStore<unknown> = {
+    type: `unkeyedStore`,
+    name: `Test Unkeyed Store`,
+    get: jasmine.createSpy(`unkeyedStore.get`).and.callFake(fail),
+    set: jasmine.createSpy(`unkeyedStore.set`).and.callFake(fail),
+    delete: jasmine.createSpy(`unkeyedStore.delete`).and.callFake(fail),
+  };
+
   const typeScriptEffectA: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test TypeScript Effect A` },
+    unkeyedStore,
   };
 
   const typeScriptEffectB: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test TypeScript Effect B` },
+    unkeyedStore,
   };
 
   const typeScriptEffectC: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test TypeScript Effect C` },
+    unkeyedStore,
   };
 
   const typeScriptEffectD: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test TypeScript Effect D` },
+    unkeyedStore,
   };
 
   const constantsEffectA: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Constants Effect A` },
+    unkeyedStore,
   };
 
   const constantsEffectB: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Constants Effect B` },
+    unkeyedStore,
   };
 
   const svgEffectA: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Svg Effect A` },
+    unkeyedStore,
   };
 
   const svgEffectB: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Svg Effect B` },
+    unkeyedStore,
   };
 
   const svgEffectC: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Svg Effect C` },
+    unkeyedStore,
   };
 
   describe(`on construction`, () => {

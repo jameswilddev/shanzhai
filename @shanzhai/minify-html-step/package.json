@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minify-html-step",
   "description": "A Shanzhai step which minifies a HTML file.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -26,7 +26,7 @@
     "@shanzhai/minify-step": "0.0.4"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.16",
+    "@shanzhai/interfaces": "0.0.18",
     "@types/jsdom": "16.2.13",
     "@types/html-minifier": "4.0.1",
     "jsdom": "17.0.0"

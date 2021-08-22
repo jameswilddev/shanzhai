@@ -1,9 +1,17 @@
 import { WrapInObjectOutput } from ".";
-import { Output } from "@shanzhai/interfaces";
+import { Output, UnkeyedStore } from "@shanzhai/interfaces";
 
 describe(`wrap-in-object-output`, () => {
   type TestKey = `Test Key`;
   type TestValue = `Test Value`;
+
+  const unkeyedStore: UnkeyedStore<unknown> = {
+    type: `unkeyedStore`,
+    name: `Test Unkeyed Store`,
+    get: jasmine.createSpy(`unkeyedStore.get`).and.callFake(fail),
+    set: jasmine.createSpy(`unkeyedStore.set`).and.callFake(fail),
+    delete: jasmine.createSpy(`unkeyedStore.delete`).and.callFake(fail),
+  };
 
   describe(`on construction`, () => {
     let wrapInObjectOutput: WrapInObjectOutput<TestKey, TestValue>;
@@ -15,15 +23,15 @@ describe(`wrap-in-object-output`, () => {
         effects: [
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: { type: `unkeyedStore`, name: `Test Effect A` },
+            unkeyedStore,
           },
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: { type: `unkeyedStore`, name: `Test Effect B` },
+            unkeyedStore,
           },
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: { type: `unkeyedStore`, name: `Test Effect C` },
+            unkeyedStore,
           },
         ],
       };
@@ -50,15 +58,15 @@ describe(`wrap-in-object-output`, () => {
       expect(output.effects).toEqual([
         {
           type: `unkeyedStoreSet`,
-          unkeyedStore: { type: `unkeyedStore`, name: `Test Effect A` },
+          unkeyedStore,
         },
         {
           type: `unkeyedStoreSet`,
-          unkeyedStore: { type: `unkeyedStore`, name: `Test Effect B` },
+          unkeyedStore,
         },
         {
           type: `unkeyedStoreSet`,
-          unkeyedStore: { type: `unkeyedStore`, name: `Test Effect C` },
+          unkeyedStore,
         },
       ]);
     });
@@ -74,15 +82,15 @@ describe(`wrap-in-object-output`, () => {
         effects: [
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: { type: `unkeyedStore`, name: `Test Effect A` },
+            unkeyedStore,
           },
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: { type: `unkeyedStore`, name: `Test Effect B` },
+            unkeyedStore,
           },
           {
             type: `unkeyedStoreSet`,
-            unkeyedStore: { type: `unkeyedStore`, name: `Test Effect C` },
+            unkeyedStore,
           },
         ],
       };

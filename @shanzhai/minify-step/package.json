@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minify-step",
   "description": "A Shanzhai step which can be built upon to create recursive minification build steps.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/interfaces": "0.0.16"
+    "@shanzhai/interfaces": "0.0.18"
   },
   "types": "index.d.ts"
 }

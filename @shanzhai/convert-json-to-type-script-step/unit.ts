@@ -1,20 +1,28 @@
-import { Input, Output, Effect } from "@shanzhai/interfaces";
+import { Input, Output, Effect, UnkeyedStore } from "@shanzhai/interfaces";
 import { ConvertJsonToTypeScriptStep, KeyedJson } from ".";
 
 describe(`ConvertJsonToTypeScriptStep`, () => {
+  const unkeyedStore: UnkeyedStore<unknown> = {
+    type: `unkeyedStore`,
+    name: `Test Unkeyed Store`,
+    get: jasmine.createSpy(`unkeyedStore.get`).and.callFake(fail),
+    set: jasmine.createSpy(`unkeyedStore.set`).and.callFake(fail),
+    delete: jasmine.createSpy(`unkeyedStore.delete`).and.callFake(fail),
+  };
+
   const outputEffectA: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Output Effect A` },
+    unkeyedStore,
   };
 
   const outputEffectB: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Output Effect B` },
+    unkeyedStore,
   };
 
   const outputEffectC: Effect = {
     type: `unkeyedStoreSet`,
-    unkeyedStore: { type: `unkeyedStore`, name: `Test Output Effect C` },
+    unkeyedStore,
   };
 
   describe(`on construction`, () => {

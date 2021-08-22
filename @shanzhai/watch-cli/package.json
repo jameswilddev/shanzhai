@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/watch-cli",
   "description": "A CLI tool which performs a build of the Shanzhai project in the current directory, watching for changes and rebuilding automatically.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -26,7 +26,7 @@
     "@shanzhai/change-tracking-helpers": "0.0.7"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.16",
+    "@shanzhai/interfaces": "0.0.18",
     "uuid": "8.3.2",
     "@types/uuid": "8.3.1"
   },
