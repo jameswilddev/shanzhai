@@ -110,17 +110,11 @@ describe(`copy-step`, () => {
       expect(copyStep.effects).toEqual([
         {
           type: `unkeyedStoreSet`,
-          unkeyedStore: {
-            type: `unkeyedStore`,
-            name: `Test Output Effect A`,
-          },
+          unkeyedStore,
         },
         {
           type: `unkeyedStoreSet`,
-          unkeyedStore: {
-            type: `unkeyedStore`,
-            name: `Test Output Effect B`,
-          },
+          unkeyedStore,
         },
       ]);
     });
