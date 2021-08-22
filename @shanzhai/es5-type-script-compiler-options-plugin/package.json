@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/constant-input": "0.0.3",
+    "@shanzhai/constant-input": "0.0.4",
     "@shanzhai/copy-step": "0.0.1",
     "@shanzhai/value-store": "0.0.6",
     "typescript": "4.3.5"
