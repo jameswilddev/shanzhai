@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/change-tracking-helpers": "0.0.7",
+    "@shanzhai/change-tracking-helpers": "0.0.8",
     "@shanzhai/execution-helpers": "0.0.2",
     "@shanzhai/plugin-helpers": "0.0.6",
     "@shanzhai/planning-helpers": "0.0.4"
