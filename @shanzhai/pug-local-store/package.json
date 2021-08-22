@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/pug-local-store",
   "description": "A Shanzhai store for locals to be passed to Pug templates.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,10 +22,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/key-value-store": "0.0.8"
+    "@shanzhai/ephemeral-keyed-store": "0.0.0"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.16"
+    "@shanzhai/interfaces": "0.0.18"
   },
   "types": "index.d.ts"
 }

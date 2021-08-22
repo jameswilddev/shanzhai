@@ -1,3 +1,5 @@
-import { KeyValueStore } from "@shanzhai/key-value-store";
+import { EphemeralKeyedStore } from "@shanzhai/ephemeral-keyed-store";
 
-export const htmlSourceStore = new KeyValueStore<string>(`htmlSourceStore`);
+export const htmlSourceStore = new EphemeralKeyedStore<string>(
+  `htmlSourceStore`
+);

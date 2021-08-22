@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/svg-def-store",
   "description": "A Shanzhai store for SVG defs.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,10 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/key-value-store": "0.0.8"
-  },
-  "devDependencies": {
-    "@shanzhai/interfaces": "0.0.16"
+    "@shanzhai/ephemeral-keyed-store": "0.0.0"
   },
   "types": "index.d.ts"
 }

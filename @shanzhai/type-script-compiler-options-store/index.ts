@@ -1,5 +1,7 @@
 import * as typescript from "typescript";
-import { ValueStore } from "@shanzhai/value-store";
+import { EphemeralUnkeyedStore } from "@shanzhai/ephemeral-unkeyed-store";
 
 export const typeScriptCompilerOptionsStore =
-  new ValueStore<typescript.CompilerOptions>(`typeScriptCompilerOptionsStore`);
+  new EphemeralUnkeyedStore<typescript.CompilerOptions>(
+    `typeScriptCompilerOptionsStore`
+  );

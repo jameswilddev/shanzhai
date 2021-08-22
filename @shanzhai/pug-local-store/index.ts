@@ -1,6 +1,6 @@
 import { Json } from "@shanzhai/interfaces";
-import { KeyValueStore } from "@shanzhai/key-value-store";
+import { EphemeralKeyedStore } from "@shanzhai/ephemeral-keyed-store";
 
-export const pugLocalStore = new KeyValueStore<{
+export const pugLocalStore = new EphemeralKeyedStore<{
   readonly [key: string]: Json;
 }>(`pugLocalStore`);

@@ -1,5 +1,5 @@
-import { KeyValueStore } from "@shanzhai/key-value-store";
+import { EphemeralKeyedStore } from "@shanzhai/ephemeral-keyed-store";
 
-export const zipContentStore = new KeyValueStore<string | Buffer>(
+export const zipContentStore = new EphemeralKeyedStore<string | Buffer>(
   `zipContentStore`
 );

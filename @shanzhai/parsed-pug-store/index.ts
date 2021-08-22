@@ -1,6 +1,6 @@
 import * as pug from "pug";
-import { KeyValueStore } from "@shanzhai/key-value-store";
+import { EphemeralKeyedStore } from "@shanzhai/ephemeral-keyed-store";
 
-export const parsedPugStore = new KeyValueStore<pug.compileTemplate>(
+export const parsedPugStore = new EphemeralKeyedStore<pug.compileTemplate>(
   `parsedPugStore`
 );

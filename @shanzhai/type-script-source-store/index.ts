@@ -1,5 +1,5 @@
-import { KeyValueStore } from "@shanzhai/key-value-store";
+import { EphemeralKeyedStore } from "@shanzhai/ephemeral-keyed-store";
 
-export const typeScriptSourceStore = new KeyValueStore<string>(
+export const typeScriptSourceStore = new EphemeralKeyedStore<string>(
   `typeScriptSourceStore`
 );

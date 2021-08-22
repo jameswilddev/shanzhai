@@ -1,6 +1,5 @@
 import * as typescript from "typescript";
-import { KeyValueStore } from "@shanzhai/key-value-store";
+import { EphemeralKeyedStore } from "@shanzhai/ephemeral-keyed-store";
 
-export const parsedTypeScriptStore = new KeyValueStore<typescript.SourceFile>(
-  `parsedTypeScriptStore`
-);
+export const parsedTypeScriptStore =
+  new EphemeralKeyedStore<typescript.SourceFile>(`parsedTypeScriptStore`);

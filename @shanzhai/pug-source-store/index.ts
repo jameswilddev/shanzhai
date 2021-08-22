@@ -1,3 +1,3 @@
-import { KeyValueStore } from "@shanzhai/key-value-store";
+import { EphemeralKeyedStore } from "@shanzhai/ephemeral-keyed-store";
 
-export const pugSourceStore = new KeyValueStore<string>(`pugSourceStore`);
+export const pugSourceStore = new EphemeralKeyedStore<string>(`pugSourceStore`);

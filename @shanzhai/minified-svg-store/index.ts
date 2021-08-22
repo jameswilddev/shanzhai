@@ -1,3 +1,5 @@
-import { KeyValueStore } from "@shanzhai/key-value-store";
+import { EphemeralKeyedStore } from "@shanzhai/ephemeral-keyed-store";
 
-export const minifiedSvgStore = new KeyValueStore<string>(`minifiedSvgStore`);
+export const minifiedSvgStore = new EphemeralKeyedStore<string>(
+  `minifiedSvgStore`
+);
