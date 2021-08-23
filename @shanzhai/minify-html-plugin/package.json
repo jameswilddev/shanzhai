@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/minify-html-step": "0.0.4",
+    "@shanzhai/minify-html-step": "0.0.5",
     "@shanzhai/key-value-store": "0.0.7"
   },
   "devDependencies": {
