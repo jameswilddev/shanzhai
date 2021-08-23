@@ -25,7 +25,7 @@
     "@shanzhai/collect-svg-defs-step": "0.0.5",
     "@shanzhai/key-value-store": "0.0.8",
     "@shanzhai/parallel-step": "0.0.5",
-    "@shanzhai/serial-step": "0.0.4",
+    "@shanzhai/serial-step": "0.0.5",
     "@shanzhai/wrap-in-object-output": "0.0.0"
   },
   "devDependencies": {
