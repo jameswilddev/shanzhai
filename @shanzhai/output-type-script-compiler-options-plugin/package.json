@@ -25,7 +25,7 @@
     "@shanzhai/build-tsconfig-input": "0.0.2",
     "@shanzhai/constant-input": "0.0.4",
     "@shanzhai/delete-step": "0.0.5",
-    "@shanzhai/stringify-json-input": "0.0.1",
+    "@shanzhai/stringify-json-input": "0.0.2",
     "@shanzhai/value-store": "0.0.6",
     "@shanzhai/write-file-step": "0.0.4"
   },
