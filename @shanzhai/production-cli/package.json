@@ -31,7 +31,7 @@
     "@shanzhai/create-directory-step": "0.0.5",
     "@shanzhai/interfaces": "0.0.16",
     "@shanzhai/read-text-file-step": "0.0.4",
-    "@shanzhai/serial-step": "0.0.4",
+    "@shanzhai/serial-step": "0.0.5",
     "@shanzhai/value-store": "0.0.6",
     "@shanzhai/write-file-step": "0.0.4",
     "@types/fs-extra": "9.0.12",
