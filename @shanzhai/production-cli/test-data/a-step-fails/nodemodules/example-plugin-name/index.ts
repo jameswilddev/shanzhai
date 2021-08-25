@@ -1,15 +1,13 @@
 import { Step, ParsedPath } from "@shanzhai/interfaces";
 import { CreateDirectoryStep } from "@shanzhai/create-directory-step";
 import { SerialStep } from "@shanzhai/serial-step";
-import {
-  ValueStore,
-  ValueStoreInput,
-  ValueStoreOutput,
-} from "@shanzhai/value-store";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
 import { WriteFileStep } from "@shanzhai/write-file-step";
+import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
+import { UnkeyedStoreSetOutput } from "@shanzhai/unkeyed-store-set-output";
+import { EphemeralUnkeyedStore } from "@shanzhai/ephemeral-unkeyed-store";
 
-const store = new ValueStore<string>(`Example Value Store`);
+const store = new EphemeralUnkeyedStore<string>(`Example Value Store`);
 
 module.exports = {
   triggers: [
@@ -32,12 +30,12 @@ module.exports = {
         return new SerialStep(`Example Serial Step`, [
           new ReadTextFileStep(
             [`src`, path.fullPath],
-            new ValueStoreOutput(store)
+            new UnkeyedStoreSetOutput(store)
           ),
           new WriteFileStep(
             `Write File`,
             [`dist-fake`, path.fullPath],
-            new ValueStoreInput(store)
+            new UnkeyedStoreGetInput(store)
           ),
         ]);
       },
