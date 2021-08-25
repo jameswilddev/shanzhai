@@ -4,12 +4,10 @@ import {
   ParsedPath,
   Step,
 } from "@shanzhai/interfaces";
-import {
-  DeleteFromKeyValueStoreStep,
-  KeyValueStoreOutput,
-} from "@shanzhai/key-value-store";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
 import { typeScriptSourceStore } from "@shanzhai/type-script-source-store";
+import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
+import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 
 const readTypeScriptFilesPlugin: Plugin<{
   readonly readTypeScriptFiles: FileExtensionTrigger;
@@ -19,7 +17,7 @@ const readTypeScriptFilesPlugin: Plugin<{
       type: `fileExtension`,
       extension: `ts`,
       down(path: ParsedPath): Step {
-        return new DeleteFromKeyValueStoreStep(
+        return new DeleteFromKeyedStoreStep(
           typeScriptSourceStore,
           path.fullPath
         );
@@ -27,7 +25,7 @@ const readTypeScriptFilesPlugin: Plugin<{
       up(path: ParsedPath): Step {
         return new ReadTextFileStep(
           [`src`, path.fullPath],
-          new KeyValueStoreOutput(typeScriptSourceStore, path.fullPath)
+          new KeyedStoreSetOutput(typeScriptSourceStore, path.fullPath)
         );
       },
     },

@@ -1,8 +1,8 @@
 import { Step } from "@shanzhai/interfaces";
-import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { typeScriptSourceStore } from "@shanzhai/type-script-source-store";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
-import { KeyValueStoreOutput } from "@shanzhai/key-value-store";
+import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
+import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import readTypeScriptFilesPlugin = require(".");
 
 describe(`read-type-script-files-plugin`, () => {
@@ -26,7 +26,7 @@ describe(`read-type-script-files-plugin`, () => {
 
     it(`deletes the read file from the store`, () => {
       expect(step).toEqual(
-        new DeleteFromKeyValueStoreStep(typeScriptSourceStore, `Test Full Path`)
+        new DeleteFromKeyedStoreStep(typeScriptSourceStore, `Test Full Path`)
       );
     });
   });
@@ -47,7 +47,7 @@ describe(`read-type-script-files-plugin`, () => {
       expect(step).toEqual(
         new ReadTextFileStep(
           [`src`, `Test Full Path`],
-          new KeyValueStoreOutput(typeScriptSourceStore, `Test Full Path`)
+          new KeyedStoreSetOutput(typeScriptSourceStore, `Test Full Path`)
         )
       );
     });
