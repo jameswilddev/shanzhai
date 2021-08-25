@@ -2,7 +2,7 @@ import * as typescript from "typescript";
 import { Step } from "@shanzhai/interfaces";
 import { CopyStep } from "@shanzhai/copy-step";
 import { ConstantInput } from "@shanzhai/constant-input";
-import { ValueStoreOutput } from "@shanzhai/value-store";
+import { UnkeyedStoreSetOutput } from "@shanzhai/unkeyed-store-set-output";
 import { typeScriptCompilerOptionsStore } from "@shanzhai/type-script-compiler-options-store";
 import es5TypeScriptCompilerOptionsPlugin = require(".");
 
@@ -111,7 +111,7 @@ describe(`es5-type-script-compiler-options-plugin`, () => {
             esModuleInterop: false,
             useDefineForClassFields: true,
           }),
-          new ValueStoreOutput(typeScriptCompilerOptionsStore)
+          new UnkeyedStoreSetOutput(typeScriptCompilerOptionsStore)
         )
       );
     });

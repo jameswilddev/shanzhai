@@ -3,7 +3,7 @@ import { Plugin, OneTimeTrigger, Step } from "@shanzhai/interfaces";
 import { typeScriptCompilerOptionsStore } from "@shanzhai/type-script-compiler-options-store";
 import { CopyStep } from "@shanzhai/copy-step";
 import { ConstantInput } from "@shanzhai/constant-input";
-import { ValueStoreOutput } from "@shanzhai/value-store";
+import { UnkeyedStoreSetOutput } from "@shanzhai/unkeyed-store-set-output";
 
 const es5TypeScriptCompilerOptionsPlugin: Plugin<{
   readonly es5TypeScriptCompilerOptions: OneTimeTrigger;
@@ -106,7 +106,7 @@ const es5TypeScriptCompilerOptionsPlugin: Plugin<{
             esModuleInterop: false,
             useDefineForClassFields: true,
           }),
-          new ValueStoreOutput(typeScriptCompilerOptionsStore)
+          new UnkeyedStoreSetOutput(typeScriptCompilerOptionsStore)
         );
       },
     },
