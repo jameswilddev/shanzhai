@@ -29,11 +29,11 @@ describe(`generateSteps`, function () {
     let addedParsedPathWhichDoesNotMatchA: ParsedPath;
     let addedParsedPathWhichDoesNotMatchB: ParsedPath;
     let addedParsedPathWhichDoesNotMatchC: ParsedPath;
-    let keyedStoreUntriggered: KeyedStore;
-    let keyedStoreTriggeredOnce: KeyedStore;
-    let keyedStoreTriggeredMultipleTimes: KeyedStore;
-    let unkeyedStoreUntriggered: UnkeyedStore;
-    let unkeyedStoreTriggered: UnkeyedStore;
+    let keyedStoreUntriggered: KeyedStore<unknown>;
+    let keyedStoreTriggeredOnce: KeyedStore<unknown>;
+    let keyedStoreTriggeredMultipleTimes: KeyedStore<unknown>;
+    let unkeyedStoreUntriggered: UnkeyedStore<unknown>;
+    let unkeyedStoreTriggered: UnkeyedStore<unknown>;
     let oneTimeStep: DummyStep;
     let fileExtensionTriggeredOnceStep: DummyStep;
     let fileExtensionTriggeredMultipleTimesStepA: DummyStep;
@@ -121,22 +121,77 @@ describe(`generateSteps`, function () {
       keyedStoreUntriggered = {
         type: `keyedStore`,
         name: `keyedStoreUntriggered`,
+        get: jasmine.createSpy(`keyedStoreUntriggered.get`).and.callFake(fail),
+        set: jasmine.createSpy(`keyedStoreUntriggered.set`).and.callFake(fail),
+        delete: jasmine
+          .createSpy(`keyedStoreUntriggered.delete`)
+          .and.callFake(fail),
+        getAll: jasmine
+          .createSpy(`keyedStoreUntriggered.getAll`)
+          .and.callFake(fail),
+        getKeys: jasmine
+          .createSpy(`keyedStoreUntriggered.getKeys`)
+          .and.callFake(fail),
       };
       keyedStoreTriggeredOnce = {
         type: `keyedStore`,
         name: `keyedStoreTriggeredOnce`,
+        get: jasmine
+          .createSpy(`keyedStoreTriggeredOnce.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`keyedStoreTriggeredOnce.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`keyedStoreTriggeredOnce.delete`)
+          .and.callFake(fail),
+        getAll: jasmine
+          .createSpy(`keyedStoreTriggeredOnce.getAll`)
+          .and.callFake(fail),
+        getKeys: jasmine
+          .createSpy(`keyedStoreTriggeredOnce.getKeys`)
+          .and.callFake(fail),
       };
       keyedStoreTriggeredMultipleTimes = {
         type: `keyedStore`,
         name: `keyedStoreTriggeredMultipleTimes`,
+        get: jasmine
+          .createSpy(`keyedStoreTriggeredMultipleTimes.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`keyedStoreTriggeredMultipleTimes.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`keyedStoreTriggeredMultipleTimes.delete`)
+          .and.callFake(fail),
+        getAll: jasmine
+          .createSpy(`keyedStoreTriggeredMultipleTimes.getAll`)
+          .and.callFake(fail),
+        getKeys: jasmine
+          .createSpy(`keyedStoreTriggeredMultipleTimes.getKeys`)
+          .and.callFake(fail),
       };
       unkeyedStoreUntriggered = {
         type: `unkeyedStore`,
         name: `unkeyedStoreUntriggered`,
+        get: jasmine
+          .createSpy(`unkeyedStoreUntriggered.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`unkeyedStoreUntriggered.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`unkeyedStoreUntriggered.delete`)
+          .and.callFake(fail),
       };
       unkeyedStoreTriggered = {
         type: `unkeyedStore`,
         name: `unkeyedStoreTriggered`,
+        get: jasmine.createSpy(`unkeyedStoreTriggered.get`).and.callFake(fail),
+        set: jasmine.createSpy(`unkeyedStoreTriggered.set`).and.callFake(fail),
+        delete: jasmine
+          .createSpy(`unkeyedStoreTriggered.delete`)
+          .and.callFake(fail),
       };
       oneTimeStep = new DummyStep(`oneTimeStep`, [
         {
@@ -654,16 +709,16 @@ describe(`generateSteps`, function () {
     let parsedPathUnmatchingD: ParsedPath;
     let parsedPathUnmatchingE: ParsedPath;
     let parsedPathUnmatchingF: ParsedPath;
-    let keyedStoreUntriggered: KeyedStore;
-    let keyedStoreTriggeredOnceA: KeyedStore;
-    let keyedStoreTriggeredOnceB: KeyedStore;
-    let keyedStoreTriggeredOnceC: KeyedStore;
-    let keyedStoreTriggeredOnceD: KeyedStore;
-    let keyedStoreTriggeredMultipleTimes: KeyedStore;
-    let unkeyedStoreUntriggered: UnkeyedStore;
-    let unkeyedStoreTriggeredOnceA: UnkeyedStore;
-    let unkeyedStoreTriggeredOnceB: UnkeyedStore;
-    let unkeyedStoreTriggeredMultipleTimes: UnkeyedStore;
+    let keyedStoreUntriggered: KeyedStore<unknown>;
+    let keyedStoreTriggeredOnceA: KeyedStore<unknown>;
+    let keyedStoreTriggeredOnceB: KeyedStore<unknown>;
+    let keyedStoreTriggeredOnceC: KeyedStore<unknown>;
+    let keyedStoreTriggeredOnceD: KeyedStore<unknown>;
+    let keyedStoreTriggeredMultipleTimes: KeyedStore<unknown>;
+    let unkeyedStoreUntriggered: UnkeyedStore<unknown>;
+    let unkeyedStoreTriggeredOnceA: UnkeyedStore<unknown>;
+    let unkeyedStoreTriggeredOnceB: UnkeyedStore<unknown>;
+    let unkeyedStoreTriggeredMultipleTimes: UnkeyedStore<unknown>;
     let fileExtensionTriggeredMultipleTimesStepA: DummyStep;
     let fileExtensionTriggeredMultipleTimesStepB: DummyStep;
     let fileExtensionTriggeredMultipleTimesStepC: DummyStep;
@@ -840,42 +895,164 @@ describe(`generateSteps`, function () {
       keyedStoreUntriggered = {
         type: `keyedStore`,
         name: `keyedStoreUntriggered`,
+        get: jasmine.createSpy(`keyedStoreUntriggered.get`).and.callFake(fail),
+        set: jasmine.createSpy(`keyedStoreUntriggered.set`).and.callFake(fail),
+        delete: jasmine
+          .createSpy(`keyedStoreUntriggered.delete`)
+          .and.callFake(fail),
+        getAll: jasmine
+          .createSpy(`keyedStoreUntriggered.getAll`)
+          .and.callFake(fail),
+        getKeys: jasmine
+          .createSpy(`keyedStoreUntriggered.getKeys`)
+          .and.callFake(fail),
       };
       keyedStoreTriggeredOnceA = {
         type: `keyedStore`,
         name: `keyedStoreTriggeredOnceA`,
+        get: jasmine
+          .createSpy(`keyedStoreTriggeredOnceA.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`keyedStoreTriggeredOnceA.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`keyedStoreTriggeredOnceA.delete`)
+          .and.callFake(fail),
+        getAll: jasmine
+          .createSpy(`keyedStoreTriggeredOnceA.getAll`)
+          .and.callFake(fail),
+        getKeys: jasmine
+          .createSpy(`keyedStoreTriggeredOnceA.getKeys`)
+          .and.callFake(fail),
       };
       keyedStoreTriggeredOnceB = {
         type: `keyedStore`,
         name: `keyedStoreTriggeredOnceB`,
+        get: jasmine
+          .createSpy(`keyedStoreTriggeredOnceB.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`keyedStoreTriggeredOnceB.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`keyedStoreTriggeredOnceB.delete`)
+          .and.callFake(fail),
+        getAll: jasmine
+          .createSpy(`keyedStoreTriggeredOnceB.getAll`)
+          .and.callFake(fail),
+        getKeys: jasmine
+          .createSpy(`keyedStoreTriggeredOnceB.getKeys`)
+          .and.callFake(fail),
       };
       keyedStoreTriggeredOnceC = {
         type: `keyedStore`,
         name: `keyedStoreTriggeredOnceC`,
+        get: jasmine
+          .createSpy(`keyedStoreTriggeredOnceC.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`keyedStoreTriggeredOnceC.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`keyedStoreTriggeredOnceC.delete`)
+          .and.callFake(fail),
+        getAll: jasmine
+          .createSpy(`keyedStoreTriggeredOnceC.getAll`)
+          .and.callFake(fail),
+        getKeys: jasmine
+          .createSpy(`keyedStoreTriggeredOnceC.getKeys`)
+          .and.callFake(fail),
       };
       keyedStoreTriggeredOnceD = {
         type: `keyedStore`,
         name: `keyedStoreTriggeredOnceD`,
+        get: jasmine
+          .createSpy(`keyedStoreTriggeredOnceD.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`keyedStoreTriggeredOnceD.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`keyedStoreTriggeredOnceD.delete`)
+          .and.callFake(fail),
+        getAll: jasmine
+          .createSpy(`keyedStoreTriggeredOnceD.getAll`)
+          .and.callFake(fail),
+        getKeys: jasmine
+          .createSpy(`keyedStoreTriggeredOnceD.getKeys`)
+          .and.callFake(fail),
       };
       keyedStoreTriggeredMultipleTimes = {
         type: `keyedStore`,
         name: `keyedStoreTriggeredMultipleTimes`,
+        get: jasmine
+          .createSpy(`keyedStoreTriggeredMultipleTimes.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`keyedStoreTriggeredMultipleTimes.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`keyedStoreTriggeredMultipleTimes.delete`)
+          .and.callFake(fail),
+        getAll: jasmine
+          .createSpy(`keyedStoreTriggeredMultipleTimes.getAll`)
+          .and.callFake(fail),
+        getKeys: jasmine
+          .createSpy(`keyedStoreTriggeredMultipleTimes.getKeys`)
+          .and.callFake(fail),
       };
       unkeyedStoreUntriggered = {
         type: `unkeyedStore`,
         name: `unkeyedStoreUntriggered`,
+        get: jasmine
+          .createSpy(`unkeyedStoreUntriggered.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`unkeyedStoreUntriggered.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`unkeyedStoreUntriggered.delete`)
+          .and.callFake(fail),
       };
       unkeyedStoreTriggeredOnceA = {
         type: `unkeyedStore`,
         name: `unkeyedStoreTriggeredOnceA`,
+        get: jasmine
+          .createSpy(`unkeyedStoreTriggeredOnceA.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`unkeyedStoreTriggeredOnceA.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`unkeyedStoreTriggeredOnceA.delete`)
+          .and.callFake(fail),
       };
       unkeyedStoreTriggeredOnceB = {
         type: `unkeyedStore`,
         name: `unkeyedStoreTriggeredOnceB`,
+        get: jasmine
+          .createSpy(`unkeyedStoreTriggeredOnceB.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`unkeyedStoreTriggeredOnceB.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`unkeyedStoreTriggeredOnceB.delete`)
+          .and.callFake(fail),
       };
       unkeyedStoreTriggeredMultipleTimes = {
         type: `unkeyedStore`,
         name: `unkeyedStoreTriggeredMultipleTimes`,
+        get: jasmine
+          .createSpy(`unkeyedStoreTriggeredMultipleTimes.get`)
+          .and.callFake(fail),
+        set: jasmine
+          .createSpy(`unkeyedStoreTriggeredMultipleTimes.set`)
+          .and.callFake(fail),
+        delete: jasmine
+          .createSpy(`unkeyedStoreTriggeredMultipleTimes.delete`)
+          .and.callFake(fail),
       };
       fileExtensionTriggeredMultipleTimesStepA = new DummyStep(
         `fileExtensionTriggeredMultipleTimesStepA`,
