@@ -1,8 +1,8 @@
 import { Plugin, UnkeyedStoreTrigger, Step } from "@shanzhai/interfaces";
 import { zipStore } from "@shanzhai/zip-store";
 import { WriteFileStep } from "@shanzhai/write-file-step";
-import { ValueStoreInput } from "@shanzhai/value-store";
 import { DeleteStep } from "@shanzhai/delete-step";
+import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
 
 const outputZipPlugin: Plugin<{
   readonly outputZip: UnkeyedStoreTrigger;
@@ -21,7 +21,7 @@ const outputZipPlugin: Plugin<{
         return new WriteFileStep(
           `Output zip`,
           [`dist`, `distributable.zip`],
-          new ValueStoreInput(zipStore)
+          new UnkeyedStoreGetInput(zipStore)
         );
       },
     },

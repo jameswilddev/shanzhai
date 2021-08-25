@@ -1,8 +1,8 @@
 import { Step } from "@shanzhai/interfaces";
 import { DeleteStep } from "@shanzhai/delete-step";
 import { WriteFileStep } from "@shanzhai/write-file-step";
-import { ValueStoreInput } from "@shanzhai/value-store";
 import { zipStore } from "@shanzhai/zip-store";
+import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
 import outputZipPlugin = require(".");
 
 describe(`output-zip-plugin`, () => {
@@ -35,7 +35,7 @@ describe(`output-zip-plugin`, () => {
         new WriteFileStep(
           `Output zip`,
           [`dist`, `distributable.zip`],
-          new ValueStoreInput(zipStore)
+          new UnkeyedStoreGetInput(zipStore)
         )
       );
     });
