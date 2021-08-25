@@ -1,15 +1,13 @@
 import { Step } from "@shanzhai/interfaces";
-import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { htmlSourceStore } from "@shanzhai/html-source-store";
-import {
-  KeyValueStoreInput,
-  KeyValueStoreOutput,
-  KeyValueStoreAllInput,
-} from "@shanzhai/key-value-store";
 import { parsedPugStore } from "@shanzhai/parsed-pug-store";
 import { RenderPugStep } from "@shanzhai/render-pug-step";
 import { MergeObjectInput } from "@shanzhai/merge-object-input";
 import { pugLocalStore } from "@shanzhai/pug-local-store";
+import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
+import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
+import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
+import { KeyedStoreGetAllInput } from "@shanzhai/keyed-store-get-all-input";
 import readPugFilesPlugin = require(".");
 
 describe(`render-pug-plugin`, () => {
@@ -22,7 +20,7 @@ describe(`render-pug-plugin`, () => {
 
     it(`deletes the rendered Pug from the store`, () => {
       expect(step).toEqual(
-        new DeleteFromKeyValueStoreStep(htmlSourceStore, `Test Key`)
+        new DeleteFromKeyedStoreStep(htmlSourceStore, `Test Key`)
       );
     });
   });
@@ -38,9 +36,9 @@ describe(`render-pug-plugin`, () => {
       expect(step).toEqual(
         new RenderPugStep(
           `Render Pug "Test Key"`,
-          new KeyValueStoreInput(parsedPugStore, `Test Key`),
-          new MergeObjectInput(new KeyValueStoreAllInput(pugLocalStore)),
-          new KeyValueStoreOutput(htmlSourceStore, `Test Key`)
+          new KeyedStoreGetInput(parsedPugStore, `Test Key`),
+          new MergeObjectInput(new KeyedStoreGetAllInput(pugLocalStore)),
+          new KeyedStoreSetOutput(htmlSourceStore, `Test Key`)
         )
       );
     });

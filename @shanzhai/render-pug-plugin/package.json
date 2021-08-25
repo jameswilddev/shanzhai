@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/render-pug-plugin",
   "description": "A Shanzhai plugin which renders parsed Pug, storing the results in the HTML source store.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,15 +22,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/key-value-store": "0.0.8",
+    "@shanzhai/delete-from-keyed-store-step": "0.0.0",
+    "@shanzhai/keyed-store-get-all-input": "0.0.0",
+    "@shanzhai/keyed-store-get-input": "0.0.0",
+    "@shanzhai/keyed-store-set-output": "0.0.0",
     "@shanzhai/merge-object-input": "0.0.5",
-    "@shanzhai/render-pug-step": "0.0.4"
+    "@shanzhai/render-pug-step": "0.0.5"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.16",
-    "@shanzhai/parsed-pug-store": "0.0.1",
-    "@shanzhai/html-source-store": "0.0.1",
-    "@shanzhai/pug-local-store": "0.0.1"
+    "@shanzhai/interfaces": "0.0.18",
+    "@shanzhai/parsed-pug-store": "0.0.2",
+    "@shanzhai/html-source-store": "0.0.2",
+    "@shanzhai/pug-local-store": "0.0.2"
   },
   "peerDependencies": {
     "@shanzhai/parsed-pug-store": "0.0.1",
