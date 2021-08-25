@@ -1,12 +1,10 @@
 import { Step } from "@shanzhai/interfaces";
-import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { svgSourceStore } from "@shanzhai/svg-source-store";
 import { MinifySvgStep } from "@shanzhai/minify-svg-step";
-import {
-  KeyValueStoreInput,
-  KeyValueStoreOutput,
-} from "@shanzhai/key-value-store";
 import { minifiedSvgStore } from "@shanzhai/minified-svg-store";
+import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
+import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
+import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import minifySvgPlugin = require(".");
 
 describe(`minify-svg-plugin`, () => {
@@ -23,7 +21,7 @@ describe(`minify-svg-plugin`, () => {
 
     it(`deletes the minified SVG from the store`, () => {
       expect(step).toEqual(
-        new DeleteFromKeyValueStoreStep(minifiedSvgStore, `Test Key`)
+        new DeleteFromKeyedStoreStep(minifiedSvgStore, `Test Key`)
       );
     });
   });
@@ -39,8 +37,8 @@ describe(`minify-svg-plugin`, () => {
       expect(step).toEqual(
         new MinifySvgStep(
           `Test Key`,
-          new KeyValueStoreInput(svgSourceStore, `Test Key`),
-          new KeyValueStoreOutput(minifiedSvgStore, `Test Key`)
+          new KeyedStoreGetInput(svgSourceStore, `Test Key`),
+          new KeyedStoreSetOutput(minifiedSvgStore, `Test Key`)
         )
       );
     });

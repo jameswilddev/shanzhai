@@ -1,12 +1,10 @@
 import { Plugin, KeyedStoreTrigger, Step } from "@shanzhai/interfaces";
-import {
-  DeleteFromKeyValueStoreStep,
-  KeyValueStoreOutput,
-  KeyValueStoreInput,
-} from "@shanzhai/key-value-store";
 import { pugSourceStore } from "@shanzhai/pug-source-store";
 import { parsedPugStore } from "@shanzhai/parsed-pug-store";
 import { ParsePugStep } from "@shanzhai/parse-pug-step";
+import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
+import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
+import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 
 const parsePugPlugin: Plugin<{
   readonly parsePug: KeyedStoreTrigger;
@@ -16,13 +14,13 @@ const parsePugPlugin: Plugin<{
       type: `keyedStore`,
       keyedStore: pugSourceStore,
       down(key: string): Step {
-        return new DeleteFromKeyValueStoreStep(parsedPugStore, key);
+        return new DeleteFromKeyedStoreStep(parsedPugStore, key);
       },
       up(key: string): Step {
         return new ParsePugStep(
           `Parse Pug "Test Key"`,
-          new KeyValueStoreInput(pugSourceStore, key),
-          new KeyValueStoreOutput(parsedPugStore, key)
+          new KeyedStoreGetInput(pugSourceStore, key),
+          new KeyedStoreSetOutput(parsedPugStore, key)
         );
       },
     },

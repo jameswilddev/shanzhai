@@ -1,14 +1,12 @@
 import { Step } from "@shanzhai/interfaces";
-import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { typeScriptSourceStore } from "@shanzhai/type-script-source-store";
-import {
-  KeyValueStoreInput,
-  KeyValueStoreOutput,
-} from "@shanzhai/key-value-store";
-import { ValueStoreInput } from "@shanzhai/value-store";
 import { parsedTypeScriptStore } from "@shanzhai/parsed-type-script-store";
 import { ParseTypeScriptStep } from "@shanzhai/parse-type-script-step";
 import { typeScriptCompilerOptionsStore } from "@shanzhai/type-script-compiler-options-store";
+import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
+import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
+import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
+import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import readTypeScriptFilesPlugin = require(".");
 
 describe(`parse-type-script-plugin`, () => {
@@ -24,7 +22,7 @@ describe(`parse-type-script-plugin`, () => {
 
     it(`deletes the read file from the store`, () => {
       expect(step).toEqual(
-        new DeleteFromKeyValueStoreStep(parsedTypeScriptStore, `Test Full Path`)
+        new DeleteFromKeyedStoreStep(parsedTypeScriptStore, `Test Full Path`)
       );
     });
   });
@@ -40,10 +38,10 @@ describe(`parse-type-script-plugin`, () => {
     it(`parses the file`, () => {
       expect(step).toEqual(
         new ParseTypeScriptStep(
-          new KeyValueStoreInput(typeScriptSourceStore, `Test Full Path`),
-          new ValueStoreInput(typeScriptCompilerOptionsStore),
+          new KeyedStoreGetInput(typeScriptSourceStore, `Test Full Path`),
+          new UnkeyedStoreGetInput(typeScriptCompilerOptionsStore),
           `Test Full Path`,
-          new KeyValueStoreOutput(parsedTypeScriptStore, `Test Full Path`)
+          new KeyedStoreSetOutput(parsedTypeScriptStore, `Test Full Path`)
         )
       );
     });

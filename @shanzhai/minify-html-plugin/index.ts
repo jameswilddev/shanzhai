@@ -1,12 +1,10 @@
 import { Plugin, KeyedStoreTrigger, Step } from "@shanzhai/interfaces";
-import {
-  DeleteFromKeyValueStoreStep,
-  KeyValueStoreInput,
-  KeyValueStoreOutput,
-} from "@shanzhai/key-value-store";
 import { MinifyHtmlStep } from "@shanzhai/minify-html-step";
 import { htmlSourceStore } from "@shanzhai/html-source-store";
 import { zipContentStore } from "@shanzhai/zip-content-store";
+import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
+import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
+import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 
 const minifyHtmlPlugin: Plugin<{
   readonly minifyHtml: KeyedStoreTrigger;
@@ -16,13 +14,13 @@ const minifyHtmlPlugin: Plugin<{
       type: `keyedStore`,
       keyedStore: htmlSourceStore,
       down(key: string): Step {
-        return new DeleteFromKeyValueStoreStep(zipContentStore, key);
+        return new DeleteFromKeyedStoreStep(zipContentStore, key);
       },
       up(key: string): Step {
         return new MinifyHtmlStep(
           key,
-          new KeyValueStoreInput(htmlSourceStore, key),
-          new KeyValueStoreOutput(zipContentStore, key)
+          new KeyedStoreGetInput(htmlSourceStore, key),
+          new KeyedStoreSetOutput(zipContentStore, key)
         );
       },
     },

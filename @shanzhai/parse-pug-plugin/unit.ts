@@ -1,12 +1,10 @@
 import { Step } from "@shanzhai/interfaces";
-import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { pugSourceStore } from "@shanzhai/pug-source-store";
-import {
-  KeyValueStoreInput,
-  KeyValueStoreOutput,
-} from "@shanzhai/key-value-store";
 import { parsedPugStore } from "@shanzhai/parsed-pug-store";
 import { ParsePugStep } from "@shanzhai/parse-pug-step";
+import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
+import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
+import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import readPugFilesPlugin = require(".");
 
 describe(`parse-pug-plugin`, () => {
@@ -19,7 +17,7 @@ describe(`parse-pug-plugin`, () => {
 
     it(`deletes the read file from the store`, () => {
       expect(step).toEqual(
-        new DeleteFromKeyValueStoreStep(parsedPugStore, `Test Key`)
+        new DeleteFromKeyedStoreStep(parsedPugStore, `Test Key`)
       );
     });
   });
@@ -35,8 +33,8 @@ describe(`parse-pug-plugin`, () => {
       expect(step).toEqual(
         new ParsePugStep(
           `Parse Pug "Test Key"`,
-          new KeyValueStoreInput(pugSourceStore, `Test Key`),
-          new KeyValueStoreOutput(parsedPugStore, `Test Key`)
+          new KeyedStoreGetInput(pugSourceStore, `Test Key`),
+          new KeyedStoreSetOutput(parsedPugStore, `Test Key`)
         )
       );
     });
