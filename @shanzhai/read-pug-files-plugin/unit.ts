@@ -1,8 +1,8 @@
 import { Step } from "@shanzhai/interfaces";
-import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { pugSourceStore } from "@shanzhai/pug-source-store";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
-import { KeyValueStoreOutput } from "@shanzhai/key-value-store";
+import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
+import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import readPugFilesPlugin = require(".");
 
 describe(`read-pug-files-plugin`, () => {
@@ -24,7 +24,7 @@ describe(`read-pug-files-plugin`, () => {
 
     it(`deletes the read file from the store`, () => {
       expect(step).toEqual(
-        new DeleteFromKeyValueStoreStep(pugSourceStore, `Test Full Path`)
+        new DeleteFromKeyedStoreStep(pugSourceStore, `Test Full Path`)
       );
     });
   });
@@ -45,7 +45,7 @@ describe(`read-pug-files-plugin`, () => {
       expect(step).toEqual(
         new ReadTextFileStep(
           [`src`, `Test Full Path`],
-          new KeyValueStoreOutput(pugSourceStore, `Test Full Path`)
+          new KeyedStoreSetOutput(pugSourceStore, `Test Full Path`)
         )
       );
     });
