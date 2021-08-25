@@ -38,7 +38,7 @@
     "@shanzhai/type-script-source-store": "0.0.6"
   },
   "peerDependencies": {
-    "@shanzhai/svg-def-store": "0.0.0",
+    "@shanzhai/svg-def-store": "0.0.1",
     "@shanzhai/type-script-source-store": "0.0.5",
     "@shanzhai/pug-local-store": "0.0.1",
     "@shanzhai/type-script-global-store": "0.0.8"
