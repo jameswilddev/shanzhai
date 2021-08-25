@@ -2,7 +2,7 @@ import { Plugin, KeyedStoreTrigger, Step } from "@shanzhai/interfaces";
 import { zipContentStore } from "@shanzhai/zip-content-store";
 import { WriteFileStep } from "@shanzhai/write-file-step";
 import { DeleteStep } from "@shanzhai/delete-step";
-import { KeyValueStoreInput } from "@shanzhai/key-value-store";
+import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
 
 const outputZipContentPlugin: Plugin<{
   readonly outputZipContent: KeyedStoreTrigger;
@@ -22,7 +22,7 @@ const outputZipContentPlugin: Plugin<{
         return new WriteFileStep(
           `Output zip content "${key}"`,
           [`dist`, `content`, key],
-          new KeyValueStoreInput(zipContentStore, key)
+          new KeyedStoreGetInput(zipContentStore, key)
         );
       },
     },

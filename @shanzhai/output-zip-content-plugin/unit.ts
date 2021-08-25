@@ -1,8 +1,8 @@
 import { Step } from "@shanzhai/interfaces";
 import { DeleteStep } from "@shanzhai/delete-step";
 import { WriteFileStep } from "@shanzhai/write-file-step";
-import { KeyValueStoreInput } from "@shanzhai/key-value-store";
 import { zipContentStore } from "@shanzhai/zip-content-store";
+import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
 import readTypeScriptFilesPlugin = require(".");
 
 describe(`output-zip-content-plugin`, () => {
@@ -37,7 +37,7 @@ describe(`output-zip-content-plugin`, () => {
         new WriteFileStep(
           `Output zip content "Test Key"`,
           [`dist`, `content`, `Test Key`],
-          new KeyValueStoreInput(zipContentStore, `Test Key`)
+          new KeyedStoreGetInput(zipContentStore, `Test Key`)
         )
       );
     });
