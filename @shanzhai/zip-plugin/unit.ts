@@ -1,13 +1,11 @@
 import { Step } from "@shanzhai/interfaces";
-import { KeyValueStoreAllInput } from "@shanzhai/key-value-store";
-import {
-  DeleteFromValueStoreStep,
-  ValueStoreOutput,
-} from "@shanzhai/value-store";
 import { SerialStep } from "@shanzhai/serial-step";
 import { zipContentStore } from "@shanzhai/zip-content-store";
 import { zipStore } from "@shanzhai/zip-store";
 import { ZipStep } from "@shanzhai/zip-step";
+import { DeleteFromUnkeyedStoreStep } from "@shanzhai/delete-from-unkeyed-store-step";
+import { KeyedStoreGetAllInput } from "@shanzhai/keyed-store-get-all-input";
+import { UnkeyedStoreSetOutput } from "@shanzhai/unkeyed-store-set-output";
 import zipPlugin = require(".");
 
 describe(`zip-plugin`, () => {
@@ -25,11 +23,11 @@ describe(`zip-plugin`, () => {
     it(`zips all content`, () => {
       expect(step).toEqual(
         new SerialStep(`Zip`, [
-          new DeleteFromValueStoreStep(zipStore),
+          new DeleteFromUnkeyedStoreStep(zipStore),
           new ZipStep(
             `Zip`,
-            new KeyValueStoreAllInput(zipContentStore),
-            new ValueStoreOutput(zipStore)
+            new KeyedStoreGetAllInput(zipContentStore),
+            new UnkeyedStoreSetOutput(zipStore)
           ),
         ])
       );
