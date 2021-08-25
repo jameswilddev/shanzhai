@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/serial-step",
   "description": "A Shanzhai build step which runs any number of child build steps in serial.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -21,7 +21,7 @@
     "url": "https://github.com/jameswilddev/shanzhai"
   },
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "@shanzhai/interfaces": "0.0.18"
   },
   "types": "index.d.ts"
