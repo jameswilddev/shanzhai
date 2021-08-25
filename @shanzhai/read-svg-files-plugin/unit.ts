@@ -1,8 +1,8 @@
 import { Step } from "@shanzhai/interfaces";
-import { DeleteFromKeyValueStoreStep } from "@shanzhai/key-value-store";
 import { svgSourceStore } from "@shanzhai/svg-source-store";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
-import { KeyValueStoreOutput } from "@shanzhai/key-value-store";
+import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
+import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import readSvgFilesPlugin = require(".");
 
 describe(`read-svg-files-plugin`, () => {
@@ -24,7 +24,7 @@ describe(`read-svg-files-plugin`, () => {
 
     it(`deletes the read file from the store`, () => {
       expect(step).toEqual(
-        new DeleteFromKeyValueStoreStep(svgSourceStore, `Test Full Path`)
+        new DeleteFromKeyedStoreStep(svgSourceStore, `Test Full Path`)
       );
     });
   });
@@ -45,7 +45,7 @@ describe(`read-svg-files-plugin`, () => {
       expect(step).toEqual(
         new ReadTextFileStep(
           [`src`, `Test Full Path`],
-          new KeyValueStoreOutput(svgSourceStore, `Test Full Path`)
+          new KeyedStoreSetOutput(svgSourceStore, `Test Full Path`)
         )
       );
     });
