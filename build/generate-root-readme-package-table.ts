@@ -1,10 +1,23 @@
 import * as path from "path";
-import { getAllPackages } from "./get-all-packages";
 import { generateMarkdownTable } from "./generate-markdown-table";
 import { runCommandLine } from "./run-command-line";
 
-export async function generateRootReadmePackageTable(): Promise<string> {
-  return `## NPM packages
+export async function generateRootReadmePackageTable(
+  packages: ReadonlyArray<{
+    readonly name: ReadonlyArray<string>;
+    readonly json: {
+      readonly description: string;
+      readonly version: string;
+      readonly dependencies?: { readonly [name: string]: string };
+      readonly peerDependencies?: { readonly [name: string]: string };
+      readonly devDependencies?: { readonly [name: string]: string };
+      readonly bin?: string;
+      readonly scripts?: { readonly [name: string]: string };
+      readonly shanzhaiPlugin?: ReadonlyArray<string>;
+    };
+  }>
+): Promise<string> {
+  return `
 
 ${generateMarkdownTable(
   [
@@ -15,9 +28,7 @@ ${generateMarkdownTable(
   ],
   `name`,
   await Promise.all(
-    (
-      await getAllPackages()
-    ).map(async (pkg) => {
+    packages.map(async (pkg) => {
       let publishedVersion: string;
       try {
         publishedVersion = (
