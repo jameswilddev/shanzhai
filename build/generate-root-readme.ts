@@ -7,6 +7,10 @@ import { getAllPackages } from "./get-all-packages";
 export async function generateRootReadme(): Promise<string> {
   const packages = await getAllPackages();
 
+  const commandLineExecutables = packages.filter(({ name }) =>
+    name[name.length - 1].endsWith(`-cli`)
+  );
+
   const plugins = packages.filter(({ name }) =>
     name[name.length - 1].endsWith(`-plugin`)
   );
@@ -29,12 +33,23 @@ export async function generateRootReadme(): Promise<string> {
 
   const other = packages.filter(
     (step) =>
-      ![...plugins, ...steps, ...inputs, ...outputs, ...stores].includes(step)
+      ![
+        ...commandLineExecutables,
+        ...plugins,
+        ...steps,
+        ...inputs,
+        ...outputs,
+        ...stores,
+      ].includes(step)
   );
 
   return `# Shanzhai ${generateRootReadmeBadges()}${await readReadmeContent([])}
 
 ## NPM packages
+
+### Command-Line Executables
+
+${await generateRootReadmePackageTable(commandLineExecutables)}
 
 ### Plugins
 
