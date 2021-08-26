@@ -1,8 +1,19 @@
 # Shanzhai [![Continuous Integration](https://github.com/jameswilddev/shanzhai/workflows/Continuous%20Integration/badge.svg)](https://github.com/jameswilddev/shanzhai/actions) [![License](https://img.shields.io/github/license/jameswilddev/shanzhai.svg)](https://github.com/jameswilddev/shanzhai/blob/master/license) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjameswilddev%2Fshanzhai.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjameswilddev%2Fshanzhai?ref=badge_shield) [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
+A crude, plugin-based plugin system built upon NodeJS.
+
 ## NPM packages
 
 ### Plugins
+
+For the most part, software built using Shanzhai is configured simply by adding
+NPM dependencies upon plugins
+(e.g. `npm install --save-dev @shanzhai/read-type-script-files-plugin`).  A
+plugin will typically read information from one or more files or stores, apply a
+transformation, then write the results to one or more files or stores.
+
+Take note of and install any peer dependencies recommended upon installation of
+these packages.
 
 
 
@@ -23,7 +34,32 @@ Name                                                                            
 [@shanzhai/render-pug-plugin](@shanzhai/render-pug-plugin)                                                   | [![0.0.2](https://img.shields.io/npm/v/@shanzhai/render-pug-plugin.svg)](https://www.npmjs.com/package/@shanzhai/render-pug-plugin)                                                   | A Shanzhai plugin which renders parsed Pug, storing the results in the HTML source store.                                                                | ❌        
 [@shanzhai/zip-plugin](@shanzhai/zip-plugin)                                                                 | [![0.0.2](https://img.shields.io/npm/v/@shanzhai/zip-plugin.svg)](https://www.npmjs.com/package/@shanzhai/zip-plugin)                                                                 | A Shanzhai plugin which zips the generated content.                                                                                                      | ❌        
 
-### Steps
+### Command-Line Executables
+
+These command-line executables can be ran using
+[NPX](https://www.npmjs.com/package/npx) (e.g.
+`npx @shanzhai/production-cli`).
+
+
+
+Name                                                 | Version                                                                                                                        | Description                                                                                                                            | Published
+---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | ---------
+[@shanzhai/production-cli](@shanzhai/production-cli) | [![0.0.10](https://img.shields.io/npm/v/@shanzhai/production-cli.svg)](https://www.npmjs.com/package/@shanzhai/production-cli) | A CLI tool which performs a one-off production build of the Shanzhai project in the current directory.                                 | ❌        
+[@shanzhai/watch-cli](@shanzhai/watch-cli)           | [![0.0.6](https://img.shields.io/npm/v/@shanzhai/watch-cli.svg)](https://www.npmjs.com/package/@shanzhai/watch-cli)            | A CLI tool which performs a build of the Shanzhai project in the current directory, watching for changes and rebuilding automatically. | ❌        
+
+### For extending Shanzhai
+
+These packages are only needed should you wish to extend the Shanzhai itself.
+
+#### Steps
+
+Whenever a plugin is triggered, it generates a step.
+
+Most are "action steps", which perform a single operation such as reading a
+file, compiling script or minifying mark-up.
+
+Some are "aggregation steps", which allow multiple other steps to be executed in
+parallel or serial.
 
 
 
@@ -57,7 +93,12 @@ Name                                                                            
 [@shanzhai/write-file-step](@shanzhai/write-file-step)                                                         | [![0.0.5](https://img.shields.io/npm/v/@shanzhai/write-file-step.svg)](https://www.npmjs.com/package/@shanzhai/write-file-step)                                                         | A Shanzhai step which writes to a binary or UTF-8 encoded text file, creating it if it does not exist, or replacing it if it does.                    | ✔️       
 [@shanzhai/zip-step](@shanzhai/zip-step)                                                                       | [![0.0.6](https://img.shields.io/npm/v/@shanzhai/zip-step.svg)](https://www.npmjs.com/package/@shanzhai/zip-step)                                                                       | A Shanzhai step which creates a zip file from a list of binary or UTF-8 encoded text files.                                                           | ✔️       
 
-### Inputs
+#### Inputs
+
+An input provides a value to a step during its execution.
+
+While some perform transformations, most simply provide a value.  Inputs should
+not be performing complex or potentially risky operations.
 
 
 
@@ -73,7 +114,12 @@ Name                                                                         | V
 [@shanzhai/stringify-json-input](@shanzhai/stringify-json-input)             | [![0.0.2](https://img.shields.io/npm/v/@shanzhai/stringify-json-input.svg)](https://www.npmjs.com/package/@shanzhai/stringify-json-input)             | A Shanzhai input which "stringifies" a value after retrieving it from an input.                                | ✔️       
 [@shanzhai/unkeyed-store-get-input](@shanzhai/unkeyed-store-get-input)       | [![0.0.0](https://img.shields.io/npm/v/@shanzhai/unkeyed-store-get-input.svg)](https://www.npmjs.com/package/@shanzhai/unkeyed-store-get-input)       | A Shanzhai input which reads the value of an unkeyed store.                                                    | ✔️       
 
-### Output
+#### Outputs
+
+An output stores a value provided by a step during its execution.
+
+As with inputs, most simply store a value.  Only simple and fast transformations
+should be performed in outputs, and preferably none should be made at all.
 
 
 
@@ -85,7 +131,18 @@ Name                                                                     | Versi
 [@shanzhai/unkeyed-store-set-output](@shanzhai/unkeyed-store-set-output) | [![0.0.0](https://img.shields.io/npm/v/@shanzhai/unkeyed-store-set-output.svg)](https://www.npmjs.com/package/@shanzhai/unkeyed-store-set-output) | A Shanzhai output which sets the value of an unkeyed store.                           | ✔️       
 [@shanzhai/wrap-in-object-output](@shanzhai/wrap-in-object-output)       | [![0.0.1](https://img.shields.io/npm/v/@shanzhai/wrap-in-object-output.svg)](https://www.npmjs.com/package/@shanzhai/wrap-in-object-output)       | A Shanzhai output which wraps a value in an object with a given key.                  | ✔️       
 
-### Stores
+#### Stores
+
+Stores are peer dependencies of plugins, and are used to pass data between them.
+
+For example:
+
+- A plugin to read TypeScript files from disk might write the read TypeScript
+  into a keyed ephemeral store.
+- A plugin might then read from that store to parse the files, writing the
+  results to another keyed ephemeral store.
+- Then, another plugin might collect all those parsed files to compile them,
+  writing the result to an unkeyed ephemeral store,
 
 
 
@@ -109,20 +166,20 @@ Name                                                                            
 [@shanzhai/zip-content-store](@shanzhai/zip-content-store)                                   | [![0.0.1](https://img.shields.io/npm/v/@shanzhai/zip-content-store.svg)](https://www.npmjs.com/package/@shanzhai/zip-content-store)                                   | A Shanzhai store for SVG defs.                                                     | ✔️       
 [@shanzhai/zip-store](@shanzhai/zip-store)                                                   | [![0.0.1](https://img.shields.io/npm/v/@shanzhai/zip-store.svg)](https://www.npmjs.com/package/@shanzhai/zip-store)                                                   | A Shanzhai store for the distributable zip.                                        | ✔️       
 
-### Other
+#### Other
+
+These packages do not fall into any of the above categories.
 
 
 
-Name                                                                   | Version                                                                                                                                         | Description                                                                                                                            | Published
----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------
-[@shanzhai/change-tracking-helpers](@shanzhai/change-tracking-helpers) | [![0.0.8](https://img.shields.io/npm/v/@shanzhai/change-tracking-helpers.svg)](https://www.npmjs.com/package/@shanzhai/change-tracking-helpers) | Helpers for tracking changes to files during a Shanzhai build.                                                                         | ✔️       
-[@shanzhai/execution-helpers](@shanzhai/execution-helpers)             | [![0.0.3](https://img.shields.io/npm/v/@shanzhai/execution-helpers.svg)](https://www.npmjs.com/package/@shanzhai/execution-helpers)             | Helpers which execute a tree of steps to perform a Shanzhai build.                                                                     | ✔️       
-[@shanzhai/interfaces](@shanzhai/interfaces)                           | [![0.0.18](https://img.shields.io/npm/v/@shanzhai/interfaces.svg)](https://www.npmjs.com/package/@shanzhai/interfaces)                          | TypeScript types used as interfaces between the various components of Shanzhai.                                                        | ✔️       
-[@shanzhai/planning-helpers](@shanzhai/planning-helpers)               | [![0.0.5](https://img.shields.io/npm/v/@shanzhai/planning-helpers.svg)](https://www.npmjs.com/package/@shanzhai/planning-helpers)               | Helpers which generate a tree of steps to execute to perform a Shanzhai build.                                                         | ✔️       
-[@shanzhai/plugin-helpers](@shanzhai/plugin-helpers)                   | [![0.0.7](https://img.shields.io/npm/v/@shanzhai/plugin-helpers.svg)](https://www.npmjs.com/package/@shanzhai/plugin-helpers)                   | Helpers for searching for plugins during a Shanzhai build.                                                                             | ✔️       
-[@shanzhai/production-cli](@shanzhai/production-cli)                   | [![0.0.10](https://img.shields.io/npm/v/@shanzhai/production-cli.svg)](https://www.npmjs.com/package/@shanzhai/production-cli)                  | A CLI tool which performs a one-off production build of the Shanzhai project in the current directory.                                 | ❌        
-[@shanzhai/watch-cli](@shanzhai/watch-cli)                             | [![0.0.6](https://img.shields.io/npm/v/@shanzhai/watch-cli.svg)](https://www.npmjs.com/package/@shanzhai/watch-cli)                             | A CLI tool which performs a build of the Shanzhai project in the current directory, watching for changes and rebuilding automatically. | ❌        
-[shanzhai](shanzhai)                                                   | [![0.0.10](https://img.shields.io/npm/v/shanzhai.svg)](https://www.npmjs.com/package/shanzhai)                                                  | This is a stub package.  You probably want a @shanzhai/* package instead.                                                              | ✔️       
+Name                                                                   | Version                                                                                                                                         | Description                                                                     | Published
+---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ---------
+[@shanzhai/change-tracking-helpers](@shanzhai/change-tracking-helpers) | [![0.0.8](https://img.shields.io/npm/v/@shanzhai/change-tracking-helpers.svg)](https://www.npmjs.com/package/@shanzhai/change-tracking-helpers) | Helpers for tracking changes to files during a Shanzhai build.                  | ✔️       
+[@shanzhai/execution-helpers](@shanzhai/execution-helpers)             | [![0.0.3](https://img.shields.io/npm/v/@shanzhai/execution-helpers.svg)](https://www.npmjs.com/package/@shanzhai/execution-helpers)             | Helpers which execute a tree of steps to perform a Shanzhai build.              | ✔️       
+[@shanzhai/interfaces](@shanzhai/interfaces)                           | [![0.0.18](https://img.shields.io/npm/v/@shanzhai/interfaces.svg)](https://www.npmjs.com/package/@shanzhai/interfaces)                          | TypeScript types used as interfaces between the various components of Shanzhai. | ✔️       
+[@shanzhai/planning-helpers](@shanzhai/planning-helpers)               | [![0.0.5](https://img.shields.io/npm/v/@shanzhai/planning-helpers.svg)](https://www.npmjs.com/package/@shanzhai/planning-helpers)               | Helpers which generate a tree of steps to execute to perform a Shanzhai build.  | ✔️       
+[@shanzhai/plugin-helpers](@shanzhai/plugin-helpers)                   | [![0.0.7](https://img.shields.io/npm/v/@shanzhai/plugin-helpers.svg)](https://www.npmjs.com/package/@shanzhai/plugin-helpers)                   | Helpers for searching for plugins during a Shanzhai build.                      | ✔️       
+[shanzhai](shanzhai)                                                   | [![0.0.10](https://img.shields.io/npm/v/shanzhai.svg)](https://www.npmjs.com/package/shanzhai)                                                  | This is a stub package.  You probably want a @shanzhai/* package instead.       | ✔️       
 
 ## License
 
