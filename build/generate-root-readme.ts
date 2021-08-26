@@ -48,7 +48,7 @@ ${await generateRootReadmePackageTable(steps)}
 
 ${await generateRootReadmePackageTable(inputs)}
 
-### Output
+### Outputs
 
 ${await generateRootReadmePackageTable(outputs)}
 
