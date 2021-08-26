@@ -31,7 +31,6 @@ export async function getAllPackages(): Promise<
   }[] = [];
 
   for (const name of [
-    [`shanzhai`],
     ...(await fs.promises.readdir(`@shanzhai`)).map((name) => [
       `@shanzhai`,
       name,
