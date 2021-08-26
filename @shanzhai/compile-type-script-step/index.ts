@@ -3,7 +3,9 @@ import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
 export class CompileTypeScriptStep extends ActionStep {
   constructor(
-    public readonly input: Input<ReadonlyArray<typescript.SourceFile>>,
+    public readonly input: Input<{
+      readonly [key: string]: typescript.SourceFile;
+    }>,
     public readonly compilerOptions: Input<typescript.CompilerOptions>,
     public readonly output: Output<string>
   ) {
@@ -11,7 +13,7 @@ export class CompileTypeScriptStep extends ActionStep {
   }
 
   async execute(): Promise<void> {
-    const inputs = await this.input.get();
+    const inputs = Object.values(await this.input.get());
     const compilerOptions = await this.compilerOptions.get();
     const options = { ...compilerOptions, noEmitOnError: true };
     const rootNames = inputs.map((sourceFile) => sourceFile.fileName);

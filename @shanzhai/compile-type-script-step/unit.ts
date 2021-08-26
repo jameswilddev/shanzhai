@@ -30,7 +30,7 @@ describe(`CompileTypeScriptStep`, () => {
 
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
-    let input: Input<ReadonlyArray<typescript.SourceFile>>;
+    let input: Input<{ readonly [key: string]: typescript.SourceFile }>;
     let compilerOptionsGet: jasmine.Spy;
     let compilerOptions: Input<typescript.CompilerOptions>;
     let outputSet: jasmine.Spy;
@@ -97,7 +97,7 @@ describe(`CompileTypeScriptStep`, () => {
   describe(`on execution`, () => {
     describe(`successful`, () => {
       let inputGet: jasmine.Spy;
-      let input: Input<ReadonlyArray<typescript.SourceFile>>;
+      let input: Input<{ readonly [key: string]: typescript.SourceFile }>;
       let compilerOptionsGet: jasmine.Spy;
       let compilerOptions: Input<typescript.CompilerOptions>;
       let outputSet: jasmine.Spy;
@@ -105,17 +105,15 @@ describe(`CompileTypeScriptStep`, () => {
       let compileTypeScriptStep: CompileTypeScriptStep;
 
       beforeAll(async () => {
-        const files: typescript.SourceFile[] = [];
+        const files: { [key: string]: typescript.SourceFile } = {};
 
         const prepareInput = (source: string, fileName: string): void => {
-          files.push(
-            typescript.createSourceFile(
-              fileName,
-              source,
-              typescript.ScriptTarget.ES2015,
-              false,
-              typescript.ScriptKind.TS
-            )
+          files[fileName] = typescript.createSourceFile(
+            fileName,
+            source,
+            typescript.ScriptTarget.ES2015,
+            false,
+            typescript.ScriptKind.TS
           );
         };
 
@@ -209,7 +207,7 @@ describe(`CompileTypeScriptStep`, () => {
 
     describe(`invalid`, () => {
       let inputGet: jasmine.Spy;
-      let input: Input<ReadonlyArray<typescript.SourceFile>>;
+      let input: Input<{ readonly [key: string]: typescript.SourceFile }>;
       let compilerOptionsGet: jasmine.Spy;
       let compilerOptions: Input<typescript.CompilerOptions>;
       let outputSet: jasmine.Spy;
@@ -218,17 +216,15 @@ describe(`CompileTypeScriptStep`, () => {
       let error: null | Error = null;
 
       beforeAll(async () => {
-        const files: typescript.SourceFile[] = [];
+        const files: { [key: string]: typescript.SourceFile } = {};
 
         const prepareInput = (source: string, fileName: string): void => {
-          files.push(
-            typescript.createSourceFile(
-              fileName,
-              source,
-              typescript.ScriptTarget.ES2015,
-              false,
-              typescript.ScriptKind.TS
-            )
+          files[fileName] = typescript.createSourceFile(
+            fileName,
+            source,
+            typescript.ScriptTarget.ES2015,
+            false,
+            typescript.ScriptKind.TS
           );
         };
 
@@ -331,7 +327,7 @@ Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter o
 
     describe(`no files emitted`, () => {
       let inputGet: jasmine.Spy;
-      let input: Input<ReadonlyArray<typescript.SourceFile>>;
+      let input: Input<{ readonly [key: string]: typescript.SourceFile }>;
       let compilerOptionsGet: jasmine.Spy;
       let compilerOptions: Input<typescript.CompilerOptions>;
       let outputSet: jasmine.Spy;
@@ -340,17 +336,15 @@ Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter o
       let error: null | Error = null;
 
       beforeAll(async () => {
-        const files: typescript.SourceFile[] = [];
+        const files: { [key: string]: typescript.SourceFile } = {};
 
         const prepareInput = (source: string, fileName: string): void => {
-          files.push(
-            typescript.createSourceFile(
-              fileName,
-              source,
-              typescript.ScriptTarget.ES2015,
-              false,
-              typescript.ScriptKind.TS
-            )
+          files[fileName] = typescript.createSourceFile(
+            fileName,
+            source,
+            typescript.ScriptTarget.ES2015,
+            false,
+            typescript.ScriptKind.TS
           );
         };
 
@@ -437,7 +431,7 @@ Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter o
 
     describe(`two files emitted`, () => {
       let inputGet: jasmine.Spy;
-      let input: Input<ReadonlyArray<typescript.SourceFile>>;
+      let input: Input<{ readonly [key: string]: typescript.SourceFile }>;
       let compilerOptionsGet: jasmine.Spy;
       let compilerOptions: Input<typescript.CompilerOptions>;
       let outputSet: jasmine.Spy;
@@ -446,17 +440,15 @@ Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter o
       let error: null | Error = null;
 
       beforeAll(async () => {
-        const files: typescript.SourceFile[] = [];
+        const files: { [key: string]: typescript.SourceFile } = {};
 
         const prepareInput = (source: string, fileName: string): void => {
-          files.push(
-            typescript.createSourceFile(
-              fileName,
-              source,
-              typescript.ScriptTarget.ES2015,
-              false,
-              typescript.ScriptKind.TS
-            )
+          files[fileName] = typescript.createSourceFile(
+            fileName,
+            source,
+            typescript.ScriptTarget.ES2015,
+            false,
+            typescript.ScriptKind.TS
           );
         };
 
@@ -545,7 +537,7 @@ Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter o
 
     describe(`three files emitted`, () => {
       let inputGet: jasmine.Spy;
-      let input: Input<ReadonlyArray<typescript.SourceFile>>;
+      let input: Input<{ readonly [key: string]: typescript.SourceFile }>;
       let compilerOptionsGet: jasmine.Spy;
       let compilerOptions: Input<typescript.CompilerOptions>;
       let outputSet: jasmine.Spy;
@@ -554,17 +546,15 @@ Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter o
       let error: null | Error = null;
 
       beforeAll(async () => {
-        const files: typescript.SourceFile[] = [];
+        const files: { [key: string]: typescript.SourceFile } = {};
 
         const prepareInput = (source: string, fileName: string): void => {
-          files.push(
-            typescript.createSourceFile(
-              fileName,
-              source,
-              typescript.ScriptTarget.ES2015,
-              false,
-              typescript.ScriptKind.TS
-            )
+          files[fileName] = typescript.createSourceFile(
+            fileName,
+            source,
+            typescript.ScriptTarget.ES2015,
+            false,
+            typescript.ScriptKind.TS
           );
         };
 
