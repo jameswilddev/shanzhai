@@ -34,7 +34,7 @@
   },
   "peerDependencies": {
     "@shanzhai/html-source-store": "0.0.2",
-    "@shanzhai/zip-content-store": "0.0.0"
+    "@shanzhai/zip-content-store": "0.0.1"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [
