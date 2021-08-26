@@ -38,7 +38,7 @@
   "peerDependencies": {
     "@shanzhai/parsed-pug-store": "0.0.2",
     "@shanzhai/html-source-store": "0.0.2",
-    "@shanzhai/pug-local-store": "0.0.1"
+    "@shanzhai/pug-local-store": "0.0.2"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [
