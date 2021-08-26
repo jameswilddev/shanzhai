@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-pug-files-plugin",
-  "description": "A Shanzhai plugin which reads PUg files into the Pug source store.",
-  "version": "0.0.1",
+  "description": "A Shanzhai plugin which reads Pug files into the Pug source store.",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
