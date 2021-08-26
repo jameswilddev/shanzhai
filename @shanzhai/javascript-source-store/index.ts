@@ -1,5 +1,5 @@
-import { EphemeralKeyedStore } from "@shanzhai/ephemeral-keyed-store";
+import { EphemeralUnkeyedStore } from "@shanzhai/ephemeral-unkeyed-store";
 
-export const javascriptSourceStore = new EphemeralKeyedStore<string>(
+export const javascriptSourceStore = new EphemeralUnkeyedStore<string>(
   `javascriptSourceStore`
 );
