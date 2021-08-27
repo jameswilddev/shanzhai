@@ -1,0 +1,44 @@
+{
+  "name": "@shanzhai/compile-type-script-plugin",
+  "description": "A Shanzhai plugin while compiles the entire store of parsed TypeScript, storing the resulting Javascript in corresponding source store.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/compile-type-script-step": "0.0.7",
+    "@shanzhai/delete-from-unkeyed-store-step": "0.0.0",
+    "@shanzhai/keyed-store-get-all-input": "0.0.0",
+    "@shanzhai/serial-step": "0.0.6",
+    "@shanzhai/unkeyed-store-get-input": "0.0.0",
+    "@shanzhai/unkeyed-store-set-output": "0.0.0"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.18",
+    "@shanzhai/javascript-source-store": "0.0.7",
+    "@shanzhai/parsed-type-script-store": "0.0.6",
+    "@shanzhai/type-script-compiler-options-store": "0.0.5"
+  },
+  "peerDependencies": {
+    "@shanzhai/type-script-compiler-options-store": "0.0.5",
+    "@shanzhai/javascript-source-store": "0.0.7",
+    "@shanzhai/parsed-type-script-store": "0.0.6"
+  },
+  "types": "index.d.ts"
+}
