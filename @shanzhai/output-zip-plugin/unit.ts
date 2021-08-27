@@ -3,6 +3,8 @@ import { DeleteStep } from "@shanzhai/delete-step";
 import { WriteFileStep } from "@shanzhai/write-file-step";
 import { zipStore } from "@shanzhai/zip-store";
 import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
+import { CreateDirectoryStep } from "@shanzhai/create-directory-step";
+import { SerialStep } from "@shanzhai/serial-step";
 import outputZipPlugin = require(".");
 
 describe(`output-zip-plugin`, () => {
@@ -32,11 +34,14 @@ describe(`output-zip-plugin`, () => {
 
     it(`writes the tsconfig to disk`, () => {
       expect(step).toEqual(
-        new WriteFileStep(
-          `Output zip`,
-          [`dist`, `distributable.zip`],
-          new UnkeyedStoreGetInput(zipStore)
-        )
+        new SerialStep(`Output zip`, [
+          new CreateDirectoryStep(`Create "dist" directory`, [`dist`]),
+          new WriteFileStep(
+            `Output zip`,
+            [`dist`, `distributable.zip`],
+            new UnkeyedStoreGetInput(zipStore)
+          ),
+        ])
       );
     });
   });
