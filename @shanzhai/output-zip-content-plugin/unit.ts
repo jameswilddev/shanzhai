@@ -19,15 +19,10 @@ describe(`output-zip-content-plugin`, () => {
 
     it(`deletes the tsconfig from disk`, () => {
       expect(step).toEqual(
-        new DeleteStep(`Delete previously output zip content "Test Key"`, [
-          `dist`,
-          `content`,
-          `Test`,
-          `Key`,
-          `With`,
-          `Various`,
-          `Slashes`,
-        ])
+        new DeleteStep(
+          `Delete previously output zip content "Test/Key\\With/Various\\Slashes"`,
+          [`dist`, `content`, `Test`, `Key`, `With`, `Various`, `Slashes`]
+        )
       );
     });
   });
@@ -51,7 +46,10 @@ describe(`output-zip-content-plugin`, () => {
           new WriteFileStep(
             `Output zip content "Test/Key\\With/Various\\Slashes"`,
             [`dist`, `content`, `Test`, `Key`, `With`, `Various`, `Slashes`],
-            new KeyedStoreGetInput(zipContentStore, `Test Key`)
+            new KeyedStoreGetInput(
+              zipContentStore,
+              `Test/Key\\With/Various\\Slashes`
+            )
           ),
         ])
       );
