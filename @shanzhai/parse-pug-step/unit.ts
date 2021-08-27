@@ -149,7 +149,7 @@ describe(`ParsePugStep`, () => {
         try {
           await parsePugStep.execute();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

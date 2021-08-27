@@ -24,7 +24,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -61,7 +61,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -101,7 +101,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -141,7 +141,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -184,7 +184,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -318,7 +318,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`@test-organization-name/test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -355,7 +355,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`@test-organization-name/test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -395,7 +395,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`@test-organization-name/test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -440,7 +440,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`@test-organization-name/test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -486,7 +486,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`@test-organization-name/test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -540,7 +540,7 @@ describe(`loadDependency`, () => {
         try {
           await loadDependency(`@test-organization-name/test-package-name`);
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

@@ -573,7 +573,7 @@ describe(`CollectSvgDefsStep`, () => {
           try {
             await collectSvgDefsStep.execute();
           } catch (e) {
-            error = e;
+            error = e as Error;
           }
         });
 
@@ -662,7 +662,7 @@ describe(`CollectSvgDefsStep`, () => {
           try {
             await collectSvgDefsStep.execute();
           } catch (e) {
-            error = e;
+            error = e as Error;
           }
         });
 
@@ -751,7 +751,7 @@ describe(`CollectSvgDefsStep`, () => {
           try {
             await collectSvgDefsStep.execute();
           } catch (e) {
-            error = e;
+            error = e as Error;
           }
         });
 

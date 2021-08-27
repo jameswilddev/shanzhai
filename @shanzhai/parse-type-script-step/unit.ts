@@ -297,7 +297,7 @@ describe(`ParseTypeScriptStep`, () => {
         try {
           await parseTypeScriptStep.execute();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

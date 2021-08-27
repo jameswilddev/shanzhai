@@ -210,7 +210,7 @@ describe(`readPackageJson`, () => {
       try {
         await readPackageJson();
       } catch (e) {
-        error = e;
+        error = e as Error;
       }
     });
 
@@ -247,7 +247,7 @@ describe(`readPackageJson`, () => {
       try {
         await readPackageJson();
       } catch (e) {
-        error = e;
+        error = e as Error;
       }
     });
 

@@ -303,7 +303,7 @@ describe(`MinifyStep`, () => {
       try {
         await minifyStep.execute();
       } catch (e) {
-        error = e;
+        error = e as Error;
       }
     });
 

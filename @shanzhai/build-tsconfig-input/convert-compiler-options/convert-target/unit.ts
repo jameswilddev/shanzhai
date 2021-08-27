@@ -62,7 +62,7 @@ describe(`convert-target`, () => {
           convertTarget(from);
           error = null;
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

@@ -2,6 +2,14 @@ import * as path from "path";
 import * as fs from "fs";
 import { Plugin, Trigger } from "@shanzhai/interfaces";
 
+function isError(error: unknown): error is NodeJS.ErrnoException {
+  return (
+    Object.prototype.hasOwnProperty.call(error, `code`) &&
+    typeof (error as { readonly code: unknown }).code === `string` &&
+    error instanceof Error
+  );
+}
+
 export async function loadDependency(
   name: string
 ): Promise<null | Plugin<{ readonly [name: string]: Trigger }>> {
@@ -25,7 +33,7 @@ export async function loadDependency(
       `utf8`
     );
   } catch (e) {
-    if (e.code === `ENOENT`) {
+    if (isError(e) && e.code === `ENOENT`) {
       try {
         await fs.promises.access(dependencyLocation);
       } catch (e) {

@@ -293,7 +293,7 @@ describe(`CompileTypeScriptStep`, () => {
         try {
           await compileTypeScriptStep.execute();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -404,7 +404,7 @@ Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter o
         try {
           await compileTypeScriptStep.execute();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -506,7 +506,7 @@ Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter o
         try {
           await compileTypeScriptStep.execute();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -613,7 +613,7 @@ Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter o
         try {
           await compileTypeScriptStep.execute();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

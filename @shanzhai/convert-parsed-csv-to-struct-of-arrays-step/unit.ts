@@ -226,7 +226,7 @@ describe(`ConvertParsedCsvToStructOfArraysStep`, () => {
           try {
             await convertParsedCsvToStructOfArraysStep.execute();
           } catch (e) {
-            error = e;
+            error = e as Error;
           }
         });
 

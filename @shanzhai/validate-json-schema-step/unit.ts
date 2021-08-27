@@ -210,7 +210,7 @@ describe(`ValidateJsonSchemaStep`, () => {
         try {
           await validateJsonSchemaStep.execute();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

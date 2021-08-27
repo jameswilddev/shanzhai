@@ -1,5 +1,13 @@
 import * as fs from "fs";
 
+function isError(error: unknown): error is NodeJS.ErrnoException {
+  return (
+    Object.prototype.hasOwnProperty.call(error, `code`) &&
+    typeof (error as { readonly code: unknown }).code === `string` &&
+    error instanceof Error
+  );
+}
+
 export async function readPackageJson(): Promise<{
   readonly dependencies: ReadonlyArray<string>;
   readonly root: null | ReadonlyArray<string>;
@@ -9,7 +17,7 @@ export async function readPackageJson(): Promise<{
   try {
     packageJsonText = await fs.promises.readFile(`package.json`, `utf8`);
   } catch (e) {
-    if (e.code === `ENOENT`) {
+    if (isError(e) && e.code === `ENOENT`) {
       throw new Error(
         `Failed to find the "package.json" file.  Please ensure that the current working directory is the root of the project.`
       );

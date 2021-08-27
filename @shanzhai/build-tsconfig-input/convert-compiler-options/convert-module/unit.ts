@@ -55,7 +55,7 @@ describe(`convert-module`, () => {
           convertModule(from);
           error = null;
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

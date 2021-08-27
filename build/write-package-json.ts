@@ -1,6 +1,14 @@
 import * as fs from "fs";
 import * as path from "path";
 
+function isError(error: unknown): error is NodeJS.ErrnoException {
+  return (
+    Object.prototype.hasOwnProperty.call(error, `code`) &&
+    typeof (error as { readonly code: unknown }).code === `string` &&
+    error instanceof Error
+  );
+}
+
 export async function writePackageJson(
   name: ReadonlyArray<string>,
   originalPackageJson: {
@@ -21,7 +29,7 @@ export async function writePackageJson(
   try {
     await fs.promises.stat(path.join(...[...name, `index.ts`]));
   } catch (e) {
-    if (e.code === `ENOENT`) {
+    if (isError(e) && e.code === `ENOENT`) {
       hasTypes = false;
     } else {
       throw e;

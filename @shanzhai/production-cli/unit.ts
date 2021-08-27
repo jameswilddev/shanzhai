@@ -119,7 +119,7 @@ No steps to execute.
         await fs.promises.stat(path.join(root, `dist`));
         fail(`The dist directory has been created.`);
       } catch (e) {
-        expect(e.code).toEqual(`ENOENT`);
+        expect((e as NodeJS.ErrnoException).code).toEqual(`ENOENT`);
       }
     });
   });

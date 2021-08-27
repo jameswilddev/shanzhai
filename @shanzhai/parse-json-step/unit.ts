@@ -126,7 +126,7 @@ describe(`ParseJsonStep`, () => {
         try {
           await parseJsonStep.execute();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

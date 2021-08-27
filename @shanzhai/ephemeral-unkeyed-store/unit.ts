@@ -42,7 +42,7 @@ describe(`ephemeral-unkeyed-store`, () => {
         try {
           await (await afterRunning(events)).get();
         } catch (ex) {
-          error = ex;
+          error = ex as Error;
         }
       });
 

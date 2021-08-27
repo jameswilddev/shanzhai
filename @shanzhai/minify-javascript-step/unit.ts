@@ -269,7 +269,7 @@ describe(`MinifyJavascriptStep`, () => {
       try {
         await minifyJavascriptStep.iterate(original);
       } catch (e) {
-        error = e;
+        error = e as Error;
       }
     });
 

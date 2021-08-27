@@ -192,7 +192,7 @@ F A,,F C
           try {
             await parseCsvStep.execute();
           } catch (e) {
-            error = e;
+            error = e as Error;
           }
         });
 

@@ -98,7 +98,7 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
         try {
           await convertSvgDocumentToDefStep.execute();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 
@@ -156,7 +156,7 @@ describe(`ConvertSvgDocumentToDefStep`, () => {
         try {
           await convertSvgDocumentToDefStep.execute();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

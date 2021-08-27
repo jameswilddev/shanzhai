@@ -128,7 +128,7 @@ describe(`MergeObjectInput`, () => {
         try {
           await mergeObjectInput.get();
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

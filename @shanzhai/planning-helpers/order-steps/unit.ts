@@ -480,7 +480,7 @@ describe(`orderSteps`, () => {
           orderSteps(steps, orderingConstraints);
           error = null;
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

@@ -33,7 +33,7 @@ describe(`convert-jsx`, () => {
           convertJsx(from);
           error = null;
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       });
 

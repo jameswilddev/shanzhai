@@ -2,6 +2,14 @@ import * as fs from "fs";
 import * as path from "path";
 import { pathAccepted } from "@shanzhai/change-tracking-helpers";
 
+function isError(error: unknown): error is NodeJS.ErrnoException {
+  return (
+    Object.prototype.hasOwnProperty.call(error, `code`) &&
+    typeof (error as { readonly code: unknown }).code === `string` &&
+    error instanceof Error
+  );
+}
+
 export async function scanDirectory(): Promise<ReadonlyArray<string>> {
   const output: string[] = [];
 
@@ -14,22 +22,27 @@ export async function scanDirectory(): Promise<ReadonlyArray<string>> {
       // We have no way to reliably not hit these conditions in tests.
       /* istanbul ignore else */
       if (subPath === `src`) {
-        switch (e.code) {
-          case `ENOENT`:
-            throw new Error(
-              `The "src" directory could not be found in the current working directory.  Please ensure that you are executing "shanzhai-production-cli" from your project's root directory.`
-            );
+        /* istanbul ignore else */
+        if (isError(e)) {
+          switch (e.code) {
+            case `ENOENT`:
+              throw new Error(
+                `The "src" directory could not be found in the current working directory.  Please ensure that you are executing "shanzhai-production-cli" from your project's root directory.`
+              );
 
-          case `ENOTDIR`:
-            throw new Error(
-              `The "src" path in the current working directory refers to a file, not a directory.  Please ensure that you are executing "shanzhai-production-cli" from your project's root directory.`
-            );
+            case `ENOTDIR`:
+              throw new Error(
+                `The "src" path in the current working directory refers to a file, not a directory.  Please ensure that you are executing "shanzhai-production-cli" from your project's root directory.`
+              );
 
-          // We have no way to reliably hit these conditions in tests.
-          /* istanbul ignore next*/
-          default:
+            // We have no way to reliably hit these conditions in tests.
             /* istanbul ignore next*/
-            throw e;
+            default:
+              /* istanbul ignore next*/
+              throw e;
+          }
+        } else {
+          throw e;
         }
       } else {
         throw e;
