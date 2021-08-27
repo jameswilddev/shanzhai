@@ -1,7 +1,9 @@
 import { Diff } from "@shanzhai/interfaces";
-import { Hashes } from "../hashes";
 
-export const generateDiff = (from: Hashes, to: Hashes): Diff<string> => {
+export function generateDiff<TValue>(
+  from: { readonly [key: string]: TValue },
+  to: { readonly [key: string]: TValue }
+): Diff<string> {
   const fromKeys = Object.keys(from).sort();
   const toKeys = Object.keys(to).sort();
 
@@ -20,4 +22,4 @@ export const generateDiff = (from: Hashes, to: Hashes): Diff<string> => {
     deleted,
     unchanged,
   };
-};
+}
