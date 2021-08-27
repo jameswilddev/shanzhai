@@ -38,7 +38,7 @@
   "peerDependencies": {
     "@shanzhai/type-script-compiler-options-store": "0.0.6",
     "@shanzhai/javascript-source-store": "0.0.7",
-    "@shanzhai/parsed-type-script-store": "0.0.6"
+    "@shanzhai/parsed-type-script-store": "0.0.7"
   },
   "types": "index.d.ts"
 }
