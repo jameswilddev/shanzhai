@@ -1,6 +1,6 @@
 ## Usage
 
-Provide as an output to discard an output of `Step`.
+Provide as an output to discard an output of `Steps`.
 
 ```typescript
 new ExampleStep(
