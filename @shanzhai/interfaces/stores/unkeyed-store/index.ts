@@ -27,10 +27,4 @@ export interface UnkeyedStore<TValue> {
    * @param value The {@link TValue} to set.
    */
   set(value: TValue): Promise<void>;
-
-  /**
-   * Deletes the previously set {@link TValue}.
-   * If no value has been set or has since been deleted, nothing happens.
-   */
-  delete(): Promise<void>;
 }

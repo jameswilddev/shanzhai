@@ -21,7 +21,6 @@ describe(`ActionStep`, () => {
         name: `Test Name`,
         get: jasmine.createSpy(`unkeyedStore.get`),
         set: jasmine.createSpy(`unkeyedStore.set`),
-        delete: jasmine.createSpy(`unkeyedStore.delete`),
       };
       effectA = {
         type: `unkeyedStoreSet`,
@@ -54,7 +53,6 @@ describe(`ActionStep`, () => {
     it(`does not interact with its effects`, () => {
       expect(unkeyedStore.get).not.toHaveBeenCalled();
       expect(unkeyedStore.set).not.toHaveBeenCalled();
-      expect(unkeyedStore.delete).not.toHaveBeenCalled();
     });
   });
 
@@ -74,7 +72,6 @@ describe(`ActionStep`, () => {
         name: `Test Name`,
         get: jasmine.createSpy(`unkeyedStore.get`),
         set: jasmine.createSpy(`unkeyedStore.set`),
-        delete: jasmine.createSpy(`unkeyedStore.delete`),
       };
       effectA = {
         type: `unkeyedStoreSet`,
@@ -119,7 +116,6 @@ describe(`ActionStep`, () => {
     it(`does not interact with its effects`, () => {
       expect(unkeyedStore.get).not.toHaveBeenCalled();
       expect(unkeyedStore.set).not.toHaveBeenCalled();
-      expect(unkeyedStore.delete).not.toHaveBeenCalled();
     });
   });
 });

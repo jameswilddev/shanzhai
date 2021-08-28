@@ -17,5 +17,4 @@ export { FileTrigger } from "./trigger/file-trigger";
 export { FileExtensionTrigger } from "./trigger/file-extension-trigger";
 export { KeyedStoreTrigger } from "./trigger/keyed-store-trigger";
 export { OneTimeTrigger } from "./trigger/one-time-trigger";
-export { UnkeyedStoreTrigger } from "./trigger/unkeyed-store-trigger";
 export { StoreAggregateTrigger } from "./trigger/store-aggregate-trigger";
