@@ -37,7 +37,7 @@
     "@shanzhai/type-script-global-store": "0.0.8"
   },
   "peerDependencies": {
-    "@shanzhai/javascript-source-store": "0.0.2",
+    "@shanzhai/javascript-source-store": "0.0.7",
     "@shanzhai/type-script-global-store": "0.0.8",
     "@shanzhai/pug-local-store": "0.0.2"
   },
