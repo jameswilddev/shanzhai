@@ -2,6 +2,17 @@
 
 A Shanzhai input which reads all keys from a keyed store as an array of strings.
 
+## Usage
+
+Provide an instance of `KeyedStoreGetKeysInput` as an input to a `Step` to
+provide an array containing all of a `KeyedStore`'s keys to it.
+
+```typescript
+new ExampleStep(
+  new KeyedStoreGetKeysInput(aKeyedStoreFromWhichToRetrieveAllKeys)
+);
+```
+
 ## Dependencies
 
 This package has no runtime dependencies.

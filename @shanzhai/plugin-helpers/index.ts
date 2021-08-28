@@ -3,6 +3,11 @@ import { Plugin, Trigger } from "@shanzhai/interfaces";
 import { readPackageJson } from "./read-package-json";
 import { loadDependency } from "./load-dependency";
 
+/**
+ * Scans the package.json file in the current directory to discover
+ * {@link Plugin}s both within it and its direct dependencies.
+ * @returns Resolves to an object where the values are the discovered plugins.
+ */
 export async function searchForPlugins(): Promise<{
   readonly [name: string]: Plugin<{ readonly [name: string]: Trigger }>;
 }> {

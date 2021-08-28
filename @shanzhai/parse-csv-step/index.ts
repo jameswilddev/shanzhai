@@ -1,6 +1,14 @@
 import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
+/**
+ * Parses CSV to an array of array of strings representing the rows and columns.
+ */
 export class ParseCsvStep extends ActionStep {
+  /**
+   * @param name   A description of the operation being performed.
+   * @param input  An {@link Input} which supplies the unparsed CSV.
+   * @param output An {@link Output} which receives the parsed CSV.
+   */
   constructor(
     name: string,
     public readonly input: Input<string>,
@@ -9,6 +17,9 @@ export class ParseCsvStep extends ActionStep {
     super(name, output.effects);
   }
 
+  /**
+   * @inheritdoc
+   */
   async execute(): Promise<void> {
     const output: string[][] = [];
 

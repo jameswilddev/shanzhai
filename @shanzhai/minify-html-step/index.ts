@@ -1,9 +1,18 @@
 import * as htmlMinifier from "html-minifier";
 import { MinifyStep } from "@shanzhai/minify-step";
 
+/**
+ * Minifies HTML source.
+ */
 export class MinifyHtmlStep extends MinifyStep<string> {
+  /**
+   * @inheritdoc
+   */
   readonly maximumIterations = 10;
 
+  /**
+   * @inheritdoc
+   */
   async iterate(value: string): Promise<string> {
     return htmlMinifier.minify(value, {
       caseSensitive: false,

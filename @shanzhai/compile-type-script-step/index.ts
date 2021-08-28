@@ -1,7 +1,20 @@
 import * as typescript from "typescript";
 import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
+/**
+ * Compiles a set of previously parsed TypeScript files down to a single
+ * JavaScript file.
+ */
 export class CompileTypeScriptStep extends ActionStep {
+  /**
+   * @param input           An {@link Input} providing an object where the
+   *                        values are previously parsed TypeScript files.
+   * @param compilerOptions An {@link Input} providing the TypeScript compiler
+   *                        options to use.  Must match that used to parse the
+   *                        {@link input} files.
+   * @param output          An {@link Output} for the (single) JavaScript file
+   *                        produced.
+   */
   constructor(
     public readonly input: Input<{
       readonly [key: string]: typescript.SourceFile;
@@ -12,6 +25,9 @@ export class CompileTypeScriptStep extends ActionStep {
     super(`Compile TypeScript`, output.effects);
   }
 
+  /**
+   * @inheritdoc
+   */
   async execute(): Promise<void> {
     const inputs = Object.values(await this.input.get());
     const compilerOptions = await this.compilerOptions.get();

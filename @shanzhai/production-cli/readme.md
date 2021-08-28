@@ -2,6 +2,15 @@
 
 A CLI tool which performs a one-off production build of the Shanzhai project in the current directory.
 
+## Usage
+
+Execute from the command line to perform a one-off build of the Shanzhai project
+in the current working directory:
+
+```
+npx @shanzhai/production-cli
+```
+
 ## Dependencies
 
 This package has no runtime dependencies.

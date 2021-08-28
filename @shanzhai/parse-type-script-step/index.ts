@@ -1,7 +1,19 @@
 import * as typescript from "typescript";
 import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
+/**
+ * Parses a TypeScript source file.
+ */
 export class ParseTypeScriptStep extends ActionStep {
+  /**
+   * @param name            A description of the operation being performed.
+   * @param input           An {@link Input} which supplies the unparsed
+   *                        TypeScript source file.
+   * @param compilerOptions An {@link Input} which supplies the TypeScript
+   *                        compiler options to use.
+   * @param output          An {@link Output} which receives the parsed
+   *                        TypeScript source file.
+   */
   constructor(
     public readonly input: Input<string>,
     public readonly compilerOptions: Input<typescript.CompilerOptions>,
@@ -11,6 +23,9 @@ export class ParseTypeScriptStep extends ActionStep {
     super(`Parse ${JSON.stringify(fileName)} as TypeScript`, output.effects);
   }
 
+  /**
+   * @inheritdoc
+   */
   async execute(): Promise<void> {
     const input = await this.input.get();
 

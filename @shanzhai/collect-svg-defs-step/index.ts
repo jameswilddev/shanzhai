@@ -1,6 +1,22 @@
 import { Input, Output, ActionStep, Json } from "@shanzhai/interfaces";
 
+/**
+ * An {@link ActionStep} which combines a set of SVG defs into a single blob of
+ * SVG, with globals for TypeScript for their (generated) IDs.
+ */
 export class CollectSvgDefsStep extends ActionStep {
+  /**
+   * @param defs       An {@link Input} for the SVGs to combine as defs.  Each
+   *                   must have all IDs stripped, except the root, which must
+   *                   have an empty ID.
+   * @param typeScript An {@link Output} for generated TypeScript for the AnySvg
+   *                   type.
+   * @param constants  An {@link Output} for generated TypeScript constants,
+   *                   mapping the keys of the given {@link defs} to the
+   *                   (generated) IDs of the corresponding defs.
+   * @param svg        An {@link Output} for the combined defs with injected
+   *                   (generated) IDs.
+   */
   constructor(
     public readonly defs: Input<{ readonly [key: string]: string }>,
     public readonly typeScript: Output<string>,
@@ -14,6 +30,9 @@ export class CollectSvgDefsStep extends ActionStep {
     ]);
   }
 
+  /**
+   * @inheritdoc
+   */
   async execute(): Promise<void> {
     const defs = await this.defs.get();
 

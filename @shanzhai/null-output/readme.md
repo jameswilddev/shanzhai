@@ -2,6 +2,16 @@
 
 A Shanzhai output which discards any value it is given without taking further action.
 
+## Usage
+
+Provide as an output to discard an output of `Step`.
+
+```typescript
+new ExampleStep(
+  new NullOutput()
+);
+```
+
 ## Dependencies
 
 This package has no runtime dependencies.

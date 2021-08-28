@@ -8,7 +8,7 @@ describe(`CreateDirectoryStep`, () => {
   describe(`when the directory already exists`, () => {
     describe(`on construction`, () => {
       let root: string;
-      let writeFileStep: CreateDirectoryStep;
+      let createDirectoryStep: CreateDirectoryStep;
 
       beforeAll(async () => {
         root = path.join(os.tmpdir(), uuid.v4());
@@ -29,7 +29,7 @@ describe(`CreateDirectoryStep`, () => {
           `Test Content`
         );
 
-        writeFileStep = new CreateDirectoryStep(`Test Name`, [
+        createDirectoryStep = new CreateDirectoryStep(`Test Name`, [
           root,
           `subdirectory-a`,
           `subdirectory-b`,
@@ -42,7 +42,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       it(`exposes its name`, () => {
-        expect(writeFileStep.name).toEqual(`Test Name`);
+        expect(createDirectoryStep.name).toEqual(`Test Name`);
       });
 
       it(`does not remove anything`, async () => {
@@ -63,7 +63,7 @@ describe(`CreateDirectoryStep`, () => {
 
     describe(`on executing`, () => {
       let root: string;
-      let writeFileStep: CreateDirectoryStep;
+      let createDirectoryStep: CreateDirectoryStep;
 
       beforeAll(async () => {
         root = path.join(os.tmpdir(), uuid.v4());
@@ -84,7 +84,7 @@ describe(`CreateDirectoryStep`, () => {
           `Test Content`
         );
 
-        writeFileStep = new CreateDirectoryStep(`Test Name`, [
+        createDirectoryStep = new CreateDirectoryStep(`Test Name`, [
           root,
           `subdirectory-a`,
           `subdirectory-b`,
@@ -97,7 +97,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       it(`exposes its name`, () => {
-        expect(writeFileStep.name).toEqual(`Test Name`);
+        expect(createDirectoryStep.name).toEqual(`Test Name`);
       });
 
       it(`does not remove anything`, async () => {
@@ -120,7 +120,7 @@ describe(`CreateDirectoryStep`, () => {
   describe(`when the directory does not exist`, () => {
     describe(`on construction`, () => {
       let root: string;
-      let writeFileStep: CreateDirectoryStep;
+      let createDirectoryStep: CreateDirectoryStep;
 
       beforeAll(async () => {
         root = path.join(os.tmpdir(), uuid.v4());
@@ -135,7 +135,7 @@ describe(`CreateDirectoryStep`, () => {
           `Test Content`
         );
 
-        writeFileStep = new CreateDirectoryStep(`Test Name`, [
+        createDirectoryStep = new CreateDirectoryStep(`Test Name`, [
           root,
           `subdirectory-a`,
           `subdirectory-b`,
@@ -148,7 +148,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       it(`exposes its name`, () => {
-        expect(writeFileStep.name).toEqual(`Test Name`);
+        expect(createDirectoryStep.name).toEqual(`Test Name`);
       });
 
       it(`does not create anything`, async () => {
@@ -171,7 +171,7 @@ describe(`CreateDirectoryStep`, () => {
 
     describe(`on executing`, () => {
       let root: string;
-      let writeFileStep: CreateDirectoryStep;
+      let createDirectoryStep: CreateDirectoryStep;
 
       beforeAll(async () => {
         root = path.join(os.tmpdir(), uuid.v4());
@@ -186,14 +186,14 @@ describe(`CreateDirectoryStep`, () => {
           `Test Content`
         );
 
-        writeFileStep = new CreateDirectoryStep(`Test Name`, [
+        createDirectoryStep = new CreateDirectoryStep(`Test Name`, [
           root,
           `subdirectory-a`,
           `subdirectory-b`,
           `subdirectory-c`,
         ]);
 
-        await writeFileStep.execute();
+        await createDirectoryStep.execute();
       });
 
       afterAll(async () => {
@@ -201,7 +201,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       it(`exposes its name`, () => {
-        expect(writeFileStep.name).toEqual(`Test Name`);
+        expect(createDirectoryStep.name).toEqual(`Test Name`);
       });
 
       it(`creates an empty directory`, async () => {
@@ -241,7 +241,7 @@ describe(`CreateDirectoryStep`, () => {
   describe(`when the directory's parent does not exist`, () => {
     describe(`on construction`, () => {
       let root: string;
-      let writeFileStep: CreateDirectoryStep;
+      let createDirectoryStep: CreateDirectoryStep;
 
       beforeAll(async () => {
         root = path.join(os.tmpdir(), uuid.v4());
@@ -255,7 +255,7 @@ describe(`CreateDirectoryStep`, () => {
           `Test Content`
         );
 
-        writeFileStep = new CreateDirectoryStep(`Test Name`, [
+        createDirectoryStep = new CreateDirectoryStep(`Test Name`, [
           root,
           `subdirectory-a`,
           `subdirectory-b`,
@@ -268,7 +268,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       it(`exposes its name`, () => {
-        expect(writeFileStep.name).toEqual(`Test Name`);
+        expect(createDirectoryStep.name).toEqual(`Test Name`);
       });
 
       it(`does not create anything`, async () => {
@@ -289,7 +289,7 @@ describe(`CreateDirectoryStep`, () => {
 
     describe(`on executing`, () => {
       let root: string;
-      let writeFileStep: CreateDirectoryStep;
+      let createDirectoryStep: CreateDirectoryStep;
 
       beforeAll(async () => {
         root = path.join(os.tmpdir(), uuid.v4());
@@ -303,14 +303,14 @@ describe(`CreateDirectoryStep`, () => {
           `Test Content`
         );
 
-        writeFileStep = new CreateDirectoryStep(`Test Name`, [
+        createDirectoryStep = new CreateDirectoryStep(`Test Name`, [
           root,
           `subdirectory-a`,
           `subdirectory-b`,
           `subdirectory-c`,
         ]);
 
-        await writeFileStep.execute();
+        await createDirectoryStep.execute();
       });
 
       afterAll(async () => {
@@ -318,7 +318,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       it(`exposes its name`, () => {
-        expect(writeFileStep.name).toEqual(`Test Name`);
+        expect(createDirectoryStep.name).toEqual(`Test Name`);
       });
 
       it(`creates a parent directory`, async () => {
@@ -364,7 +364,7 @@ describe(`CreateDirectoryStep`, () => {
   describe(`when the directory's grandparent does not exist`, () => {
     describe(`on construction`, () => {
       let root: string;
-      let writeFileStep: CreateDirectoryStep;
+      let createDirectoryStep: CreateDirectoryStep;
 
       beforeAll(async () => {
         root = path.join(os.tmpdir(), uuid.v4());
@@ -378,7 +378,7 @@ describe(`CreateDirectoryStep`, () => {
           `Test Content`
         );
 
-        writeFileStep = new CreateDirectoryStep(`Test Name`, [
+        createDirectoryStep = new CreateDirectoryStep(`Test Name`, [
           root,
           `subdirectory-a`,
           `subdirectory-b`,
@@ -391,7 +391,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       it(`exposes its name`, () => {
-        expect(writeFileStep.name).toEqual(`Test Name`);
+        expect(createDirectoryStep.name).toEqual(`Test Name`);
       });
 
       it(`does not create anything`, async () => {
@@ -409,7 +409,7 @@ describe(`CreateDirectoryStep`, () => {
 
     describe(`on executing`, () => {
       let root: string;
-      let writeFileStep: CreateDirectoryStep;
+      let createDirectoryStep: CreateDirectoryStep;
 
       beforeAll(async () => {
         root = path.join(os.tmpdir(), uuid.v4());
@@ -423,14 +423,14 @@ describe(`CreateDirectoryStep`, () => {
           `Test Content`
         );
 
-        writeFileStep = new CreateDirectoryStep(`Test Name`, [
+        createDirectoryStep = new CreateDirectoryStep(`Test Name`, [
           root,
           `subdirectory-a`,
           `subdirectory-b`,
           `subdirectory-c`,
         ]);
 
-        await writeFileStep.execute();
+        await createDirectoryStep.execute();
       });
 
       afterAll(async () => {
@@ -438,7 +438,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       it(`exposes its name`, () => {
-        expect(writeFileStep.name).toEqual(`Test Name`);
+        expect(createDirectoryStep.name).toEqual(`Test Name`);
       });
 
       it(`creates a grandparent directory`, async () => {
@@ -478,6 +478,106 @@ describe(`CreateDirectoryStep`, () => {
         await expectAsync(
           fs.promises.readFile(path.join(root, `test-file`), `utf8`)
         ).toBeResolvedTo(`Test Content`);
+      });
+    });
+  });
+
+  describe(`when the directory exists as a file`, () => {
+    describe(`on construction`, () => {
+      let root: string;
+      let createDirectoryStep: CreateDirectoryStep;
+
+      beforeAll(async () => {
+        root = path.join(os.tmpdir(), uuid.v4());
+
+        await fs.promises.mkdir(root, {
+          recursive: true,
+        });
+
+        await fs.promises.writeFile(
+          path.join(root, `test-file`),
+          `Test Content`
+        );
+
+        createDirectoryStep = new CreateDirectoryStep(`Test Name`, [
+          root,
+          `test-file`,
+        ]);
+      });
+
+      afterAll(async () => {
+        await fs.promises.rmdir(root, { recursive: true });
+      });
+
+      it(`exposes its name`, () => {
+        expect(createDirectoryStep.name).toEqual(`Test Name`);
+      });
+
+      it(`does not create anything`, async () => {
+        await expectAsync(fs.promises.readdir(root)).toBeResolvedTo([
+          `test-file`,
+        ]);
+      });
+
+      it(`does not remove anything`, async () => {
+        await expectAsync(
+          fs.promises.readFile(path.join(root, `test-file`), `utf8`)
+        ).toBeResolvedTo(`Test Content`);
+      });
+    });
+
+    describe(`on executing`, () => {
+      let root: string;
+      let createDirectoryStep: CreateDirectoryStep;
+      let error: null | NodeJS.ErrnoException;
+
+      beforeAll(async () => {
+        root = path.join(os.tmpdir(), uuid.v4());
+
+        await fs.promises.mkdir(root, {
+          recursive: true,
+        });
+
+        await fs.promises.writeFile(
+          path.join(root, `test-file`),
+          `Test Content`
+        );
+
+        createDirectoryStep = new CreateDirectoryStep(`Test Name`, [
+          root,
+          `test-file`,
+        ]);
+
+        try {
+          await createDirectoryStep.execute();
+          error = null;
+        } catch (e) {
+          error = e as NodeJS.ErrnoException;
+        }
+      });
+
+      afterAll(async () => {
+        await fs.promises.rmdir(root, { recursive: true });
+      });
+
+      it(`exposes its name`, () => {
+        expect(createDirectoryStep.name).toEqual(`Test Name`);
+      });
+
+      it(`does not create anything else`, async () => {
+        await expectAsync(fs.promises.readdir(path.join(root))).toBeResolvedTo(
+          jasmine.arrayWithExactContents([`test-file`])
+        );
+      });
+
+      it(`does not remove anything`, async () => {
+        await expectAsync(
+          fs.promises.readFile(path.join(root, `test-file`), `utf8`)
+        ).toBeResolvedTo(`Test Content`);
+      });
+
+      it(`throws the expected error`, () => {
+        expect(error?.code).toEqual(`EEXIST`);
       });
     });
   });

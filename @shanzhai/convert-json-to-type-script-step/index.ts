@@ -1,11 +1,19 @@
 import { Input, Output, ActionStep, Json } from "@shanzhai/interfaces";
 
-export type KeyedJson = { readonly [key: string]: Json };
-
+/**
+ * An {@link ActionStep} which converts JSON to TypeScript type declarations.
+ */
 export class ConvertJsonToTypeScriptStep extends ActionStep {
+  /**
+   * @param name   A description of the operation being performed.
+   * @param input  An {@link Input} for the declarations to convert to
+   *               TypeScript type declarations.
+   * @param output An {@link Output} for the generated TypeScript type
+   *               declarations.
+   */
   constructor(
     name: string,
-    public readonly input: Input<KeyedJson>,
+    public readonly input: Input<{ readonly [key: string]: Json }>,
     public readonly output: Output<string>
   ) {
     super(name, output.effects);

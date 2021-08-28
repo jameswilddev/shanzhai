@@ -2,6 +2,20 @@
 
 A Shanzhai input which reads a single value from a keyed store.
 
+## Usage
+
+Provide an instance of `KeyedStoreGetInput` as an input to a `Step` to
+provide a particular key's value to it.
+
+```typescript
+new ExampleStep(
+  new KeyedStoreGetInput(
+    aKeyedStoreFromWhichToRetrieveASpecificKeysValue,
+    `Example Key To Retrieve`
+  )
+);
+```
+
 ## Dependencies
 
 This package has no runtime dependencies.

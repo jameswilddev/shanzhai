@@ -13,7 +13,17 @@ type ParsedSvg = {
   };
 };
 
+/**
+ * An {@link ActionStep} which converts a SVG document to a SVG fragment which
+ * may be used as a def (when the included blank ID is populated).
+ */
 export class ConvertSvgDocumentToDefStep extends ActionStep {
+  /**
+   * @param svgDocument An {@link Input} which provides the SVG document to
+   *                    convert to a def.
+   * @param svgDef      An {@link Output} which is set to the def generated from
+   *                    the given {@link svgDocument}.
+   */
   constructor(
     public readonly svgDocument: Input<string>,
     public readonly svgDef: Output<string>
@@ -21,6 +31,9 @@ export class ConvertSvgDocumentToDefStep extends ActionStep {
     super(`Convert SVG document to def`, svgDef.effects);
   }
 
+  /**
+   * @inheritdoc
+   */
   async execute(): Promise<void> {
     const svgDocument = await this.svgDocument.get();
 

@@ -1,5 +1,14 @@
 import { Diff } from "@shanzhai/interfaces";
 
+/**
+ * Generates a {@link Diff} by comparing two objects, one describing a past
+ * state, and the other describing a current state.
+ * @template TValue The values of the states to compare.
+ * @param from The past state to compare.
+ * @param to The current state to compare.
+ * @returns A {@link Diff} containing the keys of the compared state
+ * {@link TValue}s.
+ */
 export function generateDiff<TValue>(
   from: { readonly [key: string]: TValue },
   to: { readonly [key: string]: TValue }

@@ -2,6 +2,22 @@
 
 A Shanzhai step which compiles parsed TypeScript.
 
+## Usage
+
+If within a trigger's event handler an instance of `ParseTypeScriptStep` similar
+to the following were to be returned:
+
+```typescript
+new ParseTypeScriptStep(
+  `A description of the operation being performed`,
+  new InputForUnparsedTypeScript(),
+  new InputForTypeScriptCompilerOptions(),
+  new OutputForParsedTypeScript()
+);
+```
+
+A parsed TypeScript source file would be written to the output.
+
 ## Dependencies
 
 This package has the following runtime dependencies:

@@ -6,7 +6,18 @@ import * as uuid from "uuid";
 import * as _7zipBin from "7zip-bin";
 import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
+/**
+ * An {@link ActionStep} which compresses any number of files into a "zip"
+ * archive.
+ */
 export class ZipStep extends ActionStep {
+  /**
+   * @param name   A description of the operation being performed.
+   * @param input  An {@link Input} providing an object of {@link String}s for
+   *               text files and {@link Buffer}s for binary files to compress.
+   * @param output An {@link Output} to which to write the compressed zip file
+   *               (as a {@link Buffer}).
+   */
   constructor(
     name: string,
     public readonly input: Input<{ readonly [path: string]: string | Buffer }>,
@@ -15,6 +26,9 @@ export class ZipStep extends ActionStep {
     super(name, output.effects);
   }
 
+  /**
+   * @inheritdoc
+   */
   async execute(): Promise<void> {
     const temporaryDirectory = path.join(os.tmpdir(), uuid.v4());
     const targetPath = `${temporaryDirectory}.zip`;

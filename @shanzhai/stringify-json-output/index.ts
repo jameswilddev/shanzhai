@@ -1,12 +1,26 @@
 import { Effect, Output, Json } from "@shanzhai/interfaces";
 
+/**
+ * An {@link Output} which converts values it is given to JSON before passing
+ * them onto a nested {@link Output}.
+ */
 export class StringifyJsonOutput implements Output<Json> {
+  /**
+   * @inheritdoc
+   */
   public readonly effects: ReadonlyArray<Effect>;
 
+  /**
+   * @param output The nested {@link Output}, which is to be provided the string
+   *               of JSON generated.
+   */
   constructor(public readonly output: Output<string>) {
     this.effects = output.effects;
   }
 
+  /**
+   * @inheritdoc
+   */
   async set(value: Json): Promise<void> {
     const recurse = (json: Json): string => {
       if (json === null) {

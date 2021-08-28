@@ -1,6 +1,17 @@
 import { Input, Output, ActionStep, Json } from "@shanzhai/interfaces";
 
+/**
+ * An {@link ActionStep} which converts the result of parsing a CSV to
+ * values which can be included in the TypeScript global scope.
+ */
 export class ConvertParsedCsvToStructOfArraysStep extends ActionStep {
+  /**
+   * @param name      A description of the operation being performed.
+   * @param keyPrefix The prefix of any generated TypeScript global variables.
+   * @param input     An {@link Input} which supplies the parsed CSV.
+   * @param output    An {@link Output} which accepts the generated TypeScript
+   *                  global variables.
+   */
   constructor(
     name: string,
     public readonly keyPrefix: string,
@@ -10,6 +21,9 @@ export class ConvertParsedCsvToStructOfArraysStep extends ActionStep {
     super(name, output.effects);
   }
 
+  /**
+   * @inheritdoc
+   */
   async execute(): Promise<void> {
     const input = await this.input.get();
 

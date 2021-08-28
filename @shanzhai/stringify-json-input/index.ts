@@ -1,8 +1,19 @@
 import { Input, Json } from "@shanzhai/interfaces";
 
+/**
+ * An {@link Input} which converts a nested {@link Input}'s value to a string of
+ * JSON.
+ */
 export class StringifyJsonInput implements Input<string> {
+  /**
+   * @param input The nested {@link Input}, the value of which is to be
+   *              converted to a string of JSON.
+   */
   constructor(public readonly input: Input<Json>) {}
 
+  /**
+   * @inheritdoc
+   */
   async get(): Promise<string> {
     const json = await this.input.get();
 

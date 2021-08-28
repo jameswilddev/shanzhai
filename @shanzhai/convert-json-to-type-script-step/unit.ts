@@ -1,5 +1,11 @@
-import { Input, Output, Effect, UnkeyedStore } from "@shanzhai/interfaces";
-import { ConvertJsonToTypeScriptStep, KeyedJson } from ".";
+import {
+  Input,
+  Output,
+  Effect,
+  UnkeyedStore,
+  Json,
+} from "@shanzhai/interfaces";
+import { ConvertJsonToTypeScriptStep } from ".";
 
 describe(`ConvertJsonToTypeScriptStep`, () => {
   const unkeyedStore: UnkeyedStore<unknown> = {
@@ -27,7 +33,7 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
 
   describe(`on construction`, () => {
     let inputGet: jasmine.Spy;
-    let input: Input<KeyedJson>;
+    let input: Input<{ readonly [key: string]: Json }>;
     let outputSet: jasmine.Spy;
     let output: Output<string>;
     let convertJsonToTypeScriptStep: ConvertJsonToTypeScriptStep;
@@ -80,12 +86,12 @@ describe(`ConvertJsonToTypeScriptStep`, () => {
   describe(`on execution`, () => {
     const scenario = (
       description: string,
-      inputKeyedJson: KeyedJson,
+      inputKeyedJson: { readonly [key: string]: Json },
       outputJson: string
     ): void => {
       describe(description, () => {
         let inputGet: jasmine.Spy;
-        let input: Input<KeyedJson>;
+        let input: Input<{ readonly [key: string]: Json }>;
         let outputSet: jasmine.Spy;
         let output: Output<string>;
         let convertJsonToTypeScriptStep: ConvertJsonToTypeScriptStep;

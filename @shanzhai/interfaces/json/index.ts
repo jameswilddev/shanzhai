@@ -1,3 +1,6 @@
+/**
+ * An immutable, JSON-serializable value.
+ */
 export type Json =
   | null
   | boolean

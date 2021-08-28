@@ -1,6 +1,13 @@
 import * as Progress from "progress";
 import { Step } from "@shanzhai/interfaces";
 
+/**
+ * Executes a previously planned build.
+ * @param step      The root {@link Step} previously planned build.
+ * @param logOutput A {@link NodeJS.WritableStream} to which to write logs.
+ * @returns         Resolves to true when the build succeeds; otherwise returns
+ *                  false.
+ */
 export async function execute(
   step: Step,
   logOutput: NodeJS.WritableStream

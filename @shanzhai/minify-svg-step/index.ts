@@ -184,9 +184,18 @@ const options: Svgo.OptimizeOptions = {
   ] as unknown as Svgo.Plugin[],
 };
 
+/**
+ * Minifies SVG.
+ */
 export class MinifySvgStep extends MinifyStep<string> {
+  /**
+   * @inheritdoc
+   */
   readonly maximumIterations = 10;
 
+  /**
+   * @inheritdoc
+   */
   async iterate(value: string): Promise<string> {
     const optimized = await Svgo.optimize(value, options);
     return optimized.data;
