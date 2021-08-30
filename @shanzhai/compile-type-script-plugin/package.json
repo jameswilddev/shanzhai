@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/compile-type-script-step": "0.0.8",
+    "@shanzhai/compile-type-script-step": "0.0.9",
     "@shanzhai/delete-from-unkeyed-store-step": "0.0.0",
     "@shanzhai/keyed-store-get-all-input": "0.0.0",
     "@shanzhai/serial-step": "0.0.6",
