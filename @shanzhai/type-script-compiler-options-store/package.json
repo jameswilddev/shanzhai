@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/type-script-compiler-options-store",
   "description": "A Shanzhai store for TypeScript compiler options.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,11 +22,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/ephemeral-unkeyed-store": "0.0.0"
+    "@shanzhai/ephemeral-unkeyed-store": "0.0.1"
   },
   "devDependencies": {
-    "typescript": "4.4.2",
-    "@shanzhai/interfaces": "0.0.18"
+    "typescript": "4.4.2"
   },
   "types": "index.d.ts"
 }

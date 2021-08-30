@@ -15,7 +15,6 @@ describe(`unkeyed-store-set-output`, () => {
         name: `Test Name`,
         get: jasmine.createSpy(`unkeyedStore.get`),
         set: jasmine.createSpy(`unkeyedStore.set`),
-        delete: jasmine.createSpy(`unkeyedStore.delete`),
       };
 
       unkeyedStoreSetOutput = new UnkeyedStoreSetOutput<TestValue>(
@@ -43,10 +42,6 @@ describe(`unkeyed-store-set-output`, () => {
     it(`does not set a value in the store`, () => {
       expect(unkeyedStore.set).not.toHaveBeenCalled();
     });
-
-    it(`does not delete from the store`, () => {
-      expect(unkeyedStore.delete).not.toHaveBeenCalled();
-    });
   });
 
   describe(`set`, () => {
@@ -60,7 +55,6 @@ describe(`unkeyed-store-set-output`, () => {
         name: `Test Name`,
         get: jasmine.createSpy(`unkeyedStore.get`),
         set: jasmine.createSpy(`unkeyedStore.set`).and.resolveTo(),
-        delete: jasmine.createSpy(`unkeyedStore.delete`),
       };
 
       unkeyedStoreSetOutput = new UnkeyedStoreSetOutput<TestValue>(
@@ -93,10 +87,6 @@ describe(`unkeyed-store-set-output`, () => {
 
     it(`sets the value given`, () => {
       expect(unkeyedStore.set).toHaveBeenCalledWith(`Test Value`);
-    });
-
-    it(`does not delete from the store`, () => {
-      expect(unkeyedStore.delete).not.toHaveBeenCalled();
     });
   });
 });

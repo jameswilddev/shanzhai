@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/unkeyed-store-set-output",
   "description": "A Shanzhai output which sets the value of an unkeyed store.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.18"
+    "@shanzhai/interfaces": "0.0.20"
   },
   "types": "index.d.ts"
 }

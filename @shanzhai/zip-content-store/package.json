@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/zip-content-store",
   "description": "A Shanzhai store for SVG defs.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/ephemeral-keyed-store": "0.0.0"
+    "@shanzhai/ephemeral-keyed-store": "0.0.1"
   },
   "types": "index.d.ts"
 }

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/build-object-input",
   "description": "A Shanzhai input which builds an object from a number of other inputs.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.18"
+    "@shanzhai/interfaces": "0.0.20"
   },
   "types": "index.d.ts"
 }
