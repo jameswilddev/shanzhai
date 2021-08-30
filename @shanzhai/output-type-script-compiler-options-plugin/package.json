@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@shanzhai/build-tsconfig-input": "0.0.3",
-    "@shanzhai/constant-input": "0.0.4",
+    "@shanzhai/constant-input": "0.0.5",
     "@shanzhai/delete-step": "0.0.5",
     "@shanzhai/stringify-json-input": "0.0.2",
     "@shanzhai/unkeyed-store-get-input": "0.0.0",
