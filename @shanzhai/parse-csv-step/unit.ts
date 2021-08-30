@@ -7,7 +7,6 @@ describe(`ParseCsvStep`, () => {
     name: `Test Unkeyed Store`,
     get: jasmine.createSpy(`unkeyedStore.get`).and.callFake(fail),
     set: jasmine.createSpy(`unkeyedStore.set`).and.callFake(fail),
-    delete: jasmine.createSpy(`unkeyedStore.delete`).and.callFake(fail),
   };
 
   const outputEffectA: Effect = {
