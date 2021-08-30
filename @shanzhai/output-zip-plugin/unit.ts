@@ -1,5 +1,4 @@
 import { Step } from "@shanzhai/interfaces";
-import { DeleteStep } from "@shanzhai/delete-step";
 import { WriteFileStep } from "@shanzhai/write-file-step";
 import { zipStore } from "@shanzhai/zip-store";
 import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
@@ -8,28 +7,15 @@ import { SerialStep } from "@shanzhai/serial-step";
 import outputZipPlugin = require(".");
 
 describe(`output-zip-plugin`, () => {
-  describe(`when the zip is unset`, () => {
-    let step: Step;
-
-    beforeAll(() => {
-      step = outputZipPlugin.triggers.outputZip.down();
-    });
-
-    it(`deletes the zip from disk`, () => {
-      expect(step).toEqual(
-        new DeleteStep(`Delete previously output zip`, [
-          `dist`,
-          `distributable.zip`,
-        ])
-      );
-    });
+  it(`is triggered by the expected stores`, () => {
+    expect(outputZipPlugin.triggers.outputZip.stores).toEqual([zipStore]);
   });
 
   describe(`when the zip is set`, () => {
     let step: Step;
 
     beforeAll(() => {
-      step = outputZipPlugin.triggers.outputZip.up();
+      step = outputZipPlugin.triggers.outputZip.invalidated();
     });
 
     it(`writes the tsconfig to disk`, () => {

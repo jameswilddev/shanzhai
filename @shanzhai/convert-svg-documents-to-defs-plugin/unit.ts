@@ -14,6 +14,13 @@ describe(`convert-svg-documents-to-defs-plugin`, () => {
     );
   });
 
+  it(`does not refresh all when other stores change`, () => {
+    expect(
+      minifySvgPlugin.triggers.convertSvgDocumentsToDefs
+        .refreshAllWhenStoresChange
+    ).toEqual([]);
+  });
+
   describe(`when SVG source is removed`, () => {
     let step: Step;
 

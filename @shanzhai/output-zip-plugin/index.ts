@@ -1,25 +1,18 @@
-import { Plugin, UnkeyedStoreTrigger, Step } from "@shanzhai/interfaces";
+import { Plugin, StoreAggregateTrigger, Step } from "@shanzhai/interfaces";
 import { zipStore } from "@shanzhai/zip-store";
 import { WriteFileStep } from "@shanzhai/write-file-step";
-import { DeleteStep } from "@shanzhai/delete-step";
 import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
 import { CreateDirectoryStep } from "@shanzhai/create-directory-step";
 import { SerialStep } from "@shanzhai/serial-step";
 
 const outputZipPlugin: Plugin<{
-  readonly outputZip: UnkeyedStoreTrigger;
+  readonly outputZip: StoreAggregateTrigger;
 }> = {
   triggers: {
     outputZip: {
-      type: `unkeyedStore`,
-      unkeyedStore: zipStore,
-      down(): Step {
-        return new DeleteStep(`Delete previously output zip`, [
-          `dist`,
-          `distributable.zip`,
-        ]);
-      },
-      up(): Step {
+      type: `storeAggregate`,
+      stores: [zipStore],
+      invalidated(): Step {
         return new SerialStep(`Output zip`, [
           new CreateDirectoryStep(`Create "dist" directory`, [`dist`]),
           new WriteFileStep(

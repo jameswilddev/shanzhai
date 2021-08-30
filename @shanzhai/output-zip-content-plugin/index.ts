@@ -17,6 +17,7 @@ const outputZipContentPlugin: Plugin<{
     outputZipContent: {
       type: `keyedStore`,
       keyedStore: zipContentStore,
+      refreshAllWhenStoresChange: [],
       down(key: string): Step {
         return new DeleteStep(`Delete previously output zip content "${key}"`, [
           `dist`,

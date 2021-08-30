@@ -14,6 +14,12 @@ describe(`minify-html-plugin`, () => {
     );
   });
 
+  it(`does not refresh all when other stores change`, () => {
+    expect(
+      minifyHtmlPlugin.triggers.minifyHtml.refreshAllWhenStoresChange
+    ).toEqual([]);
+  });
+
   describe(`when HTML source is removed`, () => {
     let step: Step;
 

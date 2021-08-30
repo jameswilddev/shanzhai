@@ -1,7 +1,6 @@
 import { Step } from "@shanzhai/interfaces";
 import { javascriptSourceStore } from "@shanzhai/javascript-source-store";
 import { MinifyJavascriptStep } from "@shanzhai/minify-javascript-step";
-import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
 import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
 import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import { MergeObjectInput } from "@shanzhai/merge-object-input";
@@ -13,30 +12,16 @@ import minifyJavascriptPlugin = require(".");
 
 describe(`minify-javascript-plugin`, () => {
   it(`is triggered by the Javascript source store`, () => {
-    expect(minifyJavascriptPlugin.triggers.minifyJavascript.unkeyedStore).toBe(
-      javascriptSourceStore
-    );
+    expect(minifyJavascriptPlugin.triggers.minifyJavascript.stores).toEqual([
+      javascriptSourceStore,
+    ]);
   });
 
-  describe(`when Javascript source is removed`, () => {
+  describe(`when Javascript source changes`, () => {
     let step: Step;
 
     beforeAll(() => {
-      step = minifyJavascriptPlugin.triggers.minifyJavascript.down();
-    });
-
-    it(`deletes the minified Javascript from the store`, () => {
-      expect(step).toEqual(
-        new DeleteFromKeyedStoreStep(pugLocalStore, `minify-javascript-plugin`)
-      );
-    });
-  });
-
-  describe(`when Javascript source is added`, () => {
-    let step: Step;
-
-    beforeAll(() => {
-      step = minifyJavascriptPlugin.triggers.minifyJavascript.up();
+      step = minifyJavascriptPlugin.triggers.minifyJavascript.invalidated();
     });
 
     it(`minifies the Javascript`, () => {

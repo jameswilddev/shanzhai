@@ -13,6 +13,7 @@ const convertSvgDocumentsToDefsPlugin: Plugin<{
     convertSvgDocumentsToDefs: {
       type: `keyedStore`,
       keyedStore: minifiedSvgStore,
+      refreshAllWhenStoresChange: [],
       down(key: string): Step {
         return new DeleteFromKeyedStoreStep(svgDefStore, key);
       },

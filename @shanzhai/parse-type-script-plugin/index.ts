@@ -15,6 +15,7 @@ const parseTypeScriptPlugin: Plugin<{
     parseTypeScript: {
       type: `keyedStore`,
       keyedStore: typeScriptSourceStore,
+      refreshAllWhenStoresChange: [typeScriptCompilerOptionsStore],
       down(key: string): Step {
         return new DeleteFromKeyedStoreStep(parsedTypeScriptStore, key);
       },

@@ -10,6 +10,19 @@ import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import readTypeScriptFilesPlugin = require(".");
 
 describe(`parse-type-script-plugin`, () => {
+  it(`uses the correct keyed store`, () => {
+    expect(readTypeScriptFilesPlugin.triggers.parseTypeScript.keyedStore).toBe(
+      typeScriptSourceStore
+    );
+  });
+
+  it(`refreshes all when the compiler options change`, () => {
+    expect(
+      readTypeScriptFilesPlugin.triggers.parseTypeScript
+        .refreshAllWhenStoresChange
+    ).toEqual([typeScriptCompilerOptionsStore]);
+  });
+
   describe(`when a file is removed`, () => {
     let step: Step;
 

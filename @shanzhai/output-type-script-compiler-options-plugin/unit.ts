@@ -1,6 +1,5 @@
 import { Step } from "@shanzhai/interfaces";
 import { typeScriptCompilerOptionsStore } from "@shanzhai/type-script-compiler-options-store";
-import { DeleteStep } from "@shanzhai/delete-step";
 import { WriteFileStep } from "@shanzhai/write-file-step";
 import { StringifyJsonInput } from "@shanzhai/stringify-json-input";
 import { BuildTsconfigInput } from "@shanzhai/build-tsconfig-input";
@@ -9,21 +8,10 @@ import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
 import readTypeScriptFilesPlugin = require(".");
 
 describe(`output-type-script-compiler-options-plugin`, () => {
-  describe(`when the compiler options are deleted`, () => {
-    let step: Step;
-
-    beforeAll(() => {
-      step =
-        readTypeScriptFilesPlugin.triggers.outputTypeScriptCompilerOptions.down();
-    });
-
-    it(`deletes the tsconfig from disk`, () => {
-      expect(step).toEqual(
-        new DeleteStep(`Delete previously output TypeScript compiler options`, [
-          `tsconfig.json`,
-        ])
-      );
-    });
+  it(`is triggered by the TypeScript compiler options store`, () => {
+    expect(
+      readTypeScriptFilesPlugin.triggers.outputTypeScriptCompilerOptions.stores
+    ).toEqual([typeScriptCompilerOptionsStore]);
   });
 
   describe(`when compiler options are set`, () => {
@@ -31,7 +19,7 @@ describe(`output-type-script-compiler-options-plugin`, () => {
 
     beforeAll(() => {
       step =
-        readTypeScriptFilesPlugin.triggers.outputTypeScriptCompilerOptions.up();
+        readTypeScriptFilesPlugin.triggers.outputTypeScriptCompilerOptions.invalidated();
     });
 
     it(`writes the tsconfig to disk`, () => {

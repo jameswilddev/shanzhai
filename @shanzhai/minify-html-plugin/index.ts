@@ -13,6 +13,7 @@ const minifyHtmlPlugin: Plugin<{
     minifyHtml: {
       type: `keyedStore`,
       keyedStore: htmlSourceStore,
+      refreshAllWhenStoresChange: [],
       down(key: string): Step {
         return new DeleteFromKeyedStoreStep(zipContentStore, key);
       },

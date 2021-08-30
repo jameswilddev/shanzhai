@@ -1,6 +1,5 @@
-import { Plugin, UnkeyedStoreTrigger, Step } from "@shanzhai/interfaces";
+import { Plugin, StoreAggregateTrigger, Step } from "@shanzhai/interfaces";
 import { javascriptSourceStore } from "@shanzhai/javascript-source-store";
-import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
 import { MinifyJavascriptStep } from "@shanzhai/minify-javascript-step";
 import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
 import { typeScriptGlobalStore } from "@shanzhai/type-script-global-store";
@@ -11,19 +10,13 @@ import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import { KeyedStoreGetAllInput } from "@shanzhai/keyed-store-get-all-input";
 
 const minifyJavascriptPlugin: Plugin<{
-  readonly minifyJavascript: UnkeyedStoreTrigger;
+  readonly minifyJavascript: StoreAggregateTrigger;
 }> = {
   triggers: {
     minifyJavascript: {
-      type: `unkeyedStore`,
-      unkeyedStore: javascriptSourceStore,
-      down(): Step {
-        return new DeleteFromKeyedStoreStep(
-          pugLocalStore,
-          `minify-javascript-plugin`
-        );
-      },
-      up(): Step {
+      type: `storeAggregate`,
+      stores: [javascriptSourceStore],
+      invalidated(): Step {
         return new MinifyJavascriptStep(
           `Minify Javascript`,
           new UnkeyedStoreGetInput(javascriptSourceStore),

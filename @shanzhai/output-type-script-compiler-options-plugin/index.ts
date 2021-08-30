@@ -1,26 +1,19 @@
-import { Plugin, UnkeyedStoreTrigger, Step } from "@shanzhai/interfaces";
+import { Plugin, StoreAggregateTrigger, Step } from "@shanzhai/interfaces";
 import { typeScriptCompilerOptionsStore } from "@shanzhai/type-script-compiler-options-store";
 import { WriteFileStep } from "@shanzhai/write-file-step";
-import { DeleteStep } from "@shanzhai/delete-step";
 import { StringifyJsonInput } from "@shanzhai/stringify-json-input";
 import { BuildTsconfigInput } from "@shanzhai/build-tsconfig-input";
 import { ConstantInput } from "@shanzhai/constant-input";
 import { UnkeyedStoreGetInput } from "@shanzhai/unkeyed-store-get-input";
 
 const outputTypeScriptCompilerOptionsPlugin: Plugin<{
-  readonly outputTypeScriptCompilerOptions: UnkeyedStoreTrigger;
+  readonly outputTypeScriptCompilerOptions: StoreAggregateTrigger;
 }> = {
   triggers: {
     outputTypeScriptCompilerOptions: {
-      type: `unkeyedStore`,
-      unkeyedStore: typeScriptCompilerOptionsStore,
-      down(): Step {
-        return new DeleteStep(
-          `Delete previously output TypeScript compiler options`,
-          [`tsconfig.json`]
-        );
-      },
-      up(): Step {
+      type: `storeAggregate`,
+      stores: [typeScriptCompilerOptionsStore],
+      invalidated(): Step {
         return new WriteFileStep(
           `Output TypeScript compiler options`,
           [`tsconfig.json`],

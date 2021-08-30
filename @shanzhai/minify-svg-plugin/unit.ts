@@ -12,6 +12,12 @@ describe(`minify-svg-plugin`, () => {
     expect(minifySvgPlugin.triggers.minifySvg.keyedStore).toBe(svgSourceStore);
   });
 
+  it(`does not refresh all when other stores change`, () => {
+    expect(
+      minifySvgPlugin.triggers.minifySvg.refreshAllWhenStoresChange
+    ).toEqual([]);
+  });
+
   describe(`when SVG source is removed`, () => {
     let step: Step;
 

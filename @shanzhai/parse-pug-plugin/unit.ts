@@ -8,6 +8,18 @@ import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import readPugFilesPlugin = require(".");
 
 describe(`parse-pug-plugin`, () => {
+  it(`uses the correct keyed store`, () => {
+    expect(readPugFilesPlugin.triggers.parsePug.keyedStore).toBe(
+      pugSourceStore
+    );
+  });
+
+  it(`does not refresh all`, () => {
+    expect(
+      readPugFilesPlugin.triggers.parsePug.refreshAllWhenStoresChange
+    ).toEqual([]);
+  });
+
   describe(`when Pug source is removed`, () => {
     let step: Step;
 

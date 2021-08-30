@@ -5,14 +5,27 @@ import { zipContentStore } from "@shanzhai/zip-content-store";
 import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
 import { SerialStep } from "@shanzhai/serial-step";
 import { CreateDirectoryStep } from "@shanzhai/create-directory-step";
-import readTypeScriptFilesPlugin = require(".");
+import outputZipContentPlugin = require(".");
 
 describe(`output-zip-content-plugin`, () => {
+  it(`is triggered by the zip content store`, () => {
+    expect(outputZipContentPlugin.triggers.outputZipContent.keyedStore).toBe(
+      zipContentStore
+    );
+  });
+
+  it(`does not refresh all when other stores change`, () => {
+    expect(
+      outputZipContentPlugin.triggers.outputZipContent
+        .refreshAllWhenStoresChange
+    ).toEqual([]);
+  });
+
   describe(`when zip content is deleted`, () => {
     let step: Step;
 
     beforeAll(() => {
-      step = readTypeScriptFilesPlugin.triggers.outputZipContent.down(
+      step = outputZipContentPlugin.triggers.outputZipContent.down(
         `Test/Key\\With/Various\\Slashes`
       );
     });
@@ -31,7 +44,7 @@ describe(`output-zip-content-plugin`, () => {
     let step: Step;
 
     beforeAll(() => {
-      step = readTypeScriptFilesPlugin.triggers.outputZipContent.up(
+      step = outputZipContentPlugin.triggers.outputZipContent.up(
         `Test/Key\\With/Various\\Slashes`
       );
     });

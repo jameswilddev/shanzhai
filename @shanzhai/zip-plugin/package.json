@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/zip-plugin",
   "description": "A Shanzhai plugin which zips the generated content.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,16 +22,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/delete-from-unkeyed-store-step": "0.0.0",
-    "@shanzhai/keyed-store-get-all-input": "0.0.0",
-    "@shanzhai/serial-step": "0.0.6",
-    "@shanzhai/unkeyed-store-set-output": "0.0.0",
-    "@shanzhai/zip-step": "0.0.6"
+    "@shanzhai/keyed-store-get-all-input": "0.0.1",
+    "@shanzhai/unkeyed-store-set-output": "0.0.1",
+    "@shanzhai/zip-step": "0.0.7"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.18",
-    "@shanzhai/zip-content-store": "0.0.1",
-    "@shanzhai/zip-store": "0.0.1"
+    "@shanzhai/interfaces": "0.0.20",
+    "@shanzhai/zip-content-store": "0.0.2",
+    "@shanzhai/zip-store": "0.0.2"
   },
   "peerDependencies": {
     "@shanzhai/zip-content-store": "0.0.1",

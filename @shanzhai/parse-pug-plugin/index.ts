@@ -13,6 +13,7 @@ const parsePugPlugin: Plugin<{
     parsePug: {
       type: `keyedStore`,
       keyedStore: pugSourceStore,
+      refreshAllWhenStoresChange: [],
       down(key: string): Step {
         return new DeleteFromKeyedStoreStep(parsedPugStore, key);
       },

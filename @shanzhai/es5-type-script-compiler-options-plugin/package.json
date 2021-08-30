@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/es5-type-script-compiler-options-plugin",
   "description": "A Shanzhai plugin which loads a set of TypeScript compiler options for ES5.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,14 +22,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/constant-input": "0.0.4",
-    "@shanzhai/copy-step": "0.0.2",
-    "@shanzhai/unkeyed-store-set-output": "0.0.0",
+    "@shanzhai/constant-input": "0.0.5",
+    "@shanzhai/copy-step": "0.0.3",
+    "@shanzhai/unkeyed-store-set-output": "0.0.1",
     "typescript": "4.4.2"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.18",
-    "@shanzhai/type-script-compiler-options-store": "0.0.6"
+    "@shanzhai/interfaces": "0.0.20",
+    "@shanzhai/type-script-compiler-options-store": "0.0.7"
   },
   "peerDependencies": {
     "@shanzhai/type-script-compiler-options-store": "0.0.6"

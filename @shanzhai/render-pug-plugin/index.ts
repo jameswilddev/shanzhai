@@ -16,6 +16,7 @@ const renderPugPlugin: Plugin<{
     renderPug: {
       type: `keyedStore`,
       keyedStore: parsedPugStore,
+      refreshAllWhenStoresChange: [pugLocalStore],
       down(key: string): Step {
         return new DeleteFromKeyedStoreStep(htmlSourceStore, key);
       },

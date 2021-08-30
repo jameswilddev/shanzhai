@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/output-zip-plugin",
   "description": "A Shanzhai plugin which outputs the distributable zip to the dist subdirectory of the current working directory.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,15 +22,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/create-directory-step": "0.0.5",
-    "@shanzhai/delete-step": "0.0.5",
-    "@shanzhai/serial-step": "0.0.6",
-    "@shanzhai/unkeyed-store-get-input": "0.0.0",
-    "@shanzhai/write-file-step": "0.0.5"
+    "@shanzhai/create-directory-step": "0.0.6",
+    "@shanzhai/serial-step": "0.0.7",
+    "@shanzhai/unkeyed-store-get-input": "0.0.1",
+    "@shanzhai/write-file-step": "0.0.6"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.18",
-    "@shanzhai/zip-store": "0.0.1"
+    "@shanzhai/interfaces": "0.0.20",
+    "@shanzhai/zip-store": "0.0.2"
   },
   "peerDependencies": {
     "@shanzhai/zip-store": "0.0.1"

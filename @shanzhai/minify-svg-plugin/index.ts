@@ -13,6 +13,7 @@ const minifySvgPlugin: Plugin<{
     minifySvg: {
       type: `keyedStore`,
       keyedStore: svgSourceStore,
+      refreshAllWhenStoresChange: [],
       down(key: string): Step {
         return new DeleteFromKeyedStoreStep(minifiedSvgStore, key);
       },

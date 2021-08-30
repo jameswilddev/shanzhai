@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/execution-helpers",
   "description": "Helpers which execute a tree of steps to perform a Shanzhai build.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -25,8 +25,8 @@
     "progress": "2.0.3"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.18",
-    "@shanzhai/serial-step": "0.0.6",
+    "@shanzhai/interfaces": "0.0.20",
+    "@shanzhai/serial-step": "0.0.7",
     "@types/progress": "2.0.5"
   },
   "types": "index.d.ts"

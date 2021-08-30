@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minify-svg-plugin",
   "description": "A Shanzhai plugin which minifies SVG from the source store.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,15 +22,15 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/delete-from-keyed-store-step": "0.0.0",
-    "@shanzhai/keyed-store-get-input": "0.0.0",
-    "@shanzhai/keyed-store-set-output": "0.0.0",
-    "@shanzhai/minify-svg-step": "0.0.7"
+    "@shanzhai/delete-from-keyed-store-step": "0.0.1",
+    "@shanzhai/keyed-store-get-input": "0.0.1",
+    "@shanzhai/keyed-store-set-output": "0.0.1",
+    "@shanzhai/minify-svg-step": "0.0.8"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.18",
-    "@shanzhai/svg-source-store": "0.0.1",
-    "@shanzhai/minified-svg-store": "0.0.1"
+    "@shanzhai/interfaces": "0.0.20",
+    "@shanzhai/svg-source-store": "0.0.2",
+    "@shanzhai/minified-svg-store": "0.0.2"
   },
   "peerDependencies": {
     "@shanzhai/svg-source-store": "0.0.1",

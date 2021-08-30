@@ -11,6 +11,18 @@ import { KeyedStoreGetAllInput } from "@shanzhai/keyed-store-get-all-input";
 import readPugFilesPlugin = require(".");
 
 describe(`render-pug-plugin`, () => {
+  it(`uses the correct keyed store`, () => {
+    expect(readPugFilesPlugin.triggers.renderPug.keyedStore).toBe(
+      parsedPugStore
+    );
+  });
+
+  it(`refreshes all when the locals change`, () => {
+    expect(
+      readPugFilesPlugin.triggers.renderPug.refreshAllWhenStoresChange
+    ).toEqual([pugLocalStore]);
+  });
+
   describe(`when parsed Pug is removed`, () => {
     let step: Step;
 
