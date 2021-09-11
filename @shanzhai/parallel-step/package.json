@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/parallel-step",
   "description": "A Shanzhai build step which runs any number of child build steps in parallel.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/interfaces": "0.0.20"
+    "@shanzhai/interfaces": "0.0.21"
   },
   "types": "index.d.ts"
 }

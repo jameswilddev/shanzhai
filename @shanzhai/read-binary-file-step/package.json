@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-binary-file-step",
   "description": "A Shanzhai step which reads the content of a binary file.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/interfaces": "0.0.20"
+    "@shanzhai/interfaces": "0.0.21"
   },
   "devDependencies": {
     "@types/uuid": "8.3.1",

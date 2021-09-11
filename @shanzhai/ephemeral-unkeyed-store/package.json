@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/ephemeral-unkeyed-store",
   "description": "An unkeyed Shanzhai store which holds data in memory until the application closes.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.20"
+    "@shanzhai/interfaces": "0.0.21"
   },
   "types": "index.d.ts"
 }

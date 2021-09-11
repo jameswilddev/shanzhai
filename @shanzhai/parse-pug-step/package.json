@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/parse-pug-step",
   "description": "A Shanzhai step which parses Pug files.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "pug": "3.0.2",
-    "@shanzhai/interfaces": "0.0.20"
+    "@shanzhai/interfaces": "0.0.21"
   },
   "types": "index.d.ts"
 }

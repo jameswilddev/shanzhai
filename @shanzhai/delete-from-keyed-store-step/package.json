@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/delete-from-keyed-store-step",
   "description": "A Shanzhai step which deletes a key/value from a keyed store.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/interfaces": "0.0.20"
+    "@shanzhai/interfaces": "0.0.21"
   },
   "types": "index.d.ts"
 }
