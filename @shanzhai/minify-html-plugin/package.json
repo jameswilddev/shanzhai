@@ -33,7 +33,7 @@
     "@shanzhai/zip-content-store": "0.0.3"
   },
   "peerDependencies": {
-    "@shanzhai/html-source-store": "0.0.3",
+    "@shanzhai/html-source-store": "0.0.4",
     "@shanzhai/zip-content-store": "0.0.2"
   },
   "types": "index.d.ts",
