@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@shanzhai/create-directory-step": "0.0.5",
-    "@shanzhai/ephemeral-unkeyed-store": "0.0.1",
+    "@shanzhai/ephemeral-unkeyed-store": "0.0.2",
     "@shanzhai/interfaces": "0.0.18",
     "@shanzhai/read-text-file-step": "0.0.5",
     "@shanzhai/serial-step": "0.0.6",
