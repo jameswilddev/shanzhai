@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/zip-store",
   "description": "A Shanzhai store for the distributable zip.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/ephemeral-unkeyed-store": "0.0.1"
+    "@shanzhai/ephemeral-unkeyed-store": "0.0.2"
   },
   "types": "index.d.ts"
 }

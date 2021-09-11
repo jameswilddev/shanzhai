@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/javascript-source-store",
   "description": "A Shanzhai store for Javascript source files.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,10 +22,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/ephemeral-unkeyed-store": "0.0.1"
+    "@shanzhai/ephemeral-unkeyed-store": "0.0.2"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.20"
+    "@shanzhai/interfaces": "0.0.21"
   },
   "types": "index.d.ts"
 }
