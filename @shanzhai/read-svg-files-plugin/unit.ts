@@ -7,19 +7,14 @@ import readSvgFilesPlugin = require(".");
 
 describe(`read-svg-files-plugin`, () => {
   it(`matches *.svg files`, () => {
-    expect(readSvgFilesPlugin.triggers.readSvgFiles.extension).toEqual(`svg`);
+    expect(readSvgFilesPlugin.triggers.readSvgFiles.glob).toEqual(`**/*.svg`);
   });
 
   describe(`when a file is removed`, () => {
     let step: Step;
 
     beforeAll(() => {
-      step = readSvgFilesPlugin.triggers.readSvgFiles.down({
-        typeScriptName: `Test TypeScript Name`,
-        fullPath: `Test Full Path`,
-        fileExtension: `Test File Extension`,
-        fullPathWithoutExtension: `Test Full Path Without Extension`,
-      });
+      step = readSvgFilesPlugin.triggers.readSvgFiles.down(`Test Full Path`);
     });
 
     it(`deletes the read file from the store`, () => {
@@ -33,12 +28,7 @@ describe(`read-svg-files-plugin`, () => {
     let step: Step;
 
     beforeAll(() => {
-      step = readSvgFilesPlugin.triggers.readSvgFiles.up({
-        typeScriptName: `Test TypeScript Name`,
-        fullPath: `Test Full Path`,
-        fileExtension: `Test File Extension`,
-        fullPathWithoutExtension: `Test Full Path Without Extension`,
-      });
+      step = readSvgFilesPlugin.triggers.readSvgFiles.up(`Test Full Path`);
     });
 
     it(`reads the file into the store`, () => {

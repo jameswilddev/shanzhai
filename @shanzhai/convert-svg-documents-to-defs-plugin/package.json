@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/convert-svg-documents-to-defs-plugin",
   "description": "A Shanzhai plugin which converts the contents of the minified SVG store to defs, outputting them to the defs store.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -22,15 +22,15 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/convert-svg-document-to-def-step": "0.0.6",
-    "@shanzhai/delete-from-keyed-store-step": "0.0.1",
-    "@shanzhai/keyed-store-get-input": "0.0.1",
-    "@shanzhai/keyed-store-set-output": "0.0.1"
+    "@shanzhai/convert-svg-document-to-def-step": "0.0.7",
+    "@shanzhai/delete-from-keyed-store-step": "0.0.2",
+    "@shanzhai/keyed-store-get-input": "0.0.2",
+    "@shanzhai/keyed-store-set-output": "0.0.2"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.20",
-    "@shanzhai/minified-svg-store": "0.0.2",
-    "@shanzhai/svg-def-store": "0.0.2"
+    "@shanzhai/interfaces": "0.0.21",
+    "@shanzhai/minified-svg-store": "0.0.3",
+    "@shanzhai/svg-def-store": "0.0.3"
   },
   "peerDependencies": {
     "@shanzhai/minified-svg-store": "0.0.2",

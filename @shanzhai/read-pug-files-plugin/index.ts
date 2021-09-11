@@ -1,28 +1,23 @@
-import {
-  Plugin,
-  FileExtensionTrigger,
-  ParsedPath,
-  Step,
-} from "@shanzhai/interfaces";
+import { Plugin, FileTrigger, Step } from "@shanzhai/interfaces";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
 import { pugSourceStore } from "@shanzhai/pug-source-store";
 import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
 import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 
 const readPugFilesPlugin: Plugin<{
-  readonly readPugFiles: FileExtensionTrigger;
+  readonly readPugFiles: FileTrigger;
 }> = {
   triggers: {
     readPugFiles: {
-      type: `fileExtension`,
-      extension: `pug`,
-      down(path: ParsedPath): Step {
-        return new DeleteFromKeyedStoreStep(pugSourceStore, path.fullPath);
+      type: `file`,
+      glob: `**/*.pug`,
+      down(path: string): Step {
+        return new DeleteFromKeyedStoreStep(pugSourceStore, path);
       },
-      up(path: ParsedPath): Step {
+      up(path: string): Step {
         return new ReadTextFileStep(
-          [`src`, path.fullPath],
-          new KeyedStoreSetOutput(pugSourceStore, path.fullPath)
+          [`src`, path],
+          new KeyedStoreSetOutput(pugSourceStore, path)
         );
       },
     },

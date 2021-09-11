@@ -1,28 +1,23 @@
-import {
-  Plugin,
-  FileExtensionTrigger,
-  ParsedPath,
-  Step,
-} from "@shanzhai/interfaces";
+import { Plugin, FileTrigger, Step } from "@shanzhai/interfaces";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
 import { svgSourceStore } from "@shanzhai/svg-source-store";
 import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
 import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 
 const readSvgFilesPlugin: Plugin<{
-  readonly readSvgFiles: FileExtensionTrigger;
+  readonly readSvgFiles: FileTrigger;
 }> = {
   triggers: {
     readSvgFiles: {
-      type: `fileExtension`,
-      extension: `svg`,
-      down(path: ParsedPath): Step {
-        return new DeleteFromKeyedStoreStep(svgSourceStore, path.fullPath);
+      type: `file`,
+      glob: `**/*.svg`,
+      down(path: string): Step {
+        return new DeleteFromKeyedStoreStep(svgSourceStore, path);
       },
-      up(path: ParsedPath): Step {
+      up(path: string): Step {
         return new ReadTextFileStep(
-          [`src`, path.fullPath],
-          new KeyedStoreSetOutput(svgSourceStore, path.fullPath)
+          [`src`, path],
+          new KeyedStoreSetOutput(svgSourceStore, path)
         );
       },
     },

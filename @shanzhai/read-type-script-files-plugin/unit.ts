@@ -7,21 +7,19 @@ import readTypeScriptFilesPlugin = require(".");
 
 describe(`read-type-script-files-plugin`, () => {
   it(`matches *.ts files`, () => {
-    expect(
-      readTypeScriptFilesPlugin.triggers.readTypeScriptFiles.extension
-    ).toEqual(`ts`);
+    expect(readTypeScriptFilesPlugin.triggers.readTypeScriptFiles.glob).toEqual(
+      `**/*.ts`
+    );
   });
 
   describe(`when a file is removed`, () => {
     let step: Step;
 
     beforeAll(() => {
-      step = readTypeScriptFilesPlugin.triggers.readTypeScriptFiles.down({
-        typeScriptName: `Test TypeScript Name`,
-        fullPath: `Test Full Path`,
-        fileExtension: `Test File Extension`,
-        fullPathWithoutExtension: `Test Full Path Without Extension`,
-      });
+      step =
+        readTypeScriptFilesPlugin.triggers.readTypeScriptFiles.down(
+          `Test Full Path`
+        );
     });
 
     it(`deletes the read file from the store`, () => {
@@ -35,12 +33,10 @@ describe(`read-type-script-files-plugin`, () => {
     let step: Step;
 
     beforeAll(() => {
-      step = readTypeScriptFilesPlugin.triggers.readTypeScriptFiles.up({
-        typeScriptName: `Test TypeScript Name`,
-        fullPath: `Test Full Path`,
-        fileExtension: `Test File Extension`,
-        fullPathWithoutExtension: `Test Full Path Without Extension`,
-      });
+      step =
+        readTypeScriptFilesPlugin.triggers.readTypeScriptFiles.up(
+          `Test Full Path`
+        );
     });
 
     it(`reads the file into the store`, () => {
