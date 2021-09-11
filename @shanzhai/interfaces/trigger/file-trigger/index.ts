@@ -1,9 +1,8 @@
-import { ParsedPath } from "../../parsed-path";
 import { Step } from "../../step";
 
 /**
- * Indicates that {@link Step}s are to be executed when a specific file is
- * created, changed or deleted.
+ * Indicates that {@link Step}s are to be executed when files matching a glob
+ * pattern are created, updated or deleted.
  */
 export type FileTrigger = {
   /**
@@ -12,21 +11,21 @@ export type FileTrigger = {
   readonly type: `file`;
 
   /**
-   * Segments of the path to the file which triggers this {@link FileTrigger}.
+   * The glob pattern which triggers this {@link FileTrigger}.
    */
-  readonly path: ReadonlyArray<string>;
+  readonly glob: string;
 
   /**
    * Invoked when the file is deleted or changed.
-   * @param path The {@link ParsedPath} of the deleted or changed file.
+   * @param path The path to the deleted or changed file.
    * @returns The {@link Step} which is to be executed in response.
    */
-  down(path: ParsedPath): Step;
+  down(path: string): Step;
 
   /**
    * Invoked when the file is added or changed.
-   * @param path The {@link ParsedPath} of the added or changed file.
+   * @param path The path to the added or changed file.
    * @returns The {@link Step} which is to be executed in response.
    */
-  up(path: ParsedPath): Step;
+  up(path: string): Step;
 };
