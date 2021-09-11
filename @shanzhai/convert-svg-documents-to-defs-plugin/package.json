@@ -33,7 +33,7 @@
     "@shanzhai/svg-def-store": "0.0.3"
   },
   "peerDependencies": {
-    "@shanzhai/minified-svg-store": "0.0.2",
+    "@shanzhai/minified-svg-store": "0.0.3",
     "@shanzhai/svg-def-store": "0.0.2"
   },
   "types": "index.d.ts",
