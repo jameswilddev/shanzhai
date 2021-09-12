@@ -33,7 +33,7 @@
     "@shanzhai/pug-source-store": "0.0.4"
   },
   "peerDependencies": {
-    "@shanzhai/pug-source-store": "0.0.3",
+    "@shanzhai/pug-source-store": "0.0.4",
     "@shanzhai/parsed-pug-store": "0.0.4"
   },
   "types": "index.d.ts",
