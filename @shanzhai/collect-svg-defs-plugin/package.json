@@ -39,7 +39,7 @@
   },
   "peerDependencies": {
     "@shanzhai/svg-def-store": "0.0.3",
-    "@shanzhai/type-script-source-store": "0.0.7",
+    "@shanzhai/type-script-source-store": "0.0.8",
     "@shanzhai/pug-local-store": "0.0.4",
     "@shanzhai/type-script-global-store": "0.0.9"
   },
