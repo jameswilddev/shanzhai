@@ -1,0 +1,30 @@
+{
+  "name": "@shanzhai/resample",
+  "description": "Adjust the sample rate of floating-point audio.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node-wav": "0.0.0",
+    "fft-js": "0.0.12",
+    "node-wav": "0.0.2"
+  },
+  "types": "index.d.ts"
+}
