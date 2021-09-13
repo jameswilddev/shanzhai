@@ -33,7 +33,7 @@
     "@shanzhai/interfaces": "0.0.18",
     "@shanzhai/read-text-file-step": "0.0.5",
     "@shanzhai/serial-step": "0.0.6",
-    "@shanzhai/unkeyed-store-get-input": "0.0.1",
+    "@shanzhai/unkeyed-store-get-input": "0.0.2",
     "@shanzhai/unkeyed-store-set-output": "0.0.0",
     "@shanzhai/write-file-step": "0.0.5",
     "@types/fs-extra": "9.0.12",
