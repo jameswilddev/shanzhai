@@ -28,7 +28,7 @@ This package has the following runtime dependencies:
 
 Name | Version                                                                              
 ---- | -------------------------------------------------------------------------------------
-svgo | [![2.6.0](https://img.shields.io/npm/v/svgo.svg)](https://www.npmjs.com/package/svgo)
+svgo | [![2.6.1](https://img.shields.io/npm/v/svgo.svg)](https://www.npmjs.com/package/svgo)
 
 ## Peer Dependencies
 
