@@ -28,7 +28,7 @@
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.21",
     "@types/svgo": "2.4.2",
-    "@types/sharp": "0.29.2",
+    "@types/sharp": "0.29.3",
     "sharp": "0.29.2",
     "@types/pixelmatch": "5.2.4",
     "pixelmatch": "5.2.1"
