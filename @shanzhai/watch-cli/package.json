@@ -28,7 +28,7 @@
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.18",
     "uuid": "8.3.2",
-    "@types/uuid": "8.3.1"
+    "@types/uuid": "8.3.3"
   },
   "bin": "./index.js"
 }
