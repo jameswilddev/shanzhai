@@ -23,7 +23,7 @@
   "license": "MIT",
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.21",
-    "@types/uuid": "8.3.1",
+    "@types/uuid": "8.3.3",
     "uuid": "8.3.2"
   },
   "types": "index.d.ts"
