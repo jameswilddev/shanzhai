@@ -13,7 +13,7 @@ describe(`hashFile`, () => {
   });
 
   afterAll(async () => {
-    await fs.promises.rmdir(root, { recursive: true });
+    await fs.promises.rm(root, { recursive: true });
   });
 
   describe(`when the file does not exist`, () => {

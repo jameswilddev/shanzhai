@@ -32,7 +32,7 @@ describe(`DeleteStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -89,7 +89,7 @@ describe(`DeleteStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`does not create anything`, async () => {
@@ -149,7 +149,7 @@ describe(`DeleteStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -243,7 +243,7 @@ describe(`DeleteStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`removes the directory`, async () => {
@@ -297,7 +297,7 @@ describe(`DeleteStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -356,7 +356,7 @@ describe(`DeleteStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`removes the file`, async () => {

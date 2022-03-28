@@ -72,8 +72,8 @@ export class ZipStep extends ActionStep {
       const zip = await fs.promises.readFile(targetPath);
       await this.output.set(zip);
     } finally {
-      await fs.promises.rmdir(targetPath, { recursive: true });
-      await fs.promises.rmdir(temporaryDirectory, { recursive: true });
+      await fs.promises.rm(targetPath, { recursive: true });
+      await fs.promises.rm(temporaryDirectory, { recursive: true });
     }
   }
 }

@@ -215,8 +215,8 @@ describe(`ZipStep`, () => {
           )
         ).toEqual(`Test File D Content`);
       } finally {
-        await fs.promises.rmdir(temporaryDirectory, { recursive: true });
-        await fs.promises.rmdir(targetPath, { recursive: true });
+        await fs.promises.rm(temporaryDirectory, { recursive: true });
+        await fs.promises.rm(targetPath, { recursive: true });
       }
     });
   });

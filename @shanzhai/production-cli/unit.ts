@@ -44,7 +44,7 @@ describe(`shanzhai-production-cli`, () => {
     });
 
     afterAll(async () => {
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`produces the expected output`, () => {
@@ -101,7 +101,7 @@ No steps to execute.
     });
 
     afterAll(async () => {
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`produces the expected exit code`, () => {
@@ -162,7 +162,7 @@ No steps to execute.
     });
 
     afterAll(async () => {
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`produces the expected exit code`, () => {
@@ -214,7 +214,7 @@ No steps to execute.
     });
 
     afterAll(async () => {
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`produces the expected output`, () => {

@@ -139,7 +139,7 @@ describe(`searchForPlugins`, () => {
 
     afterAll(async () => {
       process.chdir(originalWorkingDirectory);
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`resolves to the plugins`, () => {
@@ -311,7 +311,7 @@ describe(`searchForPlugins`, () => {
 
     afterAll(async () => {
       process.chdir(originalWorkingDirectory);
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`resolves to the plugins`, () => {

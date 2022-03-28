@@ -22,7 +22,7 @@ export class DeleteStep extends ActionStep {
    * @inheritdoc
    */
   async execute(): Promise<void> {
-    await fs.promises.rmdir(path.join(...this.pathSegments), {
+    await fs.promises.rm(path.join(...this.pathSegments), {
       recursive: true,
     });
   }

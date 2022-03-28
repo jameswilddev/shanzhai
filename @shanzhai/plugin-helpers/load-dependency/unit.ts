@@ -30,7 +30,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -67,7 +67,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -107,7 +107,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -147,7 +147,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -190,7 +190,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -229,7 +229,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`resolves to null`, () => {
@@ -289,7 +289,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`resolves to the plugin`, () => {
@@ -324,7 +324,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -361,7 +361,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -401,7 +401,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -446,7 +446,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -492,7 +492,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -546,7 +546,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`rejects with the expected error`, () => {
@@ -598,7 +598,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`resolves to null`, () => {
@@ -668,7 +668,7 @@ describe(`loadDependency`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`resolves to the plugin`, () => {

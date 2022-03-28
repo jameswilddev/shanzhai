@@ -26,7 +26,7 @@ describe(`watchDirectory`, () => {
 
     afterAll(async () => {
       close();
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`calls onChange once`, () => {
@@ -171,7 +171,7 @@ describe(`watchDirectory`, () => {
 
       afterAll(async () => {
         close();
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`calls onChange with the expected object of hashes`, () => {
@@ -487,7 +487,7 @@ describe(`watchDirectory`, () => {
   scenario(
     `when an empty directory is deleted`,
     async (root) => {
-      await fs.promises.rmdir(path.join(root, `empty-subdirectory`), {
+      await fs.promises.rm(path.join(root, `empty-subdirectory`), {
         recursive: true,
       });
     },
@@ -543,7 +543,7 @@ describe(`watchDirectory`, () => {
   scenario(
     `when a non-empty directory is deleted`,
     async (root) => {
-      await fs.promises.rmdir(path.join(root, `level-one`, `level-two`), {
+      await fs.promises.rm(path.join(root, `level-one`, `level-two`), {
         recursive: true,
       });
     },

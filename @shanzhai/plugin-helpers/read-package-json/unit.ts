@@ -41,7 +41,7 @@ describe(`readPackageJson`, () => {
 
       afterAll(async () => {
         process.chdir(originalWorkingDirectory);
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`resolves with the expected content`, () => {
@@ -216,7 +216,7 @@ describe(`readPackageJson`, () => {
 
     afterAll(async () => {
       process.chdir(originalWorkingDirectory);
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`rejects with the expected error`, () => {
@@ -253,7 +253,7 @@ describe(`readPackageJson`, () => {
 
     afterAll(async () => {
       process.chdir(originalWorkingDirectory);
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`rejects with the expected error`, () => {

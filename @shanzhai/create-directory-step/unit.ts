@@ -38,7 +38,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -93,7 +93,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -144,7 +144,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -197,7 +197,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -264,7 +264,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -314,7 +314,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -387,7 +387,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -434,7 +434,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -506,7 +506,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {
@@ -557,7 +557,7 @@ describe(`CreateDirectoryStep`, () => {
       });
 
       afterAll(async () => {
-        await fs.promises.rmdir(root, { recursive: true });
+        await fs.promises.rm(root, { recursive: true });
       });
 
       it(`exposes its name`, () => {

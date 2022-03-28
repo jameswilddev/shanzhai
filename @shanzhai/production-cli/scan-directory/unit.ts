@@ -39,7 +39,7 @@ describe(`scanDirectory`, () => {
 
     afterAll(async () => {
       process.chdir(originalCwd);
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`returns the expected error`, async () => {
@@ -85,7 +85,7 @@ describe(`scanDirectory`, () => {
 
     afterAll(async () => {
       process.chdir(originalCwd);
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`returns the expected error`, async () => {
@@ -129,7 +129,7 @@ describe(`scanDirectory`, () => {
 
     afterAll(async () => {
       process.chdir(originalCwd);
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`returns the expected array of file names`, async () => {
@@ -253,7 +253,7 @@ describe(`scanDirectory`, () => {
     afterAll(async () => {
       process.chdir(originalCwd);
 
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`returns the expected array of file names`, async () => {

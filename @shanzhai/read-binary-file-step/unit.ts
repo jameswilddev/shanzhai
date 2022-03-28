@@ -73,7 +73,7 @@ describe(`ReadBinaryFileStep`, () => {
     });
 
     afterAll(async () => {
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`exposes its name`, () => {
@@ -147,7 +147,7 @@ describe(`ReadBinaryFileStep`, () => {
     });
 
     afterAll(async () => {
-      await fs.promises.rmdir(root, { recursive: true });
+      await fs.promises.rm(root, { recursive: true });
     });
 
     it(`continues to expose its output`, () => {

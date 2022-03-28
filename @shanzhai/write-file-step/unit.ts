@@ -49,7 +49,7 @@ describe(`WriteFileStep`, () => {
           });
 
           afterAll(async () => {
-            await fs.promises.rmdir(root, { recursive: true });
+            await fs.promises.rm(root, { recursive: true });
           });
 
           it(`exposes its name`, () => {
@@ -121,7 +121,7 @@ describe(`WriteFileStep`, () => {
           });
 
           afterAll(async () => {
-            await fs.promises.rmdir(root, { recursive: true });
+            await fs.promises.rm(root, { recursive: true });
           });
 
           it(`continues to expose its input`, () => {
@@ -197,7 +197,7 @@ describe(`WriteFileStep`, () => {
           });
 
           afterAll(async () => {
-            await fs.promises.rmdir(root, { recursive: true });
+            await fs.promises.rm(root, { recursive: true });
           });
 
           it(`exposes its name`, () => {
@@ -277,7 +277,7 @@ describe(`WriteFileStep`, () => {
           });
 
           afterAll(async () => {
-            await fs.promises.rmdir(root, { recursive: true });
+            await fs.promises.rm(root, { recursive: true });
           });
 
           it(`continues to expose its input`, () => {
