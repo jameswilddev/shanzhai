@@ -3,7 +3,7 @@
   "description": "A CLI tool which performs a build of the Shanzhai project in the current directory, watching for changes and rebuilding automatically.",
   "version": "0.0.6",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=17.6.0"
   },
   "engineStrict": true,
   "publishConfig": {

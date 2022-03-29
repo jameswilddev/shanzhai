@@ -3,7 +3,7 @@
   "description": "A Shanzhai store for parsed TypeScript source files.",
   "version": "0.0.9",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=17.6.0"
   },
   "engineStrict": true,
   "publishConfig": {

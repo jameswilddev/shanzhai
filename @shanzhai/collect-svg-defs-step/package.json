@@ -3,7 +3,7 @@
   "description": "A Shanzhai step which collects a number of SVG defs into a single document, and generates TypeScript source which can be used to refer to those defs.",
   "version": "0.0.8",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=17.6.0"
   },
   "engineStrict": true,
   "publishConfig": {

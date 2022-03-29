@@ -3,7 +3,7 @@
   "description": "A Shanzhai output which wraps a value in an object with a given key.",
   "version": "0.0.3",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=17.6.0"
   },
   "engineStrict": true,
   "publishConfig": {

@@ -3,7 +3,7 @@
   "description": "A Shanzhai input which converts TypeScript compiler options to JSON as would be found in a tsconfig.json file.",
   "version": "0.0.5",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=17.6.0"
   },
   "engineStrict": true,
   "publishConfig": {

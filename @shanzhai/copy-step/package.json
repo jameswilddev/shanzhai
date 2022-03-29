@@ -3,7 +3,7 @@
   "description": "A Shanzhai step which copies an input to an output.",
   "version": "0.0.4",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=17.6.0"
   },
   "engineStrict": true,
   "publishConfig": {

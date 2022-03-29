@@ -3,7 +3,7 @@
   "description": "A Shanzhai plugin which converts the contents of the minified SVG store to defs, outputting them to the defs store.",
   "version": "0.0.2",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=17.6.0"
   },
   "engineStrict": true,
   "publishConfig": {

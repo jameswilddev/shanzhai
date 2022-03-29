@@ -3,7 +3,7 @@
   "description": "A Shanzhai step which deletes a key/value from a keyed store.",
   "version": "0.0.2",
   "engines": {
-    "node": ">=12.13.0"
+    "node": ">=17.6.0"
   },
   "engineStrict": true,
   "publishConfig": {

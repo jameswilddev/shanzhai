@@ -49,7 +49,7 @@ export async function writePackageJson(
     description: originalPackageJson.description,
     version: originalPackageJson.version,
     engines: {
-      node: `>=12.13.0`,
+      node: `>=17.6.0`,
     },
     engineStrict: true,
     publishConfig: {
