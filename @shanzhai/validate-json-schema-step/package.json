@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/validate-json-schema-step",
   "description": "A Shanzhai step which validates a JSON value against a JSON schema.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "node": ">=17.6.0"
   },

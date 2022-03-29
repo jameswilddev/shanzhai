@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/keyed-store-get-keys-input",
   "description": "A Shanzhai input which reads all keys from a keyed store as an array of strings.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=17.6.0"
   },

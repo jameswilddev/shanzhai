@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/create-directory-step",
   "description": "A Shanzhai step which ensures that a directory exists (as well as all of its parent directories).",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "node": ">=17.6.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/collect-svg-defs-plugin",
   "description": "A Shanzhai plugin which collects SVG defs, outputting the results to the Pug locals store, the TypeScript globals store and the TypeScript source store.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "node": ">=17.6.0"
   },

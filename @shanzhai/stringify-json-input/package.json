@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/stringify-json-input",
   "description": "A Shanzhai input which \"stringifies\" a value after retrieving it from an input.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "node": ">=17.6.0"
   },

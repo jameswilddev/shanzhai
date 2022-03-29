@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/zip-store",
   "description": "A Shanzhai store for the distributable zip.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=17.6.0"
   },
