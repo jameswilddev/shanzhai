@@ -1,6 +1,6 @@
-import * as path from "path";
 import { generateMarkdownTable } from "./generate-markdown-table";
-import { runCommandLine } from "./run-command-line";
+import { getPublishedVersionOfPackage } from "./get-published-version-of-package";
+import { packageHasUnpublishedChanges } from "./package-has-unpublished-changes";
 
 export async function generateRootReadmePackageTable(
   packages: ReadonlyArray<{
@@ -27,69 +27,18 @@ export async function generateRootReadmePackageTable(
     `name`,
     await Promise.all(
       packages.map(async (pkg) => {
-        let publishedVersion: string;
-        try {
-          publishedVersion = (
-            await runCommandLine(
-              `npm view ${pkg.name.join(`/`)} version`,
-              process.cwd()
-            )
-          ).stdout.trim();
-        } catch (e) {
-          if (
-            !(e instanceof Error) ||
-            !e.message.includes(` is not in the npm registry.`)
-          ) {
-            throw e;
-          }
-          publishedVersion = `none`;
-        }
-
-        let publishedShasum: string;
-        try {
-          publishedShasum = (
-            await runCommandLine(
-              `npm view ${pkg.name.join(`/`)} dist.shasum`,
-              process.cwd()
-            )
-          ).stdout.trim();
-        } catch (e) {
-          if (
-            e instanceof Error &&
-            !e.message.includes(` is not in the npm registry.`)
-          ) {
-            throw e;
-          }
-          publishedShasum = `none`;
-        }
-
-        const packOutput = (
-          await runCommandLine(
-            `npm pack`,
-            path.join(process.cwd(), ...pkg.name)
-          )
-        ).stderr;
-
-        const packOutputMatches = /^npm notice shasum:\s*([0-9a-f]+)\s*$/m.exec(
-          packOutput
-        );
-
-        let packedShasum: string;
-
-        if (packOutputMatches) {
-          packedShasum = packOutputMatches[1];
-        } else {
-          packedShasum = `unknown`;
-        }
-
         return {
           name: pkg.name.join(`/`),
           subdirectoryLink: `[${pkg.name.join(`/`)}](${pkg.name.join(`/`)})`,
-          npmLink: `[![${publishedVersion}](https://img.shields.io/npm/v/${pkg.name.join(
+          npmLink: `[![${getPublishedVersionOfPackage(
+            pkg.name
+          )}](https://img.shields.io/npm/v/${pkg.name.join(
             `/`
           )}.svg)](https://www.npmjs.com/package/${pkg.name.join(`/`)})`,
           description: pkg.json.description,
-          published: packedShasum === publishedShasum ? `✔️` : `❌`,
+          published: (await packageHasUnpublishedChanges(pkg.name))
+            ? `❌`
+            : `✔️`,
         };
       })
     )
