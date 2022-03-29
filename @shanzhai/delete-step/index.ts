@@ -24,6 +24,7 @@ export class DeleteStep extends ActionStep {
   async execute(): Promise<void> {
     await fs.promises.rm(path.join(...this.pathSegments), {
       recursive: true,
+      force: true,
     });
   }
 }
