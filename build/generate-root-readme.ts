@@ -74,7 +74,7 @@ ${await generateRootReadmePackageTable(commandLineExecutables)}
 
 ### For extending Shanzhai
 
-These packages are only needed should you wish to extend the Shanzhai itself.
+These packages are only needed should you wish to extend Shanzhai itself.
 
 #### Steps
 
@@ -117,7 +117,7 @@ For example:
 - A plugin might then read from that store to parse the files, writing the
   results to another keyed ephemeral store.
 - Then, another plugin might collect all those parsed files to compile them,
-  writing the result to an unkeyed ephemeral store,
+  writing the result to an unkeyed ephemeral store.
 
 ${await generateRootReadmePackageTable(stores)}
 
