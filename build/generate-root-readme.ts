@@ -45,8 +45,6 @@ export async function generateRootReadme(): Promise<string> {
 
   return `# Shanzhai ${generateRootReadmeBadges()}${await readReadmeContent([])}
 
-A crude, plugin-based plugin system built upon NodeJS.
-
 ## NPM packages
 
 ### Plugins

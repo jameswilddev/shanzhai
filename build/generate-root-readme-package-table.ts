@@ -17,80 +17,81 @@ export async function generateRootReadmePackageTable(
     };
   }>
 ): Promise<string> {
-  return `
-
-${generateMarkdownTable(
-  [
-    [`subdirectoryLink`, `Name`],
-    [`npmLink`, `Version`],
-    [`description`, `Description`],
-    [`published`, `Published`],
-  ],
-  `name`,
-  await Promise.all(
-    packages.map(async (pkg) => {
-      let publishedVersion: string;
-      try {
-        publishedVersion = (
-          await runCommandLine(
-            `npm view ${pkg.name.join(`/`)} version`,
-            process.cwd()
-          )
-        ).stdout.trim();
-      } catch (e) {
-        if (
-          !(e instanceof Error) ||
-          !e.message.includes(` is not in the npm registry.`)
-        ) {
-          throw e;
+  return generateMarkdownTable(
+    [
+      [`subdirectoryLink`, `Name`],
+      [`npmLink`, `Version`],
+      [`description`, `Description`],
+      [`published`, `Published`],
+    ],
+    `name`,
+    await Promise.all(
+      packages.map(async (pkg) => {
+        let publishedVersion: string;
+        try {
+          publishedVersion = (
+            await runCommandLine(
+              `npm view ${pkg.name.join(`/`)} version`,
+              process.cwd()
+            )
+          ).stdout.trim();
+        } catch (e) {
+          if (
+            !(e instanceof Error) ||
+            !e.message.includes(` is not in the npm registry.`)
+          ) {
+            throw e;
+          }
+          publishedVersion = `none`;
         }
-        publishedVersion = `none`;
-      }
 
-      let publishedShasum: string;
-      try {
-        publishedShasum = (
-          await runCommandLine(
-            `npm view ${pkg.name.join(`/`)} dist.shasum`,
-            process.cwd()
-          )
-        ).stdout.trim();
-      } catch (e) {
-        if (
-          e instanceof Error &&
-          !e.message.includes(` is not in the npm registry.`)
-        ) {
-          throw e;
+        let publishedShasum: string;
+        try {
+          publishedShasum = (
+            await runCommandLine(
+              `npm view ${pkg.name.join(`/`)} dist.shasum`,
+              process.cwd()
+            )
+          ).stdout.trim();
+        } catch (e) {
+          if (
+            e instanceof Error &&
+            !e.message.includes(` is not in the npm registry.`)
+          ) {
+            throw e;
+          }
+          publishedShasum = `none`;
         }
-        publishedShasum = `none`;
-      }
 
-      const packOutput = (
-        await runCommandLine(`npm pack`, path.join(process.cwd(), ...pkg.name))
-      ).stderr;
+        const packOutput = (
+          await runCommandLine(
+            `npm pack`,
+            path.join(process.cwd(), ...pkg.name)
+          )
+        ).stderr;
 
-      const packOutputMatches = /^npm notice shasum:\s*([0-9a-f]+)\s*$/m.exec(
-        packOutput
-      );
+        const packOutputMatches = /^npm notice shasum:\s*([0-9a-f]+)\s*$/m.exec(
+          packOutput
+        );
 
-      let packedShasum: string;
+        let packedShasum: string;
 
-      if (packOutputMatches) {
-        packedShasum = packOutputMatches[1];
-      } else {
-        packedShasum = `unknown`;
-      }
+        if (packOutputMatches) {
+          packedShasum = packOutputMatches[1];
+        } else {
+          packedShasum = `unknown`;
+        }
 
-      return {
-        name: pkg.name.join(`/`),
-        subdirectoryLink: `[${pkg.name.join(`/`)}](${pkg.name.join(`/`)})`,
-        npmLink: `[![${publishedVersion}](https://img.shields.io/npm/v/${pkg.name.join(
-          `/`
-        )}.svg)](https://www.npmjs.com/package/${pkg.name.join(`/`)})`,
-        description: pkg.json.description,
-        published: packedShasum === publishedShasum ? `✔️` : `❌`,
-      };
-    })
-  )
-)}`;
+        return {
+          name: pkg.name.join(`/`),
+          subdirectoryLink: `[${pkg.name.join(`/`)}](${pkg.name.join(`/`)})`,
+          npmLink: `[![${publishedVersion}](https://img.shields.io/npm/v/${pkg.name.join(
+            `/`
+          )}.svg)](https://www.npmjs.com/package/${pkg.name.join(`/`)})`,
+          description: pkg.json.description,
+          published: packedShasum === publishedShasum ? `✔️` : `❌`,
+        };
+      })
+    )
+  );
 }
