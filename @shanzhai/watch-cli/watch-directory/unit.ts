@@ -4,6 +4,8 @@ import * as fs from "fs";
 import * as uuid from "uuid";
 import { watchDirectory } from ".";
 
+const delay = 1500;
+
 describe(`watchDirectory`, () => {
   describe(`when the directory is empty`, () => {
     let root: string;
@@ -21,7 +23,7 @@ describe(`watchDirectory`, () => {
 
       close = watchDirectory(root, onChange, onError);
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     });
 
     afterAll(async () => {
@@ -162,11 +164,11 @@ describe(`watchDirectory`, () => {
 
         close = watchDirectory(root, onChange, onError);
 
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, delay));
 
         await arrange(root);
 
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, delay));
       });
 
       afterAll(async () => {
