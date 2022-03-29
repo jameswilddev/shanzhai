@@ -140,7 +140,6 @@ const options: Svgo.OptimizeOptions = {
           moveGroupAttrsToElems: {},
           collapseGroups: {},
           removeRasterImages: {},
-          mergePaths: true,
           convertShapeToPath: {
             convertArcs: false,
             floatPrecision,
@@ -181,6 +180,7 @@ const options: Svgo.OptimizeOptions = {
         },
       },
     },
+    `mergePaths`,
   ] as unknown as Svgo.Plugin[],
 };
 
@@ -198,6 +198,11 @@ export class MinifySvgStep extends MinifyStep<string> {
    */
   async iterate(value: string): Promise<string> {
     const optimized = await Svgo.optimize(value, options);
-    return optimized.data;
+
+    if (optimized.error === undefined) {
+      return optimized.data;
+    } else {
+      throw new Error(`Failed to optimize SVG: ${optimized.error}.`);
+    }
   }
 }

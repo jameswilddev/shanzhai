@@ -4,7 +4,11 @@ A Shanzhai plugin which converts the contents of the minified SVG store to defs,
 
 ## Dependencies
 
-This package has no runtime dependencies.
+This package has the following runtime dependencies:
+
+Name | Version                                                                              
+---- | -------------------------------------------------------------------------------------
+svgo | [![2.8.0](https://img.shields.io/npm/v/svgo.svg)](https://www.npmjs.com/package/svgo)
 
 ## Peer Dependencies
 

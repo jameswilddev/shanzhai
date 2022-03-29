@@ -22,16 +22,16 @@
   },
   "license": "MIT",
   "dependencies": {
-    "svgo": "2.6.1",
-    "@shanzhai/minify-step": "0.0.7"
+    "@shanzhai/minify-step": "0.0.7",
+    "svgo": "2.8.0"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.21",
-    "@types/svgo": "2.4.2",
-    "@types/sharp": "0.29.4",
-    "sharp": "0.29.3",
     "@types/pixelmatch": "5.2.4",
-    "pixelmatch": "5.2.1"
+    "@types/sharp": "0.29.4",
+    "@types/svgo": "2.6.3",
+    "pixelmatch": "5.2.1",
+    "sharp": "0.29.3"
   },
   "types": "index.d.ts"
 }

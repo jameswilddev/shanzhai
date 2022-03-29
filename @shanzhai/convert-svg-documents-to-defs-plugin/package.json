@@ -25,7 +25,8 @@
     "@shanzhai/convert-svg-document-to-def-step": "0.0.7",
     "@shanzhai/delete-from-keyed-store-step": "0.0.2",
     "@shanzhai/keyed-store-get-input": "0.0.2",
-    "@shanzhai/keyed-store-set-output": "0.0.2"
+    "@shanzhai/keyed-store-set-output": "0.0.2",
+    "svgo": "2.8.0"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.21",
