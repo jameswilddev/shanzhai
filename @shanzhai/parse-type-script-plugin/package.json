@@ -29,7 +29,7 @@
     "@shanzhai/unkeyed-store-get-input": "0.0.2"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.21",
+    "@shanzhai/interfaces": "0.0.24",
     "@shanzhai/parsed-type-script-store": "0.0.9",
     "@shanzhai/type-script-compiler-options-store": "0.0.8",
     "@shanzhai/type-script-source-store": "0.0.8"

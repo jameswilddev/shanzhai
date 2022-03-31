@@ -28,7 +28,7 @@
     "@shanzhai/unkeyed-store-set-output": "0.0.2"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.21",
+    "@shanzhai/interfaces": "0.0.24",
     "@shanzhai/javascript-source-store": "0.0.9",
     "@shanzhai/parsed-type-script-store": "0.0.9",
     "@shanzhai/type-script-compiler-options-store": "0.0.8"

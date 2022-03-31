@@ -29,7 +29,7 @@
     "svgo": "2.8.0"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.21",
+    "@shanzhai/interfaces": "0.0.24",
     "@shanzhai/minified-svg-store": "0.0.3",
     "@shanzhai/svg-def-store": "0.0.3"
   },

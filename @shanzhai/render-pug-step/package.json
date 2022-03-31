@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "pug": "3.0.2",
-    "@shanzhai/interfaces": "0.0.21"
+    "@shanzhai/interfaces": "0.0.24"
   },
   "devDependencies": {
     "@types/pug": "2.0.5"

@@ -30,7 +30,7 @@
     "@shanzhai/render-pug-step": "0.0.7"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.21",
+    "@shanzhai/interfaces": "0.0.24",
     "@shanzhai/parsed-pug-store": "0.0.4",
     "@shanzhai/html-source-store": "0.0.4",
     "@shanzhai/pug-local-store": "0.0.4"
