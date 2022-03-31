@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/output-zip-plugin",
   "description": "A Shanzhai plugin which outputs the distributable zip to the dist subdirectory of the current working directory.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "node": ">=17.6.0"
   },

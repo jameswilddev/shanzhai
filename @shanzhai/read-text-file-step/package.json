@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-text-file-step",
   "description": "A Shanzhai step which reads the content of a UTF-8 encoded text file.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "node": ">=17.6.0"
   },

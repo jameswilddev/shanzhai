@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minify-javascript-plugin",
   "description": "A Shanzhai plugin which minifies the Javascript from the source store, writing the resulting Javascript to the Pug locals store.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=17.6.0"
   },

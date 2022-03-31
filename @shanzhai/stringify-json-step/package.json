@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/stringify-json-step",
   "description": "A Shanzhai step which \"stringifies\" a JSON value to a string.",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "engines": {
     "node": ">=17.6.0"
   },
