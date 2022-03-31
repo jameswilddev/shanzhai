@@ -19,21 +19,21 @@ export type KeyedStoreTrigger = {
   readonly keyedStore: KeyedStore<unknown>;
 
   /**
-   * If any {@link UnkeyedStore} or {@link KeyedStore} in this list is modified
-   * in any way, each unchanged entry in the {@link keyedStore} is treated as
-   * though it has been deleted and re-set.
+   * If any {@link UnkeyedStore} in this list is modified in any way, each
+   * unchanged entry in the {@link keyedStore} is treated as though it has been
+   * deleted and re-set.
    *
    * For example, you may be processing files held in a store, but also be
    * dependent upon configuration.  When that configuration changes, all of the
-   * previously processed files are considered stale and in need to
+   * previously processed files are considered stale and in need of
    * re-processing to compensate.
    *
    * This also applies an ordering constraint, meaning that events raised by
    * changes to {@link keyedStore} will be delayed until all changes to these
    * other stores have completed.
    */
-  readonly refreshAllWhenStoresChange: ReadonlyArray<
-    UnkeyedStore<unknown> | KeyedStore<unknown>
+  readonly refreshAllOnSettingAtLeastOneUnkeyedStore: ReadonlyArray<
+    UnkeyedStore<unknown>
   >;
 
   /**
