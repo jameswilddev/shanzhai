@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "svgo": "2.6.1",
+    "svgo": "2.8.0",
     "@shanzhai/interfaces": "0.0.24"
   },
   "types": "index.d.ts"
