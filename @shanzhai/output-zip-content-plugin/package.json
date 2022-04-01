@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/create-directory-step": "0.0.7",
+    "@shanzhai/create-directory-step": "0.0.9",
     "@shanzhai/delete-step": "0.0.7",
     "@shanzhai/keyed-store-get-input": "0.0.2",
     "@shanzhai/serial-step": "0.0.8",

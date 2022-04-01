@@ -28,7 +28,7 @@
     "@shanzhai/planning-helpers": "0.0.5"
   },
   "devDependencies": {
-    "@shanzhai/create-directory-step": "0.0.5",
+    "@shanzhai/create-directory-step": "0.0.9",
     "@shanzhai/ephemeral-unkeyed-store": "0.0.2",
     "@shanzhai/interfaces": "0.0.18",
     "@shanzhai/read-text-file-step": "0.0.5",
