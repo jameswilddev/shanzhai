@@ -35,7 +35,7 @@
     "@shanzhai/serial-step": "0.0.6",
     "@shanzhai/unkeyed-store-get-input": "0.0.2",
     "@shanzhai/unkeyed-store-set-output": "0.0.0",
-    "@shanzhai/write-file-step": "0.0.5",
+    "@shanzhai/write-file-step": "0.0.9",
     "@types/fs-extra": "9.0.13",
     "@types/uuid": "8.3.3",
     "fs-extra": "10.0.0",

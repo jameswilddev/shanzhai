@@ -26,7 +26,7 @@
     "@shanzhai/delete-step": "0.0.7",
     "@shanzhai/keyed-store-get-input": "0.0.2",
     "@shanzhai/serial-step": "0.0.8",
-    "@shanzhai/write-file-step": "0.0.7"
+    "@shanzhai/write-file-step": "0.0.9"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
