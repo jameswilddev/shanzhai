@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/convert-svg-document-to-def-step",
   "description": "A Shanzhai step which converts a SVG document to a def to be embedded in another SVG document.",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "engines": {
     "node": ">=17.6.0"
   },
