@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/collect-svg-defs-plugin",
   "description": "A Shanzhai plugin which collects SVG defs, outputting the results to the Pug locals store, the TypeScript globals store and the TypeScript source store.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "node": ">=17.6.0"
   },
@@ -25,8 +25,8 @@
     "@shanzhai/collect-svg-defs-step": "0.0.8",
     "@shanzhai/delete-from-keyed-store-step": "0.0.2",
     "@shanzhai/keyed-store-get-all-input": "0.0.2",
-    "@shanzhai/parallel-step": "0.0.8",
-    "@shanzhai/serial-step": "0.0.8",
+    "@shanzhai/parallel-step": "0.0.10",
+    "@shanzhai/serial-step": "0.0.10",
     "@shanzhai/keyed-store-set-output": "0.0.2",
     "@shanzhai/wrap-in-object-output": "0.0.3"
   },

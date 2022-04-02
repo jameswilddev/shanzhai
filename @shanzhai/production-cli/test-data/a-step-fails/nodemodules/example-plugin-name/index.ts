@@ -1,4 +1,4 @@
-import { Step, ParsedPath } from "@shanzhai/interfaces";
+import { Step } from "@shanzhai/interfaces";
 import { CreateDirectoryStep } from "@shanzhai/create-directory-step";
 import { SerialStep } from "@shanzhai/serial-step";
 import { ReadTextFileStep } from "@shanzhai/read-text-file-step";
@@ -21,20 +21,17 @@ module.exports = {
     {
       type: `fileExtension`,
       extension: `example-extension`,
-      down(path: ParsedPath): Step {
+      down(path: string): Step {
         path;
 
         throw new Error(`Unexpected call to "down".`);
       },
-      up(path: ParsedPath): Step {
+      up(path: string): Step {
         return new SerialStep(`Example Serial Step`, [
-          new ReadTextFileStep(
-            [`src`, path.fullPath],
-            new UnkeyedStoreSetOutput(store)
-          ),
+          new ReadTextFileStep([`src`, path], new UnkeyedStoreSetOutput(store)),
           new WriteFileStep(
             `Write File`,
-            [`dist-fake`, path.fullPath],
+            [`dist-fake`, path],
             new UnkeyedStoreGetInput(store)
           ),
         ]);
