@@ -24,7 +24,7 @@
   "dependencies": {
     "@shanzhai/change-tracking-helpers": "0.0.10",
     "@shanzhai/parallel-step": "0.0.8",
-    "@shanzhai/serial-step": "0.0.8",
+    "@shanzhai/serial-step": "0.0.10",
     "minimatch": "5.0.1"
   },
   "devDependencies": {
