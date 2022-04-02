@@ -1,15 +1,11 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as chokidar from "chokidar";
-import {
-  Hashes,
-  hashFile,
-  pathAccepted,
-} from "@shanzhai/change-tracking-helpers";
+import { hashFile, pathAccepted } from "@shanzhai/change-tracking-helpers";
 
 export function watchDirectory(
   root: string,
-  onChange: (next: Hashes) => void,
+  onChange: (next: { readonly [path: string]: string }) => void,
   onError: (error: Error) => void
 ): () => void {
   const timestamps: { [path: string]: number } = {};

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-svg-files-plugin",
   "description": "A Shanzhai plugin which reads SVG files into the SVG source store.",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "engines": {
     "node": ">=17.6.0"
   },
@@ -23,15 +23,15 @@
   "license": "MIT",
   "dependencies": {
     "@shanzhai/delete-from-keyed-store-step": "0.0.2",
-    "@shanzhai/keyed-store-set-output": "0.0.2",
-    "@shanzhai/read-text-file-step": "0.0.7"
+    "@shanzhai/keyed-store-set-output": "0.0.4",
+    "@shanzhai/read-text-file-step": "0.0.9"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
-    "@shanzhai/svg-source-store": "0.0.3"
+    "@shanzhai/svg-source-store": "0.0.4"
   },
   "peerDependencies": {
-    "@shanzhai/svg-source-store": "0.0.3"
+    "@shanzhai/svg-source-store": "0.0.4"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

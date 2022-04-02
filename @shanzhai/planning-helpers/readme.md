@@ -19,7 +19,11 @@ const theStepToExecute = plan(
 
 ## Dependencies
 
-This package has no runtime dependencies.
+This package has the following runtime dependencies:
+
+Name      | Version                                                                                        
+--------- | -----------------------------------------------------------------------------------------------
+minimatch | [![5.0.1](https://img.shields.io/npm/v/minimatch.svg)](https://www.npmjs.com/package/minimatch)
 
 ## Peer Dependencies
 

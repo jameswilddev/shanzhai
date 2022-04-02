@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/parse-type-script-plugin",
   "description": "A Shanzhai plugin which parses TypeScript source files.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "node": ">=17.6.0"
   },
@@ -26,18 +26,18 @@
     "@shanzhai/keyed-store-get-input": "0.0.2",
     "@shanzhai/keyed-store-set-output": "0.0.2",
     "@shanzhai/parse-type-script-step": "0.0.8",
-    "@shanzhai/unkeyed-store-get-input": "0.0.2"
+    "@shanzhai/unkeyed-store-get-input": "0.0.4"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
     "@shanzhai/parsed-type-script-store": "0.0.9",
     "@shanzhai/type-script-compiler-options-store": "0.0.8",
-    "@shanzhai/type-script-source-store": "0.0.8"
+    "@shanzhai/type-script-source-store": "0.0.9"
   },
   "peerDependencies": {
     "@shanzhai/type-script-source-store": "0.0.8",
     "@shanzhai/type-script-compiler-options-store": "0.0.8",
-    "@shanzhai/parsed-type-script-store": "0.0.9"
+    "@shanzhai/parsed-type-script-store": "0.0.10"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

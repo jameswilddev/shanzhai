@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-type-script-files-plugin",
   "description": "A Shanzhai plugin which reads TypeScript (*.ts) files into the TypeScript source store.",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "engines": {
     "node": ">=17.6.0"
   },
@@ -23,15 +23,15 @@
   "license": "MIT",
   "dependencies": {
     "@shanzhai/delete-from-keyed-store-step": "0.0.2",
-    "@shanzhai/keyed-store-set-output": "0.0.2",
-    "@shanzhai/read-text-file-step": "0.0.7"
+    "@shanzhai/keyed-store-set-output": "0.0.4",
+    "@shanzhai/read-text-file-step": "0.0.9"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
-    "@shanzhai/type-script-source-store": "0.0.8"
+    "@shanzhai/type-script-source-store": "0.0.9"
   },
   "peerDependencies": {
-    "@shanzhai/type-script-source-store": "0.0.8"
+    "@shanzhai/type-script-source-store": "0.0.9"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

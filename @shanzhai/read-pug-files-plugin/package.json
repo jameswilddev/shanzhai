@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-pug-files-plugin",
   "description": "A Shanzhai plugin which reads Pug files into the Pug source store.",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "engines": {
     "node": ">=17.6.0"
   },
@@ -23,15 +23,15 @@
   "license": "MIT",
   "dependencies": {
     "@shanzhai/delete-from-keyed-store-step": "0.0.2",
-    "@shanzhai/keyed-store-set-output": "0.0.2",
-    "@shanzhai/read-text-file-step": "0.0.7"
+    "@shanzhai/keyed-store-set-output": "0.0.4",
+    "@shanzhai/read-text-file-step": "0.0.9"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
-    "@shanzhai/pug-source-store": "0.0.4"
+    "@shanzhai/pug-source-store": "0.0.5"
   },
   "peerDependencies": {
-    "@shanzhai/pug-source-store": "0.0.4"
+    "@shanzhai/pug-source-store": "0.0.5"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

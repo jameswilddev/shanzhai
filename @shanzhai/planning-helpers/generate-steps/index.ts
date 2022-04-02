@@ -1,13 +1,14 @@
-import { Step, Trigger, Diff, ParsedPath } from "@shanzhai/interfaces";
+import minimatch = require("minimatch");
+import { FileTrigger, Step, Trigger, Diff } from "@shanzhai/interfaces";
 
 export function generateSteps(
   triggers: ReadonlyArray<Trigger>,
   firstRun: boolean,
-  diff: Diff<ParsedPath>
+  diff: Diff<string>
 ): {
   readonly steps: ReadonlyArray<Step>;
   readonly orderingConstraints: ReadonlyArray<readonly [Step, Step]>;
-  readonly unmatchedAddedFiles: ReadonlyArray<ParsedPath>;
+  readonly unmatchedAddedFiles: ReadonlyArray<string>;
 } {
   const createdSteps: {
     readonly stepFactory: unknown;
@@ -47,7 +48,9 @@ export function generateSteps(
 
               case `storeAggregate`:
                 if (trigger.stores.includes(effect.keyedStore)) {
-                  handleTrigger(step, trigger.invalidated, []);
+                  leaves.push(
+                    ...handleTrigger(step, trigger.invalidated, []).leaves
+                  );
                 }
                 break;
             }
@@ -67,25 +70,9 @@ export function generateSteps(
 
               case `storeAggregate`:
                 if (trigger.stores.includes(effect.keyedStore)) {
-                  handleTrigger(step, trigger.invalidated, []);
-                }
-                break;
-            }
-          }
-          break;
-
-        case `unkeyedStoreDelete`:
-          for (const trigger of triggers) {
-            switch (trigger.type) {
-              case `unkeyedStore`:
-                if (trigger.unkeyedStore === effect.unkeyedStore) {
-                  leaves.push(...handleTrigger(step, trigger.down, []).leaves);
-                }
-                break;
-
-              case `storeAggregate`:
-                if (trigger.stores.includes(effect.unkeyedStore)) {
-                  handleTrigger(step, trigger.invalidated, []);
+                  leaves.push(
+                    ...handleTrigger(step, trigger.invalidated, []).leaves
+                  );
                 }
                 break;
             }
@@ -95,15 +82,11 @@ export function generateSteps(
         case `unkeyedStoreSet`:
           for (const trigger of triggers) {
             switch (trigger.type) {
-              case `unkeyedStore`:
-                if (trigger.unkeyedStore === effect.unkeyedStore) {
-                  leaves.push(...handleTrigger(step, trigger.up, []).leaves);
-                }
-                break;
-
               case `storeAggregate`:
                 if (trigger.stores.includes(effect.unkeyedStore)) {
-                  handleTrigger(step, trigger.invalidated, []);
+                  leaves.push(
+                    ...handleTrigger(step, trigger.invalidated, []).leaves
+                  );
                 }
                 break;
             }
@@ -159,14 +142,6 @@ export function generateSteps(
 
   const unmatchedAddedFiles = [...diff.added];
 
-  function reportMatched(parsedPath: ParsedPath): void {
-    const index = unmatchedAddedFiles.indexOf(parsedPath);
-
-    if (index !== -1) {
-      unmatchedAddedFiles.splice(index, 1);
-    }
-  }
-
   const oneTimeLeaves: Step[] = [];
   const otherTriggerRoots: Step[] = [];
 
@@ -177,84 +152,59 @@ export function generateSteps(
           oneTimeLeaves.push(...handleTrigger(null, trigger.up, []).leaves);
         }
         break;
+    }
+  }
 
-      case `file`:
-        {
-          const fullPath = trigger.path.join(`/`);
+  const fileTriggers = triggers
+    .filter((trigger): trigger is FileTrigger => trigger.type === `file`)
+    .sort((a, b) => {
+      const specialCharacters =
+        b.glob.split(/[*/\\]/g).length - a.glob.split(/[*/\\]/g).length;
 
-          const addedPath = diff.added.find(
-            (parsedPath) => parsedPath.fullPath === fullPath
-          );
+      if (specialCharacters === 0) {
+        return b.glob.length - a.glob.length;
+      } else {
+        return specialCharacters;
+      }
+    });
 
-          const changedPath = diff.changed.find(
-            (parsedPath) => parsedPath.fullPath === fullPath
-          );
+  for (const path of diff.added) {
+    for (const trigger of fileTriggers) {
+      if (minimatch(path, trigger.glob)) {
+        otherTriggerRoots.push(handleTrigger(null, trigger.up, [path]).root);
 
-          const deletedPath = diff.deleted.find(
-            (parsedPath) => parsedPath.fullPath === fullPath
-          );
+        const index = unmatchedAddedFiles.indexOf(path);
+        unmatchedAddedFiles.splice(index, 1);
 
-          if (addedPath !== undefined) {
-            otherTriggerRoots.push(
-              handleTrigger(null, trigger.up, [addedPath]).root
-            );
-
-            reportMatched(addedPath);
-          }
-
-          if (changedPath !== undefined) {
-            const down = handleTrigger(null, trigger.down, [changedPath]);
-            const up = handleTrigger(null, trigger.up, [changedPath]);
-
-            otherTriggerRoots.push(down.root);
-
-            for (const downLeaf of down.leaves) {
-              link(downLeaf, up.root);
-            }
-          }
-
-          if (deletedPath !== undefined) {
-            otherTriggerRoots.push(
-              handleTrigger(null, trigger.down, [deletedPath]).root
-            );
-          }
-        }
         break;
+      }
+    }
+  }
 
-      case `fileExtension`:
-        {
-          for (const parsedPath of diff.added) {
-            if (parsedPath.fileExtension === trigger.extension) {
-              otherTriggerRoots.push(
-                handleTrigger(null, trigger.up, [parsedPath]).root
-              );
+  for (const path of diff.changed) {
+    for (const trigger of fileTriggers) {
+      if (minimatch(path, trigger.glob)) {
+        const down = handleTrigger(null, trigger.down, [path]);
+        const up = handleTrigger(null, trigger.up, [path]);
 
-              reportMatched(parsedPath);
-            }
-          }
+        otherTriggerRoots.push(down.root);
 
-          for (const parsedPath of diff.changed) {
-            if (parsedPath.fileExtension === trigger.extension) {
-              const down = handleTrigger(null, trigger.down, [parsedPath]);
-              const up = handleTrigger(null, trigger.up, [parsedPath]);
-
-              otherTriggerRoots.push(down.root);
-
-              for (const downLeaf of down.leaves) {
-                link(downLeaf, up.root);
-              }
-            }
-          }
-
-          for (const parsedPath of diff.deleted) {
-            if (parsedPath.fileExtension === trigger.extension) {
-              otherTriggerRoots.push(
-                handleTrigger(null, trigger.down, [parsedPath]).root
-              );
-            }
-          }
+        for (const downLeaf of down.leaves) {
+          link(downLeaf, up.root);
         }
+
         break;
+      }
+    }
+  }
+
+  for (const path of diff.deleted) {
+    for (const trigger of fileTriggers) {
+      if (minimatch(path, trigger.glob)) {
+        otherTriggerRoots.push(handleTrigger(null, trigger.down, [path]).root);
+
+        break;
+      }
     }
   }
 
