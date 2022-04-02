@@ -25,7 +25,7 @@
     "@shanzhai/ephemeral-unkeyed-store": "0.0.4"
   },
   "devDependencies": {
-    "typescript": "4.4.4"
+    "typescript": "4.6.3"
   },
   "types": "index.d.ts"
 }
