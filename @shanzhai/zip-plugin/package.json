@@ -28,11 +28,11 @@
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
-    "@shanzhai/zip-content-store": "0.0.3",
+    "@shanzhai/zip-content-store": "0.0.5",
     "@shanzhai/zip-store": "0.0.5"
   },
   "peerDependencies": {
-    "@shanzhai/zip-content-store": "0.0.3",
+    "@shanzhai/zip-content-store": "0.0.5",
     "@shanzhai/zip-store": "0.0.5"
   },
   "types": "index.d.ts",
