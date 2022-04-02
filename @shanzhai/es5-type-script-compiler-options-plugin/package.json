@@ -29,10 +29,10 @@
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
-    "@shanzhai/type-script-compiler-options-store": "0.0.9"
+    "@shanzhai/type-script-compiler-options-store": "0.0.11"
   },
   "peerDependencies": {
-    "@shanzhai/type-script-compiler-options-store": "0.0.9"
+    "@shanzhai/type-script-compiler-options-store": "0.0.11"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [
