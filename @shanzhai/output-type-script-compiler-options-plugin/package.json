@@ -22,8 +22,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/build-tsconfig-input": "0.0.5",
-    "@shanzhai/constant-input": "0.0.8",
+    "@shanzhai/build-tsconfig-input": "0.0.8",
+    "@shanzhai/constant-input": "0.0.6",
     "@shanzhai/stringify-json-input": "0.0.4",
     "@shanzhai/unkeyed-store-get-input": "0.0.4",
     "@shanzhai/write-file-step": "0.0.9"
