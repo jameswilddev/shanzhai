@@ -20,7 +20,7 @@ This package has the following runtime dependencies:
 
 Name       | Version                                                                                          
 ---------- | -------------------------------------------------------------------------------------------------
-typescript | [![4.4.4](https://img.shields.io/npm/v/typescript.svg)](https://www.npmjs.com/package/typescript)
+typescript | [![4.6.3](https://img.shields.io/npm/v/typescript.svg)](https://www.npmjs.com/package/typescript)
 
 ## Peer Dependencies
 

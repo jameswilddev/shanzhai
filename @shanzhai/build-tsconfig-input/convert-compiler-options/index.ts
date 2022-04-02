@@ -24,7 +24,7 @@ export function convertCompilerOptions(
       target: convertTarget(compilerOptions.target),
       moduleResolution: convertModuleResolution(
         compilerOptions.moduleResolution
-      ),
+      ) as unknown as undefined, // TODO: workaround until updated schema published (https://github.com/ffflorian/schemastore-updater/issues/505).
       lib,
       importsNotUsedAsValues: convertImportsNotUsedAsValues(
         compilerOptions.importsNotUsedAsValues
