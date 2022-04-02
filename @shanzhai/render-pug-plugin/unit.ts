@@ -23,7 +23,7 @@ describe(`render-pug-plugin`, () => {
     ).toEqual([pugLocalStore]);
   });
 
-  describe(`when parsed Pug is removed`, () => {
+  describe(`when parsed Pug without an extension is removed`, () => {
     let step: Step;
 
     beforeAll(() => {
@@ -37,7 +37,7 @@ describe(`render-pug-plugin`, () => {
     });
   });
 
-  describe(`when parsed Pug is added`, () => {
+  describe(`when parsed Pug without an extension is added`, () => {
     let step: Step;
 
     beforeAll(() => {
@@ -47,10 +47,148 @@ describe(`render-pug-plugin`, () => {
     it(`renders the Pug`, () => {
       expect(step).toEqual(
         new RenderPugStep(
-          `Render Pug "Test Key"`,
+          `Render Pug "Test Key" as "Test Key"`,
           new KeyedStoreGetInput(parsedPugStore, `Test Key`),
           new MergeObjectInput(new KeyedStoreGetAllInput(pugLocalStore)),
           new KeyedStoreSetOutput(htmlSourceStore, `Test Key`)
+        )
+      );
+    });
+  });
+
+  describe(`when parsed Pug with an unexpected extension is removed`, () => {
+    let step: Step;
+
+    beforeAll(() => {
+      step = readPugFilesPlugin.triggers.renderPug.down(
+        `test.pug.key.with.an.unexpected.extension`
+      );
+    });
+
+    it(`deletes the rendered Pug from the store`, () => {
+      expect(step).toEqual(
+        new DeleteFromKeyedStoreStep(
+          htmlSourceStore,
+          `test.pug.key.with.an.unexpected.extension`
+        )
+      );
+    });
+  });
+
+  describe(`when parsed Pug with an unexpected extension is added`, () => {
+    let step: Step;
+
+    beforeAll(() => {
+      step = readPugFilesPlugin.triggers.renderPug.up(
+        `test.pug.key.with.an.unexpected.extension`
+      );
+    });
+
+    it(`renders the Pug`, () => {
+      expect(step).toEqual(
+        new RenderPugStep(
+          `Render Pug "test.pug.key.with.an.unexpected.extension" as "test.pug.key.with.an.unexpected.extension"`,
+          new KeyedStoreGetInput(
+            parsedPugStore,
+            `test.pug.key.with.an.unexpected.extension`
+          ),
+          new MergeObjectInput(new KeyedStoreGetAllInput(pugLocalStore)),
+          new KeyedStoreSetOutput(
+            htmlSourceStore,
+            `test.pug.key.with.an.unexpected.extension`
+          )
+        )
+      );
+    });
+  });
+
+  describe(`when parsed Pug with the expected extension is removed`, () => {
+    let step: Step;
+
+    beforeAll(() => {
+      step = readPugFilesPlugin.triggers.renderPug.down(
+        `test.key.with.an.expected.extension.pug`
+      );
+    });
+
+    it(`deletes the rendered Pug from the store`, () => {
+      expect(step).toEqual(
+        new DeleteFromKeyedStoreStep(
+          htmlSourceStore,
+          `test.key.with.an.expected.extension.html`
+        )
+      );
+    });
+  });
+
+  describe(`when parsed Pug with the expected extension is added`, () => {
+    let step: Step;
+
+    beforeAll(() => {
+      step = readPugFilesPlugin.triggers.renderPug.up(
+        `test.key.with.an.expected.extension.pug`
+      );
+    });
+
+    it(`renders the Pug`, () => {
+      expect(step).toEqual(
+        new RenderPugStep(
+          `Render Pug "test.key.with.an.expected.extension.pug" as "test.key.with.an.expected.extension.html"`,
+          new KeyedStoreGetInput(
+            parsedPugStore,
+            `test.key.with.an.expected.extension.pug`
+          ),
+          new MergeObjectInput(new KeyedStoreGetAllInput(pugLocalStore)),
+          new KeyedStoreSetOutput(
+            htmlSourceStore,
+            `test.key.with.an.expected.extension.html`
+          )
+        )
+      );
+    });
+  });
+
+  describe(`when parsed Pug with a possibly confused extension is removed`, () => {
+    let step: Step;
+
+    beforeAll(() => {
+      step = readPugFilesPlugin.triggers.renderPug.down(
+        `test.key.with.a.possiblyconfusedextensionpug`
+      );
+    });
+
+    it(`deletes the rendered Pug from the store`, () => {
+      expect(step).toEqual(
+        new DeleteFromKeyedStoreStep(
+          htmlSourceStore,
+          `test.key.with.a.possiblyconfusedextensionpug`
+        )
+      );
+    });
+  });
+
+  describe(`when parsed Pug with a possibly confused extension is added`, () => {
+    let step: Step;
+
+    beforeAll(() => {
+      step = readPugFilesPlugin.triggers.renderPug.up(
+        `test.key.with.a.possiblyconfusedextensionpug`
+      );
+    });
+
+    it(`renders the Pug`, () => {
+      expect(step).toEqual(
+        new RenderPugStep(
+          `Render Pug "test.key.with.a.possiblyconfusedextensionpug" as "test.key.with.a.possiblyconfusedextensionpug"`,
+          new KeyedStoreGetInput(
+            parsedPugStore,
+            `test.key.with.a.possiblyconfusedextensionpug`
+          ),
+          new MergeObjectInput(new KeyedStoreGetAllInput(pugLocalStore)),
+          new KeyedStoreSetOutput(
+            htmlSourceStore,
+            `test.key.with.a.possiblyconfusedextensionpug`
+          )
         )
       );
     });
