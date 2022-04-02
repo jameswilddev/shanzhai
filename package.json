@@ -38,8 +38,9 @@
     "buildNyc": "nyc --check-coverage --all --exclude \"**/*.ts\" --exclude \"**/*.d.ts\" --exclude \"**/unit.*\" --exclude \"build/**/*\" --exclude \"publish/**/*\" --exclude \"**/test-data/**\" --lines 100 --functions 100 --branches 100 --statements 100 npm run-script buildJasmine",
     "buildJasmine": "jasmine --config=jasmine.json",
     "buildToolsPublish": "node publish",
-    "buildToolsRegenerateRootReadme": "node build/write-root-readme",
+    "buildToolsHarmonizeDependencyVersions": "node build/harmonize-dependency-versions",
     "buildToolsBumpPackageVersions": "node build/bump-package-versions",
+    "buildToolsRegenerateRootReadme": "node build/write-root-readme",
     "test": "npm-run-all buildClean buildLintFix buildToolsTypeScript buildToolsRun buildTypeScript buildNyc buildToolsRegenerateRootReadme"
   }
 }
