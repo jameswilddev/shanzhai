@@ -3,8 +3,8 @@ import { Step } from "@shanzhai/interfaces";
 module.exports = {
   triggers: [
     {
-      type: `fileExtension`,
-      extension: `example-extension`,
+      type: `file`,
+      glob: `*.example-extension`,
       down(path: string): Step {
         path;
 

@@ -19,8 +19,8 @@ module.exports = {
       },
     },
     {
-      type: `fileExtension`,
-      extension: `example-extension`,
+      type: `file`,
+      glob: `*.example-extension`,
       down(path: string): Step {
         path;
 
