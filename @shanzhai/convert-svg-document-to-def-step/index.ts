@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const svg2js = require("svgo/lib/svgo/svg2js");
+const svg2js = require("svgo/lib/parser");
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const JS2SVG = require("svgo/lib/svgo/js2svg");
+const JS2SVG = require("svgo/lib/stringifier");
 
 import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
