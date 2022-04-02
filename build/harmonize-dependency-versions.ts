@@ -16,7 +16,7 @@ import { getAllPackages } from "./get-all-packages";
     ] as ReadonlyArray<
       `dependencies` | `devDependencies` | `peerDependencies`
     >) {
-      const dependencySet = pkg.json[dependencySetKey];
+      let dependencySet = pkg.json[dependencySetKey];
 
       if (dependencySet !== undefined) {
         for (const key in dependencySet) {
@@ -31,14 +31,16 @@ import { getAllPackages } from "./get-all-packages";
                 } to ${otherPkg.json.version}...`
               );
 
+              dependencySet = {
+                ...dependencySet,
+                [key]: otherPkg.json.version,
+              };
+
               newPkg = {
                 ...newPkg,
                 json: {
                   ...newPkg.json,
-                  [dependencySetKey]: {
-                    ...dependencySet,
-                    [key]: otherPkg.json.version,
-                  },
+                  [dependencySetKey]: dependencySet,
                 },
               };
             }
