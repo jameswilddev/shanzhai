@@ -1,15 +1,13 @@
 import {
-  Step,
-  ParsedPath,
-  OneTimeTrigger,
-  FileExtensionTrigger,
-  UnkeyedStoreTrigger,
-  KeyedStoreTrigger,
-  KeyedStore,
-  UnkeyedStore,
+  StoreAggregateTrigger,
   Effect,
   FileTrigger,
-  StoreAggregateTrigger,
+  OneTimeTrigger,
+  Step,
+  Trigger,
+  KeyedStore,
+  UnkeyedStore,
+  KeyedStoreTrigger,
 } from "@shanzhai/interfaces";
 import { generateSteps } from ".";
 
@@ -19,1890 +17,917 @@ class DummyStep implements Step {
   readonly executePerActionStep = jasmine.createSpy(`executePerActionStep`);
 }
 
-describe(`generateSteps`, function () {
-  describe(`first run`, () => {
-    let addedParsedPathForFileExtensionTriggerTriggeredOnce: ParsedPath;
-    let addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA: ParsedPath;
-    let addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesB: ParsedPath;
-    let addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesC: ParsedPath;
-    let addedParsedPathForFileTriggerTriggeredOnce: ParsedPath;
-    let addedParsedPathWhichDoesNotMatchA: ParsedPath;
-    let addedParsedPathWhichDoesNotMatchB: ParsedPath;
-    let addedParsedPathWhichDoesNotMatchC: ParsedPath;
-    let keyedStoreUntriggered: KeyedStore<unknown>;
-    let keyedStoreTriggeredOnce: KeyedStore<unknown>;
-    let keyedStoreTriggeredMultipleTimes: KeyedStore<unknown>;
-    let unkeyedStoreUntriggered: UnkeyedStore<unknown>;
-    let unkeyedStoreTriggered: UnkeyedStore<unknown>;
-    let oneTimeStep: DummyStep;
-    let fileExtensionTriggeredOnceStep: DummyStep;
-    let fileExtensionTriggeredMultipleTimesStepA: DummyStep;
-    let fileExtensionTriggeredMultipleTimesStepB: DummyStep;
-    let fileExtensionTriggeredMultipleTimesStepC: DummyStep;
-    let fileTriggeredOnceStep: DummyStep;
-    let keyedStoreTriggeredOnceStep: DummyStep;
-    let keyedStoreTriggeredMultipleTimesStepA: DummyStep;
-    let keyedStoreTriggeredMultipleTimesStepB: DummyStep;
-    let keyedStoreTriggeredMultipleTimesStepC: DummyStep;
-    let unkeyedStoreStep: DummyStep;
-    let unkeyedTriggeredStoreAggregateStep: DummyStep;
-    let keyedTriggeredStoreAggregateStep: DummyStep;
-    let unkeyedAndKeyedTriggeredStoreAggregateStep: DummyStep;
-    let oneTimeTrigger: OneTimeTrigger;
-    let untriggeredFileExtensionTrigger: FileExtensionTrigger;
-    let fileExtensionTriggerTriggeredOnce: FileExtensionTrigger;
-    let fileExtensionTriggerTriggeredMultipleTimes: FileExtensionTrigger;
-    let untriggeredFileTrigger: FileTrigger;
-    let fileTriggerTriggeredOnce: FileTrigger;
-    let keyedStoreUntriggeredTrigger: KeyedStoreTrigger;
-    let keyedStoreTriggerTriggeredOnce: KeyedStoreTrigger;
-    let keyedStoreTriggerTriggeredMultipleTimes: KeyedStoreTrigger;
-    let unkeyedStoreUntriggeredTrigger: UnkeyedStoreTrigger;
-    let unkeyedStoreTriggeredTrigger: UnkeyedStoreTrigger;
-    let untriggeredStoreAggregateTrigger: StoreAggregateTrigger;
-    let unkeyedTriggeredStoreAggregateTrigger: StoreAggregateTrigger;
-    let keyedTriggeredStoreAggregateTrigger: StoreAggregateTrigger;
-    let unkeyedAndKeyedTriggeredStoreAggregateTrigger: StoreAggregateTrigger;
-    let output: {
-      readonly steps: ReadonlyArray<Step>;
-      readonly orderingConstraints: ReadonlyArray<readonly [Step, Step]>;
-      readonly unmatchedAddedFiles: ReadonlyArray<ParsedPath>;
-    };
+// Based upon https://stackoverflow.com/a/6274381/8816561.
+function shuffled<T>(...items: ReadonlyArray<T>): ReadonlyArray<T> {
+  const array = [...items];
 
-    beforeAll(async () => {
-      addedParsedPathForFileExtensionTriggerTriggeredOnce = {
-        typeScriptName: `Test Added Parsed Path For File Extension Trigger Triggered Once TypeScript Name`,
-        fullPath: `Test Added Parsed Path For File Extension Trigger Triggered Once Full Path`,
-        fileExtension: `Test Added Parsed Path For File Extension Trigger Triggered Once File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path For File Extension Trigger Triggered Once Full Path Without Extension`,
-      };
-      addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA = {
-        typeScriptName: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times A TypeScript Name`,
-        fullPath: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times A Full Path`,
-        fileExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times A Full Path Without Extension`,
-      };
-      addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesB = {
-        typeScriptName: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times B TypeScript Name`,
-        fullPath: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times B Full Path`,
-        fileExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times B Full Path Without Extension`,
-      };
-      addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesC = {
-        typeScriptName: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times C TypeScript Name`,
-        fullPath: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times C Full Path`,
-        fileExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times C Full Path Without Extension`,
-      };
-      addedParsedPathForFileTriggerTriggeredOnce = {
-        typeScriptName: `Test Added Parsed Path For File Trigger Triggered Once TypeScript Name`,
-        fullPath: `Test Added/Parsed Path For File/Trigger Triggered Once Full Path`,
-        fileExtension: `Test Added Parsed Path For File Trigger Triggered Once File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path For File Trigger Triggered Once Full Path Without Extension`,
-      };
-      addedParsedPathWhichDoesNotMatchA = {
-        typeScriptName: `Test Added Parsed Path Which Does Not Match A TypeScript Name`,
-        fullPath: `Test Added Parsed Path Which Does Not Match A Full Path`,
-        fileExtension: `Test Added Parsed Path Which Does Not Match A File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path Which Does Not Match A Full Path Without Extension`,
-      };
-      addedParsedPathWhichDoesNotMatchB = {
-        typeScriptName: `Test Added Parsed Path Which Does Not Match B TypeScript Name`,
-        fullPath: `Test Added Parsed Path Which Does Not Match B Full Path`,
-        fileExtension: `Test Added Parsed Path Which Does Not Match B File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path Which Does Not Match B Full Path Without Extension`,
-      };
-      addedParsedPathWhichDoesNotMatchC = {
-        typeScriptName: `Test Added Parsed Path Which Does Not Match C TypeScript Name`,
-        fullPath: `Test Added Parsed Path Which Does Not Match C Full Path`,
-        fileExtension: `Test Added Parsed Path Which Does Not Match C File Extension`,
-        fullPathWithoutExtension: `Test Added Parsed Path Which Does Not Match C Full Path Without Extension`,
-      };
-      keyedStoreUntriggered = {
-        type: `keyedStore`,
-        name: `keyedStoreUntriggered`,
-        get: jasmine.createSpy(`keyedStoreUntriggered.get`).and.callFake(fail),
-        set: jasmine.createSpy(`keyedStoreUntriggered.set`).and.callFake(fail),
-        delete: jasmine
-          .createSpy(`keyedStoreUntriggered.delete`)
-          .and.callFake(fail),
-        getAll: jasmine
-          .createSpy(`keyedStoreUntriggered.getAll`)
-          .and.callFake(fail),
-        getKeys: jasmine
-          .createSpy(`keyedStoreUntriggered.getKeys`)
-          .and.callFake(fail),
-      };
-      keyedStoreTriggeredOnce = {
-        type: `keyedStore`,
-        name: `keyedStoreTriggeredOnce`,
-        get: jasmine
-          .createSpy(`keyedStoreTriggeredOnce.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`keyedStoreTriggeredOnce.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`keyedStoreTriggeredOnce.delete`)
-          .and.callFake(fail),
-        getAll: jasmine
-          .createSpy(`keyedStoreTriggeredOnce.getAll`)
-          .and.callFake(fail),
-        getKeys: jasmine
-          .createSpy(`keyedStoreTriggeredOnce.getKeys`)
-          .and.callFake(fail),
-      };
-      keyedStoreTriggeredMultipleTimes = {
-        type: `keyedStore`,
-        name: `keyedStoreTriggeredMultipleTimes`,
-        get: jasmine
-          .createSpy(`keyedStoreTriggeredMultipleTimes.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`keyedStoreTriggeredMultipleTimes.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`keyedStoreTriggeredMultipleTimes.delete`)
-          .and.callFake(fail),
-        getAll: jasmine
-          .createSpy(`keyedStoreTriggeredMultipleTimes.getAll`)
-          .and.callFake(fail),
-        getKeys: jasmine
-          .createSpy(`keyedStoreTriggeredMultipleTimes.getKeys`)
-          .and.callFake(fail),
-      };
-      unkeyedStoreUntriggered = {
-        type: `unkeyedStore`,
-        name: `unkeyedStoreUntriggered`,
-        get: jasmine
-          .createSpy(`unkeyedStoreUntriggered.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`unkeyedStoreUntriggered.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`unkeyedStoreUntriggered.delete`)
-          .and.callFake(fail),
-      };
-      unkeyedStoreTriggered = {
-        type: `unkeyedStore`,
-        name: `unkeyedStoreTriggered`,
-        get: jasmine.createSpy(`unkeyedStoreTriggered.get`).and.callFake(fail),
-        set: jasmine.createSpy(`unkeyedStoreTriggered.set`).and.callFake(fail),
-        delete: jasmine
-          .createSpy(`unkeyedStoreTriggered.delete`)
-          .and.callFake(fail),
-      };
-      oneTimeStep = new DummyStep(`oneTimeStep`, [
-        {
-          type: `keyedStoreSet`,
-          keyedStore: keyedStoreTriggeredMultipleTimes,
-          key: `Test Store Key C B`,
-        },
-      ]);
-      fileExtensionTriggeredOnceStep = new DummyStep(
-        `fileExtensionTriggeredOnceStep`,
-        []
-      );
-      fileExtensionTriggeredMultipleTimesStepA = new DummyStep(
-        `fileExtensionTriggeredMultipleTimesStepA`,
-        []
-      );
-      fileExtensionTriggeredMultipleTimesStepB = new DummyStep(
-        `fileExtensionTriggeredMultipleTimesStepB`,
-        [
-          {
-            type: `unkeyedStoreSet`,
-            unkeyedStore: unkeyedStoreTriggered,
-          },
-          {
-            type: `keyedStoreSet`,
-            keyedStore: keyedStoreTriggeredMultipleTimes,
-            key: `Test Store Key C A`,
-          },
-        ]
-      );
-      fileExtensionTriggeredMultipleTimesStepC = new DummyStep(
-        `fileExtensionTriggeredMultipleTimesStepC`,
-        []
-      );
-      fileTriggeredOnceStep = new DummyStep(`fileTriggeredOnceStep`, []);
-      keyedStoreTriggeredOnceStep = new DummyStep(
-        `keyedStoreTriggeredOnceStep`,
-        []
-      );
-      keyedStoreTriggeredMultipleTimesStepA = new DummyStep(
-        `keyedStoreTriggeredMultipleTimesStepA`,
-        [
-          {
-            type: `keyedStoreSet`,
-            keyedStore: keyedStoreTriggeredMultipleTimes,
-            key: `Test Store Key C C`,
-          },
-        ]
-      );
-      keyedStoreTriggeredMultipleTimesStepB = new DummyStep(
-        `keyedStoreTriggeredMultipleTimesStepB`,
-        []
-      );
-      keyedStoreTriggeredMultipleTimesStepC = new DummyStep(
-        `keyedStoreTriggeredMultipleTimesStepC`,
-        []
-      );
-      unkeyedStoreStep = new DummyStep(`unkeyedStoreStep`, [
-        {
-          type: `keyedStoreSet`,
-          keyedStore: keyedStoreTriggeredOnce,
-          key: `Test Store Key B A`,
-        },
-      ]);
-      unkeyedTriggeredStoreAggregateStep = new DummyStep(
-        `unkeyedTriggeredStoreAggregateStep`,
-        []
-      );
-      keyedTriggeredStoreAggregateStep = new DummyStep(
-        `keyedTriggeredStoreAggregateStep`,
-        []
-      );
-      unkeyedAndKeyedTriggeredStoreAggregateStep = new DummyStep(
-        `unkeyedAndKeyedTriggeredStoreAggregateStep`,
-        []
-      );
-      oneTimeTrigger = {
-        type: `oneTime`,
-        up: jasmine.createSpy(`oneTimeTrigger.up`).and.returnValue(oneTimeStep),
-      };
-      untriggeredFileExtensionTrigger = {
-        type: `fileExtension`,
-        extension: `Test Untriggered File Extension Trigger File Extension`,
-        down: jasmine.createSpy(`untriggeredfileExtensionTrigger.down`),
-        up: jasmine.createSpy(`untriggeredfileExtensionTrigger.up`),
-      };
-      fileExtensionTriggerTriggeredOnce = {
-        type: `fileExtension`,
-        extension: `Test Added Parsed Path For File Extension Trigger Triggered Once File Extension`,
-        down: jasmine.createSpy(`fileExtensionTriggerTriggeredOnce.down`),
-        up: jasmine
-          .createSpy(`fileExtensionTriggerTriggeredOnce.up`)
-          .and.returnValue(fileExtensionTriggeredOnceStep),
-      };
-      fileExtensionTriggerTriggeredMultipleTimes = {
-        type: `fileExtension`,
-        extension: `Test Added Parsed Path For File Extension Trigger Triggered Multiple Times File Extension`,
-        down: jasmine.createSpy(
-          `fileExtensionTriggerTriggeredMultipleTimes.down`
-        ),
-        up: jasmine
-          .createSpy(`fileExtensionTriggerTriggeredMultipleTimes.up`)
-          .and.callFake((file) => {
-            switch (file) {
-              case addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA:
-                return fileExtensionTriggeredMultipleTimesStepA;
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 
-              case addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesB:
-                return fileExtensionTriggeredMultipleTimesStepB;
+  return array;
+}
 
-              case addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesC:
-                return fileExtensionTriggeredMultipleTimesStepC;
+fdescribe(`generateSteps`, function () {
+  for (const firstRun of [false, true]) {
+    describe(firstRun ? `first run` : `subsequent run`, () => {
+      let unusedKeyedStore: KeyedStore<never>;
+      let unusedUnkeyedStore: UnkeyedStore<never>;
+      let untriggeredKeyedStore: KeyedStore<never>;
+      let untriggeredUnkeyedStore: UnkeyedStore<never>;
+      let setKeyedStore: KeyedStore<never>;
+      let deletedKeyedStore: KeyedStore<never>;
+      let setUnkeyedStore: UnkeyedStore<never>;
+      let setAndDeletedKeyedStore: KeyedStore<never>;
+      let storeAggregateTriggerUntriggered: StoreAggregateTrigger;
+      let storeAggregateTriggerTriggeredByUnkeyedSetStep: DummyStep;
+      let storeAggregateTriggerTriggeredByUnkeyedSet: StoreAggregateTrigger;
+      let storeAggregateTriggerTriggeredByKeyedSetStep: DummyStep;
+      let storeAggregateTriggerTriggeredByKeyedSet: StoreAggregateTrigger;
+      let storeAggregateTriggerTriggeredByKeyedDeleteStep: DummyStep;
+      let storeAggregateTriggerTriggeredByKeyedDelete: StoreAggregateTrigger;
+      let storeAggregateTriggerTriggeredByAllInOneStoreStep: DummyStep;
+      let storeAggregateTriggerTriggeredByAllInOneStore: StoreAggregateTrigger;
+      let storeAggregateTriggerTriggeredByAllAcrossMultipleStoresStep: DummyStep;
+      let storeAggregateTriggerTriggeredByAllAcrossMultipleStores: StoreAggregateTrigger;
+      let keyedStoreTriggerUntriggered: KeyedStoreTrigger;
+      let keyedStoreTriggerTriggeredByKeyedSetStep: DummyStep;
+      let keyedStoreTriggerTriggeredByKeyedSet: KeyedStoreTrigger;
+      let keyedStoreTriggerTriggeredByKeyedDeleteStep: DummyStep;
+      let keyedStoreTriggerTriggeredByKeyedDelete: KeyedStoreTrigger;
+      let keyedStoreTriggerTriggeredByAllSetStep: DummyStep;
+      let keyedStoreTriggerTriggeredByAllDeleteStep: DummyStep;
+      let keyedStoreTriggerTriggeredByAll: KeyedStoreTrigger;
+      let oneTimeTriggerStep: DummyStep;
+      let oneTimeTrigger: OneTimeTrigger;
+      let fileTriggerUntriggered: FileTrigger;
+      let fileTriggerTriggeredByMoreSpecificAddStep: DummyStep;
+      let fileTriggerTriggeredByMoreSpecificAdd: FileTrigger;
+      let fileTriggerTriggeredByMoreSpecificDeleteStep: DummyStep;
+      let fileTriggerTriggeredByMoreSpecificDelete: FileTrigger;
+      let fileTriggerTriggeredByMoreSpecificChangeDownStep: DummyStep;
+      let fileTriggerTriggeredByMoreSpecificChangeUpStep: DummyStep;
+      let fileTriggerTriggeredByMoreSpecificChange: FileTrigger;
+      let fileTriggerTriggeredByLessSpecificAddStep: DummyStep;
+      let fileTriggerTriggeredByLessSpecificAdd: FileTrigger;
+      let fileTriggerTriggeredByLessSpecificDeleteStep: DummyStep;
+      let fileTriggerTriggeredByLessSpecificDelete: FileTrigger;
+      let fileTriggerTriggeredByLessSpecificChangeDownStep: DummyStep;
+      let fileTriggerTriggeredByLessSpecificChangeUpStep: DummyStep;
+      let fileTriggerTriggeredByLessSpecificChange: FileTrigger;
+      let fileTriggerTriggeredByAllAddStep: DummyStep;
+      let fileTriggerTriggeredByAllDeleteStep: DummyStep;
+      let fileTriggerTriggeredByAllChangeDownStep: DummyStep;
+      let fileTriggerTriggeredByAllChangeUpStep: DummyStep;
+      let fileTriggerTriggeredByAll: FileTrigger;
+      let output: {
+        readonly steps: ReadonlyArray<Step>;
+        readonly orderingConstraints: ReadonlyArray<readonly [Step, Step]>;
+        readonly unmatchedAddedFiles: ReadonlyArray<string>;
+      };
 
-              default:
-                fail(`Unexpected file ${JSON.stringify(file)}.`);
-                return null;
-            }
-          }),
-      };
-      untriggeredFileTrigger = {
-        type: `file`,
-        path: [`Test Untriggered`, `File`, `Trigger`],
-        down: jasmine.createSpy(`untriggeredFileTrigger.down`),
-        up: jasmine.createSpy(`untriggeredFileTrigger.up`),
-      };
-      fileTriggerTriggeredOnce = {
-        type: `file`,
-        path: [
-          `Test Added`,
-          `Parsed Path For File`,
-          `Trigger Triggered Once Full Path`,
-        ],
-        down: jasmine.createSpy(`untriggeredFileTrigger.down`),
-        up: jasmine
-          .createSpy(`untriggeredFileTrigger.up`)
-          .and.returnValue(fileTriggeredOnceStep),
-      };
-      keyedStoreUntriggeredTrigger = {
-        type: `keyedStore`,
-        keyedStore: keyedStoreUntriggered,
-        down: jasmine.createSpy(`keyedStoreUntriggeredTrigger.down`),
-        up: jasmine.createSpy(`keyedStoreUntriggeredTrigger.up`),
-      };
-      keyedStoreTriggerTriggeredOnce = {
-        type: `keyedStore`,
-        keyedStore: keyedStoreTriggeredOnce,
-        down: jasmine.createSpy(`keyedStoreTriggerTriggeredOnce.down`),
-        up: jasmine
-          .createSpy(`keyedStoreTriggerTriggeredOnce.up`)
-          .and.returnValue(keyedStoreTriggeredOnceStep),
-      };
-      keyedStoreTriggerTriggeredMultipleTimes = {
-        type: `keyedStore`,
-        keyedStore: keyedStoreTriggeredMultipleTimes,
-        down: jasmine.createSpy(`keyedStoreTriggerTriggeredMultipleTimes.down`),
-        up: jasmine
-          .createSpy(`keyedStoreTriggerTriggeredMultipleTimes.up`)
-          .and.callFake((key) => {
-            switch (key) {
-              case `Test Store Key C A`:
-                return keyedStoreTriggeredMultipleTimesStepA;
-              case `Test Store Key C B`:
-                return keyedStoreTriggeredMultipleTimesStepB;
-              case `Test Store Key C C`:
-                return keyedStoreTriggeredMultipleTimesStepC;
-              default:
-                fail(`Unexpected key ${JSON.stringify(key)}.`);
-                return null;
-            }
-          }),
-      };
-      unkeyedStoreUntriggeredTrigger = {
-        type: `unkeyedStore`,
-        unkeyedStore: unkeyedStoreUntriggered,
-        down: jasmine.createSpy(`unkeyedStoreUntriggeredTrigger.down`),
-        up: jasmine.createSpy(`unkeyedStoreUntriggeredTrigger.up`),
-      };
-      unkeyedStoreTriggeredTrigger = {
-        type: `unkeyedStore`,
-        unkeyedStore: unkeyedStoreTriggered,
-        down: jasmine.createSpy(`unkeyedStoreTriggeredTrigger.down`),
-        up: jasmine
-          .createSpy(`unkeyedStoreTriggeredTrigger.up`)
-          .and.returnValue(unkeyedStoreStep),
-      };
-      untriggeredStoreAggregateTrigger = {
-        type: `storeAggregate`,
-        stores: [unkeyedStoreUntriggered, keyedStoreUntriggered],
-        invalidated: jasmine.createSpy(
-          `untriggeredStoreAggregateTrigger.invalidated`
-        ),
-      };
-      unkeyedTriggeredStoreAggregateTrigger = {
-        type: `storeAggregate`,
-        stores: [
-          unkeyedStoreUntriggered,
-          unkeyedStoreTriggered,
-          keyedStoreUntriggered,
-        ],
-        invalidated: jasmine
-          .createSpy(`unkeyedTriggeredStoreAggregateTrigger.invalidated`)
-          .and.returnValue(unkeyedTriggeredStoreAggregateStep),
-      };
-      keyedTriggeredStoreAggregateTrigger = {
-        type: `storeAggregate`,
-        stores: [
-          unkeyedStoreUntriggered,
-          keyedStoreTriggeredOnce,
-          keyedStoreUntriggered,
-        ],
-        invalidated: jasmine
-          .createSpy(`keyedTriggeredStoreAggregateTrigger.invalidated`)
-          .and.returnValue(keyedTriggeredStoreAggregateStep),
-      };
-      unkeyedAndKeyedTriggeredStoreAggregateTrigger = {
-        type: `storeAggregate`,
-        stores: [
-          unkeyedStoreUntriggered,
-          keyedStoreTriggeredMultipleTimes,
-          keyedStoreUntriggered,
-          unkeyedStoreTriggered,
-        ],
-        invalidated: jasmine
-          .createSpy(
-            `unkeyedAndKeyedTriggeredStoreAggregateTrigger.invalidated`
-          )
-          .and.returnValue(unkeyedAndKeyedTriggeredStoreAggregateStep),
-      };
-      output = generateSteps(
-        [
-          oneTimeTrigger,
-          untriggeredFileExtensionTrigger,
-          fileExtensionTriggerTriggeredOnce,
-          fileExtensionTriggerTriggeredMultipleTimes,
-          keyedStoreUntriggeredTrigger,
-          keyedStoreTriggerTriggeredOnce,
-          keyedStoreTriggerTriggeredMultipleTimes,
-          unkeyedStoreUntriggeredTrigger,
-          unkeyedStoreTriggeredTrigger,
-          untriggeredFileTrigger,
-          fileTriggerTriggeredOnce,
-          untriggeredStoreAggregateTrigger,
-          unkeyedTriggeredStoreAggregateTrigger,
-          keyedTriggeredStoreAggregateTrigger,
-          unkeyedAndKeyedTriggeredStoreAggregateTrigger,
-        ],
-        true,
-        {
-          added: [
-            addedParsedPathForFileExtensionTriggerTriggeredOnce,
-            addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA,
-            addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesB,
-            addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesC,
-            addedParsedPathWhichDoesNotMatchA,
-            addedParsedPathWhichDoesNotMatchB,
-            addedParsedPathWhichDoesNotMatchC,
-            addedParsedPathForFileTriggerTriggeredOnce,
+      beforeAll(() => {
+        unusedKeyedStore = {
+          type: `keyedStore`,
+          name: `unusedKeyedStore`,
+          get: jasmine.createSpy(`unusedKeyedStore.get`),
+          set: jasmine.createSpy(`unusedKeyedStore.set`),
+          delete: jasmine.createSpy(`unusedKeyedStore.delete`),
+          getAll: jasmine.createSpy(`unusedKeyedStore.getAll`),
+          getKeys: jasmine.createSpy(`unusedKeyedStore.getKeys`),
+        };
+        unusedUnkeyedStore = {
+          type: `unkeyedStore`,
+          name: `unusedUnkeyedStore`,
+          get: jasmine.createSpy(`unusedUnkeyedStore.get`),
+          set: jasmine.createSpy(`unusedUnkeyedStore.set`),
+        };
+        untriggeredKeyedStore = {
+          type: `keyedStore`,
+          name: `untriggeredKeyedStore`,
+          get: jasmine.createSpy(`untriggeredKeyedStore.get`),
+          set: jasmine.createSpy(`untriggeredKeyedStore.set`),
+          delete: jasmine.createSpy(`untriggeredKeyedStore.delete`),
+          getAll: jasmine.createSpy(`untriggeredKeyedStore.getAll`),
+          getKeys: jasmine.createSpy(`untriggeredKeyedStore.getKeys`),
+        };
+        untriggeredUnkeyedStore = {
+          type: `unkeyedStore`,
+          name: `untriggeredUnkeyedStore`,
+          get: jasmine.createSpy(`untriggeredUnkeyedStore.get`),
+          set: jasmine.createSpy(`untriggeredUnkeyedStore.set`),
+        };
+        setKeyedStore = {
+          type: `keyedStore`,
+          name: `setKeyedStore`,
+          get: jasmine.createSpy(`setKeyedStore.get`),
+          set: jasmine.createSpy(`setKeyedStore.set`),
+          delete: jasmine.createSpy(`setKeyedStore.delete`),
+          getAll: jasmine.createSpy(`setKeyedStore.getAll`),
+          getKeys: jasmine.createSpy(`setKeyedStore.getKeys`),
+        };
+        deletedKeyedStore = {
+          type: `keyedStore`,
+          name: `deletedKeyedStore`,
+          get: jasmine.createSpy(`deletedKeyedStore.get`),
+          set: jasmine.createSpy(`deletedKeyedStore.set`),
+          delete: jasmine.createSpy(`deletedKeyedStore.delete`),
+          getAll: jasmine.createSpy(`deletedKeyedStore.getAll`),
+          getKeys: jasmine.createSpy(`deletedKeyedStore.getKeys`),
+        };
+        setUnkeyedStore = {
+          type: `unkeyedStore`,
+          name: `setUnkeyedStore`,
+          get: jasmine.createSpy(`setUnkeyedStore.get`),
+          set: jasmine.createSpy(`setUnkeyedStore.set`),
+        };
+        setAndDeletedKeyedStore = {
+          type: `keyedStore`,
+          name: `setAndDeletedKeyedStore`,
+          get: jasmine.createSpy(`setAndDeletedKeyedStore.get`),
+          set: jasmine.createSpy(`setAndDeletedKeyedStore.set`),
+          delete: jasmine.createSpy(`setAndDeletedKeyedStore.delete`),
+          getAll: jasmine.createSpy(`setAndDeletedKeyedStore.getAll`),
+          getKeys: jasmine.createSpy(`setAndDeletedKeyedStore.getKeys`),
+        };
+        storeAggregateTriggerUntriggered = {
+          type: `storeAggregate`,
+          stores: [untriggeredKeyedStore, untriggeredUnkeyedStore],
+          invalidated: jasmine.createSpy(
+            `storeAggregateTriggerUntriggered.invalidated`
+          ),
+        };
+        storeAggregateTriggerTriggeredByUnkeyedSetStep = new DummyStep(
+          `storeAggregateTriggerTriggeredByUnkeyedSetStep`,
+          []
+        );
+        storeAggregateTriggerTriggeredByUnkeyedSet = {
+          type: `storeAggregate`,
+          stores: [
+            untriggeredKeyedStore,
+            setUnkeyedStore,
+            untriggeredUnkeyedStore,
           ],
-          changed: [],
-          deleted: [],
-          unchanged: [],
+          invalidated: jasmine
+            .createSpy(`storeAggregateTriggerTriggeredByUnkeyedSet.invalidated`)
+            .and.returnValue(storeAggregateTriggerTriggeredByUnkeyedSetStep),
+        };
+        storeAggregateTriggerTriggeredByKeyedSetStep = new DummyStep(
+          `storeAggregateTriggerTriggeredByKeyedSetStep`,
+          []
+        );
+        storeAggregateTriggerTriggeredByKeyedSet = {
+          type: `storeAggregate`,
+          stores: [
+            untriggeredKeyedStore,
+            setKeyedStore,
+            untriggeredUnkeyedStore,
+          ],
+          invalidated: jasmine
+            .createSpy(`storeAggregateTriggerTriggeredByKeyedSet.invalidated`)
+            .and.returnValue(storeAggregateTriggerTriggeredByKeyedSetStep),
+        };
+        storeAggregateTriggerTriggeredByKeyedDeleteStep = new DummyStep(
+          `storeAggregateTriggerTriggeredByKeyedDeleteStep`,
+          [
+            {
+              type: `unkeyedStoreSet`,
+              unkeyedStore: setUnkeyedStore,
+            },
+          ]
+        );
+        storeAggregateTriggerTriggeredByKeyedDelete = {
+          type: `storeAggregate`,
+          stores: [
+            untriggeredKeyedStore,
+            deletedKeyedStore,
+            untriggeredUnkeyedStore,
+          ],
+          invalidated: jasmine
+            .createSpy(
+              `storeAggregateTriggerTriggeredByKeyedDelete.invalidated`
+            )
+            .and.returnValue(storeAggregateTriggerTriggeredByKeyedDeleteStep),
+        };
+        storeAggregateTriggerTriggeredByAllInOneStoreStep = new DummyStep(
+          `storeAggregateTriggerTriggeredByAllInOneStoreStep`,
+          []
+        );
+        storeAggregateTriggerTriggeredByAllInOneStore = {
+          type: `storeAggregate`,
+          stores: [
+            untriggeredKeyedStore,
+            setAndDeletedKeyedStore,
+            untriggeredUnkeyedStore,
+          ],
+          invalidated: jasmine
+            .createSpy(
+              `storeAggregateTriggerTriggeredByAllInOneStore.invalidated`
+            )
+            .and.returnValue(storeAggregateTriggerTriggeredByAllInOneStoreStep),
+        };
+        storeAggregateTriggerTriggeredByAllAcrossMultipleStoresStep =
+          new DummyStep(
+            `storeAggregateTriggerTriggeredByAllAcrossMultipleStoresStep`,
+            []
+          );
+        storeAggregateTriggerTriggeredByAllAcrossMultipleStores = {
+          type: `storeAggregate`,
+          stores: [
+            untriggeredKeyedStore,
+            setKeyedStore,
+            deletedKeyedStore,
+            untriggeredUnkeyedStore,
+          ],
+          invalidated: jasmine
+            .createSpy(
+              `storeAggregateTriggerTriggeredByAllAcrossMultipleStores.invalidated`
+            )
+            .and.returnValue(
+              storeAggregateTriggerTriggeredByAllAcrossMultipleStoresStep
+            ),
+        };
+        keyedStoreTriggerUntriggered = {
+          type: `keyedStore`,
+          keyedStore: untriggeredKeyedStore,
+          refreshAllWhenStoresChange: [
+            untriggeredUnkeyedStore,
+            untriggeredKeyedStore,
+          ],
+          down: jasmine.createSpy(`keyedStoreTriggerTriggerUntriggered.down`),
+          up: jasmine.createSpy(`keyedStoreTriggerTriggerUntriggered.up`),
+        };
+        keyedStoreTriggerTriggeredByKeyedSetStep = new DummyStep(
+          `keyedStoreTriggerTriggeredByKeyedSetStep`,
+          []
+        );
+        keyedStoreTriggerTriggeredByKeyedSet = {
+          type: `keyedStore`,
+          keyedStore: setKeyedStore,
+          refreshAllWhenStoresChange: [
+            untriggeredUnkeyedStore,
+            untriggeredKeyedStore,
+          ],
+          down: jasmine.createSpy(`keyedStoreTriggerTriggeredByKeyedSet.down`),
+          up: jasmine
+            .createSpy(`keyedStoreTriggerTriggeredByKeyedSet.up`)
+            .and.returnValue(keyedStoreTriggerTriggeredByKeyedSetStep),
+        };
+        keyedStoreTriggerTriggeredByKeyedDeleteStep = new DummyStep(
+          `keyedStoreTriggerTriggeredByKeyedDeleteStep`,
+          []
+        );
+        keyedStoreTriggerTriggeredByKeyedDelete = {
+          type: `keyedStore`,
+          keyedStore: deletedKeyedStore,
+          refreshAllWhenStoresChange: [
+            untriggeredUnkeyedStore,
+            untriggeredKeyedStore,
+          ],
+          down: jasmine
+            .createSpy(`keyedStoreTriggerTriggeredByKeyedDelete.down`)
+            .and.returnValue(keyedStoreTriggerTriggeredByKeyedDeleteStep),
+          up: jasmine.createSpy(`keyedStoreTriggerTriggeredByKeyedDelete.up`),
+        };
+        keyedStoreTriggerTriggeredByAllSetStep = new DummyStep(
+          `keyedStoreTriggerTriggeredByAllSetStep`,
+          []
+        );
+        keyedStoreTriggerTriggeredByAllDeleteStep = new DummyStep(
+          `keyedStoreTriggerTriggeredByAllDeleteStep`,
+          []
+        );
+        keyedStoreTriggerTriggeredByAll = {
+          type: `keyedStore`,
+          keyedStore: setAndDeletedKeyedStore,
+          refreshAllWhenStoresChange: [
+            untriggeredUnkeyedStore,
+            untriggeredKeyedStore,
+          ],
+          down: jasmine
+            .createSpy(`keyedStoreTriggerTriggeredByKeyedDelete.down`)
+            .and.returnValue(keyedStoreTriggerTriggeredByAllDeleteStep),
+          up: jasmine
+            .createSpy(`keyedStoreTriggerTriggeredByKeyedDelete.up`)
+            .and.returnValue(keyedStoreTriggerTriggeredByAllSetStep),
+        };
+        oneTimeTriggerStep = new DummyStep(`oneTimeTriggerStep`, []);
+        oneTimeTrigger = {
+          type: `oneTime`,
+          up: jasmine
+            .createSpy(`oneTimeTrigger.up`)
+            .and.returnValue(oneTimeTriggerStep),
+        };
+        fileTriggerUntriggered = {
+          type: `file`,
+          glob: `no/files/match/this`,
+          down: jasmine.createSpy(`fileTriggerUntriggered.down`),
+          up: jasmine.createSpy(`fileTriggerUntriggered.up`),
+        };
+        fileTriggerTriggeredByMoreSpecificAddStep = new DummyStep(
+          `fileTriggerTriggeredByMoreSpecificAddStep`,
+          []
+        );
+        fileTriggerTriggeredByMoreSpecificAdd = {
+          type: `file`,
+          glob: `matched/**/more-specific/added/*`,
+          down: jasmine.createSpy(`fileTriggerTriggeredByMoreSpecificAdd.down`),
+          up: jasmine
+            .createSpy(`fileTriggerTriggeredByMoreSpecificAdd.up`)
+            .and.returnValue(fileTriggerTriggeredByMoreSpecificAddStep),
+        };
+        fileTriggerTriggeredByMoreSpecificDeleteStep = new DummyStep(
+          `fileTriggerTriggeredByMoreSpecificDeleteStep`,
+          []
+        );
+        fileTriggerTriggeredByMoreSpecificDelete = {
+          type: `file`,
+          glob: `matched/**/more-specific/deleted/*`,
+          down: jasmine
+            .createSpy(`fileTriggerTriggeredByMoreSpecificDelete.down`)
+            .and.returnValue(fileTriggerTriggeredByMoreSpecificDeleteStep),
+          up: jasmine.createSpy(`fileTriggerTriggeredByMoreSpecificDelete.up`),
+        };
+        fileTriggerTriggeredByMoreSpecificChangeDownStep = new DummyStep(
+          `fileTriggerTriggeredByMoreSpecificChangeDownStep`,
+          []
+        );
+        fileTriggerTriggeredByMoreSpecificChangeUpStep = new DummyStep(
+          `fileTriggerTriggeredByMoreSpecificChangeUpStep`,
+          []
+        );
+        fileTriggerTriggeredByMoreSpecificChange = {
+          type: `file`,
+          glob: `matched/**/more-specific/changed/*`,
+          down: jasmine
+            .createSpy(`fileTriggerTriggeredByMoreSpecificChange.down`)
+            .and.returnValue(fileTriggerTriggeredByMoreSpecificChangeDownStep),
+          up: jasmine
+            .createSpy(`fileTriggerTriggeredByMoreSpecificChange.up`)
+            .and.returnValue(fileTriggerTriggeredByMoreSpecificChangeUpStep),
+        };
+        fileTriggerTriggeredByLessSpecificAddStep = new DummyStep(
+          `fileTriggerTriggeredByLessSpecificAddStep`,
+          []
+        );
+        fileTriggerTriggeredByLessSpecificAdd = {
+          type: `file`,
+          glob: `matched/**/added/*`,
+          down: jasmine.createSpy(`fileTriggerTriggeredByLessSpecificAdd.down`),
+          up: jasmine
+            .createSpy(`fileTriggerTriggeredByLessSpecificAdd.up`)
+            .and.returnValue(fileTriggerTriggeredByLessSpecificAddStep),
+        };
+        fileTriggerTriggeredByLessSpecificDeleteStep = new DummyStep(
+          `fileTriggerTriggeredByLessSpecificDeleteStep`,
+          [
+            {
+              type: `keyedStoreDelete`,
+              keyedStore: deletedKeyedStore,
+              key: `Test Deleted Key`,
+            },
+            {
+              type: `keyedStoreSet`,
+              keyedStore: setKeyedStore,
+              key: `Test Set Key`,
+            },
+          ]
+        );
+        fileTriggerTriggeredByLessSpecificDelete = {
+          type: `file`,
+          glob: `matched/**/deleted/*`,
+          down: jasmine
+            .createSpy(`fileTriggerTriggeredByLessSpecificDelete.down`)
+            .and.returnValue(fileTriggerTriggeredByLessSpecificDeleteStep),
+          up: jasmine.createSpy(`fileTriggerTriggeredByLessSpecificDelete.up`),
+        };
+        fileTriggerTriggeredByLessSpecificChangeDownStep = new DummyStep(
+          `fileTriggerTriggeredByLessSpecificChangeDownStep`,
+          [
+            {
+              type: `keyedStoreDelete`,
+              keyedStore: setAndDeletedKeyedStore,
+              key: `Test Set And Deleted Key`,
+            },
+          ]
+        );
+        fileTriggerTriggeredByLessSpecificChangeUpStep = new DummyStep(
+          `fileTriggerTriggeredByLessSpecificChangeUpStep`,
+          [
+            {
+              type: `keyedStoreSet`,
+              keyedStore: setAndDeletedKeyedStore,
+              key: `Test Set And Deleted Key`,
+            },
+          ]
+        );
+        fileTriggerTriggeredByLessSpecificChange = {
+          type: `file`,
+          glob: `matched/**/changed/*`,
+          down: jasmine
+            .createSpy(`fileTriggerTriggeredByLessSpecificChange.down`)
+            .and.returnValue(fileTriggerTriggeredByLessSpecificChangeDownStep),
+          up: jasmine
+            .createSpy(`fileTriggerTriggeredByLessSpecificChange.up`)
+            .and.returnValue(fileTriggerTriggeredByLessSpecificChangeUpStep),
+        };
+        fileTriggerTriggeredByAllAddStep = new DummyStep(
+          `fileTriggerTriggeredByAllAddStep`,
+          [
+            {
+              type: `keyedStoreDelete`,
+              keyedStore: unusedKeyedStore,
+              key: `irrelevant`,
+            },
+          ]
+        );
+        fileTriggerTriggeredByAllDeleteStep = new DummyStep(
+          `fileTriggerTriggeredByAllDeleteStep`,
+          []
+        );
+        fileTriggerTriggeredByAllChangeDownStep = new DummyStep(
+          `fileTriggerTriggeredByAllChangeDownStep`,
+          [
+            {
+              type: `keyedStoreSet`,
+              keyedStore: unusedKeyedStore,
+              key: `irrelevant`,
+            },
+          ]
+        );
+        fileTriggerTriggeredByAllChangeUpStep = new DummyStep(
+          `fileTriggerTriggeredByAllChangeUpStep`,
+          [
+            {
+              type: `unkeyedStoreSet`,
+              unkeyedStore: unusedUnkeyedStore,
+            },
+          ]
+        );
+        fileTriggerTriggeredByAll = {
+          type: `file`,
+          glob: `matched/**/all/*/*`,
+          down: jasmine
+            .createSpy(`fileTriggerTriggeredByAll.down`)
+            .and.callFake((path) => {
+              switch (path) {
+                case `matched/example/all/changed/file`:
+                  return fileTriggerTriggeredByAllChangeDownStep;
+
+                case `matched/example/all/deleted/file`:
+                  return fileTriggerTriggeredByAllDeleteStep;
+
+                default:
+                  fail(`Unexpected path "${path}".`);
+                  return null;
+              }
+            }),
+          up: jasmine
+            .createSpy(`fileTriggerTriggeredByAll.up`)
+            .and.callFake((path) => {
+              switch (path) {
+                case `matched/example/all/added/file`:
+                  return fileTriggerTriggeredByAllAddStep;
+
+                case `matched/example/all/changed/file`:
+                  return fileTriggerTriggeredByAllChangeUpStep;
+
+                default:
+                  fail(`Unexpected path "${path}".`);
+                  return null;
+              }
+            }),
+        };
+
+        output = generateSteps(
+          shuffled<Trigger>(
+            storeAggregateTriggerUntriggered,
+            storeAggregateTriggerTriggeredByUnkeyedSet,
+            storeAggregateTriggerTriggeredByKeyedSet,
+            storeAggregateTriggerTriggeredByKeyedDelete,
+            storeAggregateTriggerTriggeredByAllInOneStore,
+            storeAggregateTriggerTriggeredByAllAcrossMultipleStores,
+            keyedStoreTriggerUntriggered,
+            keyedStoreTriggerTriggeredByKeyedSet,
+            keyedStoreTriggerTriggeredByKeyedDelete,
+            keyedStoreTriggerTriggeredByAll,
+            oneTimeTrigger,
+            fileTriggerUntriggered,
+            fileTriggerTriggeredByMoreSpecificAdd,
+            fileTriggerTriggeredByMoreSpecificDelete,
+            fileTriggerTriggeredByMoreSpecificChange,
+            fileTriggerTriggeredByLessSpecificAdd,
+            fileTriggerTriggeredByLessSpecificDelete,
+            fileTriggerTriggeredByLessSpecificChange,
+            fileTriggerTriggeredByAll
+          ),
+          firstRun,
+          {
+            added: [
+              `matched/example/more-specific/added/file`,
+              `matched/example/less-specific/added/file`,
+              `matched/example/all/added/file`,
+              `unmatched/example/added/file/a`,
+              `unmatched/example/added/file/b`,
+              `unmatched/example/added/file/c`,
+            ],
+            changed: [
+              `matched/example/more-specific/changed/file`,
+              `matched/example/less-specific/changed/file`,
+              `matched/example/all/changed/file`,
+              `unmatched/example/changed/file`,
+            ],
+            deleted: [
+              `matched/example/more-specific/deleted/file`,
+              `matched/example/less-specific/deleted/file`,
+              `matched/example/all/deleted/file`,
+              `unmatched/example/deleted/file`,
+            ],
+            unchanged: [
+              `matched/example/more-specific/unchanged/file`,
+              `matched/example/less-specific/unchanged/file`,
+              `matched/example/all/unchanged/file`,
+              `unmatched/example/unchanged/file`,
+            ],
+          }
+        );
+      });
+
+      it(`does not interact with any stores`, () => {
+        expect(unusedKeyedStore.delete).not.toHaveBeenCalled();
+        expect(unusedKeyedStore.get).not.toHaveBeenCalled();
+        expect(unusedKeyedStore.getAll).not.toHaveBeenCalled();
+        expect(unusedKeyedStore.getKeys).not.toHaveBeenCalled();
+        expect(unusedKeyedStore.set).not.toHaveBeenCalled();
+        expect(unusedUnkeyedStore.get).not.toHaveBeenCalled();
+        expect(unusedUnkeyedStore.set).not.toHaveBeenCalled();
+        expect(untriggeredKeyedStore.delete).not.toHaveBeenCalled();
+        expect(untriggeredKeyedStore.get).not.toHaveBeenCalled();
+        expect(untriggeredKeyedStore.getAll).not.toHaveBeenCalled();
+        expect(untriggeredKeyedStore.getKeys).not.toHaveBeenCalled();
+        expect(untriggeredKeyedStore.set).not.toHaveBeenCalled();
+        expect(untriggeredUnkeyedStore.get).not.toHaveBeenCalled();
+        expect(untriggeredUnkeyedStore.set).not.toHaveBeenCalled();
+        expect(setUnkeyedStore.get).not.toHaveBeenCalled();
+        expect(setUnkeyedStore.set).not.toHaveBeenCalled();
+        expect(setKeyedStore.delete).not.toHaveBeenCalled();
+        expect(setKeyedStore.get).not.toHaveBeenCalled();
+        expect(setKeyedStore.getAll).not.toHaveBeenCalled();
+        expect(setKeyedStore.getKeys).not.toHaveBeenCalled();
+        expect(setKeyedStore.set).not.toHaveBeenCalled();
+        expect(deletedKeyedStore.delete).not.toHaveBeenCalled();
+        expect(deletedKeyedStore.get).not.toHaveBeenCalled();
+        expect(deletedKeyedStore.getAll).not.toHaveBeenCalled();
+        expect(deletedKeyedStore.getKeys).not.toHaveBeenCalled();
+        expect(deletedKeyedStore.set).not.toHaveBeenCalled();
+        expect(setAndDeletedKeyedStore.delete).not.toHaveBeenCalled();
+        expect(setAndDeletedKeyedStore.get).not.toHaveBeenCalled();
+        expect(setAndDeletedKeyedStore.getAll).not.toHaveBeenCalled();
+        expect(setAndDeletedKeyedStore.getKeys).not.toHaveBeenCalled();
+        expect(setAndDeletedKeyedStore.set).not.toHaveBeenCalled();
+      });
+
+      it(`queries all applicable triggers for steps exactly the expected times`, () => {
+        expect(
+          storeAggregateTriggerUntriggered.invalidated
+        ).not.toHaveBeenCalled();
+        expect(
+          storeAggregateTriggerTriggeredByUnkeyedSet.invalidated
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          storeAggregateTriggerTriggeredByKeyedSet.invalidated
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          storeAggregateTriggerTriggeredByKeyedDelete.invalidated
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          storeAggregateTriggerTriggeredByAllInOneStore.invalidated
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          storeAggregateTriggerTriggeredByAllAcrossMultipleStores.invalidated
+        ).toHaveBeenCalledTimes(1);
+        expect(keyedStoreTriggerUntriggered.down).not.toHaveBeenCalled();
+        expect(keyedStoreTriggerUntriggered.up).not.toHaveBeenCalled();
+        expect(
+          keyedStoreTriggerTriggeredByKeyedSet.down
+        ).not.toHaveBeenCalled();
+        expect(keyedStoreTriggerTriggeredByKeyedSet.up).toHaveBeenCalledTimes(
+          1
+        );
+        expect(keyedStoreTriggerTriggeredByKeyedSet.up).toHaveBeenCalledWith(
+          `Test Set Key`
+        );
+        expect(
+          keyedStoreTriggerTriggeredByKeyedDelete.down
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          keyedStoreTriggerTriggeredByKeyedDelete.down
+        ).toHaveBeenCalledWith(`Test Deleted Key`);
+        expect(
+          keyedStoreTriggerTriggeredByKeyedDelete.up
+        ).not.toHaveBeenCalled();
+        expect(keyedStoreTriggerTriggeredByAll.down).toHaveBeenCalledTimes(1);
+        expect(keyedStoreTriggerTriggeredByAll.down).toHaveBeenCalledWith(
+          `Test Set And Deleted Key`
+        );
+        expect(keyedStoreTriggerTriggeredByAll.up).toHaveBeenCalledTimes(1);
+        expect(keyedStoreTriggerTriggeredByAll.up).toHaveBeenCalledWith(
+          `Test Set And Deleted Key`
+        );
+        if (firstRun) {
+          expect(oneTimeTrigger.up).toHaveBeenCalledTimes(1);
+        } else {
+          expect(oneTimeTrigger.up).not.toHaveBeenCalled();
         }
-      );
-    });
+        expect(fileTriggerUntriggered.down).not.toHaveBeenCalled();
+        expect(fileTriggerUntriggered.up).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByMoreSpecificAdd.down
+        ).not.toHaveBeenCalled();
+        expect(fileTriggerTriggeredByMoreSpecificAdd.up).toHaveBeenCalledWith(
+          `matched/example/more-specific/added/file`
+        );
+        expect(fileTriggerTriggeredByMoreSpecificAdd.up).toHaveBeenCalledTimes(
+          1
+        );
+        expect(
+          fileTriggerTriggeredByMoreSpecificDelete.down
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          fileTriggerTriggeredByMoreSpecificDelete.down
+        ).toHaveBeenCalledWith(`matched/example/more-specific/deleted/file`);
+        expect(
+          fileTriggerTriggeredByMoreSpecificDelete.up
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByMoreSpecificChange.down
+        ).toHaveBeenCalledWith(`matched/example/more-specific/changed/file`);
+        expect(
+          fileTriggerTriggeredByMoreSpecificChange.down
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          fileTriggerTriggeredByMoreSpecificChange.up
+        ).toHaveBeenCalledWith(`matched/example/more-specific/changed/file`);
+        expect(
+          fileTriggerTriggeredByMoreSpecificChange.up
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          fileTriggerTriggeredByLessSpecificAdd.down
+        ).not.toHaveBeenCalled();
+        expect(fileTriggerTriggeredByLessSpecificAdd.up).toHaveBeenCalledWith(
+          `matched/example/less-specific/added/file`
+        );
+        expect(fileTriggerTriggeredByLessSpecificAdd.up).toHaveBeenCalledTimes(
+          1
+        );
+        expect(
+          fileTriggerTriggeredByLessSpecificDelete.down
+        ).toHaveBeenCalledWith(`matched/example/less-specific/deleted/file`);
+        expect(
+          fileTriggerTriggeredByLessSpecificDelete.down
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          fileTriggerTriggeredByLessSpecificDelete.up
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByLessSpecificChange.down
+        ).toHaveBeenCalledWith(`matched/example/less-specific/changed/file`);
+        expect(
+          fileTriggerTriggeredByLessSpecificChange.down
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          fileTriggerTriggeredByLessSpecificChange.up
+        ).toHaveBeenCalledWith(`matched/example/less-specific/changed/file`);
+        expect(
+          fileTriggerTriggeredByLessSpecificChange.up
+        ).toHaveBeenCalledTimes(1);
+        expect(fileTriggerTriggeredByAll.down).toHaveBeenCalledWith(
+          `matched/example/all/deleted/file`
+        );
+        expect(fileTriggerTriggeredByAll.down).toHaveBeenCalledWith(
+          `matched/example/all/changed/file`
+        );
+        expect(fileTriggerTriggeredByAll.down).toHaveBeenCalledTimes(2);
+        expect(fileTriggerTriggeredByAll.up).toHaveBeenCalledWith(
+          `matched/example/all/added/file`
+        );
+        expect(fileTriggerTriggeredByAll.up).toHaveBeenCalledWith(
+          `matched/example/all/changed/file`
+        );
+        expect(fileTriggerTriggeredByAll.up).toHaveBeenCalledTimes(2);
+      });
 
-    it(`queries all applicable triggers for steps exactly the expected times`, () => {
-      expect(oneTimeTrigger.up).toHaveBeenCalledTimes(1);
-      expect(untriggeredFileExtensionTrigger.down).not.toHaveBeenCalled();
-      expect(untriggeredFileExtensionTrigger.up).not.toHaveBeenCalled();
-      expect(fileExtensionTriggerTriggeredOnce.down).not.toHaveBeenCalled();
-      expect(fileExtensionTriggerTriggeredOnce.up).toHaveBeenCalledWith(
-        addedParsedPathForFileExtensionTriggerTriggeredOnce
-      );
-      expect(fileExtensionTriggerTriggeredOnce.up).toHaveBeenCalledTimes(1);
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.down
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.up
-      ).toHaveBeenCalledWith(
-        addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesA
-      );
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.up
-      ).toHaveBeenCalledWith(
-        addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesB
-      );
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.up
-      ).toHaveBeenCalledWith(
-        addedParsedPathForFileExtensionTriggerTriggeredMultipleTimesC
-      );
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.up
-      ).toHaveBeenCalledTimes(3);
-      expect(keyedStoreUntriggeredTrigger.down).not.toHaveBeenCalled();
-      expect(keyedStoreUntriggeredTrigger.up).not.toHaveBeenCalled();
-      expect(keyedStoreTriggerTriggeredOnce.down).not.toHaveBeenCalled();
-      expect(keyedStoreTriggerTriggeredOnce.up).toHaveBeenCalledWith(
-        `Test Store Key B A`
-      );
-      expect(keyedStoreTriggerTriggeredOnce.up).toHaveBeenCalledTimes(1);
-      expect(
-        keyedStoreTriggerTriggeredMultipleTimes.down
-      ).not.toHaveBeenCalled();
-      expect(keyedStoreTriggerTriggeredMultipleTimes.up).toHaveBeenCalledWith(
-        `Test Store Key C A`
-      );
-      expect(keyedStoreTriggerTriggeredMultipleTimes.up).toHaveBeenCalledWith(
-        `Test Store Key C B`
-      );
-      expect(keyedStoreTriggerTriggeredMultipleTimes.up).toHaveBeenCalledWith(
-        `Test Store Key C C`
-      );
-      expect(keyedStoreTriggerTriggeredMultipleTimes.up).toHaveBeenCalledTimes(
-        3
-      );
-      expect(unkeyedStoreUntriggeredTrigger.down).not.toHaveBeenCalled();
-      expect(unkeyedStoreUntriggeredTrigger.up).not.toHaveBeenCalled();
-      expect(unkeyedStoreTriggeredTrigger.down).not.toHaveBeenCalled();
-      expect(unkeyedStoreTriggeredTrigger.up).toHaveBeenCalledTimes(1);
-      expect(unkeyedStoreTriggeredTrigger.down).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredOnce.down).not.toHaveBeenCalled();
-      expect(fileTriggerTriggeredOnce.up).toHaveBeenCalledWith(
-        addedParsedPathForFileTriggerTriggeredOnce
-      );
-      expect(fileTriggerTriggeredOnce.up).toHaveBeenCalledTimes(1);
-      expect(
-        untriggeredStoreAggregateTrigger.invalidated
-      ).not.toHaveBeenCalled();
-      expect(
-        unkeyedTriggeredStoreAggregateTrigger.invalidated
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        keyedTriggeredStoreAggregateTrigger.invalidated
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        unkeyedAndKeyedTriggeredStoreAggregateTrigger.invalidated
-      ).toHaveBeenCalledTimes(1);
-    });
+      it(`returns the expected list of steps`, () => {
+        const expected: Step[] = [
+          storeAggregateTriggerTriggeredByUnkeyedSetStep,
+          storeAggregateTriggerTriggeredByKeyedSetStep,
+          storeAggregateTriggerTriggeredByKeyedDeleteStep,
+          storeAggregateTriggerTriggeredByAllInOneStoreStep,
+          storeAggregateTriggerTriggeredByAllAcrossMultipleStoresStep,
+          keyedStoreTriggerTriggeredByKeyedSetStep,
+          keyedStoreTriggerTriggeredByKeyedDeleteStep,
+          keyedStoreTriggerTriggeredByAllSetStep,
+          keyedStoreTriggerTriggeredByAllDeleteStep,
+          fileTriggerTriggeredByMoreSpecificAddStep,
+          fileTriggerTriggeredByMoreSpecificDeleteStep,
+          fileTriggerTriggeredByMoreSpecificChangeDownStep,
+          fileTriggerTriggeredByMoreSpecificChangeUpStep,
+          fileTriggerTriggeredByLessSpecificAddStep,
+          fileTriggerTriggeredByLessSpecificDeleteStep,
+          fileTriggerTriggeredByLessSpecificChangeDownStep,
+          fileTriggerTriggeredByLessSpecificChangeUpStep,
+          fileTriggerTriggeredByAllAddStep,
+          fileTriggerTriggeredByAllDeleteStep,
+          fileTriggerTriggeredByAllChangeDownStep,
+          fileTriggerTriggeredByAllChangeUpStep,
+        ];
 
-    it(`returns the expected list of steps`, () => {
-      expect(output.steps).toEqual(
-        jasmine.arrayWithExactContents([
-          oneTimeStep,
-          fileExtensionTriggeredOnceStep,
-          fileExtensionTriggeredMultipleTimesStepA,
-          fileExtensionTriggeredMultipleTimesStepB,
-          fileExtensionTriggeredMultipleTimesStepC,
-          keyedStoreTriggeredOnceStep,
-          keyedStoreTriggeredMultipleTimesStepA,
-          keyedStoreTriggeredMultipleTimesStepB,
-          keyedStoreTriggeredMultipleTimesStepC,
-          unkeyedStoreStep,
-          fileTriggeredOnceStep,
-          unkeyedTriggeredStoreAggregateStep,
-          keyedTriggeredStoreAggregateStep,
-          unkeyedAndKeyedTriggeredStoreAggregateStep,
-        ])
-      );
-    });
-
-    it(`returns the expected list of ordering constraints`, () => {
-      expect(output.orderingConstraints).toEqual(
-        jasmine.arrayWithExactContents([
-          [fileExtensionTriggeredMultipleTimesStepB, unkeyedStoreStep],
-          [unkeyedStoreStep, keyedStoreTriggeredOnceStep],
-          [
-            fileExtensionTriggeredMultipleTimesStepB,
-            keyedStoreTriggeredMultipleTimesStepA,
-          ],
-          [oneTimeStep, keyedStoreTriggeredMultipleTimesStepB],
-          [
-            keyedStoreTriggeredMultipleTimesStepA,
-            keyedStoreTriggeredMultipleTimesStepC,
-          ],
-          [
-            keyedStoreTriggeredMultipleTimesStepB,
-            fileExtensionTriggeredOnceStep,
-          ],
-          [
-            keyedStoreTriggeredMultipleTimesStepB,
-            fileExtensionTriggeredMultipleTimesStepA,
-          ],
-          [
-            keyedStoreTriggeredMultipleTimesStepB,
-            fileExtensionTriggeredMultipleTimesStepB,
-          ],
-          [
-            keyedStoreTriggeredMultipleTimesStepB,
-            fileExtensionTriggeredMultipleTimesStepC,
-          ],
-          [keyedStoreTriggeredMultipleTimesStepB, fileTriggeredOnceStep],
-          [
-            fileExtensionTriggeredMultipleTimesStepB,
-            unkeyedTriggeredStoreAggregateStep,
-          ],
-          [unkeyedStoreStep, keyedTriggeredStoreAggregateStep],
-          [
-            fileExtensionTriggeredMultipleTimesStepB,
-            unkeyedAndKeyedTriggeredStoreAggregateStep,
-          ],
-          [oneTimeStep, unkeyedAndKeyedTriggeredStoreAggregateStep],
-          [
-            keyedStoreTriggeredMultipleTimesStepA,
-            unkeyedAndKeyedTriggeredStoreAggregateStep,
-          ],
-        ])
-      );
-    });
-
-    it(`returns the expected list of added files which did not trigger anything`, () => {
-      expect(output.unmatchedAddedFiles).toEqual(
-        jasmine.arrayWithExactContents([
-          addedParsedPathWhichDoesNotMatchA,
-          addedParsedPathWhichDoesNotMatchB,
-          addedParsedPathWhichDoesNotMatchC,
-        ])
-      );
-    });
-
-    it(`does not execute any steps`, () => {
-      expect(oneTimeStep.executePerActionStep).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredOnceStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredMultipleTimesStepA.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredMultipleTimesStepB.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredMultipleTimesStepC.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredOnceStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredMultipleTimesStepA.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredMultipleTimesStepB.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredMultipleTimesStepC.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(unkeyedStoreStep.executePerActionStep).not.toHaveBeenCalled();
-      expect(fileTriggeredOnceStep.executePerActionStep).not.toHaveBeenCalled();
-      expect(
-        unkeyedTriggeredStoreAggregateStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedTriggeredStoreAggregateStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        unkeyedAndKeyedTriggeredStoreAggregateStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-    });
-  });
-
-  describe(`subsequent run`, () => {
-    /*
-      [<reference> parsedPathMatchingMultipleTimesA] down -> [fileExtensionTriggeredMultipleTimesStepA]
-      [<reference> parsedPathMatchingMultipleTimesA] up -> [fileExtensionTriggeredMultipleTimesStepB]
-      [<reference> parsedPathMatchingMultipleTimesB] up -> [fileExtensionTriggeredMultipleTimesStepC]
-      [<reference> parsedPathMatchingMultipleTimesC] down -> [fileExtensionTriggeredMultipleTimesStepD]
-      [<reference> parsedPathMatchingOnceA] up -> [fileExtensionTriggeredOnceStepA]
-      [<reference> parsedPathMatchingOnceB] up -> [fileExtensionTriggeredOnceStepB]
-      [<reference> parsedPathMatchingOnceB] up -> [fileExtensionTriggeredOnceStepE]
-      [<reference> parsedPathMatchingOnceC] down -> [fileExtensionTriggeredOnceStepC]
-      [<reference> parsedPathMatchingOnceD] up -> [fileExtensionTriggeredOnceStepD]
-      [<reference> parsedPathMatchingFileAdded] up -> [fileTriggeredAddedStep]
-      [<reference> parsedPathMatchingFileDeleted] down -> [fileTriggeredDeletedStep]
-      [<reference> parsedPathMatchingFileChanged] down -> [fileTriggeredChangedDownStep]
-      [<reference> parsedPathMatchingFileChanged] up -> [fileTriggeredChangedUpStep]
-      [fileExtensionTriggeredMultipleTimesStepA] Test Store Key B A up -> [keyedStoreTriggeredOnceStepA]
-      [fileExtensionTriggeredMultipleTimesStepA] -> [keyedStoreUpStoreAggregateStep]
-      [fileExtensionTriggeredMultipleTimesStepA] -> [unkeyedAndKeyedStoreUpAndDownStoreAggregateStep]
-      [fileExtensionTriggeredMultipleTimesStepA] -> [unkeyedStoreDownStep]
-      [fileExtensionTriggeredMultipleTimesStepA] -> [unkeyedStoreDownStoreAggregateStep]
-      [fileExtensionTriggeredMultipleTimesStepB] Test Store Key F C down -> [keyedStoreTriggeredMultipleTimesStepA]
-      [fileExtensionTriggeredMultipleTimesStepB] Test Store Key E A down -> [keyedStoreTriggeredOnceStepD]
-      [fileExtensionTriggeredMultipleTimesStepC] Test Store Key F B up -> [keyedStoreTriggeredMultipleTimesStepC]
-      [fileExtensionTriggeredMultipleTimesStepD] Test Store Key D A down -> [keyedStoreTriggeredOnceStepC]
-      [fileExtensionTriggeredMultipleTimesStepD] -> [unkeyedAndKeyedStoreUpAndDownStoreAggregateStep]
-      [fileExtensionTriggeredMultipleTimesStepD] -> [unkeyedStoreUpStep]
-      [fileExtensionTriggeredMultipleTimesStepD] -> [unkeyedStoreUpStoreAggregateStep]
-      [fileTriggeredChangedDownStep] -> [fileTriggeredChangedUpStep]
-      [keyedStoreDownStoreAggregateStep] -> [unkeyedStoreMultipleTimesUpStep]
-      [keyedStoreTriggeredMultipleTimesStepB] -> [fileExtensionTriggeredMultipleTimesStepB]
-      [keyedStoreTriggeredOnceStepA] Test Store Key F A up -> [keyedStoreTriggeredMultipleTimesStepB]
-      [keyedStoreTriggeredOnceStepD] -> [keyedStoreDownStoreAggregateStep]
-      [keyedStoreTriggeredOnceStepD] Test Store Key C B down -> [keyedStoreTriggeredOnceStepB]
-      [keyedStoreTriggeredOnceStepD] -> [unkeyedAndKeyedStoreUpAndDownStoreAggregateStep]
-      [keyedStoreUpStoreAggregateStep] -> [unkeyedStoreMultipleTimesDownStep]
-      [unkeyedStoreDownStep] -> [fileExtensionTriggeredMultipleTimesStepB]
-    */
-
-    let parsedPathMatchingMultipleTimesA: ParsedPath;
-    let parsedPathMatchingMultipleTimesB: ParsedPath;
-    let parsedPathMatchingMultipleTimesC: ParsedPath;
-    let parsedPathMatchingMultipleTimesD: ParsedPath;
-    let parsedPathMatchingOnceA: ParsedPath;
-    let parsedPathMatchingOnceB: ParsedPath;
-    let parsedPathMatchingOnceC: ParsedPath;
-    let parsedPathMatchingOnceD: ParsedPath;
-    let parsedPathMatchingFileAdded: ParsedPath;
-    let parsedPathMatchingFileDeleted: ParsedPath;
-    let parsedPathMatchingFileChanged: ParsedPath;
-    let parsedPathMatchingFileUnchanged: ParsedPath;
-    let parsedPathUnmatchingA: ParsedPath;
-    let parsedPathUnmatchingB: ParsedPath;
-    let parsedPathUnmatchingC: ParsedPath;
-    let parsedPathUnmatchingD: ParsedPath;
-    let parsedPathUnmatchingE: ParsedPath;
-    let parsedPathUnmatchingF: ParsedPath;
-    let keyedStoreUntriggered: KeyedStore<unknown>;
-    let keyedStoreTriggeredOnceA: KeyedStore<unknown>;
-    let keyedStoreTriggeredOnceB: KeyedStore<unknown>;
-    let keyedStoreTriggeredOnceC: KeyedStore<unknown>;
-    let keyedStoreTriggeredOnceD: KeyedStore<unknown>;
-    let keyedStoreTriggeredMultipleTimes: KeyedStore<unknown>;
-    let unkeyedStoreUntriggered: UnkeyedStore<unknown>;
-    let unkeyedStoreTriggeredOnceA: UnkeyedStore<unknown>;
-    let unkeyedStoreTriggeredOnceB: UnkeyedStore<unknown>;
-    let unkeyedStoreTriggeredMultipleTimes: UnkeyedStore<unknown>;
-    let fileExtensionTriggeredMultipleTimesStepA: DummyStep;
-    let fileExtensionTriggeredMultipleTimesStepB: DummyStep;
-    let fileExtensionTriggeredMultipleTimesStepC: DummyStep;
-    let fileExtensionTriggeredMultipleTimesStepD: DummyStep;
-    let fileExtensionTriggeredOnceStepA: DummyStep;
-    let fileExtensionTriggeredOnceStepB: DummyStep;
-    let fileExtensionTriggeredOnceStepC: DummyStep;
-    let fileExtensionTriggeredOnceStepD: DummyStep;
-    let fileExtensionTriggeredOnceStepE: DummyStep;
-    let fileTriggeredAddedStep: DummyStep;
-    let fileTriggeredDeletedStep: DummyStep;
-    let fileTriggeredChangedDownStep: DummyStep;
-    let fileTriggeredChangedUpStep: DummyStep;
-    let keyedStoreTriggeredMultipleTimesStepA: DummyStep;
-    let keyedStoreTriggeredMultipleTimesStepB: DummyStep;
-    let keyedStoreTriggeredMultipleTimesStepC: DummyStep;
-    let keyedStoreTriggeredOnceStepA: DummyStep;
-    let keyedStoreTriggeredOnceStepB: DummyStep;
-    let keyedStoreTriggeredOnceStepC: DummyStep;
-    let keyedStoreTriggeredOnceStepD: DummyStep;
-    let unkeyedStoreDownStep: DummyStep;
-    let unkeyedStoreUpStep: DummyStep;
-    let unkeyedStoreMultipleTimesDownStep: DummyStep;
-    let unkeyedStoreMultipleTimesUpStep: DummyStep;
-    let unkeyedStoreUpStoreAggregateStep: DummyStep;
-    let unkeyedStoreDownStoreAggregateStep: DummyStep;
-    let keyedStoreUpStoreAggregateStep: DummyStep;
-    let keyedStoreDownStoreAggregateStep: DummyStep;
-    let unkeyedAndKeyedStoreUpAndDownStoreAggregateStep: DummyStep;
-    let keyedStoreTriggerTriggeredOnceA: KeyedStoreTrigger;
-    let keyedStoreTriggerTriggeredOnceB: KeyedStoreTrigger;
-    let keyedStoreTriggerTriggeredOnceC: KeyedStoreTrigger;
-    let keyedStoreTriggerTriggeredOnceD: KeyedStoreTrigger;
-    let keyedStoreTriggerTriggeredMultipleTimes: KeyedStoreTrigger;
-    let keyedStoreTriggerUntriggered: KeyedStoreTrigger;
-    let unkeyedStoreTriggerUntriggered: UnkeyedStoreTrigger;
-    let unkeyedStoreTriggerTriggeredOnceA: UnkeyedStoreTrigger;
-    let unkeyedStoreTriggerTriggeredOnceB: UnkeyedStoreTrigger;
-    let unkeyedStoreTriggerTriggeredMultipleTimes: UnkeyedStoreTrigger;
-    let oneTimeTrigger: OneTimeTrigger;
-    let fileExtensionTriggerUntriggered: FileExtensionTrigger;
-    let fileExtensionTriggerTriggeredMultipleTimes: FileExtensionTrigger;
-    let fileExtensionTriggerTriggeredOnceA: FileExtensionTrigger;
-    let fileExtensionTriggerTriggeredOnceB: FileExtensionTrigger;
-    let fileExtensionTriggerTriggeredOnceC: FileExtensionTrigger;
-    let fileExtensionTriggerTriggeredOnceD: FileExtensionTrigger;
-    let fileExtensionTriggerTriggeredOnceE: FileExtensionTrigger;
-    let fileTriggerAdded: FileTrigger;
-    let fileTriggerDeleted: FileTrigger;
-    let fileTriggerChanged: FileTrigger;
-    let fileTriggerUnchanged: FileTrigger;
-    let fileTriggerUntriggered: FileTrigger;
-    let untriggeredStoreAggregateTrigger: StoreAggregateTrigger;
-    let unkeyedStoreUpStoreAggregateTrigger: StoreAggregateTrigger;
-    let unkeyedStoreDownStoreAggregateTrigger: StoreAggregateTrigger;
-    let keyedStoreUpStoreAggregateTrigger: StoreAggregateTrigger;
-    let keyedStoreDownStoreAggregateTrigger: StoreAggregateTrigger;
-    let unkeyedAndKeyedStoreUpAndDownStoreAggregateTrigger: StoreAggregateTrigger;
-    let output: {
-      readonly steps: ReadonlyArray<Step>;
-      readonly orderingConstraints: ReadonlyArray<readonly [Step, Step]>;
-      readonly unmatchedAddedFiles: ReadonlyArray<ParsedPath>;
-    };
-
-    beforeAll(async () => {
-      parsedPathMatchingMultipleTimesA = {
-        typeScriptName: `Test ParsedPath A TypeScript Name`,
-        fullPath: `Test ParsedPath A Full Path`,
-        fileExtension: `Test File Extension Triggered Multiple Times`,
-        fullPathWithoutExtension: `Test ParsedPath A Full Path Without Extension`,
-      };
-      parsedPathMatchingMultipleTimesB = {
-        typeScriptName: `Test ParsedPath B TypeScript Name`,
-        fullPath: `Test ParsedPath B Full Path`,
-        fileExtension: `Test File Extension Triggered Multiple Times`,
-        fullPathWithoutExtension: `Test ParsedPath B Full Path Without Extension`,
-      };
-      parsedPathMatchingMultipleTimesC = {
-        typeScriptName: `Test ParsedPath C TypeScript Name`,
-        fullPath: `Test ParsedPath C Full Path`,
-        fileExtension: `Test File Extension Triggered Multiple Times`,
-        fullPathWithoutExtension: `Test ParsedPath C Full Path Without Extension`,
-      };
-      parsedPathMatchingMultipleTimesD = {
-        typeScriptName: `Test ParsedPath H TypeScript Name`,
-        fullPath: `Test ParsedPath H Full Path`,
-        fileExtension: `Test File Extension Triggered Multiple Times`,
-        fullPathWithoutExtension: `Test ParsedPath H Full Path Without Extension`,
-      };
-      parsedPathMatchingOnceA = {
-        typeScriptName: `Test ParsedPath D TypeScript Name`,
-        fullPath: `Test ParsedPath D Full Path`,
-        fileExtension: `Test File Extension Triggered Once A`,
-        fullPathWithoutExtension: `Test ParsedPath D Full Path Without Extension`,
-      };
-      parsedPathMatchingOnceB = {
-        typeScriptName: `Test ParsedPath E TypeScript Name`,
-        fullPath: `Test ParsedPath E Full Path`,
-        fileExtension: `Test File Extension Triggered Once B`,
-        fullPathWithoutExtension: `Test ParsedPath E Full Path Without Extension`,
-      };
-      parsedPathMatchingOnceC = {
-        typeScriptName: `Test ParsedPath F TypeScript Name`,
-        fullPath: `Test ParsedPath F Full Path`,
-        fileExtension: `Test File Extension Triggered Once C`,
-        fullPathWithoutExtension: `Test ParsedPath F Full Path Without Extension`,
-      };
-      parsedPathMatchingOnceD = {
-        typeScriptName: `Test ParsedPath G TypeScript Name`,
-        fullPath: `Test ParsedPath G Full Path`,
-        fileExtension: `Test File Extension Triggered Once D`,
-        fullPathWithoutExtension: `Test ParsedPath G Full Path Without Extension`,
-      };
-      parsedPathMatchingFileAdded = {
-        typeScriptName: `Test ParsedPath Matching File Added TypeScript Name`,
-        fullPath: `Test Parsed Path/Matching/File Added/Full Path`,
-        fileExtension: `Test ParsedPath Matching File Added File Extension`,
-        fullPathWithoutExtension: `Test ParsedPath Matching File Added Full Path Without Extension`,
-      };
-      parsedPathMatchingFileDeleted = {
-        typeScriptName: `Test ParsedPath Matching File Deleted TypeScript Name`,
-        fullPath: `Test Parsed Path/Matching/File Deleted/Full Path`,
-        fileExtension: `Test ParsedPath Matching File Deleted File Extension`,
-        fullPathWithoutExtension: `Test ParsedPath Matching File Deleted Full Path Without Extension`,
-      };
-      parsedPathMatchingFileChanged = {
-        typeScriptName: `Test ParsedPath Matching File Changed TypeScript Name`,
-        fullPath: `Test Parsed Path/Matching/File Changed/Full Path`,
-        fileExtension: `Test ParsedPath Matching File Changed File Extension`,
-        fullPathWithoutExtension: `Test ParsedPath Matching File Changed Full Path Without Extension`,
-      };
-      parsedPathMatchingFileUnchanged = {
-        typeScriptName: `Test ParsedPath Matching File Unchanged TypeScript Name`,
-        fullPath: `Test Parsed Path/Matching/File Unchanged/Full Path`,
-        fileExtension: `Test ParsedPath Matching File Unchanged File Extension`,
-        fullPathWithoutExtension: `Test ParsedPath Matching File Unchanged Full Path Without Extension`,
-      };
-      parsedPathUnmatchingA = {
-        typeScriptName: `Test ParsedPath I TypeScript Name`,
-        fullPath: `Test ParsedPath I Full Path`,
-        fileExtension: `Test File Extension Untriggered A`,
-        fullPathWithoutExtension: `Test ParsedPath I Full Path Without Extension`,
-      };
-      parsedPathUnmatchingB = {
-        typeScriptName: `Test ParsedPath J TypeScript Name`,
-        fullPath: `Test ParsedPath J Full Path`,
-        fileExtension: `Test File Extension Untriggered A`,
-        fullPathWithoutExtension: `Test ParsedPath J Full Path Without Extension`,
-      };
-      parsedPathUnmatchingC = {
-        typeScriptName: `Test ParsedPath K TypeScript Name`,
-        fullPath: `Test ParsedPath K Full Path`,
-        fileExtension: `Test File Extension Untriggered A`,
-        fullPathWithoutExtension: `Test ParsedPath K Full Path Without Extension`,
-      };
-      parsedPathUnmatchingD = {
-        typeScriptName: `Test ParsedPath L TypeScript Name`,
-        fullPath: `Test ParsedPath L Full Path`,
-        fileExtension: `Test File Extension Untriggered A`,
-        fullPathWithoutExtension: `Test ParsedPath L Full Path Without Extension`,
-      };
-      parsedPathUnmatchingE = {
-        typeScriptName: `Test ParsedPath M TypeScript Name`,
-        fullPath: `Test ParsedPath M Full Path`,
-        fileExtension: `Test File Extension Untriggered A`,
-        fullPathWithoutExtension: `Test ParsedPath M Full Path Without Extension`,
-      };
-      parsedPathUnmatchingF = {
-        typeScriptName: `Test ParsedPath N TypeScript Name`,
-        fullPath: `Test ParsedPath N Full Path`,
-        fileExtension: `Test File Extension Untriggered A`,
-        fullPathWithoutExtension: `Test ParsedPath N Full Path Without Extension`,
-      };
-      keyedStoreUntriggered = {
-        type: `keyedStore`,
-        name: `keyedStoreUntriggered`,
-        get: jasmine.createSpy(`keyedStoreUntriggered.get`).and.callFake(fail),
-        set: jasmine.createSpy(`keyedStoreUntriggered.set`).and.callFake(fail),
-        delete: jasmine
-          .createSpy(`keyedStoreUntriggered.delete`)
-          .and.callFake(fail),
-        getAll: jasmine
-          .createSpy(`keyedStoreUntriggered.getAll`)
-          .and.callFake(fail),
-        getKeys: jasmine
-          .createSpy(`keyedStoreUntriggered.getKeys`)
-          .and.callFake(fail),
-      };
-      keyedStoreTriggeredOnceA = {
-        type: `keyedStore`,
-        name: `keyedStoreTriggeredOnceA`,
-        get: jasmine
-          .createSpy(`keyedStoreTriggeredOnceA.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`keyedStoreTriggeredOnceA.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`keyedStoreTriggeredOnceA.delete`)
-          .and.callFake(fail),
-        getAll: jasmine
-          .createSpy(`keyedStoreTriggeredOnceA.getAll`)
-          .and.callFake(fail),
-        getKeys: jasmine
-          .createSpy(`keyedStoreTriggeredOnceA.getKeys`)
-          .and.callFake(fail),
-      };
-      keyedStoreTriggeredOnceB = {
-        type: `keyedStore`,
-        name: `keyedStoreTriggeredOnceB`,
-        get: jasmine
-          .createSpy(`keyedStoreTriggeredOnceB.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`keyedStoreTriggeredOnceB.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`keyedStoreTriggeredOnceB.delete`)
-          .and.callFake(fail),
-        getAll: jasmine
-          .createSpy(`keyedStoreTriggeredOnceB.getAll`)
-          .and.callFake(fail),
-        getKeys: jasmine
-          .createSpy(`keyedStoreTriggeredOnceB.getKeys`)
-          .and.callFake(fail),
-      };
-      keyedStoreTriggeredOnceC = {
-        type: `keyedStore`,
-        name: `keyedStoreTriggeredOnceC`,
-        get: jasmine
-          .createSpy(`keyedStoreTriggeredOnceC.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`keyedStoreTriggeredOnceC.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`keyedStoreTriggeredOnceC.delete`)
-          .and.callFake(fail),
-        getAll: jasmine
-          .createSpy(`keyedStoreTriggeredOnceC.getAll`)
-          .and.callFake(fail),
-        getKeys: jasmine
-          .createSpy(`keyedStoreTriggeredOnceC.getKeys`)
-          .and.callFake(fail),
-      };
-      keyedStoreTriggeredOnceD = {
-        type: `keyedStore`,
-        name: `keyedStoreTriggeredOnceD`,
-        get: jasmine
-          .createSpy(`keyedStoreTriggeredOnceD.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`keyedStoreTriggeredOnceD.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`keyedStoreTriggeredOnceD.delete`)
-          .and.callFake(fail),
-        getAll: jasmine
-          .createSpy(`keyedStoreTriggeredOnceD.getAll`)
-          .and.callFake(fail),
-        getKeys: jasmine
-          .createSpy(`keyedStoreTriggeredOnceD.getKeys`)
-          .and.callFake(fail),
-      };
-      keyedStoreTriggeredMultipleTimes = {
-        type: `keyedStore`,
-        name: `keyedStoreTriggeredMultipleTimes`,
-        get: jasmine
-          .createSpy(`keyedStoreTriggeredMultipleTimes.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`keyedStoreTriggeredMultipleTimes.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`keyedStoreTriggeredMultipleTimes.delete`)
-          .and.callFake(fail),
-        getAll: jasmine
-          .createSpy(`keyedStoreTriggeredMultipleTimes.getAll`)
-          .and.callFake(fail),
-        getKeys: jasmine
-          .createSpy(`keyedStoreTriggeredMultipleTimes.getKeys`)
-          .and.callFake(fail),
-      };
-      unkeyedStoreUntriggered = {
-        type: `unkeyedStore`,
-        name: `unkeyedStoreUntriggered`,
-        get: jasmine
-          .createSpy(`unkeyedStoreUntriggered.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`unkeyedStoreUntriggered.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`unkeyedStoreUntriggered.delete`)
-          .and.callFake(fail),
-      };
-      unkeyedStoreTriggeredOnceA = {
-        type: `unkeyedStore`,
-        name: `unkeyedStoreTriggeredOnceA`,
-        get: jasmine
-          .createSpy(`unkeyedStoreTriggeredOnceA.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`unkeyedStoreTriggeredOnceA.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`unkeyedStoreTriggeredOnceA.delete`)
-          .and.callFake(fail),
-      };
-      unkeyedStoreTriggeredOnceB = {
-        type: `unkeyedStore`,
-        name: `unkeyedStoreTriggeredOnceB`,
-        get: jasmine
-          .createSpy(`unkeyedStoreTriggeredOnceB.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`unkeyedStoreTriggeredOnceB.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`unkeyedStoreTriggeredOnceB.delete`)
-          .and.callFake(fail),
-      };
-      unkeyedStoreTriggeredMultipleTimes = {
-        type: `unkeyedStore`,
-        name: `unkeyedStoreTriggeredMultipleTimes`,
-        get: jasmine
-          .createSpy(`unkeyedStoreTriggeredMultipleTimes.get`)
-          .and.callFake(fail),
-        set: jasmine
-          .createSpy(`unkeyedStoreTriggeredMultipleTimes.set`)
-          .and.callFake(fail),
-        delete: jasmine
-          .createSpy(`unkeyedStoreTriggeredMultipleTimes.delete`)
-          .and.callFake(fail),
-      };
-      fileExtensionTriggeredMultipleTimesStepA = new DummyStep(
-        `fileExtensionTriggeredMultipleTimesStepA`,
-        [
-          {
-            type: `unkeyedStoreDelete`,
-            unkeyedStore: unkeyedStoreTriggeredOnceB,
-          },
-          {
-            type: `keyedStoreSet`,
-            keyedStore: keyedStoreTriggeredOnceA,
-            key: `Test Store Key B A`,
-          },
-        ]
-      );
-      fileExtensionTriggeredMultipleTimesStepB = new DummyStep(
-        `fileExtensionTriggeredMultipleTimesStepB`,
-        [
-          {
-            type: `keyedStoreDelete`,
-            keyedStore: keyedStoreTriggeredOnceD,
-            key: `Test Store Key E A`,
-          },
-          {
-            type: `keyedStoreDelete`,
-            keyedStore: keyedStoreTriggeredMultipleTimes,
-            key: `Test Store Key F C`,
-          },
-        ]
-      );
-      fileExtensionTriggeredMultipleTimesStepC = new DummyStep(
-        `fileExtensionTriggeredMultipleTimesStepC`,
-        [
-          {
-            type: `keyedStoreSet`,
-            keyedStore: keyedStoreTriggeredMultipleTimes,
-            key: `Test Store Key F B`,
-          },
-        ]
-      );
-      fileExtensionTriggeredMultipleTimesStepD = new DummyStep(
-        `fileExtensionTriggeredMultipleTimesStepD`,
-        [
-          {
-            type: `keyedStoreDelete`,
-            keyedStore: keyedStoreTriggeredOnceC,
-            key: `Test Store Key D A`,
-          },
-          {
-            type: `unkeyedStoreSet`,
-            unkeyedStore: unkeyedStoreTriggeredOnceA,
-          },
-        ]
-      );
-      fileExtensionTriggeredOnceStepA = new DummyStep(
-        `fileExtensionTriggeredOnceStepA`,
-        []
-      );
-      fileExtensionTriggeredOnceStepB = new DummyStep(
-        `fileExtensionTriggeredOnceStepB`,
-        []
-      );
-      fileExtensionTriggeredOnceStepC = new DummyStep(
-        `fileExtensionTriggeredOnceStepC`,
-        []
-      );
-      fileExtensionTriggeredOnceStepD = new DummyStep(
-        `fileExtensionTriggeredOnceStepD`,
-        []
-      );
-      fileExtensionTriggeredOnceStepE = new DummyStep(
-        `fileExtensionTriggeredOnceStepE`,
-        []
-      );
-      fileTriggeredAddedStep = new DummyStep(`fileTriggeredAddedStep`, []);
-      fileTriggeredDeletedStep = new DummyStep(`fileTriggeredDeletedStep`, []);
-      fileTriggeredChangedDownStep = new DummyStep(
-        `fileTriggeredChangedDownStep`,
-        []
-      );
-      fileTriggeredChangedUpStep = new DummyStep(
-        `fileTriggeredChangedUpStep`,
-        []
-      );
-      keyedStoreTriggeredMultipleTimesStepA = new DummyStep(
-        `keyedStoreTriggeredMultipleTimesStepA`,
-        []
-      );
-      keyedStoreTriggeredMultipleTimesStepB = new DummyStep(
-        `keyedStoreTriggeredMultipleTimesStepB`,
-        []
-      );
-      keyedStoreTriggeredMultipleTimesStepC = new DummyStep(
-        `keyedStoreTriggeredMultipleTimesStepC`,
-        []
-      );
-      keyedStoreTriggeredOnceStepA = new DummyStep(
-        `keyedStoreTriggeredOnceStepA`,
-        [
-          {
-            type: `keyedStoreSet`,
-            keyedStore: keyedStoreTriggeredMultipleTimes,
-            key: `Test Store Key F A`,
-          },
-        ]
-      );
-      keyedStoreTriggeredOnceStepB = new DummyStep(
-        `keyedStoreTriggeredOnceStepB`,
-        []
-      );
-      keyedStoreTriggeredOnceStepC = new DummyStep(
-        `keyedStoreTriggeredOnceStepC`,
-        []
-      );
-      keyedStoreTriggeredOnceStepD = new DummyStep(
-        `keyedStoreTriggeredOnceStepD`,
-        [
-          {
-            type: `keyedStoreDelete`,
-            keyedStore: keyedStoreTriggeredOnceB,
-            key: `Test Store Key C B`,
-          },
-        ]
-      );
-      unkeyedStoreDownStep = new DummyStep(`unkeyedStoreDownStep`, []);
-      unkeyedStoreUpStep = new DummyStep(`unkeyedStoreUpStep`, []);
-      unkeyedStoreMultipleTimesDownStep = new DummyStep(
-        `unkeyedStoreMultipleTimesDownStep`,
-        []
-      );
-      unkeyedStoreMultipleTimesUpStep = new DummyStep(
-        `unkeyedStoreMultipleTimesUpStep`,
-        []
-      );
-      unkeyedStoreUpStoreAggregateStep = new DummyStep(
-        `unkeyedStoreUpStoreAggregateStep`,
-        []
-      );
-      unkeyedStoreDownStoreAggregateStep = new DummyStep(
-        `unkeyedStoreDownStoreAggregateStep`,
-        []
-      );
-      keyedStoreUpStoreAggregateStep = new DummyStep(
-        `keyedStoreUpStoreAggregateStep`,
-        [
-          {
-            type: `unkeyedStoreDelete`,
-            unkeyedStore: unkeyedStoreTriggeredMultipleTimes,
-          },
-        ]
-      );
-      keyedStoreDownStoreAggregateStep = new DummyStep(
-        `keyedStoreDownStoreAggregateStep`,
-        [
-          {
-            type: `unkeyedStoreSet`,
-            unkeyedStore: unkeyedStoreTriggeredMultipleTimes,
-          },
-        ]
-      );
-      unkeyedAndKeyedStoreUpAndDownStoreAggregateStep = new DummyStep(
-        `unkeyedAndKeyedStoreUpAndDownStoreAggregateStep`,
-        []
-      );
-      oneTimeTrigger = {
-        type: `oneTime`,
-        up: jasmine.createSpy(`oneTimeTrigger.up`),
-      };
-      keyedStoreTriggerTriggeredOnceA = {
-        type: `keyedStore`,
-        keyedStore: keyedStoreTriggeredOnceA,
-        down: jasmine.createSpy(`keyedStoreTriggerTriggeredOnceA.down`),
-        up: jasmine
-          .createSpy(`keyedStoreTriggerTriggeredOnceA.up`)
-          .and.returnValue(keyedStoreTriggeredOnceStepA),
-      };
-      keyedStoreTriggerTriggeredOnceB = {
-        type: `keyedStore`,
-        keyedStore: keyedStoreTriggeredOnceB,
-        down: jasmine
-          .createSpy(`keyedStoreTriggerTriggeredOnceB.down`)
-          .and.returnValue(keyedStoreTriggeredOnceStepB),
-        up: jasmine.createSpy(`keyedStoreTriggerTriggeredOnceB.up`),
-      };
-      keyedStoreTriggerTriggeredOnceC = {
-        type: `keyedStore`,
-        keyedStore: keyedStoreTriggeredOnceC,
-        down: jasmine
-          .createSpy(`keyedStoreTriggerTriggeredOnceC.down`)
-          .and.returnValue(keyedStoreTriggeredOnceStepC),
-        up: jasmine.createSpy(`keyedStoreTriggerTriggeredOnceC.up`),
-      };
-      keyedStoreTriggerTriggeredOnceD = {
-        type: `keyedStore`,
-        keyedStore: keyedStoreTriggeredOnceD,
-        down: jasmine
-          .createSpy(`keyedStoreTriggerTriggeredOnceD.down`)
-          .and.returnValue(keyedStoreTriggeredOnceStepD),
-        up: jasmine.createSpy(`keyedStoreTriggerTriggeredOnceD.up`),
-      };
-      keyedStoreTriggerTriggeredMultipleTimes = {
-        type: `keyedStore`,
-        keyedStore: keyedStoreTriggeredMultipleTimes,
-        down: jasmine
-          .createSpy(`keyedStoreTriggerTriggeredMultipleTimes.down`)
-          .and.callFake((key) => {
-            switch (key) {
-              case `Test Store Key F C`:
-                return keyedStoreTriggeredMultipleTimesStepA;
-
-              default:
-                fail(`Unexpected key ${JSON.stringify(key)}`);
-                return null;
-            }
-          }),
-        up: jasmine
-          .createSpy(`keyedStoreTriggerTriggeredMultipleTimes.up`)
-          .and.callFake((key) => {
-            switch (key) {
-              case `Test Store Key F A`:
-                return keyedStoreTriggeredMultipleTimesStepB;
-
-              case `Test Store Key F B`:
-                return keyedStoreTriggeredMultipleTimesStepC;
-
-              default:
-                fail(`Unexpected key ${JSON.stringify(key)}`);
-                return null;
-            }
-          }),
-      };
-      keyedStoreTriggerUntriggered = {
-        type: `keyedStore`,
-        keyedStore: keyedStoreUntriggered,
-        down: jasmine.createSpy(`keyedStoreTriggerUntriggered.down`),
-        up: jasmine.createSpy(`keyedStoreTriggerUntriggered.up`),
-      };
-      unkeyedStoreTriggerUntriggered = {
-        type: `unkeyedStore`,
-        unkeyedStore: unkeyedStoreUntriggered,
-        down: jasmine.createSpy(`unkeyedStoreTriggerUntriggered.down`),
-        up: jasmine.createSpy(`unkeyedStoreTriggerUntriggered.up`),
-      };
-      unkeyedStoreTriggerTriggeredOnceA = {
-        type: `unkeyedStore`,
-        unkeyedStore: unkeyedStoreTriggeredOnceA,
-        down: jasmine.createSpy(`unkeyedStoreTriggerTriggeredOnceA.down`),
-        up: jasmine
-          .createSpy(`unkeyedStoreTriggerTriggeredOnceA.up`)
-          .and.returnValue(unkeyedStoreUpStep),
-      };
-      unkeyedStoreTriggerTriggeredOnceB = {
-        type: `unkeyedStore`,
-        unkeyedStore: unkeyedStoreTriggeredOnceB,
-        down: jasmine
-          .createSpy(`unkeyedStoreTriggerTriggeredOnceB.down`)
-          .and.returnValue(unkeyedStoreDownStep),
-        up: jasmine.createSpy(`unkeyedStoreTriggerTriggeredOnceB.up`),
-      };
-      unkeyedStoreTriggerTriggeredMultipleTimes = {
-        type: `unkeyedStore`,
-        unkeyedStore: unkeyedStoreTriggeredMultipleTimes,
-        down: jasmine
-          .createSpy(`unkeyedStoreTriggerTriggeredMultipleTimes.down`)
-          .and.returnValue(unkeyedStoreMultipleTimesDownStep),
-        up: jasmine
-          .createSpy(`unkeyedStoreTriggerTriggeredMultipleTimes.up`)
-          .and.returnValue(unkeyedStoreMultipleTimesUpStep),
-      };
-      fileExtensionTriggerUntriggered = {
-        type: `fileExtension`,
-        extension: `Test File Extension Untriggered B`,
-        down: jasmine.createSpy(`fileExtensionTriggerUntriggered.down`),
-        up: jasmine.createSpy(`fileExtensionTriggerUntriggered.down`),
-      };
-      fileExtensionTriggerTriggeredMultipleTimes = {
-        type: `fileExtension`,
-        extension: `Test File Extension Triggered Multiple Times`,
-        down: jasmine
-          .createSpy(`fileExtensionTriggerTriggeredMultipleTimes.down`)
-          .and.callFake((parsedPath) => {
-            switch (parsedPath) {
-              case parsedPathMatchingMultipleTimesA:
-                return fileExtensionTriggeredMultipleTimesStepA;
-
-              case parsedPathMatchingMultipleTimesC:
-                return fileExtensionTriggeredMultipleTimesStepD;
-
-              default:
-                fail(`Unexpected parsed path ${JSON.stringify(parsedPath)}`);
-                return null;
-            }
-          }),
-        up: jasmine
-          .createSpy(`fileExtensionTriggerTriggeredMultipleTimes.up`)
-          .and.callFake((parsedPath) => {
-            switch (parsedPath) {
-              case parsedPathMatchingMultipleTimesA:
-                return fileExtensionTriggeredMultipleTimesStepB;
-
-              case parsedPathMatchingMultipleTimesB:
-                return fileExtensionTriggeredMultipleTimesStepC;
-
-              default:
-                fail(`Unexpected parsed path ${JSON.stringify(parsedPath)}`);
-                return null;
-            }
-          }),
-      };
-      fileExtensionTriggerTriggeredOnceA = {
-        type: `fileExtension`,
-        extension: `Test File Extension Triggered Once A`,
-        down: jasmine.createSpy(`fileExtensionTriggerTriggeredOnceA.down`),
-        up: jasmine
-          .createSpy(`fileExtensionTriggerTriggeredOnceA.up`)
-          .and.returnValue(fileExtensionTriggeredOnceStepA),
-      };
-      fileExtensionTriggerTriggeredOnceB = {
-        type: `fileExtension`,
-        extension: `Test File Extension Triggered Once B`,
-        down: jasmine.createSpy(`fileExtensionTriggerTriggeredOnceB.down`),
-        up: jasmine
-          .createSpy(`fileExtensionTriggerTriggeredOnceB.up`)
-          .and.returnValue(fileExtensionTriggeredOnceStepB),
-      };
-      fileExtensionTriggerTriggeredOnceC = {
-        type: `fileExtension`,
-        extension: `Test File Extension Triggered Once C`,
-        down: jasmine
-          .createSpy(`fileExtensionTriggerTriggeredOnceC.down`)
-          .and.returnValue(fileExtensionTriggeredOnceStepC),
-        up: jasmine.createSpy(`fileExtensionTriggerTriggeredOnceC.up`),
-      };
-      fileExtensionTriggerTriggeredOnceD = {
-        type: `fileExtension`,
-        extension: `Test File Extension Triggered Once D`,
-        down: jasmine.createSpy(`fileExtensionTriggerTriggeredOnceD.down`),
-        up: jasmine
-          .createSpy(`fileExtensionTriggerTriggeredOnceD.up`)
-          .and.returnValue(fileExtensionTriggeredOnceStepD),
-      };
-      fileExtensionTriggerTriggeredOnceE = {
-        type: `fileExtension`,
-        extension: `Test File Extension Triggered Once B`,
-        down: jasmine.createSpy(`fileExtensionTriggerTriggeredOnceE.down`),
-        up: jasmine
-          .createSpy(`fileExtensionTriggerTriggeredOnceE.up`)
-          .and.returnValue(fileExtensionTriggeredOnceStepE),
-      };
-      fileTriggerAdded = {
-        type: `file`,
-        path: [`Test Parsed Path`, `Matching`, `File Added`, `Full Path`],
-        down: jasmine.createSpy(`fileTriggerAdded.down`),
-        up: jasmine
-          .createSpy(`fileTriggerAdded.up`)
-          .and.returnValue(fileTriggeredAddedStep),
-      };
-      fileTriggerDeleted = {
-        type: `file`,
-        path: [`Test Parsed Path`, `Matching`, `File Deleted`, `Full Path`],
-        down: jasmine
-          .createSpy(`fileTriggerDeleted.down`)
-          .and.returnValue(fileTriggeredDeletedStep),
-        up: jasmine.createSpy(`fileTriggerDeleted.up`),
-      };
-      fileTriggerChanged = {
-        type: `file`,
-        path: [`Test Parsed Path`, `Matching`, `File Changed`, `Full Path`],
-        down: jasmine
-          .createSpy(`fileTriggerChanged.down`)
-          .and.returnValue(fileTriggeredChangedDownStep),
-        up: jasmine
-          .createSpy(`fileTriggerChanged.up`)
-          .and.returnValue(fileTriggeredChangedUpStep),
-      };
-      fileTriggerUnchanged = {
-        type: `file`,
-        path: [`Test Parsed Path`, `Matching`, `File Unchanged`, `Full Path`],
-        down: jasmine.createSpy(`fileTriggerUnchanged.down`),
-        up: jasmine.createSpy(`fileTriggerUnchanged.up`),
-      };
-      fileTriggerUntriggered = {
-        type: `file`,
-        path: [`Test Parsed Path`, `Not Matching`, `Anything`, `Full Path`],
-        down: jasmine.createSpy(`fileTriggerUntriggered.down`),
-        up: jasmine.createSpy(`fileTriggerUntriggered.up`),
-      };
-      untriggeredStoreAggregateTrigger = {
-        type: `storeAggregate`,
-        stores: [unkeyedStoreUntriggered, keyedStoreUntriggered],
-        invalidated: jasmine.createSpy(
-          `untriggeredStoreAggregateTrigger.invalidated`
-        ),
-      };
-      unkeyedStoreUpStoreAggregateTrigger = {
-        type: `storeAggregate`,
-        stores: [
-          unkeyedStoreUntriggered,
-          unkeyedStoreTriggeredOnceA,
-          keyedStoreUntriggered,
-        ],
-        invalidated: jasmine
-          .createSpy(`unkeyedStoreUpStoreAggregateTrigger.invalidated`)
-          .and.returnValue(unkeyedStoreUpStoreAggregateStep),
-      };
-      unkeyedStoreDownStoreAggregateTrigger = {
-        type: `storeAggregate`,
-        stores: [
-          unkeyedStoreUntriggered,
-          unkeyedStoreTriggeredOnceB,
-          keyedStoreUntriggered,
-        ],
-        invalidated: jasmine
-          .createSpy(`unkeyedStoreDownStoreAggregateTrigger.invalidated`)
-          .and.returnValue(unkeyedStoreDownStoreAggregateStep),
-      };
-      keyedStoreUpStoreAggregateTrigger = {
-        type: `storeAggregate`,
-        stores: [
-          unkeyedStoreUntriggered,
-          keyedStoreTriggeredOnceA,
-          keyedStoreUntriggered,
-        ],
-        invalidated: jasmine
-          .createSpy(`keyedStoreUpStoreAggregateTrigger.invalidated`)
-          .and.returnValue(keyedStoreUpStoreAggregateStep),
-      };
-      keyedStoreDownStoreAggregateTrigger = {
-        type: `storeAggregate`,
-        stores: [
-          unkeyedStoreUntriggered,
-          keyedStoreTriggeredOnceB,
-          keyedStoreUntriggered,
-        ],
-        invalidated: jasmine
-          .createSpy(`keyedStoreDownStoreAggregateTrigger.invalidated`)
-          .and.returnValue(keyedStoreDownStoreAggregateStep),
-      };
-      unkeyedAndKeyedStoreUpAndDownStoreAggregateTrigger = {
-        type: `storeAggregate`,
-        stores: [
-          unkeyedStoreUntriggered,
-          unkeyedStoreTriggeredOnceA,
-          unkeyedStoreTriggeredOnceB,
-          keyedStoreTriggeredOnceB,
-          keyedStoreTriggeredOnceA,
-          keyedStoreUntriggered,
-        ],
-        invalidated: jasmine
-          .createSpy(
-            `unkeyedAndKeyedStoreUpAndDownStoreAggregateTrigger.invalidated`
-          )
-          .and.returnValue(unkeyedAndKeyedStoreUpAndDownStoreAggregateStep),
-      };
-
-      output = generateSteps(
-        [
-          oneTimeTrigger,
-          keyedStoreTriggerTriggeredMultipleTimes,
-          keyedStoreTriggerTriggeredOnceA,
-          keyedStoreTriggerTriggeredOnceB,
-          keyedStoreTriggerTriggeredOnceC,
-          keyedStoreTriggerTriggeredOnceD,
-          keyedStoreTriggerUntriggered,
-          unkeyedStoreTriggerUntriggered,
-          unkeyedStoreTriggerTriggeredOnceA,
-          unkeyedStoreTriggerTriggeredOnceB,
-          unkeyedStoreTriggerTriggeredMultipleTimes,
-          fileExtensionTriggerUntriggered,
-          fileExtensionTriggerTriggeredMultipleTimes,
-          fileExtensionTriggerTriggeredOnceA,
-          fileExtensionTriggerTriggeredOnceB,
-          fileExtensionTriggerTriggeredOnceC,
-          fileExtensionTriggerTriggeredOnceD,
-          fileExtensionTriggerTriggeredOnceE,
-          fileTriggerAdded,
-          fileTriggerDeleted,
-          fileTriggerChanged,
-          fileTriggerUnchanged,
-          fileTriggerUntriggered,
-          untriggeredStoreAggregateTrigger,
-          unkeyedStoreUpStoreAggregateTrigger,
-          unkeyedStoreDownStoreAggregateTrigger,
-          keyedStoreUpStoreAggregateTrigger,
-          keyedStoreDownStoreAggregateTrigger,
-          unkeyedAndKeyedStoreUpAndDownStoreAggregateTrigger,
-        ],
-        false,
-        {
-          added: [
-            parsedPathMatchingOnceD,
-            parsedPathMatchingOnceB,
-            parsedPathUnmatchingD,
-            parsedPathMatchingOnceA,
-            parsedPathUnmatchingE,
-            parsedPathUnmatchingF,
-            parsedPathMatchingMultipleTimesB,
-            parsedPathMatchingFileAdded,
-          ],
-          changed: [
-            parsedPathMatchingMultipleTimesA,
-            parsedPathUnmatchingC,
-            parsedPathMatchingFileChanged,
-          ],
-          deleted: [
-            parsedPathMatchingOnceC,
-            parsedPathMatchingMultipleTimesC,
-            parsedPathUnmatchingB,
-            parsedPathMatchingFileDeleted,
-          ],
-          unchanged: [
-            parsedPathMatchingMultipleTimesD,
-            parsedPathUnmatchingA,
-            parsedPathMatchingFileUnchanged,
-          ],
+        if (firstRun) {
+          expected.push(oneTimeTriggerStep);
         }
-      );
-    });
 
-    it(`queries all applicable triggers for steps exactly the expected times`, () => {
-      expect(oneTimeTrigger.up).not.toHaveBeenCalled();
-      expect(keyedStoreTriggerTriggeredMultipleTimes.down).toHaveBeenCalledWith(
-        `Test Store Key F C`
-      );
-      expect(
-        keyedStoreTriggerTriggeredMultipleTimes.down
-      ).toHaveBeenCalledTimes(1);
-      expect(keyedStoreTriggerTriggeredMultipleTimes.up).toHaveBeenCalledWith(
-        `Test Store Key F A`
-      );
-      expect(keyedStoreTriggerTriggeredMultipleTimes.up).toHaveBeenCalledWith(
-        `Test Store Key F B`
-      );
-      expect(keyedStoreTriggerTriggeredMultipleTimes.up).toHaveBeenCalledTimes(
-        2
-      );
-      expect(keyedStoreTriggerTriggeredOnceA.down).not.toHaveBeenCalled();
-      expect(keyedStoreTriggerTriggeredOnceA.up).toHaveBeenCalledWith(
-        `Test Store Key B A`
-      );
-      expect(keyedStoreTriggerTriggeredOnceA.up).toHaveBeenCalledTimes(1);
-      expect(keyedStoreTriggerTriggeredOnceB.down).toHaveBeenCalledWith(
-        `Test Store Key C B`
-      );
-      expect(keyedStoreTriggerTriggeredOnceB.down).toHaveBeenCalledTimes(1);
-      expect(keyedStoreTriggerTriggeredOnceB.up).not.toHaveBeenCalled();
-      expect(keyedStoreTriggerTriggeredOnceC.down).toHaveBeenCalledWith(
-        `Test Store Key D A`
-      );
-      expect(keyedStoreTriggerTriggeredOnceC.down).toHaveBeenCalledTimes(1);
-      expect(keyedStoreTriggerTriggeredOnceC.up).not.toHaveBeenCalled();
-      expect(keyedStoreTriggerTriggeredOnceD.down).toHaveBeenCalledWith(
-        `Test Store Key E A`
-      );
-      expect(keyedStoreTriggerTriggeredOnceD.down).toHaveBeenCalledTimes(1);
-      expect(keyedStoreTriggerTriggeredOnceD.up).not.toHaveBeenCalled();
-      expect(keyedStoreTriggerUntriggered.down).not.toHaveBeenCalled();
-      expect(keyedStoreTriggerUntriggered.up).not.toHaveBeenCalled();
-      expect(unkeyedStoreTriggerUntriggered.down).not.toHaveBeenCalled();
-      expect(unkeyedStoreTriggerUntriggered.up).not.toHaveBeenCalled();
-      expect(unkeyedStoreTriggerTriggeredOnceA.down).not.toHaveBeenCalled();
-      expect(unkeyedStoreTriggerTriggeredOnceA.up).toHaveBeenCalledTimes(1);
-      expect(unkeyedStoreTriggerTriggeredOnceB.down).toHaveBeenCalledTimes(1);
-      expect(unkeyedStoreTriggerTriggeredOnceB.up).not.toHaveBeenCalled();
-      expect(
-        unkeyedStoreTriggerTriggeredMultipleTimes.down
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        unkeyedStoreTriggerTriggeredMultipleTimes.up
-      ).toHaveBeenCalledTimes(1);
-      expect(fileExtensionTriggerUntriggered.down).not.toHaveBeenCalled();
-      expect(fileExtensionTriggerUntriggered.up).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.down
-      ).toHaveBeenCalledWith(parsedPathMatchingMultipleTimesA);
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.down
-      ).toHaveBeenCalledWith(parsedPathMatchingMultipleTimesC);
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.down
-      ).toHaveBeenCalledTimes(2);
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.up
-      ).toHaveBeenCalledWith(parsedPathMatchingMultipleTimesA);
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.up
-      ).toHaveBeenCalledWith(parsedPathMatchingMultipleTimesB);
-      expect(
-        fileExtensionTriggerTriggeredMultipleTimes.up
-      ).toHaveBeenCalledTimes(2);
-      expect(fileExtensionTriggerTriggeredOnceA.down).not.toHaveBeenCalled();
-      expect(fileExtensionTriggerTriggeredOnceA.up).toHaveBeenCalledWith(
-        parsedPathMatchingOnceA
-      );
-      expect(fileExtensionTriggerTriggeredOnceA.up).toHaveBeenCalledTimes(1);
-      expect(fileExtensionTriggerTriggeredOnceB.down).not.toHaveBeenCalled();
-      expect(fileExtensionTriggerTriggeredOnceB.up).toHaveBeenCalledWith(
-        parsedPathMatchingOnceB
-      );
-      expect(fileExtensionTriggerTriggeredOnceC.down).toHaveBeenCalledWith(
-        parsedPathMatchingOnceC
-      );
-      expect(fileExtensionTriggerTriggeredOnceC.down).toHaveBeenCalledTimes(1);
-      expect(fileExtensionTriggerTriggeredOnceC.up).not.toHaveBeenCalled();
-      expect(fileExtensionTriggerTriggeredOnceD.down).not.toHaveBeenCalled();
-      expect(fileExtensionTriggerTriggeredOnceD.up).toHaveBeenCalledWith(
-        parsedPathMatchingOnceD
-      );
-      expect(fileExtensionTriggerTriggeredOnceD.up).toHaveBeenCalledTimes(1);
-      expect(fileExtensionTriggerTriggeredOnceE.down).not.toHaveBeenCalled();
-      expect(fileExtensionTriggerTriggeredOnceE.up).toHaveBeenCalledWith(
-        parsedPathMatchingOnceB
-      );
-      expect(fileExtensionTriggerTriggeredOnceE.up).toHaveBeenCalledTimes(1);
-      expect(fileTriggerAdded.down).not.toHaveBeenCalled();
-      expect(fileTriggerAdded.up).toHaveBeenCalledWith(
-        parsedPathMatchingFileAdded
-      );
-      expect(fileTriggerAdded.up).toHaveBeenCalledTimes(1);
-      expect(fileTriggerDeleted.down).toHaveBeenCalledWith(
-        parsedPathMatchingFileDeleted
-      );
-      expect(fileTriggerDeleted.down).toHaveBeenCalledTimes(1);
-      expect(fileTriggerDeleted.up).not.toHaveBeenCalled();
-      expect(fileTriggerChanged.down).toHaveBeenCalledWith(
-        parsedPathMatchingFileChanged
-      );
-      expect(fileTriggerChanged.down).toHaveBeenCalledTimes(1);
-      expect(fileTriggerChanged.up).toHaveBeenCalledWith(
-        parsedPathMatchingFileChanged
-      );
-      expect(fileTriggerChanged.up).toHaveBeenCalledTimes(1);
-      expect(fileTriggerUnchanged.down).not.toHaveBeenCalled();
-      expect(fileTriggerUnchanged.up).not.toHaveBeenCalled();
-      expect(fileTriggerUntriggered.down).not.toHaveBeenCalled();
-      expect(fileTriggerUntriggered.up).not.toHaveBeenCalled();
-      expect(
-        untriggeredStoreAggregateTrigger.invalidated
-      ).not.toHaveBeenCalled();
-      expect(
-        unkeyedStoreUpStoreAggregateTrigger.invalidated
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        unkeyedStoreDownStoreAggregateTrigger.invalidated
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        keyedStoreUpStoreAggregateTrigger.invalidated
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        keyedStoreDownStoreAggregateTrigger.invalidated
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        unkeyedAndKeyedStoreUpAndDownStoreAggregateTrigger.invalidated
-      ).toHaveBeenCalledTimes(1);
-    });
+        for (const expectedItem of expected) {
+          const matches = output.steps.filter(
+            (actualItem) => actualItem === expectedItem
+          ).length;
 
-    it(`returns the expected list of steps`, () => {
-      expect(output.steps).toEqual(
-        jasmine.arrayWithExactContents([
-          fileExtensionTriggeredMultipleTimesStepA,
-          fileExtensionTriggeredMultipleTimesStepB,
-          fileExtensionTriggeredMultipleTimesStepC,
-          fileExtensionTriggeredMultipleTimesStepD,
-          fileExtensionTriggeredOnceStepA,
-          fileExtensionTriggeredOnceStepB,
-          fileExtensionTriggeredOnceStepC,
-          fileExtensionTriggeredOnceStepD,
-          fileExtensionTriggeredOnceStepE,
-          keyedStoreTriggeredMultipleTimesStepA,
-          keyedStoreTriggeredMultipleTimesStepB,
-          keyedStoreTriggeredMultipleTimesStepC,
-          keyedStoreTriggeredOnceStepA,
-          keyedStoreTriggeredOnceStepB,
-          keyedStoreTriggeredOnceStepC,
-          keyedStoreTriggeredOnceStepD,
-          unkeyedStoreDownStep,
-          unkeyedStoreUpStep,
-          unkeyedStoreMultipleTimesDownStep,
-          unkeyedStoreMultipleTimesUpStep,
-          unkeyedStoreUpStoreAggregateStep,
-          unkeyedStoreDownStoreAggregateStep,
-          keyedStoreUpStoreAggregateStep,
-          keyedStoreDownStoreAggregateStep,
-          unkeyedAndKeyedStoreUpAndDownStoreAggregateStep,
-          fileTriggeredAddedStep,
-          fileTriggeredDeletedStep,
-          fileTriggeredChangedDownStep,
-          fileTriggeredChangedUpStep,
-        ])
-      );
-    });
+          expect(matches)
+            .withContext(
+              `step ${expectedItem.name} was expected but not returned`
+            )
+            .toBeGreaterThan(0);
 
-    it(`returns the expected list of ordering constraints`, () => {
-      expect(output.orderingConstraints).toEqual(
-        jasmine.arrayWithExactContents([
-          [fileExtensionTriggeredMultipleTimesStepA, unkeyedStoreDownStep],
-          [
-            fileExtensionTriggeredMultipleTimesStepA,
-            keyedStoreTriggeredOnceStepA,
-          ],
-          [
-            fileExtensionTriggeredMultipleTimesStepB,
-            keyedStoreTriggeredOnceStepD,
-          ],
-          [
-            fileExtensionTriggeredMultipleTimesStepB,
-            keyedStoreTriggeredMultipleTimesStepA,
-          ],
-          [
-            fileExtensionTriggeredMultipleTimesStepC,
-            keyedStoreTriggeredMultipleTimesStepC,
-          ],
-          [
-            fileExtensionTriggeredMultipleTimesStepD,
-            keyedStoreTriggeredOnceStepC,
-          ],
-          [fileExtensionTriggeredMultipleTimesStepD, unkeyedStoreUpStep],
-          [keyedStoreTriggeredOnceStepA, keyedStoreTriggeredMultipleTimesStepB],
-          [keyedStoreTriggeredOnceStepD, keyedStoreTriggeredOnceStepB],
-          [unkeyedStoreDownStep, fileExtensionTriggeredMultipleTimesStepB],
-          [
-            keyedStoreTriggeredMultipleTimesStepB,
-            fileExtensionTriggeredMultipleTimesStepB,
-          ],
-          [fileTriggeredChangedDownStep, fileTriggeredChangedUpStep],
-          [
-            fileExtensionTriggeredMultipleTimesStepD,
-            unkeyedStoreUpStoreAggregateStep,
-          ],
-          [
-            fileExtensionTriggeredMultipleTimesStepA,
-            unkeyedStoreDownStoreAggregateStep,
-          ],
-          [
-            fileExtensionTriggeredMultipleTimesStepA,
-            keyedStoreUpStoreAggregateStep,
-          ],
-          [keyedStoreTriggeredOnceStepD, keyedStoreDownStoreAggregateStep],
-          [
-            fileExtensionTriggeredMultipleTimesStepA,
-            unkeyedAndKeyedStoreUpAndDownStoreAggregateStep,
-          ],
-          [
-            fileExtensionTriggeredMultipleTimesStepD,
-            unkeyedAndKeyedStoreUpAndDownStoreAggregateStep,
-          ],
-          [keyedStoreUpStoreAggregateStep, unkeyedStoreMultipleTimesDownStep],
-          [keyedStoreDownStoreAggregateStep, unkeyedStoreMultipleTimesUpStep],
-          [
-            keyedStoreTriggeredOnceStepD,
-            unkeyedAndKeyedStoreUpAndDownStoreAggregateStep,
-          ],
-        ])
-      );
-    });
+          expect(matches)
+            .withContext(
+              `step ${expectedItem.name} was returned multiple times`
+            )
+            .toBeLessThan(2);
+        }
 
-    it(`returns the expected list of added files which did not trigger anything`, () => {
-      expect(output.unmatchedAddedFiles).toEqual(
-        jasmine.arrayWithExactContents([
-          parsedPathUnmatchingD,
-          parsedPathUnmatchingE,
-          parsedPathUnmatchingF,
-        ])
-      );
-    });
+        for (const actualItem of output.steps) {
+          const matches = expected.filter(
+            (expectedItem) => expectedItem === actualItem
+          ).length;
 
-    it(`does not execute any steps`, () => {
-      expect(
-        fileExtensionTriggeredMultipleTimesStepA.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredMultipleTimesStepB.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredMultipleTimesStepC.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredMultipleTimesStepD.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredOnceStepA.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredOnceStepB.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredOnceStepC.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredOnceStepD.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileExtensionTriggeredOnceStepE.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredMultipleTimesStepA.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredMultipleTimesStepB.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredMultipleTimesStepC.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredOnceStepA.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredOnceStepB.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredOnceStepC.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreTriggeredOnceStepD.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(unkeyedStoreDownStep.executePerActionStep).not.toHaveBeenCalled();
-      expect(unkeyedStoreUpStep.executePerActionStep).not.toHaveBeenCalled();
-      expect(
-        unkeyedStoreMultipleTimesDownStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        unkeyedStoreMultipleTimesUpStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        unkeyedStoreUpStoreAggregateStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        unkeyedStoreDownStoreAggregateStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreUpStoreAggregateStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        keyedStoreDownStoreAggregateStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        unkeyedAndKeyedStoreUpAndDownStoreAggregateStep.executePerActionStep
-      ).not.toHaveBeenCalled();
-      expect(
-        fileTriggeredAddedStep.executePerActionStep
-      ).not.toHaveBeenCalledWith();
-      expect(
-        fileTriggeredDeletedStep.executePerActionStep
-      ).not.toHaveBeenCalledWith();
-      expect(
-        fileTriggeredChangedDownStep.executePerActionStep
-      ).not.toHaveBeenCalledWith();
-      expect(
-        fileTriggeredChangedUpStep.executePerActionStep
-      ).not.toHaveBeenCalledWith();
+          expect(matches)
+            .withContext(
+              `step ${actualItem.name} was returned but not expected`
+            )
+            .toBeGreaterThan(0);
+        }
+      });
+
+      it(`returns the expected list of ordering constraints`, () => {
+        const expected: (readonly [Step, Step])[] = [
+          [
+            fileTriggerTriggeredByMoreSpecificChangeDownStep,
+            fileTriggerTriggeredByMoreSpecificChangeUpStep,
+          ],
+          [
+            fileTriggerTriggeredByLessSpecificChangeDownStep,
+            storeAggregateTriggerTriggeredByAllInOneStoreStep,
+          ],
+          [
+            fileTriggerTriggeredByLessSpecificChangeDownStep,
+            keyedStoreTriggerTriggeredByAllDeleteStep,
+          ],
+          [
+            fileTriggerTriggeredByLessSpecificChangeUpStep,
+            storeAggregateTriggerTriggeredByAllInOneStoreStep,
+          ],
+        ];
+
+        if (firstRun) {
+          expected.push(
+            [oneTimeTriggerStep, fileTriggerTriggeredByMoreSpecificAddStep],
+            [oneTimeTriggerStep, fileTriggerTriggeredByMoreSpecificDeleteStep],
+            [
+              oneTimeTriggerStep,
+              fileTriggerTriggeredByMoreSpecificChangeDownStep,
+            ],
+            [oneTimeTriggerStep, fileTriggerTriggeredByLessSpecificAddStep],
+            [oneTimeTriggerStep, fileTriggerTriggeredByLessSpecificDeleteStep],
+            [
+              oneTimeTriggerStep,
+              fileTriggerTriggeredByLessSpecificChangeDownStep,
+            ],
+            [oneTimeTriggerStep, fileTriggerTriggeredByAllAddStep],
+            [oneTimeTriggerStep, fileTriggerTriggeredByAllDeleteStep],
+            [oneTimeTriggerStep, fileTriggerTriggeredByAllChangeDownStep]
+          );
+        }
+
+        for (const expectedItem of expected) {
+          const matches = output.orderingConstraints.filter(
+            (actualItem) =>
+              actualItem[0] === expectedItem[0] &&
+              actualItem[1] === expectedItem[1]
+          ).length;
+
+          expect(matches)
+            .withContext(
+              `missing expected ordering constraint ${expectedItem[0].name} -> ${expectedItem[1].name}`
+            )
+            .toBeGreaterThan(0);
+          expect(matches)
+            .withContext(
+              `too many matches for expected ordering constraint ${expectedItem[0].name} -> ${expectedItem[1].name}`
+            )
+            .toBeLessThan(2);
+        }
+
+        for (const actualItem of output.orderingConstraints) {
+          const matches = expected.filter(
+            (expectedItem) =>
+              expectedItem[0] === expectedItem[0] &&
+              expectedItem[1] === expectedItem[1]
+          ).length;
+
+          expect(matches)
+            .withContext(
+              `unexpected ordering constraint ${actualItem[0].name} -> ${actualItem[1].name}`
+            )
+            .toBeGreaterThan(0);
+        }
+      });
+
+      it(`returns the expected list of added files which did not trigger anything`, () => {
+        expect(output.unmatchedAddedFiles).toEqual(
+          jasmine.arrayContaining([
+            `unmatched/example/added/file/a`,
+            `unmatched/example/added/file/b`,
+            `unmatched/example/added/file/c`,
+          ])
+        );
+      });
+
+      it(`does not execute any steps`, () => {
+        expect(
+          storeAggregateTriggerTriggeredByUnkeyedSetStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          storeAggregateTriggerTriggeredByKeyedSetStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          storeAggregateTriggerTriggeredByKeyedDeleteStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          storeAggregateTriggerTriggeredByAllInOneStoreStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          storeAggregateTriggerTriggeredByAllAcrossMultipleStoresStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          keyedStoreTriggerTriggeredByKeyedSetStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          keyedStoreTriggerTriggeredByKeyedDeleteStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          keyedStoreTriggerTriggeredByAllDeleteStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          keyedStoreTriggerTriggeredByAllSetStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(oneTimeTriggerStep.executePerActionStep).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByMoreSpecificAddStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByMoreSpecificDeleteStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByMoreSpecificChangeDownStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByMoreSpecificChangeUpStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByLessSpecificAddStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByLessSpecificDeleteStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByLessSpecificChangeDownStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByLessSpecificChangeUpStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByAllAddStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByAllDeleteStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByAllChangeDownStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+        expect(
+          fileTriggerTriggeredByAllChangeUpStep.executePerActionStep
+        ).not.toHaveBeenCalled();
+      });
     });
-  });
+  }
 });

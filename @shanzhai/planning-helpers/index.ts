@@ -1,5 +1,4 @@
 import { Step, Diff, Plugin, Trigger } from "@shanzhai/interfaces";
-import { mapDiff, parsePath } from "@shanzhai/change-tracking-helpers";
 import { generateSteps } from "./generate-steps";
 import { orderSteps } from "./order-steps";
 
@@ -21,8 +20,6 @@ export function plan(
   readonly unmatchedAddedFiles: ReadonlyArray<string>;
   readonly step: Step;
 } {
-  const parsedDiff = mapDiff(diff, parsePath);
-
   const triggers: Trigger[] = [];
 
   for (const pluginName in plugins) {
@@ -33,14 +30,11 @@ export function plan(
     }
   }
 
-  const steps = generateSteps(triggers, firstRun, parsedDiff.diff);
+  const steps = generateSteps(triggers, firstRun, diff);
   const step = orderSteps(steps.steps, steps.orderingConstraints);
 
   return {
-    unmatchedAddedFiles: [
-      ...parsedDiff.errors,
-      ...steps.unmatchedAddedFiles.map((parsedPath) => parsedPath.fullPath),
-    ],
+    unmatchedAddedFiles: steps.unmatchedAddedFiles,
     step,
   };
 }
