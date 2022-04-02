@@ -29,7 +29,7 @@ function shuffled<T>(...items: ReadonlyArray<T>): ReadonlyArray<T> {
   return array;
 }
 
-fdescribe(`generateSteps`, function () {
+describe(`generateSteps`, function () {
   for (const firstRun of [false, true]) {
     describe(firstRun ? `first run` : `subsequent run`, () => {
       let unusedKeyedStore: KeyedStore<never>;
