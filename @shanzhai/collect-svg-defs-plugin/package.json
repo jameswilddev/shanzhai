@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/collect-svg-defs-step": "0.0.8",
+    "@shanzhai/collect-svg-defs-step": "0.0.10",
     "@shanzhai/delete-from-keyed-store-step": "0.0.2",
     "@shanzhai/keyed-store-get-all-input": "0.0.2",
     "@shanzhai/parallel-step": "0.0.10",
