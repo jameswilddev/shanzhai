@@ -29,10 +29,10 @@
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
-    "@shanzhai/zip-store": "0.0.4"
+    "@shanzhai/zip-store": "0.0.5"
   },
   "peerDependencies": {
-    "@shanzhai/zip-store": "0.0.4"
+    "@shanzhai/zip-store": "0.0.5"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

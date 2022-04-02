@@ -24,18 +24,18 @@
   "dependencies": {
     "@shanzhai/convert-svg-document-to-def-step": "0.0.9",
     "@shanzhai/delete-from-keyed-store-step": "0.0.4",
-    "@shanzhai/keyed-store-get-input": "0.0.2",
+    "@shanzhai/keyed-store-get-input": "0.0.4",
     "@shanzhai/keyed-store-set-output": "0.0.4",
     "svgo": "2.8.0"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
     "@shanzhai/minified-svg-store": "0.0.3",
-    "@shanzhai/svg-def-store": "0.0.4"
+    "@shanzhai/svg-def-store": "0.0.5"
   },
   "peerDependencies": {
     "@shanzhai/minified-svg-store": "0.0.3",
-    "@shanzhai/svg-def-store": "0.0.4"
+    "@shanzhai/svg-def-store": "0.0.5"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

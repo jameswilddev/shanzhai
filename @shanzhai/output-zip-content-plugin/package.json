@@ -23,17 +23,17 @@
   "license": "MIT",
   "dependencies": {
     "@shanzhai/create-directory-step": "0.0.9",
-    "@shanzhai/delete-step": "0.0.7",
+    "@shanzhai/delete-step": "0.0.9",
     "@shanzhai/keyed-store-get-input": "0.0.4",
     "@shanzhai/serial-step": "0.0.10",
     "@shanzhai/write-file-step": "0.0.9"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
-    "@shanzhai/zip-content-store": "0.0.4"
+    "@shanzhai/zip-content-store": "0.0.5"
   },
   "peerDependencies": {
-    "@shanzhai/zip-content-store": "0.0.4"
+    "@shanzhai/zip-content-store": "0.0.5"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

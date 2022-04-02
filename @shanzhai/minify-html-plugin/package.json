@@ -25,16 +25,16 @@
     "@shanzhai/delete-from-keyed-store-step": "0.0.4",
     "@shanzhai/keyed-store-get-input": "0.0.2",
     "@shanzhai/keyed-store-set-output": "0.0.2",
-    "@shanzhai/minify-html-step": "0.0.10"
+    "@shanzhai/minify-html-step": "0.0.11"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
     "@shanzhai/html-source-store": "0.0.4",
-    "@shanzhai/zip-content-store": "0.0.4"
+    "@shanzhai/zip-content-store": "0.0.5"
   },
   "peerDependencies": {
     "@shanzhai/html-source-store": "0.0.4",
-    "@shanzhai/zip-content-store": "0.0.4"
+    "@shanzhai/zip-content-store": "0.0.5"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

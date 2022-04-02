@@ -22,18 +22,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/keyed-store-get-all-input": "0.0.2",
+    "@shanzhai/keyed-store-get-all-input": "0.0.4",
     "@shanzhai/unkeyed-store-set-output": "0.0.4",
     "@shanzhai/zip-step": "0.0.10"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
     "@shanzhai/zip-content-store": "0.0.3",
-    "@shanzhai/zip-store": "0.0.4"
+    "@shanzhai/zip-store": "0.0.5"
   },
   "peerDependencies": {
     "@shanzhai/zip-content-store": "0.0.3",
-    "@shanzhai/zip-store": "0.0.4"
+    "@shanzhai/zip-store": "0.0.5"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [
