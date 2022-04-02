@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@shanzhai/delete-from-keyed-store-step": "0.0.4",
-    "@shanzhai/keyed-store-get-input": "0.0.2",
+    "@shanzhai/keyed-store-get-input": "0.0.4",
     "@shanzhai/keyed-store-set-output": "0.0.4",
     "@shanzhai/parse-type-script-step": "0.0.11",
     "@shanzhai/unkeyed-store-get-input": "0.0.4"

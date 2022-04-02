@@ -22,21 +22,21 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/keyed-store-get-all-input": "0.0.2",
-    "@shanzhai/keyed-store-set-output": "0.0.2",
-    "@shanzhai/merge-object-input": "0.0.7",
+    "@shanzhai/keyed-store-get-all-input": "0.0.4",
+    "@shanzhai/keyed-store-set-output": "0.0.4",
+    "@shanzhai/merge-object-input": "0.0.9",
     "@shanzhai/minify-javascript-step": "0.0.11",
     "@shanzhai/unkeyed-store-get-input": "0.0.4",
     "@shanzhai/wrap-in-object-output": "0.0.5"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
-    "@shanzhai/javascript-source-store": "0.0.9",
+    "@shanzhai/javascript-source-store": "0.0.12",
     "@shanzhai/pug-local-store": "0.0.7",
     "@shanzhai/type-script-global-store": "0.0.13"
   },
   "peerDependencies": {
-    "@shanzhai/javascript-source-store": "0.0.9",
+    "@shanzhai/javascript-source-store": "0.0.12",
     "@shanzhai/type-script-global-store": "0.0.13",
     "@shanzhai/pug-local-store": "0.0.7"
   },
