@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/type-script-global-store",
   "description": "A Shanzhai store for global variables to be included in TypeScript builds.",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "engines": {
     "node": ">=17.6.0"
   },
@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/ephemeral-keyed-store": "0.0.2"
+    "@shanzhai/ephemeral-keyed-store": "0.0.4"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24"

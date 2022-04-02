@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/compile-type-script-plugin",
   "description": "A Shanzhai plugin while compiles the entire store of parsed TypeScript, storing the resulting Javascript in corresponding source store.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "node": ">=17.6.0"
   },
@@ -25,18 +25,18 @@
     "@shanzhai/compile-type-script-step": "0.0.10",
     "@shanzhai/keyed-store-get-all-input": "0.0.2",
     "@shanzhai/unkeyed-store-get-input": "0.0.2",
-    "@shanzhai/unkeyed-store-set-output": "0.0.2"
+    "@shanzhai/unkeyed-store-set-output": "0.0.4"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
     "@shanzhai/javascript-source-store": "0.0.9",
     "@shanzhai/parsed-type-script-store": "0.0.9",
-    "@shanzhai/type-script-compiler-options-store": "0.0.8"
+    "@shanzhai/type-script-compiler-options-store": "0.0.9"
   },
   "peerDependencies": {
     "@shanzhai/type-script-compiler-options-store": "0.0.8",
     "@shanzhai/javascript-source-store": "0.0.9",
-    "@shanzhai/parsed-type-script-store": "0.0.9"
+    "@shanzhai/parsed-type-script-store": "0.0.10"
   },
   "types": "index.d.ts"
 }
