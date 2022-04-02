@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/parse-type-script-plugin",
   "description": "A Shanzhai plugin which parses TypeScript source files.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "node": ">=17.6.0"
   },
