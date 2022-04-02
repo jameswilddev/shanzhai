@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/build-tsconfig-input",
   "description": "A Shanzhai input which converts TypeScript compiler options to JSON as would be found in a tsconfig.json file.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "node": ">=17.6.0"
   },

@@ -4,10 +4,10 @@ import { convertModuleResolution } from ".";
 describe(`convert-module-resolution`, () => {
   function maps(
     from: undefined | ModuleResolutionKind,
-    to: undefined | `Classic` | `Node` | `NodeNext` | `Node12`
+    to: undefined | `Classic` | `Node` | `Node12` | `NodeNext`
   ): void {
     describe(`given ${from}`, () => {
-      let output: undefined | `Classic` | `Node` | `NodeNext` | `Node12`;
+      let output: undefined | `Classic` | `Node` | `Node12` | `NodeNext`;
 
       beforeAll(() => {
         output = convertModuleResolution(from);
@@ -22,6 +22,6 @@ describe(`convert-module-resolution`, () => {
   maps(undefined, undefined);
   maps(ModuleResolutionKind.Classic, `Classic`);
   maps(ModuleResolutionKind.NodeJs, `Node`);
-  maps(ModuleResolutionKind.NodeNext, `NodeNext`);
   maps(ModuleResolutionKind.Node12, `Node12`);
+  maps(ModuleResolutionKind.NodeNext, `NodeNext`);
 });
