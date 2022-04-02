@@ -2,7 +2,7 @@ import { ModuleResolutionKind } from "typescript";
 
 export function convertModuleResolution(
   target: undefined | ModuleResolutionKind
-): undefined | `Classic` | `Node` {
+): undefined | `Classic` | `Node` | `NodeNext` | `Node12` {
   switch (target) {
     case undefined:
       return undefined;
@@ -12,5 +12,11 @@ export function convertModuleResolution(
 
     case ModuleResolutionKind.NodeJs:
       return `Node`;
+
+    case ModuleResolutionKind.NodeNext:
+      return `NodeNext`;
+
+    case ModuleResolutionKind.Node12:
+      return `Node12`;
   }
 }
