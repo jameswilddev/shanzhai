@@ -13,10 +13,7 @@ export async function packageHasUnpublishedChanges(
       )
     ).stdout.trim();
   } catch (e) {
-    if (
-      e instanceof Error &&
-      !e.message.includes(` is not in the npm registry.`)
-    ) {
+    if (e instanceof Error && !/ is not in .+ registry\./.test(e.message)) {
       throw e;
     }
     publishedShasum = `none`;
