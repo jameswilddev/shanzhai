@@ -22,13 +22,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chokidar": "3.5.2",
+    "chokidar": "3.5.3",
     "@shanzhai/change-tracking-helpers": "0.0.12"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
     "uuid": "8.3.2",
-    "@types/uuid": "8.3.3"
+    "@types/uuid": "8.3.4"
   },
   "bin": "./index.js"
 }
