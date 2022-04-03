@@ -1,25 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
+import { getPublishedVersionOfPackage } from "../build/get-published-version-of-package";
 import { runCommandLine } from "../build/run-command-line";
 
 export default async function (name: ReadonlyArray<string>): Promise<void> {
   console.log(`Processing package "${name.join(`/`)}"...`);
 
   console.log(`Checking for latest published version...`);
-  let publishedVersion;
-  try {
-    publishedVersion = (
-      await runCommandLine(`npm view ${name.join(`/`)} version`, process.cwd())
-    ).stdout.trim();
-  } catch (e) {
-    if (
-      !(e instanceof Error) ||
-      !e.message.includes(` is not in the npm registry.`)
-    ) {
-      throw e;
-    }
-    publishedVersion = `none`;
-  }
+  const publishedVersion = await getPublishedVersionOfPackage(name);
 
   console.log(`Checking for latest built version...`);
   const pathToPackageJson = path.join(...[...name, `package.json`]);
