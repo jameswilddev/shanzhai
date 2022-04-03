@@ -58,7 +58,7 @@ class LogOutput extends Writable {
     chunk: unknown,
     encoding?: BufferEncoding | (() => void),
     callback?: () => void
-  ): void {
+  ): this {
     if (typeof chunk === `string`) {
       this.accumulated += chunk;
     } else if (typeof chunk === `object` && chunk !== null) {
@@ -75,6 +75,8 @@ class LogOutput extends Writable {
       throw new Error(`Unexpected overload of end ${encoding} ${callback}.`);
     }
     this.emit(`finish`);
+
+    return this;
   }
 }
 
