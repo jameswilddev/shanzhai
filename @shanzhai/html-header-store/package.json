@@ -1,0 +1,31 @@
+{
+  "name": "@shanzhai/html-header-store",
+  "description": "A Shanzhai store for HTML headers.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=17.6.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/ephemeral-keyed-store": "0.0.4"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.24"
+  },
+  "types": "index.d.ts"
+}
