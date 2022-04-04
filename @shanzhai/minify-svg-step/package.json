@@ -28,10 +28,10 @@
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
     "@types/pixelmatch": "5.2.4",
-    "@types/sharp": "0.30.0",
+    "@types/sharp": "0.28.6",
     "@types/svgo": "2.6.3",
     "pixelmatch": "5.2.1",
-    "sharp": "0.30.3"
+    "sharp": "0.28.3"
   },
   "types": "index.d.ts"
 }
