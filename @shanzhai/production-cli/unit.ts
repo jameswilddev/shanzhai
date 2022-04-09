@@ -5,6 +5,8 @@ import * as childProcess from "child_process";
 import * as uuid from "uuid";
 import * as fsExtra from "fs-extra";
 
+const timeout = 30000;
+
 describe(`shanzhai-production-cli`, () => {
   describe(`when there are no steps to execute`, () => {
     let root: string;
@@ -41,7 +43,7 @@ describe(`shanzhai-production-cli`, () => {
           }
         );
       });
-    });
+    }, timeout);
 
     afterAll(async () => {
       await fs.promises.rm(root, { recursive: true });
@@ -98,7 +100,7 @@ No steps to execute.
           }
         );
       });
-    });
+    }, timeout);
 
     afterAll(async () => {
       await fs.promises.rm(root, { recursive: true });
@@ -159,7 +161,7 @@ No steps to execute.
           }
         );
       });
-    });
+    }, timeout);
 
     afterAll(async () => {
       await fs.promises.rm(root, { recursive: true });
@@ -211,7 +213,7 @@ No steps to execute.
           }
         );
       });
-    });
+    }, timeout);
 
     afterAll(async () => {
       await fs.promises.rm(root, { recursive: true });
