@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
-    "@types/uglify-js": "3.13.1"
+    "@types/uglify-js": "3.13.2"
   },
   "types": "index.d.ts"
 }
