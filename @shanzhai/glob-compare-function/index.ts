@@ -7,7 +7,6 @@
 export function globCompareFunction(a: string, b: string): number {
   return (
     a.split(`*`).length - b.split(`*`).length ||
-    b.split(/[\\/]/g).length - a.split(/[\\/]/g).length ||
-    a.length - b.length
+    b.split(/[\\/]/g).length - a.split(/[\\/]/g).length
   );
 }
