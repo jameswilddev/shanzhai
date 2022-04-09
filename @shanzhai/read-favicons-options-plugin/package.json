@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/read-text-file-step": "0.0.9",
+    "@shanzhai/read-text-file-step": "0.0.10",
     "@shanzhai/unkeyed-store-set-output": "0.0.4",
     "@shanzhai/nop-step": "0.0.0"
   },
