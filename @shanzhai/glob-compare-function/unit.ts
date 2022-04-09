@@ -18,12 +18,13 @@ describe(`globCompareFunction`, () => {
 
   beforeAll(() => {
     expected = [
-      `some/file.path`,
       `file.path`,
+      `some/file.path`,
       `some-file.*`,
-      `**/some-file.path`,
       `matched/**/more-specific/changed/*`,
+      `matched/**/all/*/*`,
       `matched/**/added/*`,
+      `**/some-file.path`,
       `**/*.some-file-path`,
       `**/*.*`,
     ];
@@ -32,6 +33,7 @@ describe(`globCompareFunction`, () => {
   });
 
   it(`sorts globs as expected`, () => {
+    console.log(actual);
     expect(actual).toEqual(expected);
   });
 });

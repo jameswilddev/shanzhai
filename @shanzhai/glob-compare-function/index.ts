@@ -6,7 +6,11 @@
  */
 export function globCompareFunction(a: string, b: string): number {
   return (
-    a.split(`*`).length - b.split(`*`).length ||
-    b.split(/[\\/]/g).length - a.split(/[\\/]/g).length
+    Math.min(1, a.split(`*`).length - 1) -
+      Math.min(1, b.split(`*`).length - 1) ||
+    Math.min(1, a.split(/[\\/]/g).length - 1) -
+      Math.min(1, b.split(/[\\/]/g).length - 1) ||
+    b.split(/[\\/]/g).length - a.split(/[\\/]/g).length ||
+    a.split(`*`).length - b.split(`*`).length
   );
 }
