@@ -58,7 +58,7 @@ transformation, then write the results to one or more files or stores.
 Take note of and install any peer dependencies recommended upon installation of
 these packages.
 
-![Map](https://tinyurl.com/w799ywr9)
+![Map](https://tinyurl.com/2p8y7r77)
 
 ${await generateRootReadmePackageTable(plugins)}
 
