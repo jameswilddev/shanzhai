@@ -7,7 +7,6 @@ import { Output, ActionStep } from "@shanzhai/interfaces";
  */
 export class ReadTextFileStep extends ActionStep {
   /**
-   * @param name         A description of the operation being performed.
    * @param pathSegments An array of path segments forming the path to the file
    *                     to read.
    * @param output       An {@link Output} to which to write the read
