@@ -24,7 +24,7 @@
   "dependencies": {
     "@shanzhai/keyed-store-set-output": "0.0.4",
     "@shanzhai/favicons-step": "0.0.0",
-    "@shanzhai/unkeyed-store-get-input": "0.0.0"
+    "@shanzhai/unkeyed-store-get-input": "0.0.4"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
