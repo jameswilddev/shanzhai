@@ -22,11 +22,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "favicons": "^6.2.2"
+    "favicons": "6.2.2"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.24",
-    "@types/favicons": "^6.2.2"
+    "@types/favicons": "6.2.2"
   },
   "types": "index.d.ts"
 }
