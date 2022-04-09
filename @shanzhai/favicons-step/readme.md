@@ -6,9 +6,9 @@ A Shanzhai step which converts an image to HTML headers and files representing f
 
 This package has the following runtime dependencies:
 
-Name     | Version                                                                                       
--------- | ----------------------------------------------------------------------------------------------
-favicons | [![^6.2.2](https://img.shields.io/npm/v/favicons.svg)](https://www.npmjs.com/package/favicons)
+Name     | Version                                                                                      
+-------- | ---------------------------------------------------------------------------------------------
+favicons | [![6.2.2](https://img.shields.io/npm/v/favicons.svg)](https://www.npmjs.com/package/favicons)
 
 ## Peer Dependencies
 
