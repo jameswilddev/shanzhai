@@ -1,0 +1,41 @@
+{
+  "name": "@shanzhai/html-header-pug-local-plugin",
+  "description": "A Shanzhai plugin which converts the generated HTML headers to a Pug local.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=17.6.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/copy-step": "0.0.6",
+    "@shanzhai/keyed-store-get-all-input": "0.0.4",
+    "@shanzhai/keyed-store-set-output": "0.0.4",
+    "@shanzhai/concatenate-object-values-input": "0.0.0",
+    "@shanzhai/wrap-in-object-output": "0.0.5"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/html-header-store": "0.0.3",
+    "@shanzhai/pug-local-store": "0.0.7"
+  },
+  "peerDependencies": {
+    "@shanzhai/html-header-store": "0.0.3",
+    "@shanzhai/pug-local-store": "0.0.7"
+  },
+  "types": "index.d.ts"
+}
