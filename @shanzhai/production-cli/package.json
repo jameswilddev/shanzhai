@@ -31,7 +31,7 @@
     "@shanzhai/create-directory-step": "0.0.9",
     "@shanzhai/ephemeral-unkeyed-store": "0.0.4",
     "@shanzhai/interfaces": "0.0.24",
-    "@shanzhai/read-text-file-step": "0.0.9",
+    "@shanzhai/read-text-file-step": "0.0.10",
     "@shanzhai/serial-step": "0.0.10",
     "@shanzhai/unkeyed-store-get-input": "0.0.4",
     "@shanzhai/unkeyed-store-set-output": "0.0.4",
