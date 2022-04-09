@@ -18,10 +18,12 @@ describe(`globCompareFunction`, () => {
 
   beforeAll(() => {
     expected = [
-      `file.path`,
       `some/file.path`,
+      `file.path`,
       `some-file.*`,
       `**/some-file.path`,
+      `matched/**/more-specific/changed/*`,
+      `matched/**/added/*`,
       `**/*.some-file-path`,
       `**/*.*`,
     ];

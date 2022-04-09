@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/glob-compare-function",
   "description": "A comparison function for sorting glob patterns by priority.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=17.6.0"
   },

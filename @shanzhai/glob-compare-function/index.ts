@@ -5,5 +5,9 @@
  * @returns When {@link a} takes priority over {@link b}, a negative number.  When {@link b} takes priority over {@link a}, a positive number.  When {@link a} and {@link b} are equal in priority, 0.
  */
 export function globCompareFunction(a: string, b: string): number {
-  return a.split(`*`).length - b.split(`*`).length || a.length - b.length;
+  return (
+    a.split(`*`).length - b.split(`*`).length ||
+    b.split(/[\\/]/g).length - a.split(/[\\/]/g).length ||
+    a.length - b.length
+  );
 }

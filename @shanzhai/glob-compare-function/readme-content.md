@@ -5,6 +5,8 @@ import { globCompareFunction } from "@shanzhai/glob-compare-function";
 
 console.log([
   `some-file.*`,
+  `matched/**/more-specific/changed/*`,
+  `matched/**/added/*`,
   `**/*.*`,
   `file.path`,
   `**/some-file.path`,
@@ -19,6 +21,8 @@ console.log([
   "some/file.path`",
   "some-file.*`",
   "**/some-file.path`",
+  "matched/**/more-specific/changed/*",
+  "matched/**/added/*",
   "**/*.some-file-path`",
   "**/*.*",
 ]
