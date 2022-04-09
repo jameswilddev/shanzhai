@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/parse-favicons-options-plugin",
   "description": "A Shanzhai plugin which parses previously read favicons options.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=17.6.0"
   },
@@ -36,5 +36,8 @@
     "@shanzhai/favicons-options-source-store": "0.0.0",
     "@shanzhai/favicons-options-store": "0.0.0"
   },
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "shanzhaiPlugin": [
+    "."
+  ]
 }

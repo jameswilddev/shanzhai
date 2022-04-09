@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-favicons-options-plugin",
   "description": "A Shanzhai plugin which reads the \"favicons-options.json\" file into the favicons options source store.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=17.6.0"
   },
@@ -33,5 +33,8 @@
   "peerDependencies": {
     "@shanzhai/favicons-options-source-store": "0.0.0"
   },
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "shanzhaiPlugin": [
+    "."
+  ]
 }
