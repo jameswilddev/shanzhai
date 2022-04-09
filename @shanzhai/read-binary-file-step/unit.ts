@@ -29,18 +29,23 @@ describe(`ReadBinaryFileStep`, () => {
   };
 
   describe(`on construction`, () => {
+    let originalWorkingDirectory: string;
     let root: string;
     let outputSet: jasmine.Spy;
     let output: Output<Buffer>;
     let readBinaryFileStep: ReadBinaryFileStep;
 
     beforeAll(async () => {
+      originalWorkingDirectory = process.cwd();
+
       root = path.join(os.tmpdir(), uuid.v4());
 
       await fs.promises.mkdir(
         path.join(root, `subdirectory-a`, `subdirectory-b`, `subdirectory-c`),
         { recursive: true }
       );
+
+      process.chdir(root);
 
       await fs.promises.writeFile(
         path.join(
@@ -60,24 +65,21 @@ describe(`ReadBinaryFileStep`, () => {
       };
 
       readBinaryFileStep = new ReadBinaryFileStep(
-        `Test Name`,
-        [
-          root,
-          `subdirectory-a`,
-          `subdirectory-b`,
-          `subdirectory-c`,
-          `test-file`,
-        ],
+        [`subdirectory-a`, `subdirectory-b`, `subdirectory-c`, `test-file`],
         output
       );
     });
 
     afterAll(async () => {
+      process.chdir(originalWorkingDirectory);
+
       await fs.promises.rm(root, { recursive: true });
     });
 
     it(`exposes its name`, () => {
-      expect(readBinaryFileStep.name).toEqual(`Test Name`);
+      expect(readBinaryFileStep.name).toEqual(
+        `Read binary file "subdirectory-a/subdirectory-b/subdirectory-c/test-file"`
+      );
     });
 
     it(`exposes the output's effects`, () => {
@@ -98,18 +100,23 @@ describe(`ReadBinaryFileStep`, () => {
   });
 
   describe(`on execution`, () => {
+    let originalWorkingDirectory: string;
     let root: string;
     let outputSet: jasmine.Spy;
     let output: Output<Buffer>;
     let readBinaryFileStep: ReadBinaryFileStep;
 
     beforeAll(async () => {
+      originalWorkingDirectory = process.cwd();
+
       root = path.join(os.tmpdir(), uuid.v4());
 
       await fs.promises.mkdir(
         path.join(root, `subdirectory-a`, `subdirectory-b`, `subdirectory-c`),
         { recursive: true }
       );
+
+      process.chdir(root);
 
       await fs.promises.writeFile(
         path.join(
@@ -132,14 +139,7 @@ describe(`ReadBinaryFileStep`, () => {
       };
 
       readBinaryFileStep = new ReadBinaryFileStep(
-        `Test Name`,
-        [
-          root,
-          `subdirectory-a`,
-          `subdirectory-b`,
-          `subdirectory-c`,
-          `test-file`,
-        ],
+        [`subdirectory-a`, `subdirectory-b`, `subdirectory-c`, `test-file`],
         output
       );
 
@@ -147,6 +147,8 @@ describe(`ReadBinaryFileStep`, () => {
     });
 
     afterAll(async () => {
+      process.chdir(originalWorkingDirectory);
+
       await fs.promises.rm(root, { recursive: true });
     });
 

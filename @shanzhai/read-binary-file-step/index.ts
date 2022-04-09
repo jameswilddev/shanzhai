@@ -7,18 +7,19 @@ import { Output, ActionStep } from "@shanzhai/interfaces";
  */
 export class ReadBinaryFileStep extends ActionStep {
   /**
-   * @param name         A description of the operation being performed.
    * @param pathSegments An array of path segments forming the path to the file
    *                     to read.
    * @param output       An {@link Output} to which to write the read
    *                     {@link Buffer}.
    */
   constructor(
-    name: string,
     public readonly pathSegments: ReadonlyArray<string>,
     public readonly output: Output<Buffer>
   ) {
-    super(name, output.effects);
+    super(
+      `Read binary file ${JSON.stringify(pathSegments.join(`/`))}`,
+      output.effects
+    );
   }
 
   /**
