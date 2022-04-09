@@ -1,0 +1,37 @@
+{
+  "name": "@shanzhai/read-favicon-plugin",
+  "description": "A Shanzhai plugin which reads the \"favicon\" file into the favicon store.",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=17.6.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/read-binary-file-step": "0.0.10",
+    "@shanzhai/unkeyed-store-set-output": "0.0.4",
+    "@shanzhai/nop-step": "0.0.0"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/favicon-store": "0.0.0"
+  },
+  "peerDependencies": {
+    "@shanzhai/favicon-store": "0.0.0"
+  },
+  "types": "index.d.ts"
+}
