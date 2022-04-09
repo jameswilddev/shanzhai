@@ -1,0 +1,47 @@
+{
+  "name": "@shanzhai/favicons-plugin",
+  "description": "A Shanzhai plugin which minifies HTML from the source store.",
+  "version": "0.0.11",
+  "engines": {
+    "node": ">=17.6.0"
+  },
+  "engineStrict": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "files": [
+    "**/*.js",
+    "**/*.d.ts",
+    "!**/unit.*",
+    "!test-data"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameswilddev/shanzhai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@shanzhai/keyed-store-set-output": "0.0.4",
+    "@shanzhai/favicons-step": "0.0.0",
+    "@shanzhai/unkeyed-store-get-input": "0.0.0"
+  },
+  "devDependencies": {
+    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/favicon-store": "0.0.0",
+    "@shanzhai/favicons-options-store": "0.0.0",
+    "@shanzhai/html-header-store": "0.0.3",
+    "@shanzhai/zip-content-store": "0.0.6",
+    "@types/favicons": "6.2.2"
+  },
+  "peerDependencies": {
+    "@shanzhai/favicon-store": "0.0.0",
+    "@shanzhai/favicons-options-store": "0.0.0",
+    "@shanzhai/html-header-store": "0.0.3",
+    "@shanzhai/zip-content-store": "0.0.6"
+  },
+  "types": "index.d.ts",
+  "shanzhaiPlugin": [
+    "."
+  ]
+}
