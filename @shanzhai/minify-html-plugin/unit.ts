@@ -6,6 +6,7 @@ import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step
 import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
 import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
 import minifyHtmlPlugin = require(".");
+import { WrapInObjectOutput } from "@shanzhai/wrap-in-object-output";
 
 describe(`minify-html-plugin`, () => {
   it(`is triggered by the HTML source store`, () => {
@@ -46,7 +47,10 @@ describe(`minify-html-plugin`, () => {
         new MinifyHtmlStep(
           `Test Key`,
           new KeyedStoreGetInput(htmlSourceStore, `Test Key`),
-          new KeyedStoreSetOutput(zipContentStore, `Test Key`)
+          new WrapInObjectOutput(
+            `Test Key`,
+            new KeyedStoreSetOutput(zipContentStore, `Test Key`)
+          )
         )
       );
     });

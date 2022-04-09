@@ -5,6 +5,7 @@ import { zipContentStore } from "@shanzhai/zip-content-store";
 import { DeleteFromKeyedStoreStep } from "@shanzhai/delete-from-keyed-store-step";
 import { KeyedStoreGetInput } from "@shanzhai/keyed-store-get-input";
 import { KeyedStoreSetOutput } from "@shanzhai/keyed-store-set-output";
+import { WrapInObjectOutput } from "@shanzhai/wrap-in-object-output";
 
 const minifyHtmlPlugin: Plugin<{
   readonly minifyHtml: KeyedStoreTrigger;
@@ -21,7 +22,10 @@ const minifyHtmlPlugin: Plugin<{
         return new MinifyHtmlStep(
           key,
           new KeyedStoreGetInput(htmlSourceStore, key),
-          new KeyedStoreSetOutput(zipContentStore, key)
+          new WrapInObjectOutput(
+            key,
+            new KeyedStoreSetOutput(zipContentStore, key)
+          )
         );
       },
     },
