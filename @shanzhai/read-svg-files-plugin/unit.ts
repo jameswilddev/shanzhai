@@ -10,6 +10,14 @@ describe(`read-svg-files-plugin`, () => {
     expect(readSvgFilesPlugin.triggers.readSvgFiles.glob).toEqual(`**/*.svg`);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(readSvgFilesPlugin.triggers.readSvgFiles.writesToStores).toEqual(
+        jasmine.arrayWithExactContents([svgSourceStore])
+      )
+    );
+  });
+
   describe(`when a file is removed`, () => {
     let step: Step;
 

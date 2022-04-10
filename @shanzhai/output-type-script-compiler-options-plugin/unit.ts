@@ -14,6 +14,15 @@ describe(`output-type-script-compiler-options-plugin`, () => {
     ).toEqual([typeScriptCompilerOptionsStore]);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(
+        readTypeScriptFilesPlugin.triggers.outputTypeScriptCompilerOptions
+          .writesToStores
+      ).toEqual(jasmine.arrayWithExactContents([]))
+    );
+  });
+
   describe(`when compiler options are set`, () => {
     let step: Step;
 

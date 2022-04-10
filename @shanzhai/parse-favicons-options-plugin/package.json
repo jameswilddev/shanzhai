@@ -27,7 +27,7 @@
     "@shanzhai/unkeyed-store-set-output": "0.0.4"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/interfaces": "0.0.25",
     "@shanzhai/favicons-options-source-store": "0.0.0",
     "@shanzhai/favicons-options-store": "0.0.0",
     "@types/favicons": "6.2.2"

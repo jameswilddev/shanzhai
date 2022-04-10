@@ -12,6 +12,14 @@ describe(`read-type-script-files-plugin`, () => {
     );
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(
+        readTypeScriptFilesPlugin.triggers.readTypeScriptFiles.writesToStores
+      ).toEqual(jasmine.arrayWithExactContents([typeScriptSourceStore]))
+    );
+  });
+
   describe(`when a file is removed`, () => {
     let step: Step;
 

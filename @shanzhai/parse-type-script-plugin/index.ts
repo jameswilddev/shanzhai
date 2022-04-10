@@ -27,6 +27,7 @@ const parseTypeScriptPlugin: Plugin<{
           new KeyedStoreSetOutput(parsedTypeScriptStore, key)
         );
       },
+      writesToStores: [parsedTypeScriptStore],
     },
   },
 };

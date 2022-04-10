@@ -13,6 +13,12 @@ describe(`parse-favicons-options-plugin`, () => {
     ).toEqual([faviconsOptionsSourceStore]);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      parseFaviconsOptionsPlugin.triggers.parseFaviconsOptions.writesToStores
+    ).toEqual(jasmine.arrayWithExactContents([faviconsOptionsStore]));
+  });
+
   describe(`when the favicons options are set`, () => {
     let step: Step;
 

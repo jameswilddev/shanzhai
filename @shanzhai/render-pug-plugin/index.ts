@@ -36,6 +36,7 @@ const renderPugPlugin: Plugin<{
           new KeyedStoreSetOutput(htmlSourceStore, withReplacedExtension)
         );
       },
+      writesToStores: [htmlSourceStore],
     },
   },
 };

@@ -7,6 +7,17 @@ import { typeScriptCompilerOptionsStore } from "@shanzhai/type-script-compiler-o
 import es5TypeScriptCompilerOptionsPlugin = require(".");
 
 describe(`es5-type-script-compiler-options-plugin`, () => {
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(
+        es5TypeScriptCompilerOptionsPlugin.triggers.es5TypeScriptCompilerOptions
+          .writesToStores
+      ).toEqual(
+        jasmine.arrayWithExactContents([typeScriptCompilerOptionsStore])
+      )
+    );
+  });
+
   describe(`on startup`, () => {
     let step: Step;
 

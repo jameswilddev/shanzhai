@@ -16,6 +16,12 @@ describe(`compile-type-script-plugin`, () => {
     ]);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      compileTypeScriptPlugin.triggers.compileTypeScript.writesToStores
+    ).toEqual(jasmine.arrayWithExactContents([javascriptSourceStore]));
+  });
+
   describe(`when the stores change`, () => {
     let step: Step;
 

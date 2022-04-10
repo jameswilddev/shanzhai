@@ -22,6 +22,7 @@ const outputZipPlugin: Plugin<{
           ),
         ]);
       },
+      writesToStores: [],
     },
   },
 };

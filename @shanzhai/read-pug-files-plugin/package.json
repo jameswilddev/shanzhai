@@ -27,7 +27,7 @@
     "@shanzhai/read-text-file-step": "0.0.10"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/interfaces": "0.0.25",
     "@shanzhai/pug-source-store": "0.0.6"
   },
   "peerDependencies": {

@@ -24,6 +24,7 @@ const parsePugPlugin: Plugin<{
           new KeyedStoreSetOutput(parsedPugStore, key)
         );
       },
+      writesToStores: [parsedPugStore],
     },
   },
 };

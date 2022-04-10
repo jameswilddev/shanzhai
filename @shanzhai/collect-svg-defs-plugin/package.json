@@ -33,7 +33,7 @@
   "devDependencies": {
     "@shanzhai/pug-local-store": "0.0.7",
     "@shanzhai/type-script-global-store": "0.0.13",
-    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/interfaces": "0.0.25",
     "@shanzhai/svg-def-store": "0.0.5",
     "@shanzhai/type-script-source-store": "0.0.10"
   },

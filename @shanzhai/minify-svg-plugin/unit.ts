@@ -12,6 +12,14 @@ describe(`minify-svg-plugin`, () => {
     expect(minifySvgPlugin.triggers.minifySvg.keyedStore).toBe(svgSourceStore);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(minifySvgPlugin.triggers.minifySvg.writesToStores).toEqual(
+        jasmine.arrayWithExactContents([minifiedSvgStore])
+      )
+    );
+  });
+
   it(`does not refresh all when other stores change`, () => {
     expect(
       minifySvgPlugin.triggers.minifySvg.refreshAllWhenStoresChange

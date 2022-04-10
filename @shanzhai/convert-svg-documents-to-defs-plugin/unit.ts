@@ -14,6 +14,12 @@ describe(`convert-svg-documents-to-defs-plugin`, () => {
     );
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      minifySvgPlugin.triggers.convertSvgDocumentsToDefs.writesToStores
+    ).toEqual(jasmine.arrayWithExactContents([svgDefStore]));
+  });
+
   it(`does not refresh all when other stores change`, () => {
     expect(
       minifySvgPlugin.triggers.convertSvgDocumentsToDefs

@@ -23,6 +23,7 @@ const faviconsPlugin: Plugin<{
           new KeyedStoreSetOutput(zipContentStore, `favicons`)
         );
       },
+      writesToStores: [htmlHeaderStore, zipContentStore],
     },
   },
 };

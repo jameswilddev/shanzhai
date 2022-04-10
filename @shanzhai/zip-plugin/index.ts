@@ -20,6 +20,7 @@ const zipPlugin: Plugin<{
           new UnkeyedStoreSetOutput(zipStore)
         );
       },
+      writesToStores: [],
     },
   },
 };

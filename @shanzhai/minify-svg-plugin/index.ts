@@ -24,6 +24,7 @@ const minifySvgPlugin: Plugin<{
           new KeyedStoreSetOutput(minifiedSvgStore, key)
         );
       },
+      writesToStores: [minifiedSvgStore],
     },
   },
 };

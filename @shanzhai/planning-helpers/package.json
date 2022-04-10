@@ -29,7 +29,7 @@
     "@shanzhai/glob-compare-function": "0.0.2"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/interfaces": "0.0.25",
     "@types/minimatch": "3.0.5"
   },
   "types": "index.d.ts"

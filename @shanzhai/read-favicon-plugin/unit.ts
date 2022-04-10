@@ -10,6 +10,14 @@ describe(`read-favicon-plugin`, () => {
     expect(readFaviconPlugin.triggers.readFavicon.glob).toEqual(`favicon.*`);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(readFaviconPlugin.triggers.readFavicon.writesToStores).toEqual(
+        jasmine.arrayWithExactContents([faviconStore])
+      )
+    );
+  });
+
   describe(`when a file is removed`, () => {
     let step: Step;
 

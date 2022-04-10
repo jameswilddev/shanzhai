@@ -26,6 +26,7 @@ const htmlHeaderPugLocalPlugin: Plugin<{
           )
         );
       },
+      writesToStores: [pugLocalStore],
     },
   },
 };

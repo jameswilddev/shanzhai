@@ -25,7 +25,7 @@
     "@shanzhai/ephemeral-unkeyed-store": "0.0.4"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/interfaces": "0.0.25",
     "@types/favicons": "6.2.2"
   },
   "types": "index.d.ts"

@@ -15,6 +15,12 @@ describe(`favicons-plugin`, () => {
     );
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(faviconsPlugin.triggers.favicons.writesToStores).toEqual(
+      jasmine.arrayWithExactContents([htmlHeaderStore, zipContentStore])
+    );
+  });
+
   describe(`when the stores change`, () => {
     let step: Step;
 

@@ -20,6 +20,7 @@ const readSvgFilesPlugin: Plugin<{
           new KeyedStoreSetOutput(svgSourceStore, path)
         );
       },
+      writesToStores: [svgSourceStore],
     },
   },
 };

@@ -27,6 +27,7 @@ const parseFaviconsOptionsPlugin: Plugin<{
           )
         );
       },
+      writesToStores: [faviconsOptionsStore],
     },
   },
 };

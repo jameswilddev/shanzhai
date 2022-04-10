@@ -29,6 +29,7 @@ const minifyJavascriptPlugin: Plugin<{
           )
         );
       },
+      writesToStores: [pugLocalStore],
     },
   },
 };

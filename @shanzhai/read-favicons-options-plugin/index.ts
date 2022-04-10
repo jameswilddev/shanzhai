@@ -20,6 +20,7 @@ const readFaviconsOptionsPlugin: Plugin<{
           new UnkeyedStoreSetOutput(faviconsOptionsSourceStore)
         );
       },
+      writesToStores: [faviconsOptionsSourceStore],
     },
   },
 };

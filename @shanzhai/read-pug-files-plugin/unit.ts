@@ -10,6 +10,14 @@ describe(`read-pug-files-plugin`, () => {
     expect(readPugFilesPlugin.triggers.readPugFiles.glob).toEqual(`**/*.pug`);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(readPugFilesPlugin.triggers.readPugFiles.writesToStores).toEqual(
+        jasmine.arrayWithExactContents([pugSourceStore])
+      )
+    );
+  });
+
   describe(`when a file is removed`, () => {
     let step: Step;
 

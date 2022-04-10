@@ -12,6 +12,12 @@ describe(`read-favicons-options-plugin`, () => {
     );
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      readFaviconsOptionsPlugin.triggers.readFaviconsOptions.writesToStores
+    ).toEqual(jasmine.arrayWithExactContents([faviconsOptionsSourceStore]));
+  });
+
   describe(`when a file is removed`, () => {
     let step: Step;
 

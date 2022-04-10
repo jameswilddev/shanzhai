@@ -11,6 +11,14 @@ describe(`output-zip-plugin`, () => {
     expect(outputZipPlugin.triggers.outputZip.stores).toEqual([zipStore]);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(outputZipPlugin.triggers.outputZip.writesToStores).toEqual(
+        jasmine.arrayWithExactContents([])
+      )
+    );
+  });
+
   describe(`when the zip is set`, () => {
     let step: Step;
 

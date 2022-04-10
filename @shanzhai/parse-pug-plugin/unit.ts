@@ -14,6 +14,14 @@ describe(`parse-pug-plugin`, () => {
     );
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(readPugFilesPlugin.triggers.parsePug.writesToStores).toEqual(
+        jasmine.arrayWithExactContents([parsedPugStore])
+      )
+    );
+  });
+
   it(`does not refresh all`, () => {
     expect(
       readPugFilesPlugin.triggers.parsePug.refreshAllWhenStoresChange

@@ -32,6 +32,7 @@ const outputTypeScriptCompilerOptionsPlugin: Plugin<{
           )
         );
       },
+      writesToStores: [],
     },
   },
 };

@@ -109,6 +109,7 @@ const es5TypeScriptCompilerOptionsPlugin: Plugin<{
           new UnkeyedStoreSetOutput(typeScriptCompilerOptionsStore)
         );
       },
+      writesToStores: [typeScriptCompilerOptionsStore],
     },
   },
 };

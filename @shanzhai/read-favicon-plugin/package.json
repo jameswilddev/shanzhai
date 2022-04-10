@@ -27,7 +27,7 @@
     "@shanzhai/nop-step": "0.0.0"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/interfaces": "0.0.25",
     "@shanzhai/favicon-store": "0.0.0"
   },
   "peerDependencies": {

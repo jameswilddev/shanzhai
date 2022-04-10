@@ -16,6 +16,14 @@ describe(`parse-type-script-plugin`, () => {
     );
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(
+        readTypeScriptFilesPlugin.triggers.parseTypeScript.writesToStores
+      ).toEqual(jasmine.arrayWithExactContents([parsedTypeScriptStore]))
+    );
+  });
+
   it(`refreshes all when the compiler options change`, () => {
     expect(
       readTypeScriptFilesPlugin.triggers.parseTypeScript

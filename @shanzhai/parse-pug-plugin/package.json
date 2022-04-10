@@ -28,7 +28,7 @@
     "@shanzhai/parse-pug-step": "0.0.9"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/interfaces": "0.0.25",
     "@shanzhai/parsed-pug-store": "0.0.6",
     "@shanzhai/pug-source-store": "0.0.6"
   },

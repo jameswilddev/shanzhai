@@ -15,6 +15,14 @@ describe(`minify-html-plugin`, () => {
     );
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(minifyHtmlPlugin.triggers.minifyHtml.writesToStores).toEqual(
+        jasmine.arrayWithExactContents([zipContentStore])
+      )
+    );
+  });
+
   it(`does not refresh all when other stores change`, () => {
     expect(
       minifyHtmlPlugin.triggers.minifyHtml.refreshAllWhenStoresChange

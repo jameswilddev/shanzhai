@@ -15,6 +15,12 @@ describe(`html-header-pug-local-plugin`, () => {
     );
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      htmlHeaderPugLocalPlugin.triggers.htmlHeaderPugLocal.writesToStores
+    ).toEqual(jasmine.arrayWithExactContents([pugLocalStore]));
+  });
+
   describe(`when the favicons options are set`, () => {
     let step: Step;
 

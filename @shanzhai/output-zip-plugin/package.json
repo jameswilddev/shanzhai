@@ -28,7 +28,7 @@
     "@shanzhai/write-file-step": "0.0.9"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/interfaces": "0.0.25",
     "@shanzhai/zip-store": "0.0.5"
   },
   "peerDependencies": {

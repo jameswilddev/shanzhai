@@ -31,7 +31,7 @@ const collectSvgDefsPlugin: Plugin<{
             ),
             new DeleteFromKeyedStoreStep(
               pugLocalStore,
-              `collect-svg-defs-plugin-`
+              `collect-svg-defs-plugin`
             ),
           ]),
           new CollectSvgDefsStep(
@@ -51,6 +51,11 @@ const collectSvgDefsPlugin: Plugin<{
           ),
         ]);
       },
+      writesToStores: [
+        typeScriptSourceStore,
+        typeScriptGlobalStore,
+        pugLocalStore,
+      ],
     },
   },
 };

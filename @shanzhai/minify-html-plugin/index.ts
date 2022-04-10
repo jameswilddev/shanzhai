@@ -28,6 +28,7 @@ const minifyHtmlPlugin: Plugin<{
           )
         );
       },
+      writesToStores: [zipContentStore],
     },
   },
 };

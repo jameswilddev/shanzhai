@@ -17,6 +17,12 @@ describe(`minify-javascript-plugin`, () => {
     ]);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      minifyJavascriptPlugin.triggers.minifyJavascript.writesToStores
+    ).toEqual(jasmine.arrayWithExactContents([pugLocalStore]));
+  });
+
   describe(`when Javascript source changes`, () => {
     let step: Step;
 

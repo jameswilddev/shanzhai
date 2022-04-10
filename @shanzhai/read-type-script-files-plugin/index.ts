@@ -20,6 +20,7 @@ const readTypeScriptFilesPlugin: Plugin<{
           new KeyedStoreSetOutput(typeScriptSourceStore, path)
         );
       },
+      writesToStores: [typeScriptSourceStore],
     },
   },
 };

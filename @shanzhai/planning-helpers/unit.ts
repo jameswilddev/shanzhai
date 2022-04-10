@@ -32,12 +32,14 @@ describe(`plan`, () => {
       oneTimeTrigger = {
         type: `oneTime`,
         up: jasmine.createSpy(`oneTimeTrigger.up`).and.returnValue(oneTimeStep),
+        writesToStores: [],
       };
       fileTrigger = {
         type: `file`,
         glob: `**/*.with-matching-file-extension`,
         down: jasmine.createSpy(`fileTrigger.down`),
         up: jasmine.createSpy(`fileTrigger.up`).and.returnValue(addedFileStep),
+        writesToStores: [],
       };
 
       output = plan(
@@ -128,6 +130,7 @@ describe(`plan`, () => {
       oneTimeTrigger = {
         type: `oneTime`,
         up: jasmine.createSpy(`oneTimeTrigger.up`),
+        writesToStores: [],
       };
       fileTrigger = {
         type: `file`,
@@ -158,6 +161,7 @@ describe(`plan`, () => {
               return null;
           }
         }),
+        writesToStores: [],
       };
 
       output = plan(

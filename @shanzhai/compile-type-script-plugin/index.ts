@@ -21,6 +21,7 @@ const compileTypeScriptPlugin: Plugin<{
           new UnkeyedStoreSetOutput(javascriptSourceStore)
         );
       },
+      writesToStores: [javascriptSourceStore],
     },
   },
 };

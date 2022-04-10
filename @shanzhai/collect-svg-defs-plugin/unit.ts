@@ -19,6 +19,16 @@ describe(`collect-svg-defs-plugin`, () => {
     ]);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(collectSvgDefsPlugin.triggers.collectSvgDefs.writesToStores).toEqual(
+      jasmine.arrayWithExactContents([
+        typeScriptSourceStore,
+        typeScriptGlobalStore,
+        pugLocalStore,
+      ])
+    );
+  });
+
   describe(`when SVG defs change`, () => {
     let step: Step;
 
@@ -40,7 +50,7 @@ describe(`collect-svg-defs-plugin`, () => {
             ),
             new DeleteFromKeyedStoreStep(
               pugLocalStore,
-              `collect-svg-defs-plugin-`
+              `collect-svg-defs-plugin`
             ),
           ]),
           new CollectSvgDefsStep(

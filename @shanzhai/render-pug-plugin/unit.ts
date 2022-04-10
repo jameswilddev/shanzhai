@@ -17,6 +17,14 @@ describe(`render-pug-plugin`, () => {
     );
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(readPugFilesPlugin.triggers.renderPug.writesToStores).toEqual(
+        jasmine.arrayWithExactContents([htmlSourceStore])
+      )
+    );
+  });
+
   it(`refreshes all when the locals change`, () => {
     expect(
       readPugFilesPlugin.triggers.renderPug.refreshAllWhenStoresChange

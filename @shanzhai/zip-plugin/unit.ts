@@ -12,6 +12,14 @@ describe(`zip-plugin`, () => {
     expect(zipPlugin.triggers.zip.stores).toEqual([zipContentStore]);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      expect(zipPlugin.triggers.zip.writesToStores).toEqual(
+        jasmine.arrayWithExactContents([])
+      )
+    );
+  });
+
   describe(`when SVG defs change`, () => {
     let step: Step;
 

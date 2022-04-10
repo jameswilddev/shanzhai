@@ -23,6 +23,7 @@ const convertSvgDocumentsToDefsPlugin: Plugin<{
           new KeyedStoreSetOutput(svgDefStore, key)
         );
       },
+      writesToStores: [svgDefStore],
     },
   },
 };

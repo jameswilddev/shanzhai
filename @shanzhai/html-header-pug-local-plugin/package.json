@@ -29,7 +29,7 @@
     "@shanzhai/wrap-in-object-output": "0.0.5"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.24",
+    "@shanzhai/interfaces": "0.0.25",
     "@shanzhai/html-header-store": "0.0.3",
     "@shanzhai/pug-local-store": "0.0.7"
   },

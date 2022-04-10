@@ -157,6 +157,7 @@ describe(`generateSteps`, function () {
           invalidated: jasmine.createSpy(
             `storeAggregateTriggerUntriggered.invalidated`
           ),
+          writesToStores: [],
         };
         storeAggregateTriggerTriggeredByUnkeyedSetStep = new DummyStep(
           `storeAggregateTriggerTriggeredByUnkeyedSetStep`,
@@ -172,6 +173,7 @@ describe(`generateSteps`, function () {
           invalidated: jasmine
             .createSpy(`storeAggregateTriggerTriggeredByUnkeyedSet.invalidated`)
             .and.returnValue(storeAggregateTriggerTriggeredByUnkeyedSetStep),
+          writesToStores: [],
         };
         storeAggregateTriggerTriggeredByKeyedSetStep = new DummyStep(
           `storeAggregateTriggerTriggeredByKeyedSetStep`,
@@ -187,6 +189,7 @@ describe(`generateSteps`, function () {
           invalidated: jasmine
             .createSpy(`storeAggregateTriggerTriggeredByKeyedSet.invalidated`)
             .and.returnValue(storeAggregateTriggerTriggeredByKeyedSetStep),
+          writesToStores: [],
         };
         storeAggregateTriggerTriggeredByKeyedDeleteStep = new DummyStep(
           `storeAggregateTriggerTriggeredByKeyedDeleteStep`,
@@ -209,6 +212,7 @@ describe(`generateSteps`, function () {
               `storeAggregateTriggerTriggeredByKeyedDelete.invalidated`
             )
             .and.returnValue(storeAggregateTriggerTriggeredByKeyedDeleteStep),
+          writesToStores: [setUnkeyedStore],
         };
         storeAggregateTriggerTriggeredByAllInOneStoreStep = new DummyStep(
           `storeAggregateTriggerTriggeredByAllInOneStoreStep`,
@@ -226,6 +230,7 @@ describe(`generateSteps`, function () {
               `storeAggregateTriggerTriggeredByAllInOneStore.invalidated`
             )
             .and.returnValue(storeAggregateTriggerTriggeredByAllInOneStoreStep),
+          writesToStores: [],
         };
         storeAggregateTriggerTriggeredByAllAcrossMultipleStoresStep =
           new DummyStep(
@@ -247,6 +252,7 @@ describe(`generateSteps`, function () {
             .and.returnValue(
               storeAggregateTriggerTriggeredByAllAcrossMultipleStoresStep
             ),
+          writesToStores: [],
         };
         keyedStoreTriggerUntriggered = {
           type: `keyedStore`,
@@ -257,6 +263,7 @@ describe(`generateSteps`, function () {
           ],
           down: jasmine.createSpy(`keyedStoreTriggerTriggerUntriggered.down`),
           up: jasmine.createSpy(`keyedStoreTriggerTriggerUntriggered.up`),
+          writesToStores: [],
         };
         keyedStoreTriggerTriggeredByKeyedSetStep = new DummyStep(
           `keyedStoreTriggerTriggeredByKeyedSetStep`,
@@ -273,6 +280,7 @@ describe(`generateSteps`, function () {
           up: jasmine
             .createSpy(`keyedStoreTriggerTriggeredByKeyedSet.up`)
             .and.returnValue(keyedStoreTriggerTriggeredByKeyedSetStep),
+          writesToStores: [],
         };
         keyedStoreTriggerTriggeredByKeyedDeleteStep = new DummyStep(
           `keyedStoreTriggerTriggeredByKeyedDeleteStep`,
@@ -289,6 +297,7 @@ describe(`generateSteps`, function () {
             .createSpy(`keyedStoreTriggerTriggeredByKeyedDelete.down`)
             .and.returnValue(keyedStoreTriggerTriggeredByKeyedDeleteStep),
           up: jasmine.createSpy(`keyedStoreTriggerTriggeredByKeyedDelete.up`),
+          writesToStores: [],
         };
         keyedStoreTriggerTriggeredByAllSetStep = new DummyStep(
           `keyedStoreTriggerTriggeredByAllSetStep`,
@@ -311,6 +320,7 @@ describe(`generateSteps`, function () {
           up: jasmine
             .createSpy(`keyedStoreTriggerTriggeredByKeyedDelete.up`)
             .and.returnValue(keyedStoreTriggerTriggeredByAllSetStep),
+          writesToStores: [],
         };
         oneTimeTriggerStep = new DummyStep(`oneTimeTriggerStep`, []);
         oneTimeTrigger = {
@@ -318,12 +328,14 @@ describe(`generateSteps`, function () {
           up: jasmine
             .createSpy(`oneTimeTrigger.up`)
             .and.returnValue(oneTimeTriggerStep),
+          writesToStores: [],
         };
         fileTriggerUntriggered = {
           type: `file`,
           glob: `no/files/match/this`,
           down: jasmine.createSpy(`fileTriggerUntriggered.down`),
           up: jasmine.createSpy(`fileTriggerUntriggered.up`),
+          writesToStores: [],
         };
         fileTriggerTriggeredByMoreSpecificAddStep = new DummyStep(
           `fileTriggerTriggeredByMoreSpecificAddStep`,
@@ -336,6 +348,7 @@ describe(`generateSteps`, function () {
           up: jasmine
             .createSpy(`fileTriggerTriggeredByMoreSpecificAdd.up`)
             .and.returnValue(fileTriggerTriggeredByMoreSpecificAddStep),
+          writesToStores: [],
         };
         fileTriggerTriggeredByMoreSpecificDeleteStep = new DummyStep(
           `fileTriggerTriggeredByMoreSpecificDeleteStep`,
@@ -348,6 +361,7 @@ describe(`generateSteps`, function () {
             .createSpy(`fileTriggerTriggeredByMoreSpecificDelete.down`)
             .and.returnValue(fileTriggerTriggeredByMoreSpecificDeleteStep),
           up: jasmine.createSpy(`fileTriggerTriggeredByMoreSpecificDelete.up`),
+          writesToStores: [],
         };
         fileTriggerTriggeredByMoreSpecificChangeDownStep = new DummyStep(
           `fileTriggerTriggeredByMoreSpecificChangeDownStep`,
@@ -366,6 +380,7 @@ describe(`generateSteps`, function () {
           up: jasmine
             .createSpy(`fileTriggerTriggeredByMoreSpecificChange.up`)
             .and.returnValue(fileTriggerTriggeredByMoreSpecificChangeUpStep),
+          writesToStores: [],
         };
         fileTriggerTriggeredByLessSpecificAddStep = new DummyStep(
           `fileTriggerTriggeredByLessSpecificAddStep`,
@@ -378,6 +393,7 @@ describe(`generateSteps`, function () {
           up: jasmine
             .createSpy(`fileTriggerTriggeredByLessSpecificAdd.up`)
             .and.returnValue(fileTriggerTriggeredByLessSpecificAddStep),
+          writesToStores: [],
         };
         fileTriggerTriggeredByLessSpecificDeleteStep = new DummyStep(
           `fileTriggerTriggeredByLessSpecificDeleteStep`,
@@ -401,6 +417,7 @@ describe(`generateSteps`, function () {
             .createSpy(`fileTriggerTriggeredByLessSpecificDelete.down`)
             .and.returnValue(fileTriggerTriggeredByLessSpecificDeleteStep),
           up: jasmine.createSpy(`fileTriggerTriggeredByLessSpecificDelete.up`),
+          writesToStores: [deletedKeyedStore, setKeyedStore],
         };
         fileTriggerTriggeredByLessSpecificChangeDownStep = new DummyStep(
           `fileTriggerTriggeredByLessSpecificChangeDownStep`,
@@ -431,6 +448,7 @@ describe(`generateSteps`, function () {
           up: jasmine
             .createSpy(`fileTriggerTriggeredByLessSpecificChange.up`)
             .and.returnValue(fileTriggerTriggeredByLessSpecificChangeUpStep),
+          writesToStores: [setAndDeletedKeyedStore],
         };
         fileTriggerTriggeredByAllAddStep = new DummyStep(
           `fileTriggerTriggeredByAllAddStep`,
@@ -498,6 +516,7 @@ describe(`generateSteps`, function () {
                   return null;
               }
             }),
+          writesToStores: [unusedUnkeyedStore, unusedKeyedStore],
         };
 
         output = generateSteps(

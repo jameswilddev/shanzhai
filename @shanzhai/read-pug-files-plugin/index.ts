@@ -20,6 +20,7 @@ const readPugFilesPlugin: Plugin<{
           new KeyedStoreSetOutput(pugSourceStore, path)
         );
       },
+      writesToStores: [pugSourceStore],
     },
   },
 };
