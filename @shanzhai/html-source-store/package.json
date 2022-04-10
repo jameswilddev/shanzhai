@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/html-source-store",
   "description": "A Shanzhai store for HTML source.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "node": ">=17.6.0"
   },

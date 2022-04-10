@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/keyed-store-get-input",
   "description": "A Shanzhai input which reads a single value from a keyed store.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "node": ">=17.6.0"
   },

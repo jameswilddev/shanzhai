@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-binary-file-step",
   "description": "A Shanzhai step which reads the content of a binary file.",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "engines": {
     "node": ">=17.6.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/change-tracking-helpers",
   "description": "Helpers for tracking changes to files during a Shanzhai build.",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "engines": {
     "node": ">=17.6.0"
   },

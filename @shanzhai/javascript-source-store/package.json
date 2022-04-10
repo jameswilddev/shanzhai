@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/javascript-source-store",
   "description": "A Shanzhai store for Javascript source files.",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "engines": {
     "node": ">=17.6.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/merge-object-input",
   "description": "A Shanzhai input which builds an object by merging the objects retrieved by other inputs.",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "engines": {
     "node": ">=17.6.0"
   },

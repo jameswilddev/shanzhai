@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/copy-step",
   "description": "A Shanzhai step which copies an input to an output.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "node": ">=17.6.0"
   },

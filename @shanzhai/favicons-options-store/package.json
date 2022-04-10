@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/favicons-options-store",
   "description": "A Shanzhai store for options for the \"favicons\" package.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=17.6.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/concatenate-object-values-input",
   "description": "A Shanzhai input which concatenates the (string) values of an object returned by another input.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=17.6.0"
   },

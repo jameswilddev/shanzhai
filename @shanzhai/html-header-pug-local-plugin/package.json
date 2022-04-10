@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/html-header-pug-local-plugin",
   "description": "A Shanzhai plugin which converts the generated HTML headers to a Pug local.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">=17.6.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/plugin-helpers",
   "description": "Helpers for searching for plugins during a Shanzhai build.",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "engines": {
     "node": ">=17.6.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/favicons-step",
   "description": "A Shanzhai step which converts an image to HTML headers and files representing favicons.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "engines": {
     "node": ">=17.6.0"
   },

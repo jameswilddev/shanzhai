@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/watch-cli",
   "description": "A CLI tool which performs a build of the Shanzhai project in the current directory, watching for changes and rebuilding automatically.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "node": ">=17.6.0"
   },
