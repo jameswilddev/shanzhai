@@ -41,6 +41,7 @@ const outputZipContentPlugin: Plugin<{
           ),
         ]);
       },
+      writesToStores: [],
     },
   },
 };

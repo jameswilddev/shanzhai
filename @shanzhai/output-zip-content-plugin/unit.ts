@@ -21,6 +21,12 @@ describe(`output-zip-content-plugin`, () => {
     ).toEqual([]);
   });
 
+  it(`advertises the stores it will write to`, () => {
+    expect(
+      outputZipContentPlugin.triggers.outputZipContent.writesToStores
+    ).toEqual(jasmine.arrayWithExactContents([]));
+  });
+
   describe(`when zip content is deleted`, () => {
     let step: Step;
 
