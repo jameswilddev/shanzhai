@@ -31,11 +31,11 @@
   "devDependencies": {
     "@schemastore/tsconfig": "0.0.9",
     "@shanzhai/interfaces": "0.0.25",
-    "@shanzhai/type-script-compiler-options-store": "0.0.11",
+    "@shanzhai/type-script-compiler-options-store": "0.0.12",
     "typescript": "4.6.3"
   },
   "peerDependencies": {
-    "@shanzhai/type-script-compiler-options-store": "0.0.11"
+    "@shanzhai/type-script-compiler-options-store": "0.0.12"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

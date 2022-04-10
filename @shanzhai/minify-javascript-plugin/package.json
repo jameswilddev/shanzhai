@@ -25,20 +25,20 @@
     "@shanzhai/keyed-store-get-all-input": "0.0.5",
     "@shanzhai/keyed-store-set-output": "0.0.5",
     "@shanzhai/merge-object-input": "0.0.10",
-    "@shanzhai/minify-javascript-step": "0.0.12",
+    "@shanzhai/minify-javascript-step": "0.0.13",
     "@shanzhai/unkeyed-store-get-input": "0.0.5",
     "@shanzhai/wrap-in-object-output": "0.0.6"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.25",
-    "@shanzhai/javascript-source-store": "0.0.13",
-    "@shanzhai/pug-local-store": "0.0.8",
-    "@shanzhai/type-script-global-store": "0.0.14"
+    "@shanzhai/javascript-source-store": "0.0.14",
+    "@shanzhai/pug-local-store": "0.0.9",
+    "@shanzhai/type-script-global-store": "0.0.15"
   },
   "peerDependencies": {
-    "@shanzhai/javascript-source-store": "0.0.13",
-    "@shanzhai/type-script-global-store": "0.0.14",
-    "@shanzhai/pug-local-store": "0.0.8"
+    "@shanzhai/javascript-source-store": "0.0.14",
+    "@shanzhai/type-script-global-store": "0.0.15",
+    "@shanzhai/pug-local-store": "0.0.9"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

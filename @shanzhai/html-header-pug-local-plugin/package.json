@@ -30,12 +30,12 @@
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.25",
-    "@shanzhai/html-header-store": "0.0.4",
-    "@shanzhai/pug-local-store": "0.0.8"
+    "@shanzhai/html-header-store": "0.0.5",
+    "@shanzhai/pug-local-store": "0.0.9"
   },
   "peerDependencies": {
-    "@shanzhai/html-header-store": "0.0.4",
-    "@shanzhai/pug-local-store": "0.0.8"
+    "@shanzhai/html-header-store": "0.0.5",
+    "@shanzhai/pug-local-store": "0.0.9"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [
