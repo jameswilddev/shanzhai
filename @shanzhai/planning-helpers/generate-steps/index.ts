@@ -1,5 +1,6 @@
 import minimatch = require("minimatch");
 import { FileTrigger, Step, Trigger, Diff } from "@shanzhai/interfaces";
+import { globCompareFunction } from "@shanzhai/glob-compare-function";
 
 export function generateSteps(
   triggers: ReadonlyArray<Trigger>,
@@ -157,16 +158,7 @@ export function generateSteps(
 
   const fileTriggers = triggers
     .filter((trigger): trigger is FileTrigger => trigger.type === `file`)
-    .sort((a, b) => {
-      const specialCharacters =
-        b.glob.split(/[*/\\]/g).length - a.glob.split(/[*/\\]/g).length;
-
-      if (specialCharacters === 0) {
-        return b.glob.length - a.glob.length;
-      } else {
-        return specialCharacters;
-      }
-    });
+    .sort((a, b) => globCompareFunction(a.glob, b.glob));
 
   for (const path of diff.added) {
     for (const trigger of fileTriggers) {
