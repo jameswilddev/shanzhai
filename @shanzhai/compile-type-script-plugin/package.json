@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/compile-type-script-plugin",
   "description": "A Shanzhai plugin while compiles the entire store of parsed TypeScript, storing the resulting Javascript in corresponding source store.",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "engines": {
     "node": ">=17.6.0"
   },

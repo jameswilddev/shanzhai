@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-favicon-plugin",
   "description": "A Shanzhai plugin which reads the \"favicon\" file into the favicon store.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "node": ">=17.6.0"
   },
