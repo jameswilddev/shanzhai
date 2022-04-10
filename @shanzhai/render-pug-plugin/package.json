@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/render-pug-plugin",
   "description": "A Shanzhai plugin which renders parsed Pug, storing the results in the HTML source store.  File extensions of \".pug\" are automatically replaced with \".html\".",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "engines": {
     "node": ">=17.6.0"
   },

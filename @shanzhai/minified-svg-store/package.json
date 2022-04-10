@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/minified-svg-store",
   "description": "A Shanzhai store for minified SVG files.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "node": ">=17.6.0"
   },

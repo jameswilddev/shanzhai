@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/read-svg-files-plugin",
   "description": "A Shanzhai plugin which reads SVG files into the SVG source store.",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "engines": {
     "node": ">=17.6.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/favicons-plugin",
   "description": "A Shanzhai plugin which minifies HTML from the source store.",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "engines": {
     "node": ">=17.6.0"
   },
