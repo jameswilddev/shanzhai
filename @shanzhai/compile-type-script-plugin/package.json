@@ -22,20 +22,20 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/compile-type-script-step": "0.0.13",
-    "@shanzhai/keyed-store-get-all-input": "0.0.4",
-    "@shanzhai/unkeyed-store-get-input": "0.0.4",
-    "@shanzhai/unkeyed-store-set-output": "0.0.4"
+    "@shanzhai/compile-type-script-step": "0.0.14",
+    "@shanzhai/keyed-store-get-all-input": "0.0.5",
+    "@shanzhai/unkeyed-store-get-input": "0.0.5",
+    "@shanzhai/unkeyed-store-set-output": "0.0.5"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.25",
-    "@shanzhai/javascript-source-store": "0.0.12",
+    "@shanzhai/javascript-source-store": "0.0.13",
     "@shanzhai/parsed-type-script-store": "0.0.12",
     "@shanzhai/type-script-compiler-options-store": "0.0.11"
   },
   "peerDependencies": {
     "@shanzhai/type-script-compiler-options-store": "0.0.11",
-    "@shanzhai/javascript-source-store": "0.0.12",
+    "@shanzhai/javascript-source-store": "0.0.13",
     "@shanzhai/parsed-type-script-store": "0.0.12"
   },
   "types": "index.d.ts"

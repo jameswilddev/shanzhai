@@ -22,9 +22,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/delete-from-keyed-store-step": "0.0.4",
-    "@shanzhai/keyed-store-set-output": "0.0.4",
-    "@shanzhai/read-text-file-step": "0.0.10"
+    "@shanzhai/delete-from-keyed-store-step": "0.0.5",
+    "@shanzhai/keyed-store-set-output": "0.0.5",
+    "@shanzhai/read-text-file-step": "0.0.11"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.25",

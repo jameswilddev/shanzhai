@@ -22,9 +22,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/constant-input": "0.0.8",
-    "@shanzhai/copy-step": "0.0.6",
-    "@shanzhai/unkeyed-store-set-output": "0.0.4",
+    "@shanzhai/constant-input": "0.0.9",
+    "@shanzhai/copy-step": "0.0.7",
+    "@shanzhai/unkeyed-store-set-output": "0.0.5",
     "typescript": "4.6.3"
   },
   "devDependencies": {

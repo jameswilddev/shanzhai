@@ -22,10 +22,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/keyed-store-get-all-input": "0.0.4",
-    "@shanzhai/unkeyed-store-set-output": "0.0.4",
-    "@shanzhai/zip-step": "0.0.10",
-    "@shanzhai/merge-object-input": "0.0.9"
+    "@shanzhai/keyed-store-get-all-input": "0.0.5",
+    "@shanzhai/unkeyed-store-set-output": "0.0.5",
+    "@shanzhai/zip-step": "0.0.11",
+    "@shanzhai/merge-object-input": "0.0.10"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.25",

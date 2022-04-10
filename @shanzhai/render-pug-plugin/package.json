@@ -22,23 +22,23 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/delete-from-keyed-store-step": "0.0.4",
-    "@shanzhai/keyed-store-get-all-input": "0.0.4",
-    "@shanzhai/keyed-store-get-input": "0.0.4",
-    "@shanzhai/keyed-store-set-output": "0.0.4",
-    "@shanzhai/merge-object-input": "0.0.9",
-    "@shanzhai/render-pug-step": "0.0.9"
+    "@shanzhai/delete-from-keyed-store-step": "0.0.5",
+    "@shanzhai/keyed-store-get-all-input": "0.0.5",
+    "@shanzhai/keyed-store-get-input": "0.0.5",
+    "@shanzhai/keyed-store-set-output": "0.0.5",
+    "@shanzhai/merge-object-input": "0.0.10",
+    "@shanzhai/render-pug-step": "0.0.10"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.25",
-    "@shanzhai/parsed-pug-store": "0.0.6",
-    "@shanzhai/html-source-store": "0.0.7",
-    "@shanzhai/pug-local-store": "0.0.7"
+    "@shanzhai/parsed-pug-store": "0.0.7",
+    "@shanzhai/html-source-store": "0.0.8",
+    "@shanzhai/pug-local-store": "0.0.8"
   },
   "peerDependencies": {
-    "@shanzhai/parsed-pug-store": "0.0.6",
-    "@shanzhai/html-source-store": "0.0.7",
-    "@shanzhai/pug-local-store": "0.0.7"
+    "@shanzhai/parsed-pug-store": "0.0.7",
+    "@shanzhai/html-source-store": "0.0.8",
+    "@shanzhai/pug-local-store": "0.0.8"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

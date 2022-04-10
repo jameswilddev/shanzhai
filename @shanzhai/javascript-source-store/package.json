@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/ephemeral-unkeyed-store": "0.0.4"
+    "@shanzhai/ephemeral-unkeyed-store": "0.0.5"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.25"

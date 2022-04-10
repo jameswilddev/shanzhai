@@ -22,10 +22,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/create-directory-step": "0.0.9",
-    "@shanzhai/serial-step": "0.0.10",
-    "@shanzhai/unkeyed-store-get-input": "0.0.4",
-    "@shanzhai/write-file-step": "0.0.9"
+    "@shanzhai/create-directory-step": "0.0.10",
+    "@shanzhai/serial-step": "0.0.11",
+    "@shanzhai/unkeyed-store-get-input": "0.0.5",
+    "@shanzhai/write-file-step": "0.0.10"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.25",
