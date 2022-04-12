@@ -13,7 +13,7 @@ export type FileTrigger = {
   readonly type: `file`;
 
   /**
-   * The glob pattern which triggers this {@link FileTrigger}.
+   * The glob pattern which triggers this {@link FileTrigger}.  Note that only one {@link FileTrigger} can be matched with each file; the "more specific" a {@link FileTrigger}'s {@link glob}, greater its priority when files are distributed between {@link FileTrigger}s.
    */
   readonly glob: string;
 
