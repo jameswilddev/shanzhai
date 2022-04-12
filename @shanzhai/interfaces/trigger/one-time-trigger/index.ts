@@ -3,8 +3,7 @@ import { KeyedStore } from "../../stores/keyed-store";
 import { UnkeyedStore } from "../../stores/unkeyed-store";
 
 /**
- * Indicates that a {@link Step} is to be executed when the build process
- * starts, before any other events are raised.
+ * Indicates that a {@link Step} is to be executed when the build process starts.
  */
 export type OneTimeTrigger = {
   /**
