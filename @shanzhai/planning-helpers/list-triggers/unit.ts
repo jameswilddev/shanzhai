@@ -164,7 +164,7 @@ describe(`listTriggers`, () => {
     );
     unwrittenKeyedStore = {
       type: `keyedStore`,
-      name: `keyedStoreWrittenToByKeyedStoreTrigger`,
+      name: `unwrittenKeyedStore`,
       get: unwrittenKeyedStoreGet,
       set: unwrittenKeyedStoreSet,
       delete: unwrittenKeyedStoreDelete,
