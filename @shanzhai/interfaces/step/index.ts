@@ -26,7 +26,7 @@ export interface Step {
   ): Promise<void>;
 
   /**
-   * A list of the {@link Effect}s which will be
+   * A list of the {@link Effect}s which will occur when this {@link Step} is executed.
    */
   effects: ReadonlyArray<Effect>;
 }
