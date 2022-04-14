@@ -4,10 +4,10 @@ import {
   KeyedStoreTrigger,
   StoreAggregateTrigger,
   Trigger,
+  KeyedStore,
+  UnkeyedStore,
 } from "@shanzhai/interfaces";
 import { listTriggers } from ".";
-import { KeyedStore } from "../../interfaces";
-import { UnkeyedStore } from "../../interfaces";
 
 describe(`listTriggers`, () => {
   let unkeyedStoreWrittenToByStoreAggregateTriggerGet: jasmine.Spy;
