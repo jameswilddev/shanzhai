@@ -26,7 +26,7 @@ describe(`plan`, () => {
     };
     let outputSteps: ReadonlyArray<Step>;
 
-    beforeAll(() => {
+    beforeAll(async () => {
       oneTimeStep = new DummyStep(`oneTimeStep`, []);
       addedFileStep = new DummyStep(`addedFileStep`, []);
       oneTimeTrigger = {
@@ -42,7 +42,7 @@ describe(`plan`, () => {
         writesToStores: [],
       };
 
-      output = plan(
+      output = await plan(
         {
           testPluginA: { triggers: { oneTimeTrigger } },
           testPluginB: { triggers: { fileTrigger } },
@@ -122,7 +122,7 @@ describe(`plan`, () => {
     };
     let outputSteps: ReadonlyArray<Step>;
 
-    beforeAll(() => {
+    beforeAll(async () => {
       addedFileStep = new DummyStep(`addedFileStep`, []);
       changedDownFileStep = new DummyStep(`changedDownFileStep`, []);
       changedUpFileStep = new DummyStep(`changedUpFileStep`, []);
@@ -164,7 +164,7 @@ describe(`plan`, () => {
         writesToStores: [],
       };
 
-      output = plan(
+      output = await plan(
         {
           testPluginA: { triggers: { oneTimeTrigger } },
           testPluginB: { triggers: { fileTrigger: fileTrigger } },
@@ -291,8 +291,8 @@ describe(`plan`, () => {
       readonly step: Step;
     };
 
-    beforeAll(() => {
-      output = plan({}, true, {
+    beforeAll(async () => {
+      output = await plan({}, true, {
         added: [
           `test/parsed/path.which-does-not-match-a`,
           `test-d1rec$ory-name/test-valid-fi$le-na\tme.test-file-extension`,
@@ -342,8 +342,8 @@ describe(`plan`, () => {
       readonly step: Step;
     };
 
-    beforeAll(() => {
-      output = plan({}, false, {
+    beforeAll(async () => {
+      output = await plan({}, false, {
         added: [
           `test/parsed/path.which-does-not-match-a`,
           `test-d1rec$ory-name/test-valid-fi$le-na\tme.test-file-extension`,
