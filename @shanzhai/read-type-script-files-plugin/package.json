@@ -27,7 +27,7 @@
     "@shanzhai/read-text-file-step": "0.0.11"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.25",
+    "@shanzhai/interfaces": "0.0.26",
     "@shanzhai/type-script-source-store": "0.0.11"
   },
   "peerDependencies": {

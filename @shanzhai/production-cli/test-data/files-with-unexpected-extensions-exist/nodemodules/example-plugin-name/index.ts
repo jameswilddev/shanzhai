@@ -13,10 +13,10 @@ module.exports = {
   triggers: [
     {
       type: `oneTime`,
-
       up(): Step {
         return new CreateDirectoryStep(`Create Dist`, [`dist`]);
       },
+      writesToStores: [],
     },
     {
       type: `file`,
@@ -36,6 +36,7 @@ module.exports = {
           ),
         ]);
       },
+      writesToStores: [store],
     },
   ],
 };

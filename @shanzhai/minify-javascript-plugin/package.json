@@ -30,7 +30,7 @@
     "@shanzhai/wrap-in-object-output": "0.0.6"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.25",
+    "@shanzhai/interfaces": "0.0.26",
     "@shanzhai/javascript-source-store": "0.0.14",
     "@shanzhai/pug-local-store": "0.0.9",
     "@shanzhai/type-script-global-store": "0.0.15"

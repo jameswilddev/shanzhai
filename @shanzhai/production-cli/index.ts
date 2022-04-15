@@ -12,7 +12,7 @@ import { scanDirectory } from "./scan-directory";
   const files = await scanDirectory();
 
   console.error(`Planning...`);
-  const step = plan(plugins, true, {
+  const step = await plan(plugins, true, {
     added: files,
     changed: [],
     deleted: [],

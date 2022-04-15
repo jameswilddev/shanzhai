@@ -12,13 +12,6 @@ const store = new EphemeralUnkeyedStore<string>(`Example Value Store`);
 module.exports = {
   triggers: [
     {
-      type: `oneTime`,
-
-      up(): Step {
-        return new CreateDirectoryStep(`Create Dist`, [`dist`]);
-      },
-    },
-    {
       type: `file`,
       glob: `*.example-extension`,
       down(path: string): Step {
@@ -28,6 +21,7 @@ module.exports = {
       },
       up(path: string): Step {
         return new SerialStep(`Example Serial Step`, [
+          new CreateDirectoryStep(`Create Dist`, [`dist`]),
           new ReadTextFileStep([`src`, path], new UnkeyedStoreSetOutput(store)),
           new WriteFileStep(
             `Write File`,
@@ -36,6 +30,7 @@ module.exports = {
           ),
         ]);
       },
+      writesToStores: [store],
     },
   ],
 };

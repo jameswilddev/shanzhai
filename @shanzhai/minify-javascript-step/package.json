@@ -26,7 +26,7 @@
     "@shanzhai/minify-step": "0.0.10"
   },
   "devDependencies": {
-    "@shanzhai/interfaces": "0.0.25",
+    "@shanzhai/interfaces": "0.0.26",
     "@types/uglify-js": "3.13.2"
   },
   "types": "index.d.ts"
