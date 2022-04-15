@@ -80,20 +80,23 @@ export class CompileTypeScriptStep extends ActionStep {
       let output = `Failed to compile TypeScript:`;
 
       for (const diagnostic of emitResult.diagnostics) {
-        const file = diagnostic.file as typescript.SourceFile;
-
-        const origin = `${file.fileName}@${
-          (file.getLineAndCharacterOfPosition(diagnostic.start as number)
-            .line as number) + 1
-        }`;
-
         const message = typescript.flattenDiagnosticMessageText(
           diagnostic.messageText,
           `\n`,
           1
         );
 
-        output += `\n${origin}: ${message.trim()}`;
+        if (diagnostic.file === undefined) {
+          output += `\n${message.trim()}`;
+        } else {
+          const origin = `${diagnostic.file.fileName}@${
+            (diagnostic.file.getLineAndCharacterOfPosition(
+              diagnostic.start as number
+            ).line as number) + 1
+          }`;
+
+          output += `\n${origin}: ${message.trim()}`;
+        }
       }
 
       throw new Error(output);

@@ -204,7 +204,7 @@ describe(`CompileTypeScriptStep`, () => {
       });
     });
 
-    describe(`invalid`, () => {
+    describe(`invalid file`, () => {
       let inputGet: jasmine.Spy;
       let input: Input<{ readonly [key: string]: typescript.SourceFile }>;
       let compilerOptionsGet: jasmine.Spy;
@@ -320,6 +320,104 @@ Test Path/To Another/Test/File.ts@5: Type '{ y: string; }[][]' is not assignable
       Property 'x' is missing in type '{ y: string; }' but required in type '{ x: number; }'.
 Test Path/To Another/Test/File.ts@6: Argument of type 'null' is not assignable to parameter of type 'number'.
 Test Root File.ts@1: Argument of type 'boolean' is not assignable to parameter of type 'number'.`)
+        );
+      });
+    });
+
+    describe(`invalid configuration`, () => {
+      let inputGet: jasmine.Spy;
+      let input: Input<{ readonly [key: string]: typescript.SourceFile }>;
+      let compilerOptionsGet: jasmine.Spy;
+      let compilerOptions: Input<typescript.CompilerOptions>;
+      let outputSet: jasmine.Spy;
+      let output: Output<string>;
+      let compileTypeScriptStep: CompileTypeScriptStep;
+      let error: null | Error = null;
+
+      beforeAll(async () => {
+        const files: { [key: string]: typescript.SourceFile } = {};
+
+        const prepareInput = (source: string, fileName: string): void => {
+          files[fileName] = typescript.createSourceFile(
+            fileName,
+            source,
+            typescript.ScriptTarget.ES2015,
+            false,
+            typescript.ScriptKind.TS
+          );
+        };
+
+        prepareInput(
+          `declare function callback(value: string): void;`,
+          path.join(`Test Path`, `To Test`, `File.ts`)
+        );
+
+        prepareInput(
+          `const square = (value: number): number => value * value;`,
+          path.join(`Test Path`, `To Another`, `Test`, `File.ts`)
+        );
+
+        prepareInput(`callback("Example " + square(21));`, `Test Root File.ts`);
+
+        inputGet = jasmine.createSpy(`inputGet`).and.resolveTo(files);
+        input = { get: inputGet };
+        compilerOptionsGet = jasmine
+          .createSpy(`compilerOptionsGet`)
+          .and.resolveTo({
+            lib: [],
+            outFile: `result.js`,
+            strictNullChecks: true,
+            target: typescript.ScriptTarget.ES5,
+            types: [],
+            typeRoots: [],
+          });
+        compilerOptions = { get: compilerOptionsGet };
+        outputSet = jasmine.createSpy(`outputSet`);
+        output = {
+          set: outputSet,
+          effects: [outputEffectA, outputEffectB, outputEffectC],
+        };
+
+        compileTypeScriptStep = new CompileTypeScriptStep(
+          input,
+          compilerOptions,
+          output
+        );
+
+        try {
+          await compileTypeScriptStep.execute();
+        } catch (e) {
+          error = e as Error;
+        }
+      });
+
+      it(`does not change its exposed input`, () => {
+        expect(compileTypeScriptStep.input).toBe(input);
+      });
+
+      it(`reads each of its exposed inputs once`, () => {
+        expect(inputGet).toHaveBeenCalledTimes(1);
+      });
+
+      it(`does not change its exposed output`, () => {
+        expect(compileTypeScriptStep.output).toBe(output);
+      });
+
+      it(`does not write to its output`, () => {
+        expect(outputSet).not.toHaveBeenCalled();
+      });
+
+      it(`throws the expected error`, () => {
+        expect(error).toEqual(
+          new Error(`Failed to compile TypeScript:
+Cannot find global type 'Array'.
+Cannot find global type 'Boolean'.
+Cannot find global type 'Function'.
+Cannot find global type 'IArguments'.
+Cannot find global type 'Number'.
+Cannot find global type 'Object'.
+Cannot find global type 'RegExp'.
+Cannot find global type 'String'.`)
         );
       });
     });
