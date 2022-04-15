@@ -22,16 +22,16 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/read-text-file-step": "0.0.11",
-    "@shanzhai/unkeyed-store-set-output": "0.0.5",
-    "@shanzhai/nop-step": "0.0.1"
+    "@shanzhai/read-text-file-step": "0.0.12",
+    "@shanzhai/unkeyed-store-set-output": "0.0.6",
+    "@shanzhai/nop-step": "0.0.2"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.26",
-    "@shanzhai/favicons-options-source-store": "0.0.2"
+    "@shanzhai/favicons-options-source-store": "0.0.3"
   },
   "peerDependencies": {
-    "@shanzhai/favicons-options-source-store": "0.0.2"
+    "@shanzhai/favicons-options-source-store": "0.0.3"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

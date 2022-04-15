@@ -22,11 +22,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/delete-from-keyed-store-step": "0.0.5",
-    "@shanzhai/keyed-store-get-input": "0.0.5",
-    "@shanzhai/keyed-store-set-output": "0.0.5",
-    "@shanzhai/parse-type-script-step": "0.0.12",
-    "@shanzhai/unkeyed-store-get-input": "0.0.5"
+    "@shanzhai/delete-from-keyed-store-step": "0.0.6",
+    "@shanzhai/keyed-store-get-input": "0.0.6",
+    "@shanzhai/keyed-store-set-output": "0.0.6",
+    "@shanzhai/parse-type-script-step": "0.0.13",
+    "@shanzhai/unkeyed-store-get-input": "0.0.6"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.26",

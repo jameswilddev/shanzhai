@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "chokidar": "3.5.3",
-    "@shanzhai/change-tracking-helpers": "0.0.13"
+    "@shanzhai/change-tracking-helpers": "0.0.14"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.26",

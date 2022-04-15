@@ -22,22 +22,22 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/keyed-store-set-output": "0.0.5",
-    "@shanzhai/favicons-step": "0.0.1",
-    "@shanzhai/unkeyed-store-get-input": "0.0.5"
+    "@shanzhai/keyed-store-set-output": "0.0.6",
+    "@shanzhai/favicons-step": "0.0.2",
+    "@shanzhai/unkeyed-store-get-input": "0.0.6"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.26",
-    "@shanzhai/favicon-store": "0.0.2",
-    "@shanzhai/favicons-options-store": "0.0.2",
-    "@shanzhai/html-header-store": "0.0.5",
+    "@shanzhai/favicon-store": "0.0.3",
+    "@shanzhai/favicons-options-store": "0.0.3",
+    "@shanzhai/html-header-store": "0.0.6",
     "@shanzhai/zip-content-store": "0.0.7",
     "@types/favicons": "6.2.2"
   },
   "peerDependencies": {
-    "@shanzhai/favicon-store": "0.0.2",
-    "@shanzhai/favicons-options-store": "0.0.2",
-    "@shanzhai/html-header-store": "0.0.5",
+    "@shanzhai/favicon-store": "0.0.3",
+    "@shanzhai/favicons-options-store": "0.0.3",
+    "@shanzhai/html-header-store": "0.0.6",
     "@shanzhai/zip-content-store": "0.0.7"
   },
   "types": "index.d.ts",

@@ -22,11 +22,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@shanzhai/build-tsconfig-input": "0.0.9",
-    "@shanzhai/constant-input": "0.0.9",
-    "@shanzhai/stringify-json-input": "0.0.7",
-    "@shanzhai/unkeyed-store-get-input": "0.0.5",
-    "@shanzhai/write-file-step": "0.0.10"
+    "@shanzhai/build-tsconfig-input": "0.0.10",
+    "@shanzhai/constant-input": "0.0.10",
+    "@shanzhai/stringify-json-input": "0.0.8",
+    "@shanzhai/unkeyed-store-get-input": "0.0.6",
+    "@shanzhai/write-file-step": "0.0.11"
   },
   "devDependencies": {
     "@schemastore/tsconfig": "0.0.9",
