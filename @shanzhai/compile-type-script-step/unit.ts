@@ -1,5 +1,4 @@
 import * as path from "path";
-import * as fs from "fs";
 import * as typescript from "typescript";
 import { Input, Output, Effect, UnkeyedStore } from "@shanzhai/interfaces";
 import { CompileTypeScriptStep } from ".";
@@ -117,22 +116,6 @@ describe(`CompileTypeScriptStep`, () => {
         };
 
         prepareInput(
-          await fs.promises.readFile(
-            require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`)),
-            `utf8`
-          ),
-          require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`))
-        );
-
-        prepareInput(
-          await fs.promises.readFile(
-            require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`)),
-            `utf8`
-          ),
-          require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`))
-        );
-
-        prepareInput(
           `declare function callback(value: string): void;`,
           path.join(`Test Path`, `To Test`, `File.ts`)
         );
@@ -226,22 +209,6 @@ describe(`CompileTypeScriptStep`, () => {
             typescript.ScriptKind.TS
           );
         };
-
-        prepareInput(
-          await fs.promises.readFile(
-            require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`)),
-            `utf8`
-          ),
-          require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`))
-        );
-
-        prepareInput(
-          await fs.promises.readFile(
-            require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`)),
-            `utf8`
-          ),
-          require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`))
-        );
 
         prepareInput(
           `declare function callback(value: string): void;`,
@@ -446,22 +413,6 @@ Cannot find global type 'String'.`)
         };
 
         prepareInput(
-          await fs.promises.readFile(
-            require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`)),
-            `utf8`
-          ),
-          require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`))
-        );
-
-        prepareInput(
-          await fs.promises.readFile(
-            require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`)),
-            `utf8`
-          ),
-          require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`))
-        );
-
-        prepareInput(
           `declare function callback(value: string): void;`,
           path.join(`Test Path`, `To Test`, `File.ts`)
         );
@@ -548,22 +499,6 @@ Cannot find global type 'String'.`)
             typescript.ScriptKind.TS
           );
         };
-
-        prepareInput(
-          await fs.promises.readFile(
-            require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`)),
-            `utf8`
-          ),
-          require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`))
-        );
-
-        prepareInput(
-          await fs.promises.readFile(
-            require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`)),
-            `utf8`
-          ),
-          require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`))
-        );
 
         prepareInput(
           `declare function callback(value: string): void;`,
@@ -654,22 +589,6 @@ Cannot find global type 'String'.`)
             typescript.ScriptKind.TS
           );
         };
-
-        prepareInput(
-          await fs.promises.readFile(
-            require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`)),
-            `utf8`
-          ),
-          require.resolve(path.join(`typescript`, `lib`, `lib.dom.d.ts`))
-        );
-
-        prepareInput(
-          await fs.promises.readFile(
-            require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`)),
-            `utf8`
-          ),
-          require.resolve(path.join(`typescript`, `lib`, `lib.es5.d.ts`))
-        );
 
         prepareInput(
           `declare function callback(value: string): void;`,

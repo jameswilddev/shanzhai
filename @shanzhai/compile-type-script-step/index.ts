@@ -1,3 +1,4 @@
+import * as path from "path";
 import * as typescript from "typescript";
 import { Input, Output, ActionStep } from "@shanzhai/interfaces";
 
@@ -34,20 +35,22 @@ export class CompileTypeScriptStep extends ActionStep {
     const options = { ...compilerOptions, noEmitOnError: true };
     const rootNames = inputs.map((sourceFile) => sourceFile.fileName);
 
-    const host = typescript.createCompilerHost({});
+    const fallbackHost = typescript.createCompilerHost(options, true);
+    const host = typescript.createCompilerHost(options, true);
 
     host.getSourceFile = (
       fileName: string,
       languageVersion: typescript.ScriptTarget,
       onError?: (message: string) => void,
       shouldCreateNewSourceFile?: boolean
-    ): typescript.SourceFile | undefined => {
-      languageVersion;
-      onError;
-      shouldCreateNewSourceFile;
-
-      return inputs.find((file) => file.fileName === fileName);
-    };
+    ): typescript.SourceFile | undefined =>
+      inputs.find((file) => file.fileName === fileName) ??
+      fallbackHost.getSourceFile(
+        path.join(path.dirname(fileName), `lib.${path.basename(fileName)}`),
+        languageVersion,
+        onError,
+        shouldCreateNewSourceFile
+      );
 
     const output: { [fileName: string]: string } = {};
 
