@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/zip-content-store",
   "description": "A Shanzhai store for SVG defs.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "node": ">=17.6.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/parsed-pug-store",
   "description": "A Shanzhai store for parsed Pug.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "node": ">=17.6.0"
   },

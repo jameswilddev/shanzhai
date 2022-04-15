@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/pug-local-store",
   "description": "A Shanzhai store for locals to be passed to Pug templates.",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "engines": {
     "node": ">=17.6.0"
   },

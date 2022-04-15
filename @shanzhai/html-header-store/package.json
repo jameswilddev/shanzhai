@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/html-header-store",
   "description": "A Shanzhai store for sets of HTML headers.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "node": ">=17.6.0"
   },

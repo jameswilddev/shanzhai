@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/planning-helpers",
   "description": "Helpers which generate a tree of steps to execute to perform a Shanzhai build.",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "engines": {
     "node": ">=17.6.0"
   },
