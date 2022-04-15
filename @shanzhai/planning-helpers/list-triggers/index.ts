@@ -1,41 +1,11 @@
-import { Plugin, Trigger } from "@shanzhai/interfaces";
+import {
+  FileTrigger,
+  KeyedStoreTrigger,
+  StoreAggregateTrigger,
+  Plugin,
+  Trigger,
+} from "@shanzhai/interfaces";
 import { globCompareFunction } from "@shanzhai/glob-compare-function";
-
-const compareFunction = (
-  a: { readonly trigger: Trigger },
-  b: { readonly trigger: Trigger }
-): number => {
-  if (a.trigger.type === `oneTime` && b.trigger.type !== `oneTime`) {
-    return -1;
-  } else if (
-    a.trigger.type === `file` &&
-    b.trigger.type !== `oneTime` &&
-    b.trigger.type !== `file`
-  ) {
-    return -1;
-  } else if (a.trigger.type === `file` && b.trigger.type === `file`) {
-    return globCompareFunction(a.trigger.glob, b.trigger.glob);
-  } else if (
-    a.trigger.type === `keyedStore` &&
-    b.trigger.writesToStores.includes(a.trigger.keyedStore)
-  ) {
-    return 1;
-  } else if (
-    a.trigger.type === `keyedStore` &&
-    a.trigger.refreshAllWhenStoresChange.some((store) =>
-      b.trigger.writesToStores.includes(store)
-    )
-  ) {
-    return 1;
-  } else if (
-    a.trigger.type === `storeAggregate` &&
-    a.trigger.stores.some((store) => b.trigger.writesToStores.includes(store))
-  ) {
-    return 1;
-  } else {
-    return 0;
-  }
-};
 
 export function listTriggers(plugins: {
   readonly [name: string]: Plugin<{ readonly [name: string]: Trigger }>;
@@ -44,13 +14,73 @@ export function listTriggers(plugins: {
   readonly triggerName: string;
   readonly trigger: Trigger;
 }> {
-  return Object.entries(plugins)
-    .flatMap(([pluginName, plugin]) =>
-      Object.entries(plugin.triggers).map(([triggerName, trigger]) => ({
-        pluginName,
-        triggerName,
-        trigger,
-      }))
-    )
-    .sort((a, b) => compareFunction(a, b) || -compareFunction(b, a));
+  type TriggerWithMetadata<T extends Trigger> = {
+    readonly pluginName: string;
+    readonly triggerName: string;
+    readonly trigger: T;
+  };
+
+  const triggers: ReadonlyArray<TriggerWithMetadata<Trigger>> = Object.entries(
+    plugins
+  ).flatMap(([pluginName, plugin]) =>
+    Object.entries(plugin.triggers).map(([triggerName, trigger]) => ({
+      pluginName,
+      triggerName,
+      trigger,
+    }))
+  );
+
+  const output: TriggerWithMetadata<Trigger>[] = [
+    ...triggers.filter((trigger) => trigger.trigger.type === `oneTime`),
+    ...triggers
+      .filter(
+        (trigger): trigger is TriggerWithMetadata<FileTrigger> =>
+          trigger.trigger.type === `file`
+      )
+      .sort((a, b) => globCompareFunction(a.trigger.glob, b.trigger.glob)),
+  ];
+
+  const remainingStoreTriggers = triggers.filter(
+    (
+      trigger
+    ): trigger is TriggerWithMetadata<
+      KeyedStoreTrigger | StoreAggregateTrigger
+    > =>
+      trigger.trigger.type === `keyedStore` ||
+      trigger.trigger.type === `storeAggregate`
+  );
+
+  while (remainingStoreTriggers.length > 0) {
+    const storesYetToBeWritten = remainingStoreTriggers.flatMap(
+      (trigger) => trigger.trigger.writesToStores
+    );
+
+    const matches = remainingStoreTriggers.filter(
+      (trigger) =>
+        (trigger.trigger.type === `storeAggregate` &&
+          !trigger.trigger.stores.some((store) =>
+            storesYetToBeWritten.includes(store)
+          )) ||
+        (trigger.trigger.type === `keyedStore` &&
+          !trigger.trigger.refreshAllWhenStoresChange.some((store) =>
+            storesYetToBeWritten.includes(store)
+          ) &&
+          !storesYetToBeWritten.includes(trigger.trigger.keyedStore))
+    );
+
+    if (matches.length === 0) {
+      throw new Error(
+        `The triggers of the installed plugins form a cyclic dependency (a trigger is dependent upon one or more stores it directly or indirectly writes to).`
+      );
+    }
+
+    for (const match of matches) {
+      const index = remainingStoreTriggers.indexOf(match);
+      remainingStoreTriggers.splice(index, 1);
+
+      output.push(match);
+    }
+  }
+
+  return output;
 }
