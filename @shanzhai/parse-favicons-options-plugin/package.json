@@ -28,13 +28,13 @@
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.26",
-    "@shanzhai/favicons-options-source-store": "0.0.3",
-    "@shanzhai/favicons-options-store": "0.0.3",
+    "@shanzhai/favicons-options-source-store": "0.0.4",
+    "@shanzhai/favicons-options-store": "0.0.4",
     "@types/favicons": "6.2.2"
   },
   "peerDependencies": {
-    "@shanzhai/favicons-options-source-store": "0.0.3",
-    "@shanzhai/favicons-options-store": "0.0.3"
+    "@shanzhai/favicons-options-source-store": "0.0.4",
+    "@shanzhai/favicons-options-store": "0.0.4"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

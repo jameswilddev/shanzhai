@@ -29,14 +29,14 @@
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.26",
-    "@shanzhai/javascript-source-store": "0.0.15",
-    "@shanzhai/parsed-type-script-store": "0.0.13",
-    "@shanzhai/type-script-compiler-options-store": "0.0.12"
+    "@shanzhai/javascript-source-store": "0.0.16",
+    "@shanzhai/parsed-type-script-store": "0.0.14",
+    "@shanzhai/type-script-compiler-options-store": "0.0.13"
   },
   "peerDependencies": {
-    "@shanzhai/type-script-compiler-options-store": "0.0.12",
-    "@shanzhai/javascript-source-store": "0.0.15",
-    "@shanzhai/parsed-type-script-store": "0.0.13"
+    "@shanzhai/type-script-compiler-options-store": "0.0.13",
+    "@shanzhai/javascript-source-store": "0.0.16",
+    "@shanzhai/parsed-type-script-store": "0.0.14"
   },
   "types": "index.d.ts"
 }

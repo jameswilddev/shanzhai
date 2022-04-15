@@ -23,9 +23,9 @@
   "license": "MIT",
   "dependencies": {
     "@shanzhai/change-tracking-helpers": "0.0.14",
-    "@shanzhai/execution-helpers": "0.0.11",
+    "@shanzhai/execution-helpers": "0.0.12",
     "@shanzhai/plugin-helpers": "0.0.13",
-    "@shanzhai/planning-helpers": "0.0.12"
+    "@shanzhai/planning-helpers": "0.0.13"
   },
   "devDependencies": {
     "@shanzhai/create-directory-step": "0.0.11",

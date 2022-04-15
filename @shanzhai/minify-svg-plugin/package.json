@@ -25,16 +25,16 @@
     "@shanzhai/delete-from-keyed-store-step": "0.0.6",
     "@shanzhai/keyed-store-get-input": "0.0.6",
     "@shanzhai/keyed-store-set-output": "0.0.6",
-    "@shanzhai/minify-svg-step": "0.0.15"
+    "@shanzhai/minify-svg-step": "0.0.16"
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.26",
-    "@shanzhai/svg-source-store": "0.0.6",
-    "@shanzhai/minified-svg-store": "0.0.6"
+    "@shanzhai/svg-source-store": "0.0.7",
+    "@shanzhai/minified-svg-store": "0.0.7"
   },
   "peerDependencies": {
-    "@shanzhai/svg-source-store": "0.0.6",
-    "@shanzhai/minified-svg-store": "0.0.6"
+    "@shanzhai/svg-source-store": "0.0.7",
+    "@shanzhai/minified-svg-store": "0.0.7"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [

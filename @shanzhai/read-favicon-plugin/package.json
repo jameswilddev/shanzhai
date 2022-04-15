@@ -28,10 +28,10 @@
   },
   "devDependencies": {
     "@shanzhai/interfaces": "0.0.26",
-    "@shanzhai/favicon-store": "0.0.3"
+    "@shanzhai/favicon-store": "0.0.4"
   },
   "peerDependencies": {
-    "@shanzhai/favicon-store": "0.0.3"
+    "@shanzhai/favicon-store": "0.0.4"
   },
   "types": "index.d.ts",
   "shanzhaiPlugin": [
