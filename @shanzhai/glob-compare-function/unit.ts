@@ -33,7 +33,6 @@ describe(`globCompareFunction`, () => {
   });
 
   it(`sorts globs as expected`, () => {
-    console.log(actual);
     expect(actual).toEqual(expected);
   });
 });
