@@ -15,7 +15,7 @@ describe(`zip-plugin`, () => {
   it(`advertises the stores it will write to`, () => {
     expect(
       expect(zipPlugin.triggers.zip.writesToStores).toEqual(
-        jasmine.arrayWithExactContents([])
+        jasmine.arrayWithExactContents([zipStore])
       )
     );
   });
