@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/stringify-json-output",
   "description": "A Shanzhai output which \"stringifies\" a value before passing it to an output.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "node": ">=17.6.0"
   },

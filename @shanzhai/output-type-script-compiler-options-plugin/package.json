@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/output-type-script-compiler-options-plugin",
   "description": "A Shanzhai plugin which outputs the current TypeScript compiler options to the current working directory.",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "engines": {
     "node": ">=17.6.0"
   },

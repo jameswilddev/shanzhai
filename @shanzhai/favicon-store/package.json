@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/favicon-store",
   "description": "A Shanzhai store for the favicon image read from disk.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": ">=17.6.0"
   },

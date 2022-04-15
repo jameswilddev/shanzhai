@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/serial-step",
   "description": "A Shanzhai build step which runs any number of child build steps in serial.",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "engines": {
     "node": ">=17.6.0"
   },

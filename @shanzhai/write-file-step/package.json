@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/write-file-step",
   "description": "A Shanzhai step which writes to a binary or UTF-8 encoded text file, creating it if it does not exist, or replacing it if it does.",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "engines": {
     "node": ">=17.6.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/ephemeral-unkeyed-store",
   "description": "An unkeyed Shanzhai store which holds data in memory until the application closes.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "node": ">=17.6.0"
   },

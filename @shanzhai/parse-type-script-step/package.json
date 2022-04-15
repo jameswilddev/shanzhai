@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/parse-type-script-step",
   "description": "A Shanzhai step which compiles parsed TypeScript.",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "engines": {
     "node": ">=17.6.0"
   },
