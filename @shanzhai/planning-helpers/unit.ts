@@ -3,6 +3,8 @@ import {
   OneTimeTrigger,
   Effect,
   FileTrigger,
+  UnkeyedStore,
+  StoreAggregateTrigger,
 } from "@shanzhai/interfaces";
 import { ParallelStep } from "@shanzhai/parallel-step";
 import { SerialStep } from "@shanzhai/serial-step";
@@ -17,9 +19,14 @@ class DummyStep implements Step {
 describe(`plan`, () => {
   describe(`first run`, () => {
     let oneTimeStep: DummyStep;
-    let addedFileStep: DummyStep;
+    let addedFileStepA: DummyStep;
+    let addedFileStepB: DummyStep;
+    let storeAggregateStep: DummyStep;
     let oneTimeTrigger: OneTimeTrigger;
-    let fileTrigger: FileTrigger;
+    let fileTriggerA: FileTrigger;
+    let fileTriggerB: FileTrigger;
+    let unkeyedStore: UnkeyedStore<unknown>;
+    let storeAggregateTrigger: StoreAggregateTrigger;
     let output: {
       readonly unmatchedAddedFiles: ReadonlyArray<string>;
       readonly step: Step;
@@ -27,25 +34,52 @@ describe(`plan`, () => {
     let outputSteps: ReadonlyArray<Step>;
 
     beforeAll(async () => {
-      oneTimeStep = new DummyStep(`oneTimeStep`, []);
-      addedFileStep = new DummyStep(`addedFileStep`, []);
+      unkeyedStore = {
+        type: `unkeyedStore`,
+        name: `unkeyedStore`,
+        set: jasmine.createSpy(`unkeyedStore.set`),
+        get: jasmine.createSpy(`unkeyedStore.get`),
+      };
+      oneTimeStep = new DummyStep(`oneTimeStep`, [
+        { type: `unkeyedStoreSet`, unkeyedStore },
+      ]);
+      addedFileStepA = new DummyStep(`addedFileStepA`, []);
+      addedFileStepB = new DummyStep(`addedFileStepB`, []);
+      storeAggregateStep = new DummyStep(`storeAggregateStep`, []);
       oneTimeTrigger = {
         type: `oneTime`,
         up: jasmine.createSpy(`oneTimeTrigger.up`).and.returnValue(oneTimeStep),
-        writesToStores: [],
+        writesToStores: [unkeyedStore],
       };
-      fileTrigger = {
+      fileTriggerA = {
         type: `file`,
         glob: `**/*.with-matching-file-extension`,
         down: jasmine.createSpy(`fileTrigger.down`),
-        up: jasmine.createSpy(`fileTrigger.up`).and.returnValue(addedFileStep),
+        up: jasmine.createSpy(`fileTrigger.up`).and.returnValue(addedFileStepA),
+        writesToStores: [],
+      };
+      fileTriggerB = {
+        type: `file`,
+        glob: `exact.with-matching-file-extension`,
+        down: jasmine.createSpy(`fileTrigger.down`),
+        up: jasmine.createSpy(`fileTrigger.up`).and.returnValue(addedFileStepB),
+        writesToStores: [],
+      };
+      storeAggregateTrigger = {
+        type: `storeAggregate`,
+        stores: [unkeyedStore],
+        invalidated: jasmine
+          .createSpy(`storeAggregateTrigger.invalidated`)
+          .and.returnValue(storeAggregateStep),
         writesToStores: [],
       };
 
       output = await plan(
         {
           testPluginA: { triggers: { oneTimeTrigger } },
-          testPluginB: { triggers: { fileTrigger } },
+          testPluginB: {
+            triggers: { fileTriggerA, storeAggregateTrigger, fileTriggerB },
+          },
         },
         true,
         {
@@ -53,6 +87,7 @@ describe(`plan`, () => {
             `test/parsed/path.with-matching-file-extension`,
             `test/parsed/path.which-does-not-match-a`,
             `test-d1rec$ory-name/test-valid-fi$le-na\tme.test-file-extension`,
+            `exact.with-matching-file-extension`,
             `test/parsed/path.which-does-not-match-c`,
           ],
           deleted: [],
@@ -80,7 +115,17 @@ describe(`plan`, () => {
 
     it(`returns the expected steps`, () => {
       expect(outputSteps).toContain(oneTimeStep);
-      expect(outputSteps).toContain(addedFileStep);
+      expect(outputSteps).toContain(addedFileStepA);
+      expect(outputSteps).toContain(addedFileStepB);
+      expect(outputSteps).toContain(storeAggregateStep);
+    });
+
+    it(`does not return any further steps`, () => {
+      expect(
+        outputSteps
+          .filter((step) => !(step instanceof SerialStep))
+          .filter((step) => !(step instanceof ParallelStep)).length
+      ).toEqual(4);
     });
 
     it(`returns the unmatched added files`, () => {
@@ -95,17 +140,31 @@ describe(`plan`, () => {
 
     it(`does not execute any steps`, () => {
       expect(oneTimeStep.executePerActionStep).not.toHaveBeenCalled();
-      expect(addedFileStep.executePerActionStep).not.toHaveBeenCalled();
+      expect(addedFileStepA.executePerActionStep).not.toHaveBeenCalled();
+      expect(addedFileStepB.executePerActionStep).not.toHaveBeenCalled();
     });
 
     it(`interacts with triggers as expected`, () => {
       expect(oneTimeTrigger.up).toHaveBeenCalledTimes(1);
 
-      expect(fileTrigger.down).not.toHaveBeenCalled();
-      expect(fileTrigger.up).toHaveBeenCalledWith(
+      expect(fileTriggerA.down).not.toHaveBeenCalled();
+      expect(fileTriggerA.up).toHaveBeenCalledWith(
         `test/parsed/path.with-matching-file-extension`
       );
-      expect(fileTrigger.up).toHaveBeenCalledTimes(1);
+      expect(fileTriggerA.up).toHaveBeenCalledTimes(1);
+
+      expect(fileTriggerB.down).not.toHaveBeenCalled();
+      expect(fileTriggerB.up).toHaveBeenCalledWith(
+        `exact.with-matching-file-extension`
+      );
+      expect(fileTriggerB.up).toHaveBeenCalledTimes(1);
+
+      expect(storeAggregateTrigger.invalidated).toHaveBeenCalledTimes(1);
+    });
+
+    it(`does not interact with any stores`, () => {
+      expect(unkeyedStore.get).not.toHaveBeenCalled();
+      expect(unkeyedStore.set).not.toHaveBeenCalled();
     });
   });
 
@@ -217,6 +276,14 @@ describe(`plan`, () => {
       expect(outputSteps).toContain(changedDownFileStep);
       expect(outputSteps).toContain(changedUpFileStep);
       expect(outputSteps).toContain(deletedFileStep);
+    });
+
+    it(`does not return any further steps`, () => {
+      expect(
+        outputSteps
+          .filter((step) => !(step instanceof SerialStep))
+          .filter((step) => !(step instanceof ParallelStep)).length
+      ).toEqual(4);
     });
 
     it(`applies ordering constraints`, () => {
