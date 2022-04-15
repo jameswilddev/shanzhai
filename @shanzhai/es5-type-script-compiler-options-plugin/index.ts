@@ -62,7 +62,7 @@ const es5TypeScriptCompilerOptionsPlugin: Plugin<{
             noStrictGenericChecks: false,
             noUnusedLocals: true,
             noUnusedParameters: true,
-            noImplicitUseStrict: true,
+            //noImplicitUseStrict: true,
             noPropertyAccessFromIndexSignature: true,
             assumeChangesOnlyAffectDirectDependencies: false,
             noLib: false,

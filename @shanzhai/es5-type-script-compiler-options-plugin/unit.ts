@@ -78,7 +78,7 @@ describe(`es5-type-script-compiler-options-plugin`, () => {
             noStrictGenericChecks: false,
             noUnusedLocals: true,
             noUnusedParameters: true,
-            noImplicitUseStrict: true,
+            //noImplicitUseStrict: true,
             noPropertyAccessFromIndexSignature: true,
             assumeChangesOnlyAffectDirectDependencies: false,
             noLib: false,
