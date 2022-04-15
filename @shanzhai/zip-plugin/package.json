@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/zip-plugin",
   "description": "A Shanzhai plugin which zips the generated content.",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "engines": {
     "node": ">=17.6.0"
   },

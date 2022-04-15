@@ -1,7 +1,7 @@
 {
   "name": "@shanzhai/convert-svg-documents-to-defs-plugin",
   "description": "A Shanzhai plugin which converts the contents of the minified SVG store to defs, outputting them to the defs store.",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "engines": {
     "node": ">=17.6.0"
   },
