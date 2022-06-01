@@ -31,7 +31,7 @@
     "@types/sharp": "0.28.6",
     "@types/svgo": "2.6.3",
     "pixelmatch": "5.2.1",
-    "sharp": "0.28.3"
+    "sharp": "0.30.5"
   },
   "types": "index.d.ts"
 }
